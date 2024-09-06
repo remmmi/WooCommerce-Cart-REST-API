@@ -1304,7 +1304,7 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 	 * @return array $item Returns the item prepared for the cart response.
 	 */
 	public function get_item( $_product, $cart_item = array(), $item_key = '', $show_thumb = true, $removed_item = false ) {
-		$tax_display_mode = CoCart_Utilities_Product_Helpers::get_tax_display_mode();
+		$tax_display_mode = CoCart_Utilities_Cart_Helpers::get_tax_display_mode();
 		$price_function   = CoCart_Utilities_Product_Helpers::get_price_from_tax_display_mode( $tax_display_mode );
 
 		$item = array(

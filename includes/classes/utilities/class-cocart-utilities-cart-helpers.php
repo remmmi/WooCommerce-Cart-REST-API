@@ -41,6 +41,24 @@ class CoCart_Utilities_Cart_Helpers {
 	} // END get_cart_key()
 
 	/**
+	 * WooCommerce can return prices including or excluding tax.
+	 * Choose the correct method based on tax display mode for the cart.
+	 *
+	 * @access protected
+	 *
+	 * @since 4.3.8 Introduced.
+	 *
+	 * @param string $tax_display_mode Provided tax display mode.
+	 *
+	 * @return string Valid tax display mode.
+	 */
+	public static function get_tax_display_mode( $tax_display_mode = '' ) {
+		return in_array( $tax_display_mode, array( 'incl', 'excl' ), true ) ? $tax_display_mode : get_option( 'woocommerce_tax_display_cart' );
+	} // END get_tax_display_mode()
+
+	// ** Validation Functions **//
+
+	/**
 	 * Checks if coupons are enabled in WooCommerce.
 	 *
 	 * @access public
