@@ -82,7 +82,7 @@ class CoCart_Admin_Plugin_Screen_Update extends CoCart_Admin_Plugin_Updates {
 	} // END in_plugin_update_message()
 
 	/**
-	 * Get the upgrade notice from WordPress.org.
+	 * Get the upgrade notice from GitHub repository.
 	 *
 	 * @access protected
 	 *
@@ -97,7 +97,7 @@ class CoCart_Admin_Plugin_Screen_Update extends CoCart_Admin_Plugin_Updates {
 		$upgrade_notice = get_transient( $transient_name );
 
 		if ( false === $upgrade_notice ) {
-			$response = wp_safe_remote_get( esc_url_raw( 'https://plugins.svn.wordpress.org/' . COCART_SLUG . '/trunk/readme.txt' ) );
+			$response = wp_safe_remote_get( esc_url_raw( 'https://raw.githubusercontent.com/co-cart/co-cart/refs/heads/trunk/readme.txt' ) );
 
 			if ( ! is_wp_error( $response ) && ! empty( $response['body'] ) ) {
 				$upgrade_notice = $this->parse_update_notice( $response['body'], $version );
@@ -247,7 +247,7 @@ class CoCart_Admin_Plugin_Screen_Update extends CoCart_Admin_Plugin_Updates {
 			printf(
 				/* translators: %1$s: Hyperlink opening, %2$s: Hyperlink closing , %3$s: plugin name, %4$s: version mentioned, */
 				__( '%1$sSee what\'s coming next%2$s in %3$s v%4$s.', 'cart-rest-api-for-woocommerce' ), // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-				'<a href="' . esc_url( 'https://github.com/co-cart/co-cart/blob/dev/NEXT_CHANGELOG.md' ) . '" target="_blank">',
+				'<a href="' . esc_url( 'https://github.com/co-cart/co-cart/blob/dev/NEXT_CHANGELOG.md' ) . '" target="_blank" rel="noopener noreferrer">',
 				'</a>',
 				'CoCart',
 				esc_attr( COCART_NEXT_VERSION )

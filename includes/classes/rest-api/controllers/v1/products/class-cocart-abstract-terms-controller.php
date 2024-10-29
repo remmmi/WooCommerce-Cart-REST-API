@@ -399,7 +399,7 @@ if ( ! class_exists( 'CoCart_REST_Terms_Controller' ) ) {
 		 *
 		 * @access protected
 		 *
-		 * @param stdClass $left Term object.
+		 * @param stdClass $left  Term object.
 		 * @param stdClass $right Term object.
 		 *
 		 * @return int <0 if left is higher "priority" than right, 0 if equal, >0 if right is higher "priority" than left.

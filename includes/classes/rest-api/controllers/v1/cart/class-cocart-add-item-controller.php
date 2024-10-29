@@ -292,7 +292,7 @@ class CoCart_Add_Item_Controller extends CoCart_API_Controller {
 				 *
 				 * @since 2.0.0 Introduced.
 				 *
-				 * @param string     $message Message.
+				 * @param string     $message      Message.
 				 * @param WC_Product $product_data The product object.
 				 */
 				$message = apply_filters( 'cocart_product_cannot_add_to_cart_message', $message, $product_data );

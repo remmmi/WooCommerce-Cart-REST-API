@@ -29,8 +29,7 @@ if ( ! class_exists( 'CoCart_Admin_Footer' ) ) {
 
 		/**
 		 * Filters the admin footer text by placing a simple thank you to those who
-		 * like CoCart and review the plugin on WordPress.org when viewing any
-		 * CoCart admin page.
+		 * like CoCart and review the plugin when viewing any CoCart admin page.
 		 *
 		 * @access public
 		 *
@@ -41,10 +40,21 @@ if ( ! class_exists( 'CoCart_Admin_Footer' ) ) {
 		public function admin_footer_text( $text ) {
 			if ( isset( $_GET['page'] ) && strpos( trim( sanitize_key( wp_unslash( $_GET['page'] ) ) ), 'cocart' ) === 0 ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 				$text = sprintf(
-					/* translators: %1$s: Link opening, %2$s: Link closing, %3$s: CoCart */
-					__( 'Please consider %1$sreviewing %3$s%2$s on WordPress.org.', 'cart-rest-api-for-woocommerce' ),
-					'<a href="' . COCART_REVIEW_URL . '?rate=5#new-post" target="_blank">',
-					'</a>',
+					wp_kses(
+						/* translators: $1$s - CoCart; $2$s - testimonial link. */
+						__( 'We’d love to hear what you have to say. <a href="%1$s" target="_blank" rel="noopener noreferrer">Share your thoughts</a> and help others discover %2$s. Thank you!', 'cart-rest-api-for-woocommerce' ),
+						array(
+							'a' => array(
+								'href'   => array(),
+								'target' => array(),
+								'rel'    => array(),
+							),
+							'p' => array(
+								'class' => array(),
+							),
+						)
+					),
+					COCART_REVIEW_URL,
 					'CoCart'
 				);
 			}
@@ -73,17 +83,31 @@ if ( ! class_exists( 'CoCart_Admin_Footer' ) ) {
 					)
 				);
 
+				$docs = sprintf(
+					/* translators: %1$s: Hyperlink opening, %2$s: Hyperlink closing */
+					__( '%1$sDocumentation%2$s', 'cart-rest-api-for-woocommerce' ),
+					'<a href="' . esc_url( CoCart_Helpers::build_shortlink( add_query_arg( $campaign_args, esc_url( COCART_DOCUMENTATION_URL ) ) ) ) . '" target="_blank" rel="noopener noreferrer">',
+					'</a>'
+				);
+
+				$community = sprintf(
+					/* translators: %1$s: Hyperlink opening, %2$s: Hyperlink closing */
+					__( '%1$sCommunity%2$s', 'cart-rest-api-for-woocommerce' ),
+					'<a href="' . esc_url( CoCart_Helpers::build_shortlink( add_query_arg( $campaign_args, esc_url( COCART_COMMUNITY_URL ) ) ) ) . '" target="_blank" rel="noopener noreferrer">',
+					'</a>'
+				);
+
 				$changelog = sprintf(
 					/* translators: %1$s: Hyperlink opening, %2$s: Hyperlink closing */
 					__( '%1$sChangelog%2$s', 'cart-rest-api-for-woocommerce' ),
-					'<a href="' . esc_url( CoCart_Helpers::build_shortlink( add_query_arg( $campaign_args, esc_url( 'https://cocart.dev/changelog/' ) ) ) ) . '" target="_blank">',
+					'<a href="' . esc_url( CoCart_Helpers::build_shortlink( add_query_arg( $campaign_args, esc_url( 'https://cocart.dev/changelog/' ) ) ) ) . '" target="_blank" rel="noopener noreferrer">',
 					'</a>'
 				);
 
 				/* translators: %s: CoCart */
 				$version = sprintf( __( '%s Version', 'cart-rest-api-for-woocommerce' ), 'CoCart' ) . ' ' . esc_attr( COCART_VERSION );
 
-				return $changelog . ' | ' . $version;
+				return $docs . ' | ' . $community . ' | ' . $changelog . ' | ' . $version;
 			}
 
 			return $text;

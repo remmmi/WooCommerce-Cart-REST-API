@@ -918,8 +918,8 @@ class CoCart_REST_Products_V2_Controller extends CoCart_Products_Controller {
 	 *
 	 * @see CoCart_REST_Products_V2_Controller::get_price_range()
 	 *
-	 * @param \WC_Product $product The product object.
-	 * @param string      $tax_display_mode If returned prices are incl or excl of tax.
+	 * @param WC_Product $product          The product object.
+	 * @param string     $tax_display_mode If returned prices are incl or excl of tax.
 	 *
 	 * @return array
 	 */
