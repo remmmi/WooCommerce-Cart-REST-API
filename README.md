@@ -1,7 +1,7 @@
 <p align="center"><img src="https://raw.githubusercontent.com/co-cart/co-cart/trunk/.wordpress-org/banner-772x250.jpg" alt="CoCart. Build headless stores, without building an API" /></p>
 
 <p align="center">
-	<a href="https://github.com/co-cart/co-cart/blob/trunk/LICENSE.md" target="_blank">
+	<a href="https://github.com/co-cart/co-cart/blob/trunk/license.txt" target="_blank">
 		<img src="https://img.shields.io/badge/license-GPL--3.0%2B-red.svg" alt="Licence">
 	</a>
 	<a href="https://wordpress.org/plugins/cart-rest-api-for-woocommerce/">
