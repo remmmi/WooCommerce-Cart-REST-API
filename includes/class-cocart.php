@@ -6,6 +6,7 @@
  * @package CoCart
  * @since   2.6.0
  * @version 4.0.0
+ * @license GPL-2.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {

@@ -8,6 +8,7 @@
  * @package CoCart\Classes
  * @since   1.0.0 Introduced.
  * @version 4.4.0
+ * @license GPL-2.0
  */
 
 use WC_Customer as Customer;

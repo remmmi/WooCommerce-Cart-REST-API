@@ -6,6 +6,7 @@
  * @package CoCart\Classes
  * @since   2.1.0 Introduced.
  * @version 4.4.0
+ * @license GPL-2.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {

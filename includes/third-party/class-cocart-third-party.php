@@ -6,7 +6,7 @@
  * @package CoCart\Third Party
  * @since   2.8.1
  * @version 4.4.0
- * @license GPL-2.0+
+ * @license GPL-2.0
  */
 
 // Exit if accessed directly.

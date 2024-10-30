@@ -6,7 +6,7 @@
  * @package CoCart\Admin
  * @since   2.0.12 Introduced.
  * @version 4.3.0
- * @license GPL-2.0+
+ * @license GPL-2.0
  */
 
 // Exit if accessed directly.

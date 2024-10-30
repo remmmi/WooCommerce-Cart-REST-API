@@ -5,7 +5,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\Admin\Plugin Updates\Views
  * @since   4.3.0 Introduced.
- * @license GPL-2.0+
+ * @license GPL-2.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {

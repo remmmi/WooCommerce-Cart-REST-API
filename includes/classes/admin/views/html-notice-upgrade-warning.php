@@ -6,7 +6,7 @@
  * @package  CoCart\Admin\Views
  * @since    1.2.3
  * @version  4.0.0
- * @license  GPL-2.0+
+ * @license  GPL-2.0
  */
 
 // Exit if accessed directly.

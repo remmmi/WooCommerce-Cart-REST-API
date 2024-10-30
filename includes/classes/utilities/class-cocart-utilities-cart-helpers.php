@@ -5,6 +5,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\Utilities
  * @since   4.2.0 Introduced.
+ * @license GPL-2.0
  */
 
 // Exit if accessed directly.

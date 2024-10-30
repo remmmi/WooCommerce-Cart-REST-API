@@ -8,6 +8,7 @@
  * @package CoCart\Callback
  * @since   3.1.0 Introduced.
  * @version 4.1.0
+ * @license GPL-2.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
