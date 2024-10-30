@@ -186,9 +186,144 @@ class CoCart_REST_API {
 	 * @access private
 	 *
 	 * @since 4.2.0 Introduced.
+	 * @since 4.3.7 Get the cart data from the PHP session, store it in class variables and validate cart contents.
 	 */
 	private function initialize_cart_session() {
 		add_filter( 'woocommerce_cart_session_initialize', function ( $must_initialize, $session ) {
+			add_action( 'wp_loaded', function ( $session ) {
+				do_action( 'woocommerce_load_cart_from_session' );
+
+				// Set cart-related data from session.
+				$session->cart->set_totals( WC()->session->get( 'cart_totals', null ) );
+				$session->cart->set_applied_coupons( WC()->session->get( 'applied_coupons', array() ) );
+				$session->cart->set_coupon_discount_totals( WC()->session->get( 'coupon_discount_totals', array() ) );
+				$session->cart->set_coupon_discount_tax_totals( WC()->session->get( 'coupon_discount_tax_totals', array() ) );
+				$session->cart->set_removed_cart_contents( WC()->session->get( 'removed_cart_contents', array() ) );
+
+				$update_cart_session = false;
+				$cart                = WC()->session->get( 'cart', array() );
+				$merge_saved_cart    = WC()->session->is_user_customer( get_current_user_id() ) ? (bool) get_user_meta( get_current_user_id(), '_woocommerce_load_saved_cart_after_login', true ) : false;
+				$cart_contents       = array();
+
+				// Merge saved cart with current cart.
+				if ( $merge_saved_cart ) {
+					$saved_cart = array();
+
+					if ( apply_filters( 'woocommerce_persistent_cart_enabled', true ) ) {
+						$saved_cart_meta = get_user_meta( get_current_user_id(), '_woocommerce_persistent_cart_' . get_current_blog_id(), true );
+
+						if ( isset( $saved_cart_meta['cart'] ) ) {
+							$saved_cart = array_filter( (array) $saved_cart_meta['cart'] );
+						}
+					}
+
+					foreach ( $saved_cart as $saved_key => $saved_values ) {
+						// Check if item in cart already exits.
+						if ( isset( $cart[ $saved_key ] ) ) {
+							// Check stock before adding quantities.
+							$product      = wc_get_product( $saved_values['variation_id'] ?: $saved_values['product_id'] );
+							$new_quantity = $cart[ $saved_key ]['quantity'] + $saved_values['quantity'];
+
+							if ( $product->managing_stock() && ! $product->has_enough_stock( $new_quantity ) ) {
+								wc_add_notice( sprintf( __( '%s could not be added to your cart due to insufficient stock.', 'cart-rest-api-for-woocommerce' ), $product->get_name() ), 'error' );
+								continue;
+							}
+
+							// Update the cart item with new quantity.
+							$cart[ $saved_key ]['quantity'] = $new_quantity;
+						} else {
+							// Add the item from the saved cart if it's not in the current cart.
+							$cart[ $saved_key ] = $saved_values;
+						}
+					}
+
+					// Mark the cart session as updated.
+					$update_cart_session = true;
+
+					// Clear saved cart flag.
+					delete_user_meta( get_current_user_id(), '_woocommerce_load_saved_cart_after_login' );
+				}
+
+				// Prime caches to reduce future queries.
+				if ( is_callable( '_prime_post_caches' ) ) {
+					_prime_post_caches( wp_list_pluck( $cart, 'product_id' ) );
+				}
+
+				// Process cart items.
+				foreach ( $cart as $key => $values ) {
+					$product = wc_get_product( $values['variation_id'] ? $values['variation_id'] : $values['product_id'] );
+
+					if ( empty( $product ) || ! $product->exists() || $values['quantity'] <= 0 || 'trash' === $product->get_status() ) {
+						continue;
+					}
+
+					// Check if the item should be removed from the cart.
+					if ( apply_filters( 'woocommerce_pre_remove_cart_item_from_session', false, $key, $values, $product ) ) { // phpcs:ignore: WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
+						$update_cart_session = true;
+						/**
+						 * Fires when cart item is removed from the session.
+						 *
+						 * @ignore Hook ignored when parsed into Code Reference.
+						 *
+						 * @param string     $key     Cart item key.
+						 * @param array      $values  Cart item values e.g. quantity and product_id.
+						 * @param WC_Product $product The product being added to the cart.
+						 */
+						do_action( 'woocommerce_remove_cart_item_from_session', $key, $values, $product ); // phpcs:ignore: WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
+						continue;
+					}
+
+					// Check if the product is purchasable.
+					if ( ! apply_filters( 'woocommerce_cart_item_is_purchasable', $product->is_purchasable(), $key, $values, $product ) ) { // phpcs:ignore: WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
+						$update_cart_session = true;
+						wc_add_notice( sprintf( __( '%s has been removed from your cart because it can no longer be purchased.', 'cart-rest-api-for-woocommerce' ), $product->get_name() ), 'error' );
+						/**
+						 * Fires when cart item is removed from the session.
+						 *
+						 * @ignore Hook ignored when parsed into Code Reference.
+						 *
+						 * @param string $key    Cart item key.
+						 * @param array  $values Cart item values e.g. quantity and product_id.
+						 */
+						do_action( 'woocommerce_remove_cart_item_from_session', $key, $values ); // phpcs:ignore: WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
+						continue;
+					}
+
+					// Check if product data has changed and invalidate.
+					if ( ! empty( $values['data_hash'] ) && ! hash_equals( $values['data_hash'], wc_get_cart_item_data_hash( $product ) ) ) {
+						$update_cart_session = true;
+						wc_add_notice( sprintf( __( '%s has been removed from your cart because it has been modified.', 'cart-rest-api-for-woocommerce' ), $product->get_name() ), 'notice' );
+						/**
+						 * Fires when cart item is removed from the session.
+						 *
+						 * @ignore Hook ignored when parsed into Code Reference.
+						 *
+						 * @param string $key    Cart item key.
+						 * @param array  $values Cart item values e.g. quantity and product_id.
+						 */
+						do_action( 'woocommerce_remove_cart_item_from_session', $key, $values ); // phpcs:ignore: WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
+						continue;
+					}
+
+					// Merge product data and set in cart contents.
+					$session_data          = array_merge( $values, array( 'data' => $product ) );
+					$cart_contents[ $key ] = apply_filters( 'woocommerce_get_cart_item_from_session', $session_data, $values, $key );
+				}
+
+				// Update cart contents if not empty.
+				if ( ! empty( $cart_contents ) ) {
+					$session->cart->set_cart_contents( apply_filters( 'woocommerce_cart_contents_changed', $cart_contents ) );
+				}
+
+				// Trigger actions after cart loaded.
+				do_action( 'woocommerce_cart_loaded_from_session', $session->cart );
+
+				// Update cart session if needed.
+				if ( $update_cart_session || is_null( WC()->session->get( 'cart_totals', null ) ) ) {
+					WC()->session->set( 'cart', $session->get_cart_for_session() );
+					$session->cart->calculate_totals();
+				}
+			} );
 			add_action( 'woocommerce_cart_emptied', array( $session, 'destroy_cart_session' ) );
 			add_action( 'woocommerce_after_calculate_totals', array( $session, 'set_session' ), 1000 );
 			add_action( 'woocommerce_cart_loaded_from_session', array( $session, 'set_session' ) );

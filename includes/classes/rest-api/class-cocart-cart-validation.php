@@ -28,72 +28,9 @@ class CoCart_Cart_Validation {
 	 * @ignore Function ignored when parsed into Code Reference.
 	 */
 	public function __construct() {
-		add_filter( 'cocart_before_get_cart', array( $this, 'check_cart_validity' ), 0, 2 );
 		add_filter( 'cocart_before_get_cart', array( $this, 'check_cart_item_stock' ), 10, 2 );
 		add_filter( 'cocart_before_get_cart', array( $this, 'check_cart_coupons' ), 15, 2 );
 	} // END __construct()
-
-	/**
-	 * Looks through the cart to check each item if they are still valid.
-	 * If not remove item and add error notice.
-	 *
-	 * @access public
-	 *
-	 * @since 4.3.7 Introduced.
-	 *
-	 * @uses wc_get_product()
-	 * @uses wc_add_notice()
-	 * @uses WC_Cart()->get_cart()
-	 *
-	 * @hook: cocart_before_get_cart - 0
-	 *
-	 * @param array  $cart_contents Cart contents before cart changes.
-	 * @param object $cart          The cart object.
-	 *
-	 * @return array $cart_contents Cart contents after cart changes.
-	 */
-	public function check_cart_validity( $cart_contents, $cart ) {
-		foreach ( $cart_contents as $item_key => $cart_item ) {
-			// If product data is missing then get product data and apply.
-			if ( ! isset( $cart_item['data'] ) ) {
-				$cart_item['data'] = wc_get_product( $cart_item['variation_id'] ? $cart_item['variation_id'] : $cart_item['product_id'] );
-			}
-
-			$product = $cart_item['data'];
-
-			if ( ! $product || ! $product->exists() || 'trash' === $product->get_status() ) {
-				$cart->set_quantity( $item_key, 0 ); // Sets item quantity to zero so it's removed from the cart.
-				wc_add_notice( __( 'An item which is no longer available was removed from your cart.', 'cart-rest-api-for-woocommerce' ), 'error' );
-			}
-
-			// If product is no longer purchasable then don't return it and notify customer.
-			if ( $product && ! $product->is_purchasable() ) {
-				$message = sprintf(
-					/* translators: %s: product name */
-					__( '%s has been removed from your cart because it can no longer be purchased.', 'cart-rest-api-for-woocommerce' ),
-					$product->get_name()
-				);
-
-				/**
-				 * Filter message about item removed from the cart.
-				 *
-				 * @since 2.1.0 Introduced.
-				 *
-				 * @param string     $message Message.
-				 * @param WC_Product $product The product object.
-				 */
-				$message = apply_filters( 'cocart_cart_item_removed_message', $message, $product );
-
-				$cart->set_quantity( $item_key, 0 ); // Sets item quantity to zero so it's removed from the cart.
-
-				wc_add_notice( $message, 'error' );
-			}
-		}
-
-		$cart_contents = $cart->get_cart(); // Get cart contents now updated.
-
-		return $cart_contents;
-	} // END check_cart_validity()
 
 	/**
 	 * Looks through the cart to check each item is in stock. If not, add error notice.
