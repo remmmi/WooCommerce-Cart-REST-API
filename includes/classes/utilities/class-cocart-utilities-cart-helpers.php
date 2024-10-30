@@ -794,7 +794,7 @@ class CoCart_Utilities_Cart_Helpers {
 		$item['variation'] = cocart_format_variation_data( $cart_item['variation'], $product );
 
 		// Prepares the remaining cart item data.
-		$cart_item = CoCart_Utilities_Cart_Helpers::prepare_item( $cart_item );
+		$cart_item = self::prepare_item( $cart_item );
 
 		// Collect all cart item data if any thing is left.
 		if ( ! empty( $cart_item ) ) {
