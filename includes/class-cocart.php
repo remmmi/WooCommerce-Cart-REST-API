@@ -635,7 +635,7 @@ final class CoCart {
 	 * @static
 	 *
 	 * @since   1.0.0 Introduced.
-	 * @version 2.6.0
+	 * @version 4.3.7
 	 */
 	public static function load_plugin_textdomain() {
 		if ( function_exists( 'determine_locale' ) ) {
@@ -647,7 +647,7 @@ final class CoCart {
 		$locale = apply_filters( 'plugin_locale', $locale, COCART_SLUG );
 
 		unload_textdomain( COCART_SLUG );
-		load_textdomain( COCART_SLUG, WP_LANG_DIR . '/cart-rest-api-for-woocommerce/cart-rest-api-for-woocommerce-' . $locale . '.mo' );
+		load_textdomain( COCART_SLUG, WP_LANG_DIR . '/' . COCART_SLUG . '/' . COCART_SLUG . '-' . $locale . '.mo' );
 		load_plugin_textdomain( COCART_SLUG, false, plugin_basename( dirname( COCART_FILE ) ) . '/languages' );
 	} // END load_plugin_textdomain()
 } // END class
