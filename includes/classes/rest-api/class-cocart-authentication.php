@@ -106,6 +106,9 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 				add_filter( 'determine_current_user', array( $this, 'authenticate' ), 16 );
 				add_filter( 'rest_authentication_errors', array( $this, 'authentication_fallback' ) );
 
+				// Triggers saved cart after login and updates user activity.
+				add_filter( 'rest_authentication_errors', array( $this, 'cocart_user_logged_in' ), 10 );
+
 				// Check authentication errors.
 				add_filter( 'rest_authentication_errors', array( $this, 'check_authentication_error' ), 15 );
 
@@ -127,15 +130,14 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 		 *
 		 * @since 2.9.1 Introduced.
 		 *
-		 * @deprecated 4.2.0 No replacement. Not needed anymore.
+		 * @since 4.2.0 Deprecated, thinking it was not needed anymore due to changes to support WooCommerce better for performance.
+		 * @since 4.3.7 Reinstated again and added check for customer role.
 		 *
 		 * @param WP_Error|null|bool $error Error from another authentication handler, null if we should handle it, or another value if not.
 		 *
 		 * @return WP_Error|null|bool
 		 */
 		public function cocart_user_logged_in( $error ) {
-			cocart_deprecated_function( 'CoCart_Authentication::cocart_user_logged_in', '4.2.0', null );
-
 			// Pass through errors from other authentication error checks used before this one.
 			if ( ! empty( $error ) ) {
 				return $error;
@@ -144,8 +146,10 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 			global $current_user;
 
 			if ( $current_user instanceof WP_User && $current_user->exists() ) {
-				wc_update_user_last_active( $current_user->ID );
-				update_user_meta( $current_user->ID, '_woocommerce_load_saved_cart_after_login', 1 );
+				if ( WC()->session->is_user_customer( $current_user->ID ) ) {
+					wc_update_user_last_active( $current_user->ID );
+					update_user_meta( $current_user->ID, '_woocommerce_load_saved_cart_after_login', 1 );
+				}
 			}
 
 			return $error;
