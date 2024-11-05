@@ -227,8 +227,8 @@ class CoCart_REST_API {
 			$this->initialize_customer();
 
 			// Initialize cart.
-			$this->initialize_cart_session();
 			$this->initialize_cart();
+			$this->initialize_cart_session();
 		}
 	} // END maybe_load_cart()
 
