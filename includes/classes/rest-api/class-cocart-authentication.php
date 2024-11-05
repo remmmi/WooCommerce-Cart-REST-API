@@ -131,7 +131,7 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 		 * @since 2.9.1 Introduced.
 		 *
 		 * @since 4.2.0 Deprecated, thinking it was not needed anymore due to changes to support WooCommerce better for performance.
-		 * @since 4.3.7 Reinstated again and added check for customer role.
+		 * @since 4.3.7 Reinstated again.
 		 *
 		 * @param WP_Error|null|bool $error Error from another authentication handler, null if we should handle it, or another value if not.
 		 *
@@ -146,10 +146,8 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 			global $current_user;
 
 			if ( $current_user instanceof WP_User && $current_user->exists() ) {
-				if ( WC()->session->is_user_customer( $current_user->ID ) ) {
-					wc_update_user_last_active( $current_user->ID );
-					update_user_meta( $current_user->ID, '_woocommerce_load_saved_cart_after_login', 1 );
-				}
+				wc_update_user_last_active( $current_user->ID );
+				update_user_meta( $current_user->ID, '_woocommerce_load_saved_cart_after_login', 1 );
 			}
 
 			return $error;
