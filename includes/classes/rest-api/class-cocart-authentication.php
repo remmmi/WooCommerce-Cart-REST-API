@@ -5,7 +5,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\Classes
  * @since   2.6.0 Introduced.
- * @version 4.0.0
+ * @version 4.3.7
  */
 
 // Exit if accessed directly.
