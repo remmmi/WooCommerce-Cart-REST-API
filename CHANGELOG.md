@@ -1,6 +1,6 @@
 # Changelog for CoCart
 
-## v4.3.7 - 22nd October, 2024
+## v4.3.7 - 5th November, 2024
 
 ### Bug Fixes
 

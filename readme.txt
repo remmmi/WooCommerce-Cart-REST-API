@@ -4,7 +4,7 @@ Tags: woocommerce, rest-api, decoupled, headless, cart
 Requires at least: 5.6
 Requires PHP: 7.4
 Tested up to: 6.7
-Stable tag: 4.3.6
+Stable tag: 4.3.7
 WC requires at least: 7.0
 WC tested up to: 9.4
 License: GPLv3
@@ -18,7 +18,9 @@ CoCart's mission is **decoupling your WooCommerce store** with our developer fri
 
 [CoCart](https://cocartapi.com/?utm_medium=website&utm_source=wpplugindirectory&utm_campaign=readme&utm_content=readmelink) is a **customizable, open-source REST API solution** built for WooCommerce that is ready to decouple away from WordPress, allowing you to design and build without limitations imposed by a WordPress theme that is harder to modify and optimize. Our REST API handles all the server side actions so it can be utilized in **faster and familiar frameworks** that you prefer.
 
-CoCart Free contains everything you need to get started.
+CoCart's core plugin contains everything you need to get started.
+
+[Want to try it out?](https://cocartapi.com/try-free-demo/?utm_medium=website&utm_source=wpplugindirectory&utm_campaign=readme&utm_content=readmelink)
 
 #### Why WooCommerce?
 
@@ -308,7 +310,7 @@ We’d love to hear what you have to say. [Share your experience](https://testim
 
 == Changelog ==
 
-= v4.3.7 - 22nd October, 2024 =
+= v4.3.7 - 5th November, 2024 =
 
 ### Bug Fixes
 
