@@ -361,6 +361,11 @@ class CoCart_Load_Cart {
 			return false;
 		}
 
+		// Make sure we are not accessing this feature via REST API to prevent conflicting loops.
+		if ( CoCart::is_rest_api_request() ) {
+			return false;
+		}
+
 		$action = self::get_action_query();
 
 		// If we did not request to load a cart then just return.
