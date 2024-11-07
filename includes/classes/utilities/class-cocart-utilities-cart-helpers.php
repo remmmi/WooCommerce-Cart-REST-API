@@ -332,7 +332,7 @@ class CoCart_Utilities_Cart_Helpers {
 	 *
 	 * @access protected
 	 *
-	 * @since 4.4.0 Introduced.
+	 * @since 4.3.8 Introduced.
 	 *
 	 * @param string $tax_display_mode Provided tax display mode.
 	 *

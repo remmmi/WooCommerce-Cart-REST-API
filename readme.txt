@@ -310,6 +310,16 @@ We’d love to hear what you have to say. [Share your experience](https://testim
 
 == Changelog ==
 
+= v4.3.8 - 7th November 2024 =
+
+### 🐛 Bug Fix
+
+> Developer note: A commit was missing causing a fatal error when adding items to the cart.
+
+### Changes
+
+* REST API: Cart item prices correctly display based on tax options for the cart not the store.
+
 = v4.3.7 - 5th November, 2024 =
 
 ### Bug Fixes
@@ -640,6 +650,14 @@ Hope you enjoy this release.
 [View the full changelog here](https://github.com/co-cart/co-cart/blob/trunk/CHANGELOG.md).
 
 == Upgrade Notice ==
+
+= 4.3.8 =
+
+REST API: Cart item prices correctly display based on tax options for the cart not the store.
+
+= 4.3.7 =
+
+REST API: Fixed rounding issue due to decimal separator being different with the cart total for some odd reason with WooCommerce.
 
 = 4.3.6 =
 

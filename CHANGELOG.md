@@ -1,5 +1,15 @@
 # Changelog for CoCart
 
+## v4.3.8 - 7th November 2024
+
+### 🐛 Bug Fix
+
+> Developer note: A commit was missing causing a fatal error when adding items to the cart.
+
+### Changes
+
+* REST API: Cart item prices correctly display based on tax options for the cart not the store.
+
 ## v4.3.7 - 5th November, 2024
 
 ### Bug Fixes
