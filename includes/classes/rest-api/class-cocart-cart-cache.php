@@ -133,6 +133,11 @@ class CoCart_Cart_Cache {
 	 * @param WC_Cart $cart The cart object.
 	 */
 	public function calculate_cached_items( $cart ) {
+		// Reduce calculating if not triggered on appropriate events.
+		if ( is_admin() || ( defined( 'DOING_AJAX' ) && DOING_AJAX ) ) {
+			return;
+		}
+
 		$cart_contents_cached = $this->get_cart_contents_cached();
 
 		// If cart contents is cached, proceed.
