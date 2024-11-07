@@ -4,7 +4,7 @@ Tags: woocommerce, rest-api, decoupled, headless, cart
 Requires at least: 5.6
 Requires PHP: 7.4
 Tested up to: 6.6
-Stable tag: 4.3.7
+Stable tag: 4.3.8
 WC requires at least: 7.0
 WC tested up to: 9.3
 License: GPLv3
@@ -309,6 +309,16 @@ You can help [translate "CoCart" into your language](https://translate.wordpress
 We’d love to hear what you have to say. [Share your experience](https://testimonial.to/cocart) and help others discover CoCart. It helps to keep the plugin going strong, and is greatly appreciated.
 
 == Changelog ==
+
+= v4.3.8 - 7th November 2024 =
+
+### 🐛 Bug Fix
+
+> Developer note: A commit was missing causing a fatal error when adding items to the cart.
+
+### Changes
+
+* REST API: Cart item prices correctly display based on tax options for the cart not the store.
 
 = v4.3.7 - 5th November, 2024 =
 
@@ -640,6 +650,14 @@ Hope you enjoy this release.
 [View the full changelog here](https://github.com/co-cart/co-cart/blob/trunk/CHANGELOG.md).
 
 == Upgrade Notice ==
+
+= 4.3.8 =
+
+REST API: Cart item prices correctly display based on tax options for the cart not the store.
+
+= 4.3.7 =
+
+REST API: Fixed rounding issue due to decimal separator being different with the cart total for some odd reason with WooCommerce.
 
 = 4.3.6 =
 
