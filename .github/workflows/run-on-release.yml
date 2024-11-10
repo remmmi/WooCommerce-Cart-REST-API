@@ -94,13 +94,18 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Install GitHub CLI
+        run: sudo apt-get install -y gh
+
+      - name: Authenticate with GitHub
+        run: gh auth login --with-token <<< "${{ secrets.GITHUB_TOKEN }}"
+
       - name: Upload Release Assets
-        uses: softprops/action-gh-release@v1
-        with:
-          tag: ${{ github.event.release.tag_name }}
-          files: |
-            ${{ env.PACKAGE_NAME }}-${{ env.PACKAGE_VERSION }}.zip
-            ${{ env.PACKAGE_NAME }}-${{ env.PACKAGE_VERSION }}.tar.gz
-            checksum.md5
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release upload "${{ github.event.release.tag_name }}" \
+            "${{ env.PACKAGE_NAME }}-${{ env.PACKAGE_VERSION }}.zip" \
+            "${{ env.PACKAGE_NAME }}-${{ env.PACKAGE_VERSION }}.tar.gz" \
+            "checksum.md5"
