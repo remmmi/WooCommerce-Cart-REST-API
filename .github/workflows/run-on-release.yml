@@ -91,7 +91,7 @@ jobs:
             . checksum.md5
 
   upload:
-    needs: checksum
+    needs: build
     runs-on: ubuntu-latest
     steps:
       - name: Upload Release Assets
