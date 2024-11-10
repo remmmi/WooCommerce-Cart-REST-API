@@ -7,6 +7,7 @@
 module.exports = function(grunt) {
 	var sass = require( 'node-sass' );
 	require( 'load-grunt-tasks' )( grunt );
+	grunt.loadNpmTasks('grunt-shell');
 
 	// Project configuration.
 	grunt.initConfig({
@@ -352,7 +353,7 @@ module.exports = function(grunt) {
 						src: [
 							'**',
 							'!.*',
-							'!**/*.{dist,gif,html,jpg,jpeg,js,json,log,lock,md,png,scss,sh,txt,xml,zip}',
+							'!**/*.{dist,gif,html,jpg,jpeg,js,json,log,lock,md,md5,neon,png,scss,sh,txt,xml,zip}',
 							'!.*/**',
 							'!.DS_Store',
 							'!.htaccess',
@@ -423,14 +424,63 @@ module.exports = function(grunt) {
 						dest: ''
 					}
 				]
+			},
+			tarGz: {
+				options: {
+					archive: './releases/<%= pkg.name %>-v<%= pkg.version %>.tar.gz',
+					mode: 'tgz' // Setting the mode to 'tgz' will create a .tar.gz archive
+				},
+				files: [
+					{
+						expand: true,
+						cwd: './build/',
+						src: '**',
+						dest: '<%= pkg.name %>'
+					}
+				]
 			}
 		},
 
 		// Deletes the deployable plugin folder once zipped up.
 		clean: {
 			build: [ 'build/' ],
-			firebuild: [ 'fire-build/' ]
+			firebuild: [ 'fire-build/' ],
+			checksum: ['checksum.md5']
 		},
+
+		// Shell task to generate the checksum file with exclusions
+		shell: {
+			generateChecksum: {
+				command: `find . -type f \
+					! -path '*/.*' \
+					! -name '*.dist' \
+					! -name '*.gif' \
+					! -name '*.html' \
+					! -name '*.jpg' \
+					! -name '*.jpeg' \
+					! -name '*.js' \
+					! -name '*.json' \
+					! -name '*.log' \
+					! -name '*.lock' \
+					! -name '*.md' \
+					! -name '*.png' \
+					! -name '*.scss' \
+					! -name '*.sh' \
+					! -name '*.txt' \
+					! -name '*.xml' \
+					! -name '*.zip' \
+					! -name '*.md5' \
+					! -name '*.neon' \
+					! -path '*/assets/scss/*' \
+					! -path '*/bin/*' \
+					! -path '*/node_modules/*' \
+					! -path '*/releases/*' \
+					! -path '*/tests/*' \
+					! -path '*/vendor/*' \
+					! -path '*/unit-tests/*' \
+					-exec md5sum {} + > checksum.md5`
+			}
+		}
 
 	}); // END of Grunt modules.
 
@@ -464,16 +514,22 @@ module.exports = function(grunt) {
 	 * Creates a deployable plugin zipped up ready to upload
 	 * and install on a WordPress installation.
 	 */
-	grunt.registerTask( 'zip', [ 'copy:build', 'compress:zip', 'clean:build' ] );
+	grunt.registerTask( 'zip-only', [ 'copy:build', 'compress:zip', 'clean:build' ] );
+	grunt.registerTask( 'tar-only', [ 'copy:build', 'compress:tarGz', 'clean:build' ] );
 
 	// Backup a copy of everything incase of emergency.
 	grunt.registerTask( 'zipfire', [ 'copy:firebuild', 'compress:firebuild', 'clean:firebuild' ] );
 
 	// Build Plugin.
-	grunt.registerTask( 'build', [ 'version', 'css', 'js', 'update-pot', 'zip' ] );
+	grunt.registerTask( 'compress-all', [ 'copy:build', 'compress:zip', 'compress:tarGz', 'clean:build' ] );
+	grunt.registerTask( 'build', [ 'version', 'css', 'js', 'update-pot', 'compress-all' ] );
 	grunt.registerTask( 'fire', [ 'version', 'css', 'js', 'update-pot', 'zipfire' ] );
+	grunt.registerTask( 'clear', [ 'clean:build', 'clean:firebuild' ] );
 
 	// Ready for release.
 	grunt.registerTask( 'ready', [ 'version', 'stable', 'css', 'js', 'update-pot', 'zip' ] );
+
+	// Register a custom task for generating the checksum
+	grunt.registerTask( 'checksum', [ 'clean:checksum', 'shell:generateChecksum' ]);
 
 };
