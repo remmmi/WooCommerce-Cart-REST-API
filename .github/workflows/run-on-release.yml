@@ -10,6 +10,8 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.release.tag_name }}
 
       - name: Set Up Node.js
         uses: actions/setup-node@v2
@@ -19,12 +21,8 @@ jobs:
       - name: Get Package Info
         id: package_info
         run: |
-          PACKAGE_NAME=$(node -p "require('./package.json').name")
-          PACKAGE_VERSION=$(node -p "require('./package.json').version")
-          echo "PACKAGE_NAME=$PACKAGE_NAME" >> $GITHUB_ENV
-          echo "PACKAGE_VERSION=$PACKAGE_VERSION" >> $GITHUB_ENV
-          echo "PACKAGE_ZIP=${PACKAGE_NAME}-${PACKAGE_VERSION}.zip" >> $GITHUB_ENV
-          echo "PACKAGE_TAR=${PACKAGE_NAME}-${PACKAGE_VERSION}.tar.gz" >> $GITHUB_ENV
+          echo "PACKAGE_NAME=$(node -p "require('./package.json').name")" >> $GITHUB_ENV
+          echo "PACKAGE_VERSION=$(node -p "require('./package.json').version")" >> $GITHUB_ENV
 
       - name: Generate Checksum File
         run: |
@@ -59,7 +57,7 @@ jobs:
 
       - name: Create ZIP Archive
         run: |
-          zip -r "${{ env.PACKAGE_ZIP }}" . \
+          zip -r "${{ env.PACKAGE_NAME }}-${{ env.PACKAGE_VERSION }}.zip" . \
             -x '.*' \
             '**/*.{dist,gif,html,jpg,jpeg,js,json,log,lock,md,neon,png,scss,sh,txt,xml,zip}' \
             '!/.*' \
@@ -75,7 +73,7 @@ jobs:
 
       - name: Create TAR.GZ Archive
         run: |
-          tar -czf "${{ env.PACKAGE_TAR }}" \
+          tar -czf "${{ env.PACKAGE_NAME }}-${{ env.PACKAGE_VERSION }}.tar.gz" \
             --exclude='.*' \
             --exclude='**/*.{dist,gif,html,jpg,jpeg,js,json,log,lock,md,neon,png,scss,sh,txt,xml,zip}' \
             --exclude='assets/scss/**' \
@@ -88,7 +86,7 @@ jobs:
         shell: bash
 
       - name: Save Artifacts for Upload Job
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: build-artifacts
           path: |
@@ -101,9 +99,20 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Download Artifacts
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: build-artifacts
+
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.release.tag_name }}
+
+      - name: Get Package Info
+        id: package_info
+        run: |
+          echo "PACKAGE_NAME=$(node -p "require('./package.json').name")" >> $GITHUB_ENV
+          echo "PACKAGE_VERSION=$(node -p "require('./package.json').version")" >> $GITHUB_ENV
 
       - name: Upload Release Assets
         uses: softprops/action-gh-release@v2
