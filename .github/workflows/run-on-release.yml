@@ -90,8 +90,8 @@ jobs:
         with:
           name: build-artifacts
           path: |
-            ${{ env.PACKAGE_ZIP }}
-            ${{ env.PACKAGE_TAR }}
+            ${{ env.PACKAGE_NAME }}-${{ env.PACKAGE_VERSION }}.zip
+            ${{ env.PACKAGE_NAME }}-${{ env.PACKAGE_VERSION }}.tar.gz
             checksum.md5
 
   upload:
