@@ -36,8 +36,6 @@ jobs:
             -not -name '*.dist' \
             -not -name '*.gif' \
             -not -name '*.html' \
-            -not -name '*.jpeg' \
-            -not -name '*.js' \
             -not -name '*.json' \
             -not -name '*.log' \
             -not -name '*.lock' \
@@ -45,7 +43,6 @@ jobs:
             -not -name '*.neon' \
             -not -name '*.scss' \
             -not -name '*.sh' \
-            -not -name '*.txt' \
             -not -name '*.xml' \
             -not -path '*/assets/scss/*' \
             -not -path '*/bin/*' \
@@ -93,6 +90,7 @@ jobs:
             ${{ env.PACKAGE_NAME }}-${{ env.PACKAGE_VERSION }}.zip
             ${{ env.PACKAGE_NAME }}-${{ env.PACKAGE_VERSION }}.tar.gz
             checksum.md5
+          retention-days: 1
 
   upload:
     needs: build
@@ -102,6 +100,8 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: build-artifacts
+          run: ls -R
+          merge-multiple: true
 
       - name: Checkout Repository
         uses: actions/checkout@v4
