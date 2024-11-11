@@ -4,6 +4,9 @@ on:
   release:
     types: [published]
 
+env:
+  TARGET_REF: ${{ github.event.release.tag_name }}
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -11,12 +14,13 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
         with:
-          ref: ${{ github.event.release.tag_name }}
+          ref: ${{ env.TARGET_REF }}
 
       - name: Set Up Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: '16'
+          node-version-file: '.nvmrc'
+          cache: 'npm'
 
       - name: Get Package Info
         id: package_info
@@ -107,13 +111,14 @@ jobs:
       - name: Download Artifacts
         uses: actions/download-artifact@v4
         with:
-          name: build-artifacts
+          path: build-artifacts
           merge-multiple: true
+      - run: ls -R build-artifacts
 
       - name: Checkout Repository
         uses: actions/checkout@v4
         with:
-          ref: ${{ github.event.release.tag_name }}
+          ref: ${{ env.TARGET_REF }}
 
       - name: Get Package Info
         id: package_info
@@ -124,7 +129,7 @@ jobs:
       - name: Upload Release Assets
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: ${{ github.event.release.tag_name }}
+          tag_name: ${{ env.TARGET_REF }}
           files: |
             ${{ env.PACKAGE_NAME }}-${{ env.PACKAGE_VERSION }}.zip
             ${{ env.PACKAGE_NAME }}-${{ env.PACKAGE_VERSION }}.tar.gz
