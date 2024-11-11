@@ -112,7 +112,7 @@ jobs:
         with:
           tag_name: ${{ github.event.release.tag_name }}
           files: |
-            ${{ env.PACKAGE_NAME }}-${{ env.PACKAGE_VERSION }}.zip
-            ${{ env.PACKAGE_NAME }}-${{ env.PACKAGE_VERSION }}.tar.gz
+            ${{ needs.build.outputs.package_name }}-${{ needs.build.outputs.package_version }}.zip
+            ${{ needs.build.outputs.package_name }}-${{ needs.build.outputs.package_version }}.tar.gz
             checksum.md5
           token: ${{ secrets.GITHUB_TOKEN }}
