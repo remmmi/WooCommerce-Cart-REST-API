@@ -86,7 +86,7 @@ jobs:
       - name: Create TAR.GZ Archive
         working-directory: ${{ env.OUTPUT_DIR }}
         run: |
-          tar -czf "${{ env.PACKAGE_NAME }}-${{ env.PACKAGE_VERSION }}.tar.gz" -C "${{ env.OUTPUT_DIR }}" "${{ env.PACKAGE_NAME }}"
+          tar -czf "${{ env.PACKAGE_NAME }}-${{ env.PACKAGE_VERSION }}.tar.gz" "${{ env.PACKAGE_NAME }}"
         shell: bash
 
       - name: Create ZIP Archive
