@@ -100,10 +100,10 @@ jobs:
         with:
           name: release-artifacts
           path: |
-            "${{ env.OUTPUT_DIR }}/${{ env.PACKAGE_NAME }}-${{ env.PACKAGE_VERSION }}.zip"
-            "${{ env.OUTPUT_DIR }}/${{ env.PACKAGE_NAME }}-${{ env.PACKAGE_VERSION }}.tar.gz"
-            "${{ env.BUILD_DIR }}/checksum.md5"
-            "${{ env.BUILD_DIR }}/checksum.sha"
+            ${{ env.OUTPUT_DIR }}/${{ env.PACKAGE_NAME }}-${{ env.PACKAGE_VERSION }}.zip
+            ${{ env.OUTPUT_DIR }}/${{ env.PACKAGE_NAME }}-${{ env.PACKAGE_VERSION }}.tar.gz
+            ${{ env.BUILD_DIR }}/checksum.md5
+            ${{ env.BUILD_DIR }}/checksum.sha
           retention-days: 1
           if-no-files-found: error
           compression-level: 0
