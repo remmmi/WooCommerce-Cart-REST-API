@@ -18,7 +18,7 @@ jobs:
           ref: ${{ env.TARGET_REF }}
 
       - name: Set Up Node.js
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v4
         with:
           node-version-file: '.nvmrc'
           cache: 'npm'
@@ -70,41 +70,43 @@ jobs:
         shell: bash
 
       - name: Generate Checksum File
+        working-directory: ${{ env.BUILD_DIR }}
         run: |
-          cd ${{ env.BUILD_DIR }}
-          checksum_file="checksum.md5"
           find . -type f \
             ! -name '*.md5' \
-            -exec md5sum {} + > "$checksum_file"
+            -exec md5sum {} + > "checksum.md5"
+          find . -type f \
+            ! -name '*.md5' \
+            -exec sha256sum {} + > "checksum.sha"
 
       - name: Verify build directory contents
         run: |
           ls -R ${{ env.BUILD_DIR }}
 
       - name: Create TAR.GZ Archive
+        working-directory: ${{ env.OUTPUT_DIR }}
         run: |
           tar -czf "${{ env.PACKAGE_NAME }}-${{ env.PACKAGE_VERSION }}.tar.gz" -C "${{ env.OUTPUT_DIR }}" "${{ env.PACKAGE_NAME }}"
         shell: bash
 
       - name: Create ZIP Archive
+        working-directory: ${{ env.OUTPUT_DIR }}
         run: |
-          cd ${{ env.OUTPUT_DIR }}
           zip -r "${{ env.PACKAGE_NAME }}-${{ env.PACKAGE_VERSION }}.zip" "${{ env.PACKAGE_NAME }}"
         shell: bash
 
       - name: Upload assets
+        working-directory: ${{ env.OUTPUT_DIR }}
         uses: actions/upload-artifact@v4
         with:
-          name: build-artifacts
+          name: release-artifacts
           path: |
-            "${{ env.OUTPUT_DIR }}/${{ env.PACKAGE_NAME }}-${{ env.PACKAGE_VERSION }}.zip"
-            "${{ env.OUTPUT_DIR }}/${{ env.PACKAGE_NAME }}-${{ env.PACKAGE_VERSION }}.tar.gz"
+            "${{ env.PACKAGE_NAME }}-${{ env.PACKAGE_VERSION }}.zip"
+            "${{ env.PACKAGE_NAME }}-${{ env.PACKAGE_VERSION }}.tar.gz"
             "${{ env.BUILD_DIR }}/checksum.md5"
+            "${{ env.BUILD_DIR }}/checksum.sha"
           retention-days: 1
-
-      - name: Clean up build directory
-        run: |
-          rm -rf ${{ env.BUILD_DIR }}
+          if-no-files-found: error
 
   upload:
     needs: build
@@ -113,9 +115,9 @@ jobs:
       - name: Download Assets
         uses: actions/download-artifact@v4
         with:
-          path: build-artifacts
+          path: release-artifacts
           merge-multiple: true
-      - run: ls -R build-artifacts
+      - run: ls -R release-artifacts
 
       - name: Checkout Repository
         uses: actions/checkout@v4
@@ -133,7 +135,11 @@ jobs:
         with:
           tag_name: ${{ env.TARGET_REF }}
           files: |
-            build-artifacts/${{ env.PACKAGE_NAME }}-${{ env.PACKAGE_VERSION }}.zip
-            build-artifacts/${{ env.PACKAGE_NAME }}-${{ env.PACKAGE_VERSION }}.tar.gz
-            build-artifacts/${{ env.PACKAGE_NAME }}/checksum.md5
+            release-artifacts/${{ env.PACKAGE_NAME }}-${{ env.PACKAGE_VERSION }}.zip
+            release-artifacts/${{ env.PACKAGE_NAME }}-${{ env.PACKAGE_VERSION }}.tar.gz
+            release-artifacts/${{ env.PACKAGE_NAME }}/checksum.md5
           token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Clean up build directory
+      run: |
+        rm -rf ${{ env.BUILD_DIR }}
