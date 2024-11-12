@@ -34,6 +34,7 @@ jobs:
       - name: Prepare build directory
         run: |
           BUILD_DIR="build/${{ env.PACKAGE_NAME }}"
+          echo "BUILD_DIR=$BUILD_DIR" >> $GITHUB_ENV
           mkdir -p "${BUILD_DIR}"
           find . -type f \
             ! -path "./.*" \
@@ -70,7 +71,7 @@ jobs:
 
       - name: Generate Checksum File
         run: |
-          cd "${BUILD_DIR}"
+          cd ${{ env.BUILD_DIR }}
           checksum_file="checksum.md5"
           find . -type f \
             ! -name '*.md5' \
@@ -82,13 +83,13 @@ jobs:
 
       - name: Create TAR.GZ Archive
         run: |
-          cd "${OUTPUT_DIR}"
+          cd ${{ env.BUILD_DIR }}
           tar -czf "${{ env.PACKAGE_NAME }}-${{ env.PACKAGE_VERSION }}.tar.gz" "${{ env.PACKAGE_NAME }}"
         shell: bash
 
       - name: Create ZIP Archive
         run: |
-          cd "${OUTPUT_DIR}"
+          cd ${{ env.BUILD_DIR }}
           zip -r "${{ env.PACKAGE_NAME }}-${{ env.PACKAGE_VERSION }}.zip" "${{ env.PACKAGE_NAME }}"
         shell: bash
 
@@ -104,7 +105,7 @@ jobs:
 
       - name: Clean up build directory
         run: |
-          rm -rf "${{ env.BUILD_DIR }}"
+          rm -rf ${{ env.BUILD_DIR }}
 
   upload:
     needs: build
