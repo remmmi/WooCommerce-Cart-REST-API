@@ -136,9 +136,10 @@ jobs:
         with:
           tag_name: ${{ env.TARGET_REF }}
           files: |
-            release-artifacts/${{ env.PACKAGE_NAME }}-${{ env.PACKAGE_VERSION }}.zip
-            release-artifacts/${{ env.PACKAGE_NAME }}-${{ env.PACKAGE_VERSION }}.tar.gz
-            release-artifacts/${{ env.PACKAGE_NAME }}/checksum.md5
+            ${{ env.PACKAGE_NAME }}-${{ env.PACKAGE_VERSION }}.zip
+            ${{ env.PACKAGE_NAME }}-${{ env.PACKAGE_VERSION }}.tar.gz
+            ${{ env.PACKAGE_NAME }}/checksum.md5
+            ${{ env.PACKAGE_NAME }}/checksum.sha
           fail_on_unmatched_files: true
           token: ${{ secrets.GITHUB_TOKEN }}
 
