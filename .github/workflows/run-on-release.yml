@@ -11,11 +11,6 @@ env:
 jobs:
   build:
     runs-on: ubuntu-latest
-
-    outputs:
-      package_name: ${{ steps.package_info.outputs.PACKAGE_NAME }}
-      package_version: ${{ steps.package_info.outputs.PACKAGE_VERSION }}
-
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
@@ -35,12 +30,10 @@ jobs:
           PACKAGE_VERSION=$(jq -r '.version' package.json)
           echo "PACKAGE_NAME=$PACKAGE_NAME" >> $GITHUB_ENV
           echo "PACKAGE_VERSION=$PACKAGE_VERSION" >> $GITHUB_ENV
-          echo "::set-output name=PACKAGE_NAME::$PACKAGE_NAME"
-          echo "::set-output name=PACKAGE_VERSION::$PACKAGE_VERSION"
 
       - name: Prepare build directory
         run: |
-          BUILD_DIR="build/${{ env.PACKAGE_NAME }}"
+          BUILD_DIR="${{ env.OUTPUT_DIR }}/${{ env.PACKAGE_NAME }}"
           echo "BUILD_DIR=$BUILD_DIR" >> $GITHUB_ENV
           mkdir -p "${BUILD_DIR}"
           find . -type f \
@@ -132,13 +125,9 @@ jobs:
         with:
           tag_name: ${{ env.TARGET_REF }}
           files: |
-            release-artifacts/${{ needs.build.outputs.package_name }}-${{ needs.build.outputs.package_version }}.zip
-            release-artifacts/${{ needs.build.outputs.package_name }}-${{ needs.build.outputs.package_version }}.tar.gz
-            release-artifacts/${{ needs.build.outputs.package_name }}/checksum.md5
-            release-artifacts/${{ needs.build.outputs.package_name }}/checksum.sha
+            release-artifacts/${{ env.PACKAGE_NAME }}-${{ env.PACKAGE_VERSION }}.zip
+            release-artifacts/${{ env.PACKAGE_NAME }}-${{ env.PACKAGE_VERSION }}.tar.gz
+            release-artifacts/${{ env.PACKAGE_NAME }}/checksum.md5
+            release-artifacts/${{ env.PACKAGE_NAME }}/checksum.sha
           fail_on_unmatched_files: true
           token: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Clean up build directory
-        run: |
-          rm -rf ${{ env.BUILD_DIR }}
