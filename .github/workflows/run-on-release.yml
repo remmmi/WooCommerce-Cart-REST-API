@@ -70,7 +70,7 @@ jobs:
 
       - name: Generate Checksum File
         run: |
-          cd "${{ env.BUILD_DIR }}"
+          cd "$BUILD_DIR"
           checksum_file="checksum.md5"
           find . -type f \
             ! -name '*.md5' \
@@ -82,13 +82,13 @@ jobs:
 
       - name: Create TAR.GZ Archive
         run: |
-          cd "${{ env.OUTPUT_DIR }}"
+          cd "$OUTPUT_DIR"
           tar -czf "${{ env.PACKAGE_NAME }}-${{ env.PACKAGE_VERSION }}.tar.gz" "${{ env.PACKAGE_NAME }}"
         shell: bash
 
       - name: Create ZIP Archive
         run: |
-          cd "${{ env.OUTPUT_DIR }}"
+          cd "$OUTPUT_DIR"
           zip -r "${{ env.PACKAGE_NAME }}-${{ env.PACKAGE_VERSION }}.zip" "${{ env.PACKAGE_NAME }}"
         shell: bash
 
@@ -133,7 +133,7 @@ jobs:
         with:
           tag_name: ${{ env.TARGET_REF }}
           files: |
-            ${{ env.OUTPUT_DIR }}/${{ env.PACKAGE_NAME }}-${{ env.PACKAGE_VERSION }}.zip
-            ${{ env.OUTPUT_DIR }}/${{ env.PACKAGE_NAME }}-${{ env.PACKAGE_VERSION }}.tar.gz
-            ${{ env.OUTPUT_DIR }}/${{ env.PACKAGE_NAME }}/checksum.md5
+            build-artifacts/${{ env.PACKAGE_NAME }}-${{ env.PACKAGE_VERSION }}.zip
+            build-artifacts/${{ env.PACKAGE_NAME }}-${{ env.PACKAGE_VERSION }}.tar.gz
+            build-artifacts/${{ env.PACKAGE_NAME }}/checksum.md5
           token: ${{ secrets.GITHUB_TOKEN }}
