@@ -34,7 +34,7 @@ jobs:
       - name: Prepare build directory
         run: |
           BUILD_DIR="build/${{ env.PACKAGE_NAME }}"
-          mkdir -p "$BUILD_DIR"
+          mkdir -p "${BUILD_DIR}"
           find . -type f \
             ! -path "./.*" \
             ! -name "Gruntfile.js" \
@@ -65,12 +65,12 @@ jobs:
             ! -path "./tests/**" \
             ! -path "./vendor/**" \
             ! -path "./unit-tests/**" \
-            -print0 | xargs -0 -I {} cp --parents "{}" "$BUILD_DIR"
+            -print0 | xargs -0 -I {} cp --parents "{}" "${BUILD_DIR}"
         shell: bash
 
       - name: Generate Checksum File
         run: |
-          cd "$BUILD_DIR"
+          cd "${BUILD_DIR}"
           checksum_file="checksum.md5"
           find . -type f \
             ! -name '*.md5' \
@@ -82,13 +82,13 @@ jobs:
 
       - name: Create TAR.GZ Archive
         run: |
-          cd "$OUTPUT_DIR"
+          cd "${OUTPUT_DIR}"
           tar -czf "${{ env.PACKAGE_NAME }}-${{ env.PACKAGE_VERSION }}.tar.gz" "${{ env.PACKAGE_NAME }}"
         shell: bash
 
       - name: Create ZIP Archive
         run: |
-          cd "$OUTPUT_DIR"
+          cd "${OUTPUT_DIR}"
           zip -r "${{ env.PACKAGE_NAME }}-${{ env.PACKAGE_VERSION }}.zip" "${{ env.PACKAGE_NAME }}"
         shell: bash
 
