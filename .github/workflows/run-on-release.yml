@@ -6,6 +6,7 @@ on:
 
 env:
   TARGET_REF: ${{ github.event.release.tag_name }}
+  OUTPUT_DIR: "build"
 
 jobs:
   build:
@@ -22,91 +23,94 @@ jobs:
           node-version-file: '.nvmrc'
           cache: 'npm'
 
-      - name: Get Package Info
+      - name: Get package name and version
         id: package_info
         run: |
-          echo "PACKAGE_NAME=$(node -p "require('./package.json').name")" >> $GITHUB_ENV
-          echo "PACKAGE_VERSION=$(node -p "require('./package.json').version")" >> $GITHUB_ENV
+          PACKAGE_NAME=$(jq -r '.name' package.json)
+          PACKAGE_VERSION=$(jq -r '.version' package.json)
+          echo "PACKAGE_NAME=$PACKAGE_NAME" >> $GITHUB_ENV
+          echo "PACKAGE_VERSION=$PACKAGE_VERSION" >> $GITHUB_ENV
+
+      - name: Prepare build directory
+        run: |
+          BUILD_DIR="build/${{ env.PACKAGE_NAME }}"
+          mkdir -p "$BUILD_DIR"
+          find . -type f \
+            ! -path "./.*" \
+            ! -name "Gruntfile.js" \
+            ! -path "./*/.*" \
+            ! -name "*.dist" \
+            ! -name "*.html" \
+            ! -name "*.json" \
+            ! -name "*.log" \
+            ! -name "*.lock" \
+            ! -name "*.md" \
+            ! -name "*.md5" \
+            ! -name "*.neon" \
+            ! -name "*.scss" \
+            ! -name "*.sh" \
+            ! -name "*.tar.gz" \
+            ! -name "*.txt" \
+            ! -name "*.xml" \
+            ! -name "*.zip" \
+            ! -path "./.*/**" \
+            ! -name ".DS_Store" \
+            ! -name ".htaccess" \
+            ! -path "./assets/scss/**" \
+            ! -name "*.scss" \
+            ! -path "./bin/**" \
+            ! -path "./build/**" \
+            ! -path "./node_modules/**" \
+            ! -path "./releases/**" \
+            ! -path "./tests/**" \
+            ! -path "./vendor/**" \
+            ! -path "./unit-tests/**" \
+            -print0 | xargs -0 -I {} cp --parents "{}" "$BUILD_DIR"
+        shell: bash
 
       - name: Generate Checksum File
         run: |
+          cd "${{ env.BUILD_DIR }}"
           checksum_file="checksum.md5"
-          find . \
-            -type f \
-            -not -path '*/.*' \
-            -not -name '*.zip' \
-            -not -name '*.tar.gz' \
-            -not -name '*.md5' \
-            -not -name '*.dist' \
-            -not -name '*.gif' \
-            -not -name '*.html' \
-            -not -name '*.json' \
-            -not -name '*.log' \
-            -not -name '*.lock' \
-            -not -name '*.md' \
-            -not -name '*.neon' \
-            -not -name '*.scss' \
-            -not -name '*.sh' \
-            -not -name '*.xml' \
-            -not -path '*/assets/scss/*' \
-            -not -path '*/bin/*' \
-            -not -path '*/node_modules/*' \
-            -not -path '*/tests/*' \
-            -not -path '*/vendor/*' \
-            -not -path '*/unit-tests/*' \
-            -exec md5sum {} + > $checksum_file
+          find . -type f \
+            ! -name '*.md5' \
+            -exec md5sum {} + > "$checksum_file"
 
-      - name: Create ZIP Archive
+      - name: Verify build directory contents
         run: |
-          zip -r "${{ env.PACKAGE_NAME }}-${{ env.PACKAGE_VERSION }}.zip" . \
-            -x '.*' \
-            '!**/*.{dist,gif,html,jpg,jpeg,js,json,log,lock,md,neon,png,scss,sh,txt,xml,zip}' \
-            '!/.*' \
-            '!assets/js/**' \
-            '!assets/images/**' \
-            '!assets/scss/**' \
-            '!assets/**/*.scss' \
-            '!bin/**' \
-            '!node_modules/**' \
-            '!tests/**' \
-            '!vendor/**' \
-            '!unit-tests/**' \
-            'readme.txt' \
-            'checksum.md5'
-        shell: bash
+          ls -R ${{ env.BUILD_DIR }}
 
       - name: Create TAR.GZ Archive
         run: |
-          tar -czf "${{ env.PACKAGE_NAME }}-${{ env.PACKAGE_VERSION }}.tar.gz" . \
-            --exclude='**/*.{dist,gif,html,jpg,jpeg,js,json,log,lock,md,neon,png,scss,sh,txt,xml,zip}' \
-            --exclude='.*' \
-            --exclude='assets/scss/**' \
-            --exclude='bin/**' \
-            --exclude='node_modules/**' \
-            --exclude='tests/**' \
-            --exclude='vendor/**' \
-            --exclude='unit-tests/**' \
-            assets/js/** \
-            assets/images/** \
-            readme.txt \
-            checksum.md5
+          cd "${{ env.OUTPUT_DIR }}"
+          tar -czf "${{ env.PACKAGE_NAME }}-${{ env.PACKAGE_VERSION }}.tar.gz" "${{ env.PACKAGE_NAME }}"
         shell: bash
 
-      - name: Save Artifacts for Upload Job
+      - name: Create ZIP Archive
+        run: |
+          cd "${{ env.OUTPUT_DIR }}"
+          zip -r "${{ env.PACKAGE_NAME }}-${{ env.PACKAGE_VERSION }}.zip" "${{ env.PACKAGE_NAME }}"
+        shell: bash
+
+      - name: Upload assets
         uses: actions/upload-artifact@v4
         with:
           name: build-artifacts
           path: |
-            ${{ env.PACKAGE_NAME }}-${{ env.PACKAGE_VERSION }}.zip
-            ${{ env.PACKAGE_NAME }}-${{ env.PACKAGE_VERSION }}.tar.gz
-            checksum.md5
+            "${{ env.OUTPUT_DIR }}/${{ env.PACKAGE_NAME }}-${{ env.PACKAGE_VERSION }}.zip"
+            "${{ env.OUTPUT_DIR }}/${{ env.PACKAGE_NAME }}-${{ env.PACKAGE_VERSION }}.tar.gz"
+            "${{ env.BUILD_DIR }}/checksum.md5"
           retention-days: 1
+
+      - name: Clean up build directory
+        run: |
+          rm -rf "${{ env.BUILD_DIR }}"
 
   upload:
     needs: build
     runs-on: ubuntu-latest
     steps:
-      - name: Download Artifacts
+      - name: Download Assets
         uses: actions/download-artifact@v4
         with:
           path: build-artifacts
@@ -124,12 +128,12 @@ jobs:
           echo "PACKAGE_NAME=$(node -p "require('./package.json').name")" >> $GITHUB_ENV
           echo "PACKAGE_VERSION=$(node -p "require('./package.json').version")" >> $GITHUB_ENV
 
-      - name: Upload Release Assets
+      - name: Attach Release Assets
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ env.TARGET_REF }}
           files: |
-            ${{ env.PACKAGE_NAME }}-${{ env.PACKAGE_VERSION }}.zip
-            ${{ env.PACKAGE_NAME }}-${{ env.PACKAGE_VERSION }}.tar.gz
-            checksum.md5
+            ${{ env.OUTPUT_DIR }}/${{ env.PACKAGE_NAME }}-${{ env.PACKAGE_VERSION }}.zip
+            ${{ env.OUTPUT_DIR }}/${{ env.PACKAGE_NAME }}-${{ env.PACKAGE_VERSION }}.tar.gz
+            ${{ env.OUTPUT_DIR }}/${{ env.PACKAGE_NAME }}/checksum.md5
           token: ${{ secrets.GITHUB_TOKEN }}
