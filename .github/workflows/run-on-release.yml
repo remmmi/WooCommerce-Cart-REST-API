@@ -96,17 +96,17 @@ jobs:
         shell: bash
 
       - name: Upload assets
-        working-directory: ${{ env.OUTPUT_DIR }}
         uses: actions/upload-artifact@v4
         with:
           name: release-artifacts
           path: |
-            "${{ env.PACKAGE_NAME }}-${{ env.PACKAGE_VERSION }}.zip"
-            "${{ env.PACKAGE_NAME }}-${{ env.PACKAGE_VERSION }}.tar.gz"
+            "${{ env.OUTPUT_DIR }}/${{ env.PACKAGE_NAME }}-${{ env.PACKAGE_VERSION }}.zip"
+            "${{ env.OUTPUT_DIR }}/${{ env.PACKAGE_NAME }}-${{ env.PACKAGE_VERSION }}.tar.gz"
             "${{ env.BUILD_DIR }}/checksum.md5"
             "${{ env.BUILD_DIR }}/checksum.sha"
           retention-days: 1
           if-no-files-found: error
+          compression-level: 0
 
   upload:
     needs: build
@@ -115,6 +115,7 @@ jobs:
       - name: Download Assets
         uses: actions/download-artifact@v4
         with:
+          name: release-artifacts
           path: release-artifacts
           merge-multiple: true
       - run: ls -R release-artifacts
@@ -138,8 +139,9 @@ jobs:
             release-artifacts/${{ env.PACKAGE_NAME }}-${{ env.PACKAGE_VERSION }}.zip
             release-artifacts/${{ env.PACKAGE_NAME }}-${{ env.PACKAGE_VERSION }}.tar.gz
             release-artifacts/${{ env.PACKAGE_NAME }}/checksum.md5
+          fail_on_unmatched_files: true
           token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Clean up build directory
-      run: |
-        rm -rf ${{ env.BUILD_DIR }}
+        run: |
+          rm -rf ${{ env.BUILD_DIR }}
