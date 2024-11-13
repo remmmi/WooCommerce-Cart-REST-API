@@ -3,10 +3,10 @@ Contributors: cocartforwc, sebd86
 Tags: woocommerce, rest-api, decoupled, headless, cart
 Requires at least: 5.6
 Requires PHP: 7.4
-Tested up to: 6.6
-Stable tag: 4.3.8
+Tested up to: 6.7
+Stable tag: 4.3.9
 WC requires at least: 7.0
-WC tested up to: 9.3
+WC tested up to: 9.4
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -309,6 +309,15 @@ You can help [translate "CoCart" into your language](https://translate.wordpress
 We’d love to hear what you have to say. [Share your experience](https://testimonial.to/cocart) and help others discover CoCart. It helps to keep the plugin going strong, and is greatly appreciated.
 
 == Changelog ==
+
+= v4.3.9 - 14th November 2024 =
+
+### Security Patch
+
+> Just a note: The security issue isn't directly related to CoCart itself, but we’re here to help keep your store secure. Since CoCart is a public API, security patches will be released as soon as possible to prevent the issue from affecting your site, so you don’t have to wait for a fix from the plugin causing it.
+> We recommend updating to this version if you’re using any WooCommerce plugins that might reveal public information.
+> We want you to know that we would never publicly name a plugin with a security concern. However, if you notice any security issues with CoCart or another plugin connected to it, please [report the security vulnerability](https://cocartapi.com/security-policy/#Reporting-Security-Vulnerabilities) so we can address it quickly.
+> Thank you for helping us keep CoCart safe for everyone!
 
 = v4.3.8 - 7th November 2024 =
 
@@ -650,6 +659,10 @@ Hope you enjoy this release.
 [View the full changelog here](https://github.com/co-cart/co-cart/blob/trunk/CHANGELOG.md).
 
 == Upgrade Notice ==
+
+= 4.3.9 =
+
+SECURITY PATCH, PLEASE UPDATE TO STAY SAFE - THANK YOU!
 
 = 4.3.8 =
 
