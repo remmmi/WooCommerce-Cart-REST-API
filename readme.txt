@@ -4,7 +4,7 @@ Tags: woocommerce, rest-api, decoupled, headless, cart
 Requires at least: 5.6
 Requires PHP: 7.4
 Tested up to: 6.7
-Stable tag: 4.3.9
+Stable tag: 4.3.10
 WC requires at least: 7.0
 WC tested up to: 9.4
 License: GPLv3
@@ -309,6 +309,12 @@ You can help [translate "CoCart" into your language](https://translate.wordpress
 We’d love to hear what you have to say. [Share your experience](https://testimonial.to/cocart) and help others discover CoCart. It helps to keep the plugin going strong, and is greatly appreciated.
 
 == Changelog ==
+
+= v4.3.10 - 14th November 2024 =
+
+### 🔥 Hot Fix
+
+* REST API: Typo caused fatal for Products API (v2 ONLY).
 
 = v4.3.9 - 14th November 2024 =
 
@@ -659,6 +665,10 @@ Hope you enjoy this release.
 [View the full changelog here](https://github.com/co-cart/co-cart/blob/trunk/CHANGELOG.md).
 
 == Upgrade Notice ==
+
+= 4.3.10 =
+
+REST API: Typo caused fatal for Products API (v2 ONLY).
 
 = 4.3.9 =
 
