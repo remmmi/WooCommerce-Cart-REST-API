@@ -86,13 +86,13 @@ jobs:
       - name: Create TAR.GZ Archive
         working-directory: ${{ env.OUTPUT_DIR }}
         run: |
-          tar -czf "${{ env.PACKAGE_NAME }}-${{ env.PACKAGE_VERSION }}.tar.gz" "${{ env.PACKAGE_NAME }}"
+          tar -czf "${{ env.PACKAGE_NAME }}-v${{ env.PACKAGE_VERSION }}.tar.gz" "${{ env.PACKAGE_NAME }}"
         shell: bash
 
       - name: Create ZIP Archive
         working-directory: ${{ env.OUTPUT_DIR }}
         run: |
-          zip -r "${{ env.PACKAGE_NAME }}-${{ env.PACKAGE_VERSION }}.zip" "${{ env.PACKAGE_NAME }}"
+          zip -r "${{ env.PACKAGE_NAME }}-v${{ env.PACKAGE_VERSION }}.zip" "${{ env.PACKAGE_NAME }}"
         shell: bash
 
       - name: Upload assets
@@ -100,8 +100,8 @@ jobs:
         with:
           name: release-artifacts
           path: |
-            ${{ env.OUTPUT_DIR }}/${{ env.PACKAGE_NAME }}-${{ env.PACKAGE_VERSION }}.zip
-            ${{ env.OUTPUT_DIR }}/${{ env.PACKAGE_NAME }}-${{ env.PACKAGE_VERSION }}.tar.gz
+            ${{ env.OUTPUT_DIR }}/${{ env.PACKAGE_NAME }}-v${{ env.PACKAGE_VERSION }}.zip
+            ${{ env.OUTPUT_DIR }}/${{ env.PACKAGE_NAME }}-v${{ env.PACKAGE_VERSION }}.tar.gz
             ${{ env.BUILD_DIR }}/checksum.md5
             ${{ env.BUILD_DIR }}/checksum.sha
           retention-days: 1
@@ -136,8 +136,8 @@ jobs:
         with:
           tag_name: ${{ env.TARGET_REF }}
           files: |
-            release-artifacts/${{ env.PACKAGE_NAME }}-${{ env.PACKAGE_VERSION }}.zip
-            release-artifacts/${{ env.PACKAGE_NAME }}-${{ env.PACKAGE_VERSION }}.tar.gz
+            release-artifacts/${{ env.PACKAGE_NAME }}-v${{ env.PACKAGE_VERSION }}.zip
+            release-artifacts/${{ env.PACKAGE_NAME }}-v${{ env.PACKAGE_VERSION }}.tar.gz
             release-artifacts/${{ env.PACKAGE_NAME }}/checksum.md5
             release-artifacts/${{ env.PACKAGE_NAME }}/checksum.sha
           fail_on_unmatched_files: true

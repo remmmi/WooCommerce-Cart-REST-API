@@ -89,18 +89,18 @@ jobs:
         run: chmod +x ./bin/github-updater-prep.sh
 
       - name: Add GitHub Updater Header
-        run: ./bin/github-updater-prep.sh "${{ env.BUILD_DIR }}/${{ env.PACKAGE_NAME }}.php" "${{ github.repository }}"
+        run: ./bin/github-updater-prep.sh "${{ env.BUILD_DIR }}/" "${{ env.PACKAGE_NAME }}" "${{ env.PACKAGE_VERSION }}" "${{ github.repository }}"
 
       - name: Create TAR.GZ Archive
         working-directory: ${{ env.OUTPUT_DIR }}
         run: |
-          tar -czf "${{ env.PACKAGE_NAME }}-github-${{ env.PACKAGE_VERSION }}.tar.gz" "${{ env.PACKAGE_NAME }}"
+          tar -czf "${{ env.PACKAGE_NAME }}-github-v${{ env.PACKAGE_VERSION }}.tar.gz" "${{ env.PACKAGE_NAME }}"
         shell: bash
 
       - name: Create ZIP Archive
         working-directory: ${{ env.OUTPUT_DIR }}
         run: |
-          zip -r "${{ env.PACKAGE_NAME }}-github-${{ env.PACKAGE_VERSION }}.zip" "${{ env.PACKAGE_NAME }}"
+          zip -r "${{ env.PACKAGE_NAME }}-github-v${{ env.PACKAGE_VERSION }}.zip" "${{ env.PACKAGE_NAME }}"
         shell: bash
 
       - name: Upload assets
@@ -108,8 +108,8 @@ jobs:
         with:
           name: github-updater
           path: |
-            ${{ env.OUTPUT_DIR }}/${{ env.PACKAGE_NAME }}-github-${{ env.PACKAGE_VERSION }}.zip
-            ${{ env.OUTPUT_DIR }}/${{ env.PACKAGE_NAME }}-github-${{ env.PACKAGE_VERSION }}.tar.gz
+            ${{ env.OUTPUT_DIR }}/${{ env.PACKAGE_NAME }}-github-v${{ env.PACKAGE_VERSION }}.zip
+            ${{ env.OUTPUT_DIR }}/${{ env.PACKAGE_NAME }}-github-v${{ env.PACKAGE_VERSION }}.tar.gz
           retention-days: 1
           if-no-files-found: error
           compression-level: 0
@@ -142,7 +142,7 @@ jobs:
         with:
           tag_name: ${{ env.TARGET_REF }}
           files: |
-            github-updater/${{ env.PACKAGE_NAME }}-github-${{ env.PACKAGE_VERSION }}.zip
-            github-updater/${{ env.PACKAGE_NAME }}-github-${{ env.PACKAGE_VERSION }}.tar.gz
+            github-updater/${{ env.PACKAGE_NAME }}-github-v${{ env.PACKAGE_VERSION }}.zip
+            github-updater/${{ env.PACKAGE_NAME }}-github-v${{ env.PACKAGE_VERSION }}.tar.gz
           fail_on_unmatched_files: true
           token: ${{ secrets.GITHUB_TOKEN }}
