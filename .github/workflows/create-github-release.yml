@@ -71,6 +71,16 @@ jobs:
             -print0 | xargs -0 -I {} cp --parents "{}" "${BUILD_DIR}"
         shell: bash
 
+      - name: Generate Checksum File
+        working-directory: ${{ env.BUILD_DIR }}
+        run: |
+          find . -type f \
+            ! -name '*.md5' \
+            -exec md5sum {} + > "checksum.md5"
+          find . -type f \
+            ! -name '*.md5' \
+            -exec sha256sum {} + > "checksum.sha"
+
       - name: Verify build directory contents
         run: |
           ls -R ${{ env.BUILD_DIR }}
