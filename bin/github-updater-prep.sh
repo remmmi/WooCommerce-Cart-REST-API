@@ -30,3 +30,6 @@ if ! grep -q "GitHub Plugin URI: $REPO_NAME" "$MAIN_FILE"; then
 else
   echo "Headers already present in $MAIN_FILE"
 fi
+
+# Delete the backup file after successful modification
+rm -f "${MAIN_FILE}.bak"
