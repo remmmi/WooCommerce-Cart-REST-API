@@ -1,5 +1,14 @@
 # Changelog for CoCart
 
+## v4.3.9 - 14th November 2024
+
+### Security Patch
+
+> Just a note: The security issue isn't directly related to CoCart itself, but we’re here to help keep your store secure. Since CoCart is a public API, security patches will be released as soon as possible to prevent the issue from affecting your site, so you don’t have to wait for a fix from the plugin causing it.
+> We recommend updating to this version if you’re using any WooCommerce plugins that might reveal public information.
+> We want you to know that we would never publicly name a plugin with a security concern. However, if you notice any security issues with CoCart or another plugin connected to it, please [report the security vulnerability](https://cocartapi.com/security-policy/#Reporting-Security-Vulnerabilities) so we can address it quickly.
+> Thank you for helping us keep CoCart safe for everyone!
+
 ## v4.3.8 - 7th November 2024
 
 ### 🐛 Bug Fix

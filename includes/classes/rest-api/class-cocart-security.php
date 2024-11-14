@@ -86,7 +86,6 @@ class CoCart_Security {
 		$meta_data = $product->get_meta_data();
 
 		foreach ( $meta_data as $meta ) {
-			// Ignore WooCommerce Waitlist - https://woocommerce.com/products/woocommerce-waitlist/.
 			if ( 'wcwl_mailout_errors' == $meta->key ) {
 				$ignored_meta_keys[] = $meta->key;
 			}
