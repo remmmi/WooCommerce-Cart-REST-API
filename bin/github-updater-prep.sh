@@ -1,17 +1,17 @@
 #!/bin/bash
 # github-updater-prep.sh
-# Usage: ./github-updater-prep.sh "path/to/main-plugin-file" "plugin-slug" "1.0.0" "owner/repository"
+# Usage: ./github-updater-prep.sh "path/to/main-plugin-file" "plugin-slug" "owner/repository"
 
 MAIN_FILE_LOCATION="$1"
 PLUGIN_NAME="$2"
-VERSION="$3"
-REPO_NAME="$4"
+REPO_NAME="$3"
+TAG="\$tag"
 
 # Define the new headers to add
 NEW_HEADERS=$(cat <<-END
  * GitHub Plugin URI: $REPO_NAME
  * Primary Branch: trunk
- * Release Asset: ${PLUGIN_NAME}-github-v${VERSION}.zip
+ * Release Asset: ${PLUGIN_NAME}-github-v${TAG}.zip
 END
 )
 

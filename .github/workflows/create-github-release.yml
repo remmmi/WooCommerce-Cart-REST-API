@@ -89,7 +89,7 @@ jobs:
         run: chmod +x ./bin/github-updater-prep.sh
 
       - name: Add GitHub Updater Header
-        run: ./bin/github-updater-prep.sh "${{ env.BUILD_DIR }}/" "${{ env.PACKAGE_NAME }}" "${{ env.PACKAGE_VERSION }}" "${{ github.repository }}"
+        run: ./bin/github-updater-prep.sh "${{ env.BUILD_DIR }}/" "${{ env.PACKAGE_NAME }}" "${{ github.repository }}"
 
       - name: Create TAR.GZ Archive
         working-directory: ${{ env.OUTPUT_DIR }}
