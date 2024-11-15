@@ -310,6 +310,12 @@ We’d love to hear what you have to say. [Share your experience](https://testim
 
 == Changelog ==
 
+= v4.3.10 - 14th November 2024 =
+
+### 🔥 Hot Fix
+
+* REST API: Typo caused fatal for Products API (v2 ONLY).
+
 = v4.3.9 - 14th November 2024 =
 
 ### Security Patch
@@ -659,6 +665,10 @@ Hope you enjoy this release.
 [View the full changelog here](https://github.com/co-cart/co-cart/blob/trunk/CHANGELOG.md).
 
 == Upgrade Notice ==
+
+= 4.3.10 =
+
+REST API: Typo caused fatal for Products API (v2 ONLY).
 
 = 4.3.9 =
 

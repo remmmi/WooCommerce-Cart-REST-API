@@ -1,5 +1,11 @@
 # Changelog for CoCart
 
+## v4.3.10 - 14th November 2024
+
+### 🔥 Hot Fix
+
+* REST API: Typo caused fatal for Products API (v2 ONLY).
+
 ## v4.3.9 - 14th November 2024
 
 ### Security Patch
