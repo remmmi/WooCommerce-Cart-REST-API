@@ -527,7 +527,7 @@ module.exports = function(grunt) {
 	grunt.registerTask( 'clear', [ 'clean:build', 'clean:firebuild' ] );
 
 	// Ready for release.
-	grunt.registerTask( 'ready', [ 'version', 'stable', 'css', 'js', 'update-pot', 'zip' ] );
+	grunt.registerTask( 'ready', [ 'version', 'stable', 'css', 'js', 'update-pot', 'compress-all' ] );
 
 	// Register a custom task for generating the checksum
 	grunt.registerTask( 'checksum', [ 'clean:checksum', 'shell:generateChecksum' ]);

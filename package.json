@@ -28,7 +28,6 @@
 	"author": "CoCart Headless, LLC",
 	"author_uri": "https://cocartapi.com",
 	"homepage": "https://cocartapi.com",
-	"main": "Gruntfile.js",
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/co-cart/co-cart.git"
