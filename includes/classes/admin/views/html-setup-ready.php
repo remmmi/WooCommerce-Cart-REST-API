@@ -6,7 +6,7 @@
  * @package CoCart\Admin\Views
  * @since   3.10.0 Introduced.
  * @version 4.3.7
- * @license GPL-2.0
+ * @license GPL-3.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {

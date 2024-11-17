@@ -8,7 +8,7 @@
  * @package CoCart\Uninstaller
  * @since   2.1.0
  * @version 3.2.0
- * @license GPL-2.0
+ * @license GPL-3.0
  */
 
 defined( 'WP_UNINSTALL_PLUGIN' ) || exit;

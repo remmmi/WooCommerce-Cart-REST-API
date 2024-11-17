@@ -7,7 +7,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\Admin
  * @since   3.5.0
- * @license GPL-2.0
+ * @license GPL-3.0
  */
 
 // Exit if accessed directly.

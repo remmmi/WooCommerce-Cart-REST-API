@@ -6,7 +6,7 @@
  * @package CoCart\Classes
  * @since   3.0.0
  * @version 3.0.5
- * @license GPL-2.0
+ * @license GPL-3.0
  */
 
 // Exit if accessed directly.

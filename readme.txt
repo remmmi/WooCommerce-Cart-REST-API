@@ -8,7 +8,7 @@ Stable tag: 4.3.7
 WC requires at least: 7.0
 WC tested up to: 9.4
 License: GPLv3
-License URI: http://www.gnu.org/licenses/gpl-3.0.html
+License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
 Make your WooCommerce store headless with CoCart, a REST API designed for decoupling.
 
