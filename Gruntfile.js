@@ -158,6 +158,24 @@ module.exports = function(grunt) {
 			]
 		},
 
+		// Download translations
+		glotpress_download: {
+			stable: {
+				options: {
+					domainPath: 'languages',
+					url: 'https://translate.cocartapi.com',
+					slug: '<%= pkg.name %>',
+				}
+			},
+			development: {
+				options: {
+					domainPath: 'languages',
+					url: 'https://translate.cocartapi.com',
+					slug: '<%= pkg.name %>/development',
+				}
+			},
+		},
+
 		// Generate .pot file
 		makepot: {
 			target: {
@@ -508,6 +526,8 @@ module.exports = function(grunt) {
 	 * This includes extracting translatable strings, updating the master pot file.
 	 * If this is part of a deploy process, it should come before zipping everything up.
 	 */
+	grunt.registerTask( 'get-translations', [ 'glotpress_download:stable' ] );
+	grunt.registerTask( 'get-translations:dev', [ 'glotpress_download:development' ] );
 	grunt.registerTask( 'update-pot', [ 'checktextdomain', 'makepot' ] );
 
 	/**

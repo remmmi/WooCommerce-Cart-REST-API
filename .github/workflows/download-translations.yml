@@ -39,11 +39,7 @@ jobs:
 
     - name: Download Translations
       run: |
-        npx grunt glotpress_download \
-                  --domainPath=languages \
-                  --url=https://translate.cocartapi.com \
-                  --slug=${{ env.TEXT_DOMAIN }} \
-                  --textdomain=${{ env.TEXT_DOMAIN }}
+        npx grunt glotpress_download:stable
 
     - name: Commit Changes
       run: |
