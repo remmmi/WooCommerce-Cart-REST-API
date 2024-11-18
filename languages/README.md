@@ -1,8 +1,8 @@
 # WARNING! DO NOT PUT CUSTOM TRANSLATIONS HERE!
 
-CoCart Core will delete all custom translations placed in this directory.
+CoCart Core will delete all custom translations placed in this directory. Every Monday translations are pulled from our GlotPress if 30% of the language is translated.
 
-## Where to put my translations for CoCart Core?
+## Where to put my custom translations for CoCart Core?
 
 Put your custom CoCart Core translations in your WordPress language directory, located at: `WP_LANG_DIR . "/cart-rest-api-for-woocommerce/{$textdomain}-{$locale}.mo";`
 

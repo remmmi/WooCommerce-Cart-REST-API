@@ -16,7 +16,6 @@ Thumbs.db
 contributors.html
 
 # Languages
-/languages/*
 !/languages/README.md
 
 # Build & Releases
