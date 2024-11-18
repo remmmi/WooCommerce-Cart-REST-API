@@ -51,6 +51,7 @@ jobs:
         fi
 
     - name: Create Pull Request
+      id: cpr
       uses: peter-evans/create-pull-request@v7
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
@@ -60,3 +61,17 @@ jobs:
         body: |
           This PR updates the translations from [GlotPress](https://translate.cocartapi.com/).
         labels: "translations, automation"
+
+    - name: Auto Merge Pull Request
+      if: steps.cpr.outputs.pull-request-operation == 'created'
+      uses: peter-evans/enable-pull-request-automerge@v3
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        pull-request-number: ${{ steps.cpr.outputs.pull-request-number }}
+        merge-method: merge
+
+    - name: Auto approve
+      if: steps.cpr.outputs.pull-request-operation == 'created'
+      run: gh pr review --approve "${{ steps.cpr.outputs.pull-request-number }}"
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
