@@ -43,8 +43,8 @@ jobs:
       run: |
         git config user.name "CoCart Translations Bot"
         git config user.email "bot@cocartapi.com"
-        if [ -n "$(git status --porcelain)" ]; then
-          git add languages/
+        git add languages/
+        if [ -n "$(git diff --cached)" ]; then
           git commit -m "Updated translations from GlotPress"
         else
           echo "No changes detected. Skipping commit."
