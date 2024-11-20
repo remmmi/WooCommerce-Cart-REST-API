@@ -510,14 +510,12 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 		 * Sends headers.
 		 *
 		 * Returns allowed headers and exposes headers that can be used.
-		 * Nocache headers are sent on authenticated requests.
 		 *
 		 * @access public
 		 *
 		 * @since 4.2.0 Introduced.
 		 *
 		 * @uses is_user_logged_in()
-		 * @uses wp_get_nocache_headers()
 		 *
 		 * @param bool             $served  Whether the request has already been served. Default false.
 		 * @param WP_HTTP_Response $result  Result to send to the client. Usually a WP_REST_Response.
@@ -528,7 +526,6 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 		 */
 		public function send_headers( $served, $result, $request, $server ) {
 			if ( strpos( $request->get_route(), 'cocart/' ) !== false ) {
-
 				$server->send_header( 'Access-Control-Allow-Headers', implode( ', ', self::ALLOW_HEADERS ) );
 				$server->send_header( 'Access-Control-Expose-Headers', implode( ', ', self::EXPOSE_HEADERS ) );
 
@@ -538,13 +535,10 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 				 * @param bool $rest_send_nocache_headers Whether to send no-cache headers.
 				 *
 				 * @since 4.2.0 Introduced.
+				 *
+				 * @deprecated 4.3.11 No longer used. See `cocart_send_cache_control_patterns` filter instead to control which routes are not cached.
 				 */
-				$send_no_cache_headers = apply_filters( 'cocart_send_nocache_headers', is_user_logged_in() );
-				if ( $send_no_cache_headers ) {
-					foreach ( wp_get_nocache_headers() as $no_cache_header_key => $no_cache_header_value ) {
-						$server->send_header( $no_cache_header_key, $no_cache_header_value );
-					}
-				}
+				cocart_do_deprecated_filter( 'cocart_send_nocache_headers', '4.3.11', null, __( 'This filter is no longer used.', 'cart-rest-api-for-woocommerce' ), array( is_user_logged_in() ) );
 			}
 
 			// Exit early during preflight requests. This is so someone cannot access API data by sending an OPTIONS request
