@@ -4,7 +4,7 @@ Tags: woocommerce, rest-api, decoupled, headless, cart
 Requires at least: 5.6
 Requires PHP: 7.4
 Tested up to: 6.7
-Stable tag: 4.3.7
+Stable tag: 4.3.11
 WC requires at least: 7.0
 WC tested up to: 9.4
 License: GPLv3
@@ -305,6 +305,24 @@ You can help [translate "CoCart" into your language](https://translate.wordpress
 We’d love to hear what you have to say. [Share your experience](https://testimonial.to/cocart) and help others discover CoCart. It helps to keep the plugin going strong, and is greatly appreciated.
 
 == Changelog ==
+
+= v4.3.11 - 20th November, 2024 =
+
+### Bug Fix
+
+* REST API: Removed conflicting cache headers being sent.
+
+### Improvements
+
+* REST API: Cache patterns are more familiar and consistent with most regex usage in PHP, making it preferable for readability and maintainability.
+* REST API: Cache headers are set at a later priority fixing potential issues with some cache plugins and preflight.
+* REST API: Cache control determines if route is authenticated or not.
+* REST API: Last-Modified header now uses timezone set in WordPress general settings. Falls back to the offset if not.
+
+### Compatibility
+
+* Tested with WordPress v6.7
+* Tested with WooCommerce v9.4
 
 = v4.3.10 - 14th November 2024 =
 
@@ -661,6 +679,10 @@ Hope you enjoy this release.
 [View the full changelog here](https://github.com/co-cart/co-cart/blob/trunk/CHANGELOG.md).
 
 == Upgrade Notice ==
+
+= 4.3.11 =
+
+REST API: Removed conflicting cache headers being sent.
 
 = 4.3.10 =
 
