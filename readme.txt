@@ -4,7 +4,7 @@ Tags: woocommerce, rest-api, decoupled, headless, cart
 Requires at least: 5.6
 Requires PHP: 7.4
 Tested up to: 6.7
-Stable tag: 4.3.10
+Stable tag: 4.3.11
 WC requires at least: 7.0
 WC tested up to: 9.4
 License: GPLv3
@@ -14,11 +14,9 @@ Make your WooCommerce store headless with CoCart, a REST API designed for decoup
 
 == Description ==
 
-CoCart's mission is **decoupling your WooCommerce store** with our developer friendly REST API extension.
+Transform your WooCommerce store into a lightning-fast, decoupled shopping experience with CoCart — an open-source REST API designed to set your store free from WordPress's limitations. CoCart's developer-friendly API empowers you to build in modern frameworks like Astro, React, Vue, or Next.js, putting full control back in your hands and making complex customizations a breeze.
 
-[CoCart](https://cocartapi.com/?utm_medium=website&utm_source=wpplugindirectory&utm_campaign=readme&utm_content=readmelink) is a **customizable, open-source REST API solution** built for WooCommerce that is ready to decouple away from WordPress, allowing you to design and build without limitations imposed by a WordPress theme that is harder to modify and optimize. Our REST API handles all the server side actions so it can be utilized in **faster and familiar frameworks** that you prefer.
-
-CoCart's core plugin contains everything you need to get started.
+Built by developers, for developers, [CoCart](https://cocartapi.com/?utm_medium=website&utm_source=wpplugindirectory&utm_campaign=readme&utm_content=readmelink) is more than just an API extension. It’s a suite of tools that make managing a headless WooCommerce store seamless and fast—without the constraints of a traditional WordPress theme.
 
 [Want to try it out?](https://cocartapi.com/try-free-demo/?utm_medium=website&utm_source=wpplugindirectory&utm_campaign=readme&utm_content=readmelink)
 
@@ -28,37 +26,35 @@ WooCommerce provides a **flexible, and efficient** way to build cutting-edge sto
 
 #### Why CoCart?
 
-Is your store slow? Looking to decouple away from WordPress? Overwhelmed with getting WooCommerce working the way you want in your own REST API endpoints?
+Struggling with performance? Finding it hard to decouple WooCommerce from WordPress without hitting roadblocks? CoCart is here to eliminate the hassle of creating your own REST API endpoints for WooCommerce and provides all the essential features for a powerful, headless eCommerce experience.
 
-These are the struggles web developers have trying to decouple a WooCommerce store and with CoCart, you can overcome these challenges and get straight to utilizing a REST API that is ready for you.
+* **Source of Truth** - CoCart integrates with WooCommerce's Data Stores API and includes WooCommerce hooks, making it compatible with most WooCommerce extensions right out of the box.
+* **Session Control Without Cookies** - CoCart uses a secure session key system, reducing server load and avoiding cookie issues for a smoother experience.
+* **Easy Authentication** - No need for Admin API Keys — customers can log in multiple ways with options like username+password, email+password or phone number+password.
+* **Flexible Domain Control** - CORS problems? No worries. CoCart lets you control origin access to prevent cross-domain issues.
+* **Efficient Product Search** - Search by product name, ID or SKU, filter products quickly without compromising privacy.
+* **Real-Time Cart Validation** - Enjoy up-to-date cart accuracy with automatic stock checks, total calculations, and fee adjustments.
+* **No Headless Checkout?** - Easily load any cart session into the native WooCommerce checkout if you prefer.
+* **Customizable Callbacks** - Register your own cart callbacks without creating new endpoints. CoCart handles the rest, returning responses once complete.
+* **Cart Session Tracking** - Monitor all cart sessions, including expired or expiring carts, to better track customer engagement.
+* **Name Your Price** - Offer customers the option to pay what they want, encourage your audience and increasing conversion rates.
+* **Bulk Requests** - Batch multiple cart requests at once for efficiency and faster responses.
 
-* **Source of Truth** - CoCart sources the WooCommerce's Data Stores API and repeats most WooCommerce hooks to provide a wider array of support for most WooCommerce extensions out of the box.
-* **No Cookie Required** - Our session handler generates a key for the user session in the WordPress database and stores session-related meta data for use on the client without the heavy load.
-* **Basic Authentication** - No Admin API Keys required. Customers can login with their account either with Email+Password, Username+Password, Phone Number+Password.
-* **Domain Dominance** - CORS can be an issue when decoupling so we made sure you have control of the origin.
-* **Your Inventory** - Search products by Name, ID or SKU, filter and return product data you need without authentication or private data exposed. REST shortcuts are readily provided for your next requests.
-* **Reduced Cart Checkups** - We have avoided the hassle of needing multiple requests to verify item and coupon validity in your cart. Our system efficiently checks stock, calculates totals and fees, ensuring real-time accuracy so your responses return up to date every time.
-* **No Headless Checkout?** - Load any cart session via the native site using the generated key, if you feel more comfortable using WooCommerce’s built in payment system.
-* **Need your own cart callback?** - Register custom callbacks without needing to create a whole new endpoint. Cart response returns once the callback is completed.
-* **Want to track your customers?** - Keep watch of all cart sessions, even the ones that are starting to expire or have expired.
-* **Name Your Price Built In** - Give your customers control of the price they pay. Encourage your audience to support you with payment flexibility that widens your paying audience.
-* **Bulk Requests** - Combine many cart requests in bulk to save time.
-
-And this is just the tip of the iceberg.
+And this is just the start. With CoCart, your WooCommerce store can be faster, more flexible, and ready to take on any custom solution you dream up.
 
 ★★★★★
 > An excellent plugin, which makes building a headless WooCommerce experience a breeze. Easy to use, nearly zero setup time. [Harald Schneider](https://wordpress.org/support/topic/excellent-plugin-8062/)
 
 ## 🛒 Built for developers, by developers
 
-CoCart was born out of frustration with **no existing solution on the market**. As beautiful as it functions, the API is just as flexible with you, the developer in mind making the API a joy to work with so you can focus on building a headless store in days, not months.
+CoCart was created to fill a gap in the market for a robust, developer-friendly solution for headless WooCommerce stores. With a clean, intuitive API, CoCart lets you focus on what you do best: building unique and seamless shopping experiences.
 
 ★★★★★
 > Amazing Plugin. I’m using it to create a react-native app with WooCommerce as back-end. This plugin is a life-saver! [Daniel Loureiro](https://wordpress.org/support/topic/amazing-plugin-1562/)
 
 ### 📦 Serious about going headless?
 
-Unlock your stores full potential. Upgrade to complete the API with additional features that help you develop your store further.
+Unlock your store’s true potential. Upgrade to access premium features and extend CoCart’s capabilities to take your headless WooCommerce store even further.
 
 [See what else we have in store](https://cocartapi.com/pricing/?utm_medium=website&utm_source=wpplugindirectory&utm_campaign=readme&utm_content=readmelink).
 
@@ -309,6 +305,24 @@ You can help [translate "CoCart" into your language](https://translate.wordpress
 We’d love to hear what you have to say. [Share your experience](https://testimonial.to/cocart) and help others discover CoCart. It helps to keep the plugin going strong, and is greatly appreciated.
 
 == Changelog ==
+
+= v4.3.11 - 20th November, 2024 =
+
+### Bug Fix
+
+* REST API: Removed conflicting cache headers being sent.
+
+### Improvements
+
+* REST API: Cache patterns are more familiar and consistent with most regex usage in PHP, making it preferable for readability and maintainability.
+* REST API: Cache headers are set at a later priority fixing potential issues with some cache plugins and preflight.
+* REST API: Cache control determines if route is authenticated or not.
+* REST API: Last-Modified header now uses timezone set in WordPress general settings. Falls back to the offset if not.
+
+### Compatibility
+
+* Tested with WordPress v6.7
+* Tested with WooCommerce v9.4
 
 = v4.3.10 - 14th November 2024 =
 
@@ -665,6 +679,10 @@ Hope you enjoy this release.
 [View the full changelog here](https://github.com/co-cart/co-cart/blob/trunk/CHANGELOG.md).
 
 == Upgrade Notice ==
+
+= 4.3.11 =
+
+REST API: Removed conflicting cache headers being sent.
 
 = 4.3.10 =
 

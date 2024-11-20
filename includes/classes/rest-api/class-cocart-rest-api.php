@@ -7,7 +7,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\Classes
  * @since   1.0.0 Introduced.
- * @version 4.1.0
+ * @version 4.3.11
  */
 
 use WC_Customer as Customer;
@@ -66,11 +66,8 @@ class CoCart_REST_API {
 		// Prevents certain routes from being cached with WP REST API Cache plugin (https://wordpress.org/plugins/wp-rest-api-cache/).
 		add_filter( 'rest_cache_skip', array( $this, 'prevent_cache' ), 10, 2 );
 
-		// Prevent certain routes from being added to browser cache.
-		add_filter( 'rest_post_dispatch', array( $this, 'send_cache_control' ), 12, 2 );
-
-		// Cache Control.
-		add_filter( 'rest_pre_serve_request', array( $this, 'cache_control' ), 0, 4 );
+		// Set Cache Headers.
+		add_filter( 'rest_pre_serve_request', array( $this, 'set_cache_control_headers' ), 2, 4 );
 	} // END __construct()
 
 	/**
@@ -372,7 +369,7 @@ class CoCart_REST_API {
 	public function prevent_cache( $skip, $request_uri ) {
 		$rest_prefix = trailingslashit( rest_get_url_prefix() );
 
-		$regex_path_patterns = $this->allowed_regex_pattern_routes_to_cache();
+		$regex_path_patterns = $this->get_cacheable_route_patterns();
 
 		foreach ( $regex_path_patterns as $regex_path_pattern ) {
 			if ( ! preg_match( $regex_path_pattern, $request_uri ) ) {
@@ -382,48 +379,6 @@ class CoCart_REST_API {
 
 		return $skip;
 	} // END prevent_cache()
-
-	/**
-	 * Helps prevent certain routes from being added to browser cache.
-	 *
-	 * @access public
-	 *
-	 * @since 3.6.0 Introduced.
-	 *
-	 * @param WP_REST_Response $response The response object.
-	 * @param object           $server   The REST server.
-	 *
-	 * @return WP_REST_Response $response The response object.
-	 **/
-	public function send_cache_control( $response, $server ) {
-		/**
-		 * Filter allows you set a path to which will prevent from being added to browser cache.
-		 *
-		 * @since 3.6.0 Introduced.
-		 *
-		 * @param array $cache_control_patterns Cache control patterns.
-		 */
-		$regex_path_patterns = apply_filters(
-			'cocart_send_cache_control_patterns',
-			array(
-				'#^/cocart/v2/cart?#',
-				'#^/cocart/v2/logout?#',
-				'#^/cocart/v2/store?#',
-				'#^/cocart/v1/get-cart?#',
-				'#^/cocart/v1/logout?#',
-			)
-		);
-
-		foreach ( $regex_path_patterns as $regex_path_pattern ) {
-			if ( ! empty( $_SERVER['REQUEST_URI'] ) && preg_match( $regex_path_pattern, sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ) ) ) ) {
-				if ( method_exists( $server, 'send_header' ) ) {
-					$server->send_header( 'Cache-Control', 'no-cache, must-revalidate, max-age=0' );
-				}
-			}
-		}
-
-		return $response;
-	} // END send_cache_control()
 
 	/**
 	 * Helps prevent CoCart from being cached on most routes and returns results quicker.
@@ -440,25 +395,64 @@ class CoCart_REST_API {
 	 *
 	 * @return null|bool
 	 */
-	public function cache_control( $served, $result, $request, $server ) {
-		$regex_path_patterns = $this->allowed_regex_pattern_routes_to_cache();
+	public function set_cache_control_headers( $served, $result, $request, $server ) {
+		/**
+		 * Filter allows you set a path to which will prevent from being added to browser cache.
+		 *
+		 * @since 3.6.0 Introduced.
+		 *
+		 * @param array $cache_control_patterns Cache control patterns.
+		 */
+		$regex_path_patterns = apply_filters(
+			'cocart_send_cache_control_patterns',
+			array(
+				'/^cocart\/v2\/cart/',
+				'/^cocart\/v2\/logout/',
+				'/^cocart\/v2\/store/',
+				'/^cocart\/v1\/get-cart/',
+				'/^cocart\/v1\/logout/',
+			)
+		);
+
+		$cache_control = ( function_exists( 'is_user_logged_in' ) && is_user_logged_in() )
+		? 'no-cache, must-revalidate, max-age=0, no-store, private'
+		: 'no-cache, must-revalidate, max-age=0';
 
 		foreach ( $regex_path_patterns as $regex_path_pattern ) {
-			if ( ! preg_match( $regex_path_pattern, $request->get_route() ) ) {
-				if ( method_exists( $server, 'send_headers' ) ) {
-					$headers['Expires']       = 'Thu, 01-Jan-70 00:00:01 GMT';
-					$headers['Last-Modified'] = gmdate( 'D, d M Y H:i:s' ) . ' GMT';
-					$headers['Cache-Control'] = 'post-check=0, pre-check=0';
-					$headers['Cache-Control'] = 'no-store, no-cache, must-revalidate';
-					$headers['Pragma']        = 'no-cache';
+			if ( preg_match( $regex_path_pattern, ltrim( wp_unslash( $request->get_route() ), '/' ) ) ) {
+				if ( method_exists( $server, 'send_header' ) ) {
+					$server->send_header( 'Expires', 'Thu, 01-Jan-70 00:00:01 GMT' );
+					$server->send_header( 'Cache-Control', $cache_control );
+					$server->send_header( 'Pragma', 'no-cache' );
+				}
+			}
+		}
 
-					$server->send_headers( $headers );
+		// Routes that can be cached will set the Last-Modified header.
+		foreach ( $this->get_cacheable_route_patterns() as $regex_path_pattern ) {
+			if ( preg_match( $regex_path_pattern, ltrim( wp_unslash( $request->get_route() ), '/' ) ) ) {
+				if ( method_exists( $server, 'send_headers' ) ) {
+					$timezone_string = get_option( 'timezone_string' );
+
+					if ( ! $timezone_string ) {
+						// Fallback to the offset if no timezone string is set.
+						$offset = get_option( 'gmt_offset', 0 );
+						$timezone_string = timezone_name_from_abbr( '', $offset * 3600, 0 );
+					}
+
+					// Create a DateTime object and set the timezone.
+					$datetime = new DateTime( 'now', new DateTimeZone( $timezone_string ) );
+
+					// Format the date for the Last-Modified header.
+					$last_modified = $datetime->format( 'D, d M Y H:i:s' ) . ' GMT';
+
+					$server->send_header( 'Last-Modified', $last_modified );
 				}
 			}
 		}
 
 		return $served;
-	} // END cache_control()
+	} // END set_cache_control_headers()
 
 	/**
 	 * Prevents certain routes from initializing the session and cart.
@@ -498,12 +492,12 @@ class CoCart_REST_API {
 	 *
 	 * @return array $routes Routes that can be cached.
 	 */
-	protected function allowed_regex_pattern_routes_to_cache() {
+	protected function get_cacheable_route_patterns() {
 		return array(
-			'#^/cocart/v2/products?#',
-			'#^/cocart/v1/products?#',
+			'/^cocart\/v2\/products/',
+			'/^cocart\/v1\/products/',
 		);
-	} // END allowed_regex_pattern_routes_to_cache()
+	} // END get_cacheable_route_patterns()
 
 	/*** Deprecated functions ***/
 
