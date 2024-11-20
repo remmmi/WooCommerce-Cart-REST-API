@@ -3,9 +3,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CoCart API - Decoupling Made Easy for WooCommerce "
-"4.3.10\n"
+"4.3.11\n"
 "Report-Msgid-Bugs-To: https://github.com/co-cart/co-cart/issues\n"
-"POT-Creation-Date: 2024-11-14 19:43:40+00:00\n"
+"POT-Creation-Date: 2024-11-20 18:02:06+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1455,14 +1455,18 @@ msgid ""
 "correct and try again."
 msgstr ""
 
-#: includes/classes/rest-api/class-cocart-authentication.php:682
-#: includes/classes/rest-api/class-cocart-authentication.php:701
-#: includes/classes/rest-api/class-cocart-authentication.php:717
+#: includes/classes/rest-api/class-cocart-authentication.php:541
+msgid "This filter is no longer used."
+msgstr ""
+
+#: includes/classes/rest-api/class-cocart-authentication.php:676
+#: includes/classes/rest-api/class-cocart-authentication.php:695
+#: includes/classes/rest-api/class-cocart-authentication.php:711
 #. translators: 1: permission method, 2: api route
 msgid "Permission to %1$s %2$s is only permitted if the user is authenticated."
 msgstr ""
 
-#: includes/classes/rest-api/class-cocart-authentication.php:731
+#: includes/classes/rest-api/class-cocart-authentication.php:725
 #. translators: %s: api route
 msgid "Unknown request method for %s."
 msgstr ""
@@ -1524,12 +1528,12 @@ msgstr ""
 msgid "Request returned nothing for \"%s\"! Please seek assistance."
 msgstr ""
 
-#: includes/classes/rest-api/class-cocart-rest-api.php:523
-#: includes/classes/rest-api/class-cocart-rest-api.php:568
+#: includes/classes/rest-api/class-cocart-rest-api.php:517
+#: includes/classes/rest-api/class-cocart-rest-api.php:562
 msgid "User switching is now deprecated."
 msgstr ""
 
-#: includes/classes/rest-api/class-cocart-rest-api.php:544
+#: includes/classes/rest-api/class-cocart-rest-api.php:538
 #. translators: %1$s is previous ID, %2$s is current ID.
 msgid "User has changed! Was %1$s before and is now %2$s"
 msgstr ""

@@ -1,6 +1,24 @@
 # Changelog for CoCart
 
-## v4.3.10 - 14th November 2024
+## v4.3.11 - 20th November, 2024
+
+### Bug Fix
+
+* REST API: Removed conflicting cache headers being sent.
+
+### Improvements
+
+* REST API: Cache patterns are more familiar and consistent with most regex usage in PHP, making it preferable for readability and maintainability.
+* REST API: Cache headers are set at a later priority fixing potential issues with some cache plugins and preflight.
+* REST API: Cache control determines if route is authenticated or not.
+* REST API: Last-Modified header now uses timezone set in WordPress general settings. Falls back to the offset if not.
+
+### Compatibility
+
+* Tested with WordPress v6.7
+* Tested with WooCommerce v9.4
+
+## v4.3.10 - 14th November, 2024
 
 ### 🔥 Hot Fix
 
@@ -15,7 +33,7 @@
 > We want you to know that we would never publicly name a plugin with a security concern. However, if you notice any security issues with CoCart or another plugin connected to it, please [report the security vulnerability](https://cocartapi.com/security-policy/#Reporting-Security-Vulnerabilities) so we can address it quickly.
 > Thank you for helping us keep CoCart safe for everyone!
 
-## v4.3.8 - 7th November 2024
+## v4.3.8 - 7th November, 2024
 
 ### 🐛 Bug Fix
 
