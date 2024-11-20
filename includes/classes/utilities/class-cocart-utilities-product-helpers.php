@@ -313,6 +313,12 @@ class CoCart_Utilities_Product_Helpers {
 		foreach ( $meta_data as $meta ) {
 			$ignore_meta = false;
 
+			// Should the meta key start with an underscore prefix, ignore it as it is suppose to be hidden from public.
+			if ( str_starts_with( $meta->key, '_' ) ) {
+				$ignore_meta = true;
+				break;
+			}
+
 			foreach ( $ignore_private_meta_keys as $ignore ) {
 				if ( str_starts_with( $meta->key, $ignore ) ) {
 					$ignore_meta = true;
