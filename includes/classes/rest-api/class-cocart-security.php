@@ -83,7 +83,7 @@ class CoCart_Security {
 	 * @return array $ignored_meta_keys Ignored meta keys.
 	 */
 	public function remove_exposed_product_meta( $ignored_meta_keys, $product ) {
-		$meta_data = CoCart_Utilities_Product_Helpers::get_meta_data( $product );
+		$meta_data = $product->get_meta_data();
 
 		foreach ( $meta_data as $meta ) {
 			if ( 'wcwl_mailout_errors' == $meta->key ) {
