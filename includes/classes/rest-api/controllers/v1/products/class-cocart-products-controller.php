@@ -1094,7 +1094,7 @@ class CoCart_Products_Controller extends WP_REST_Controller {
 			'variations'            => array(),
 			'grouped_products'      => array(),
 			'menu_order'            => $product->get_menu_order( 'view' ),
-			'meta_data'             => $product->get_meta_data(),
+			'meta_data'             => CoCart_Utilities_Product_Helpers::get_meta_data( $product ),
 			'add_to_cart'           => array(
 				'text'        => $product->add_to_cart_text(),
 				'description' => $product->add_to_cart_description(),
@@ -1159,7 +1159,7 @@ class CoCart_Products_Controller extends WP_REST_Controller {
 			'images'                => $this->get_images( $product ),
 			'attributes'            => $this->get_attributes( $product ),
 			'menu_order'            => $product->get_menu_order( 'view' ),
-			'meta_data'             => $product->get_meta_data(),
+			'meta_data'             => CoCart_Utilities_Product_Helpers::get_meta_data( $product ),
 		);
 
 		return $data;

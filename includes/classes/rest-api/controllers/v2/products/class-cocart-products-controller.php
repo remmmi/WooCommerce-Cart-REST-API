@@ -572,7 +572,7 @@ class CoCart_REST_Products_V2_Controller extends CoCart_Products_Controller {
 				'purchase_quantity' => $purchase_quantity,
 				'rest_url'          => $this->add_to_cart_rest_url( $product, $type ),
 			),
-			'meta_data'          => $this->get_meta_data( $product ),
+			'meta_data'          => CoCart_Utilities_Product_Helpers::get_meta_data( $product ),
 		);
 
 		return $data;
