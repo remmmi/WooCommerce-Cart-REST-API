@@ -436,7 +436,7 @@ class CoCart_REST_API {
 
 					if ( ! $timezone_string ) {
 						// Fallback to the offset if no timezone string is set.
-						$offset = get_option( 'gmt_offset', 0 );
+						$offset          = get_option( 'gmt_offset', 0 );
 						$timezone_string = timezone_name_from_abbr( '', $offset * 3600, 0 );
 					}
 

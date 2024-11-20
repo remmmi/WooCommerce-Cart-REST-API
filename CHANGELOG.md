@@ -1,5 +1,11 @@
 # Changelog for CoCart
 
+## v4.3.12 - 20th November, 2024
+
+### Security Patch
+
+It appears that the rules of hidden and private meta is not respected and is still exposed on products that have such meta. This security patch ignores any meta data that is still leaking publically without authorization.
+
 ## v4.3.11 - 20th November, 2024
 
 ### Bug Fix
