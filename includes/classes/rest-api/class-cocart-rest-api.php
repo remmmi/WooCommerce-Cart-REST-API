@@ -586,19 +586,41 @@ class CoCart_REST_API {
 		foreach ( $this->get_cacheable_route_patterns() as $regex_path_pattern ) {
 			if ( preg_match( $regex_path_pattern, ltrim( wp_unslash( $request->get_route() ), '/' ) ) ) {
 				if ( method_exists( $server, 'send_headers' ) ) {
-					$timezone_string = get_option( 'timezone_string' );
+					// Identify the product ID when accessing the Products API.
+					$product_id    = empty( $request->get_param( 'id' ) ) ? 0 : wc_clean( wp_unslash( $request->get_param( 'id' ) ) );
+					$product_id    = CoCart_Utilities_Product_Helpers::get_product_id( $product_id );
+					$last_modified = null;
 
-					if ( ! $timezone_string ) {
-						// Fallback to the offset if no timezone string is set.
-						$offset = get_option( 'gmt_offset', 0 );
-						$timezone_string = timezone_name_from_abbr( '', $offset * 3600, 0 );
+					// Product is found so let's get the last modified date.
+					if ( ! empty( $product_id ) && $product_id > 0 ) {
+						$last_modified = get_post_field( 'post_modified_gmt', $product_id );
 					}
 
-					// Create a DateTime object and set the timezone.
-					$datetime = new DateTime( 'now', new DateTimeZone( $timezone_string ) );
+					if ( $last_modified ) {
+						// Create a DateTime object in GMT.
+						$gmt_date = new DateTime( $last_modified, new DateTimeZone( 'GMT' ) );
 
-					// Format the date for the Last-Modified header.
-					$last_modified = $datetime->format( 'D, d M Y H:i:s' ) . ' GMT';
+						// Determine the site's timezone.
+						$timezone_string = get_option( 'timezone_string' );
+						$gmt_offset      = get_option( 'gmt_offset' );
+
+						if ( ! empty( $timezone_string ) ) {
+							$site_timezone = new DateTimeZone( $timezone_string );
+						} elseif ( is_numeric( $gmt_offset ) ) {
+							$offset_hours   = (int) $gmt_offset;
+							$offset_minutes = abs( $gmt_offset - $offset_hours ) * 60;
+							$site_timezone  = new DateTimeZone( sprintf( '%+03d:%02d', $offset_hours, $offset_minutes ) );
+						} else {
+							$site_timezone = new DateTimeZone( 'UTC' );
+						}
+
+						// Convert to WordPress site timezone.
+						$gmt_date->setTimezone( $site_timezone );
+					} else {
+						$gmt_date = new DateTime( 'now', new DateTimeZone( 'GMT' ) );
+					}
+
+					$last_modified = $gmt_date->format( 'D, d M Y H:i:s' ) . ' GMT';
 
 					$server->send_header( 'Last-Modified', $last_modified );
 				}

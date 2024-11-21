@@ -139,7 +139,7 @@ class CoCart_Product_Variations_Controller extends CoCart_Products_Controller {
 			'image'                 => $this->get_image( $object ),
 			'attributes'            => $this->get_attributes( $object ),
 			'menu_order'            => $object->get_menu_order(),
-			'meta_data'             => $object->get_meta_data(),
+			'meta_data'             => CoCart_Utilities_Product_Helpers::get_meta_data( $object ),
 		);
 
 		$data     = $this->add_additional_fields_to_object( $data, $request );
