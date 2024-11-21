@@ -163,31 +163,6 @@ class CoCart_WooCommerce {
 			)
 		);
 	} // END delete_user_data()
-
-	/**
-	 * Get the persistent cart from the database.
-	 *
-	 * @access private
-	 *
-	 * @static
-	 *
-	 * @since 2.9.1 Introduced.
-	 *
-	 * @return array
-	 */
-	private static function get_saved_cart() {
-		$saved_cart = array();
-
-		if ( apply_filters( 'woocommerce_persistent_cart_enabled', true ) ) { // phpcs:ignore: WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
-			$saved_cart_meta = get_user_meta( get_current_user_id(), '_woocommerce_persistent_cart_' . get_current_blog_id(), true );
-
-			if ( isset( $saved_cart_meta['cart'] ) ) {
-				$saved_cart = array_filter( (array) $saved_cart_meta['cart'] );
-			}
-		}
-
-		return $saved_cart;
-	} // END get_saved_cart()
 } // END class
 
 return new CoCart_WooCommerce();
