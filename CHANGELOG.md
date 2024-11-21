@@ -1,5 +1,14 @@
 # Changelog for CoCart
 
+## v4.3.14 - 21st November, 2024
+
+### Bug Fixes
+
+* REST API: Deleting an item would not remove said item 100% due to a load conflict when authenticating.
+* REST API: Product not able to validate if item was already removed.
+
+> Dev note: The conflict is not triggered only on DELETE request methods.
+
 ## v4.3.13 - 21st November, 2024
 
 ### Security Patch

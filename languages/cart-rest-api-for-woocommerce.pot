@@ -3,9 +3,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CoCart API - Decoupling Made Easy for WooCommerce "
-"4.3.13\n"
+"4.3.14\n"
 "Report-Msgid-Bugs-To: https://github.com/co-cart/co-cart/issues\n"
-"POT-Creation-Date: 2024-11-21 02:48:19+00:00\n"
+"POT-Creation-Date: 2024-11-21 17:00:54+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1440,33 +1440,33 @@ msgstr ""
 msgid "%s is not a valid postcode / ZIP."
 msgstr ""
 
-#: includes/classes/rest-api/class-cocart-authentication.php:413
+#: includes/classes/rest-api/class-cocart-authentication.php:418
 msgid "Authentication invalid!"
 msgstr ""
 
-#: includes/classes/rest-api/class-cocart-authentication.php:425
+#: includes/classes/rest-api/class-cocart-authentication.php:430
 #. translators: %s: User name.
 msgid "The password you entered for the username \"%s\" is incorrect."
 msgstr ""
 
-#: includes/classes/rest-api/class-cocart-authentication.php:434
+#: includes/classes/rest-api/class-cocart-authentication.php:439
 msgid ""
 "Authentication is invalid. Please check the authentication information is "
 "correct and try again."
 msgstr ""
 
-#: includes/classes/rest-api/class-cocart-authentication.php:541
+#: includes/classes/rest-api/class-cocart-authentication.php:546
 msgid "This filter is no longer used."
 msgstr ""
 
-#: includes/classes/rest-api/class-cocart-authentication.php:676
-#: includes/classes/rest-api/class-cocart-authentication.php:695
-#: includes/classes/rest-api/class-cocart-authentication.php:711
+#: includes/classes/rest-api/class-cocart-authentication.php:681
+#: includes/classes/rest-api/class-cocart-authentication.php:700
+#: includes/classes/rest-api/class-cocart-authentication.php:716
 #. translators: 1: permission method, 2: api route
 msgid "Permission to %1$s %2$s is only permitted if the user is authenticated."
 msgstr ""
 
-#: includes/classes/rest-api/class-cocart-authentication.php:725
+#: includes/classes/rest-api/class-cocart-authentication.php:730
 #. translators: %s: api route
 msgid "Unknown request method for %s."
 msgstr ""
@@ -1849,7 +1849,7 @@ msgid "Item has been removed from cart."
 msgstr ""
 
 #: includes/classes/rest-api/controllers/v1/cart/class-cocart-item-controller.php:159
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-remove-item-controller.php:186
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-remove-item-controller.php:187
 #. translators: %s: Item name.
 msgid "Unable to remove item from cart."
 msgstr ""
@@ -1899,7 +1899,7 @@ msgstr ""
 
 #: includes/classes/rest-api/controllers/v1/cart/class-cocart-item-controller.php:505
 #: includes/classes/rest-api/controllers/v2/cart/class-cocart-item-controller.php:128
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-remove-item-controller.php:221
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-remove-item-controller.php:222
 #: includes/classes/rest-api/controllers/v2/cart/class-cocart-restore-item-controller.php:213
 #: includes/classes/rest-api/controllers/v2/cart/class-cocart-update-item-controller.php:290
 msgid "Unique identifier for the item in the cart."
@@ -3993,29 +3993,29 @@ msgstr ""
 msgid "The item container identified with the unique ID of the item."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-remove-item-controller.php:111
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-remove-item-controller.php:125
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-remove-item-controller.php:110
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-remove-item-controller.php:126
 #: includes/classes/rest-api/controllers/v2/cart/class-cocart-restore-item-controller.php:100
 #: includes/classes/rest-api/controllers/v2/cart/class-cocart-restore-item-controller.php:148
 msgid "Item"
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-remove-item-controller.php:129
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-remove-item-controller.php:130
 #. translators: %s: Item name.
 msgid "%s has already been removed from cart."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-remove-item-controller.php:135
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-remove-item-controller.php:136
 #. translators: %s: Item name.
 msgid "%s does not exist in cart."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-remove-item-controller.php:169
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-remove-item-controller.php:170
 #. translators: %s: Item name.
 msgid "%s has been removed from cart."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-remove-item-controller.php:227
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-remove-item-controller.php:228
 msgid "Returns a message after removing item from cart."
 msgstr ""
 
@@ -4568,7 +4568,7 @@ msgid "Shipping"
 msgstr ""
 
 #: includes/classes/rest-api/controllers/v2/cart/class-cocart-remove-item-controller.php:109
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-remove-item-controller.php:123
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-remove-item-controller.php:124
 #: includes/classes/rest-api/controllers/v2/cart/class-cocart-restore-item-controller.php:98
 #: includes/classes/rest-api/controllers/v2/cart/class-cocart-restore-item-controller.php:146
 #. translators: %s: Item name.
