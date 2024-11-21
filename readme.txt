@@ -4,7 +4,7 @@ Tags: woocommerce, rest-api, decoupled, headless, cart
 Requires at least: 5.6
 Requires PHP: 7.4
 Tested up to: 6.7
-Stable tag: 4.3.12
+Stable tag: 4.3.13
 WC requires at least: 7.0
 WC tested up to: 9.4
 License: GPLv3
@@ -306,11 +306,19 @@ We’d love to hear what you have to say. [Share your experience](https://testim
 
 == Changelog ==
 
-= v4.3.12 - 20th November, 2024 =
+= v4.3.13 - 21st November, 2024 =
 
 ### Security Patch
 
-It appears that the rules of hidden and private meta is not respected and is still exposed on products that have such meta. This security patch ignores any meta data that is still leaking publically without authorization.
+It appears that the rules of hidden and private meta is not respected and is still exposed on products that have such meta. This security patch ignores any meta data that is still leaking publicly without authorization.
+
+**Wait what happened to v4.3.12?**
+
+A commit error was spotted shortly after just releasing it and was taken down immediately.
+
+### Improvement
+
+* REST API: Last-Modified header now returns the actual date modified of the product if a product ID is detected.
 
 = v4.3.11 - 20th November, 2024 =
 
@@ -686,7 +694,7 @@ Hope you enjoy this release.
 
 == Upgrade Notice ==
 
-= 4.3.12 =
+= 4.3.13 =
 
 SECURITY PATCH, PLEASE UPDATE TO STAY SAFE - THANK YOU!
 

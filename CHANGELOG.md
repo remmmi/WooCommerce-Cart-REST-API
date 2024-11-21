@@ -1,10 +1,18 @@
 # Changelog for CoCart
 
-## v4.3.12 - 20th November, 2024
+## v4.3.13 - 21st November, 2024
 
 ### Security Patch
 
-It appears that the rules of hidden and private meta is not respected and is still exposed on products that have such meta. This security patch ignores any meta data that is still leaking publically without authorization.
+It appears that the rules of hidden and private meta is not respected and is still exposed on products that have such meta. This security patch ignores any meta data that is still leaking publicly without authorization.
+
+**Wait what happened to v4.3.12?**
+
+A commit error was spotted shortly after just releasing it and was taken down immediately.
+
+### Improvement
+
+* REST API: Last-Modified header now returns the actual date modified of the product if a product ID is detected.
 
 ## v4.3.11 - 20th November, 2024
 
