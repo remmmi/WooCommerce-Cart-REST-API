@@ -132,6 +132,7 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 		 *
 		 * @since 4.2.0 Deprecated, thinking it was not needed anymore due to changes to support WooCommerce better for performance.
 		 * @since 4.3.7 Reinstated again.
+		 * @since 4.3.14 Don't update user to load saved cart when requesting to delete.
 		 *
 		 * @param WP_Error|null|bool $error Error from another authentication handler, null if we should handle it, or another value if not.
 		 *
@@ -147,7 +148,11 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 
 			if ( $current_user instanceof WP_User && $current_user->exists() ) {
 				wc_update_user_last_active( $current_user->ID );
-				update_user_meta( $current_user->ID, '_woocommerce_load_saved_cart_after_login', 1 );
+
+				// Don't trigger load saved cart when deleting.
+				if ( isset( $_SERVER['REQUEST_METHOD'] ) && 'DELETE' !== $_SERVER['REQUEST_METHOD'] ) {
+					update_user_meta( $current_user->ID, '_woocommerce_load_saved_cart_after_login', 1 );
+				}
 			}
 
 			return $error;
