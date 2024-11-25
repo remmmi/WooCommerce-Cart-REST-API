@@ -459,10 +459,6 @@ final class CoCart {
 				)
 			);
 		}
-
-		// Check integrity of plugin.
-		$check = new CoCart_Integrity_Check( COCART_SLUG, COCART_FILE );
-		$check->cocart_activation_checksum_check();
 	} // END activation_check()
 
 	/**
