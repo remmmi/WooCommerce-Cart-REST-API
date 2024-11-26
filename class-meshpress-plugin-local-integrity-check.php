@@ -1,7 +1,9 @@
 <?php
 /**
  * This file checks the integrity of the WordPress plugin locally
- * during activation, when the plugin is updated and once an hour.
+ * during activation, updates, and at periodic intervals.
+ *
+ * @package MeshPress
  */
 
 namespace MeshPress;
@@ -10,75 +12,107 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
-if ( ! trait_exists( 'Plugin_Local_Integrity_Check' ) ) {
+if ( ! trait_exists( 'MeshPress\Plugin_Local_Integrity_Check' ) ) {
+
+	/**
+	 * Trait for handling plugin integrity checks.
+	 */
 	trait Plugin_Local_Integrity_Check {
+		/**
+		 * The slug of the plugin.
+		 *
+		 * @var string
+		 */
 		protected string $plugin_slug;
 
+		/**
+		 * The main plugin file path.
+		 *
+		 * @var string
+		 */
 		protected string $plugin_file;
 
+		/**
+		 * The plugin directory path.
+		 *
+		 * @var string
+		 */
 		protected string $plugin_dir;
 
+		/**
+		 * The option key for storing integrity notices.
+		 *
+		 * @var string
+		 */
 		protected string $plugin_integrity_notice;
 
+		/**
+		 * The name of the checksum file.
+		 *
+		 * @var string
+		 */
 		protected string $checksum_file_name = 'checksum.md5';
 
+		/**
+		 * Initialize the integrity check process.
+		 *
+		 * @param string $plugin_slug The slug of the plugin.
+		 * @param string $plugin_file The main plugin file path.
+		 */
 		public function initialize_integrity_check( string $plugin_slug, string $plugin_file ) {
-			$this->plugin_slug = $plugin_slug;
-
-			$this->plugin_file = $plugin_file;
-
-			$this->plugin_dir = plugin_dir_path( $this->plugin_file );
-
+			$this->plugin_slug             = $plugin_slug;
+			$this->plugin_file             = $plugin_file;
+			$this->plugin_dir              = plugin_dir_path( $this->plugin_file );
 			$this->plugin_integrity_notice = $this->plugin_slug . '_integrity_notice';
 
 			// Check integrity once update is completed.
 			add_action( 'upgrader_process_complete', array( $this, 'check_plugin_integrity_on_update' ), 10, 2 );
 
-			// Display error notices if any.
-			add_action( 'admin_notices', function () {
-				if ( file_exists( $this->plugin_dir . $this->checksum_file_name ) ) {
-					$errors = get_option( $this->plugin_integrity_notice, null );
+			// Display admin notices if issues are found.
+			add_action( 'admin_notices', array( $this, 'display_integrity_notices' ) );
 
-					if ( ! empty( $errors ) ) {
-						echo '<div class="notice notice-warning">';
-						if ( is_array( $errors ) ) { ?>
-							<p><strong><?php echo esc_html__( 'Warning:' ); // phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralDomain ?></strong> <?php echo esc_html__( 'The following plugin files are either missing or do not match the expected checksum and may have been modified:' ); // phpcs:ignore WordPress.WP.I18n.MissingArgDomain, WordPress.WP.I18n.NonSingularStringLiteralDomain ?></p>
-							<ul>
-								<?php foreach ( $errors as $file ) : ?>
-									<li><?php echo $file; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></li>
-								<?php endforeach; ?>
-							</ul>
-							<?php
-						} else {
-							echo '<p><strong>' . esc_html__( 'Warning:' ) . '</strong> ' . $errors . '</p>'; // phpcs:ignore WordPress.WP.I18n.MissingArgDomain, WordPress.WP.I18n.NonSingularStringLiteralDomain, WordPress.Security.EscapeOutput.OutputNotEscaped
-						}
-						echo '</div>';
-					}
-
-					// Clear notice so the next check is fresh.
-					delete_option( $this->plugin_integrity_notice );
-				}
-			} );
-
-			// Hook into admin_init to perform the daily check for the checksum file.
-			add_action( 'admin_init', array( $this, 'plugin_daily_checksum_check' ) );
-		} // END __construct()
+			// Perform an hourly checksum checks.
+			add_action( 'admin_init', array( $this, 'plugin_scheduled_checksum_check' ) );
+		} // END initialize_integrity_check()
 
 		/**
-		 * Check for the checksum file and display an admin notice if missing.
+		 * Display integrity notices in the admin area.
 		 */
-		public function plugin_daily_checksum_check() {
+		public function display_integrity_notices() {
+			if ( file_exists( $this->plugin_dir . $this->checksum_file_name ) ) {
+				$errors = get_option( $this->plugin_integrity_notice, null );
+
+				if ( ! empty( $errors ) ) {
+					echo '<div class="notice notice-warning">';
+					if ( is_array( $errors ) ) { ?>
+						<p><strong><?php echo esc_html__( 'Warning:' ); // phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralDomain ?></strong> <?php echo esc_html__( 'The following plugin files are either missing or do not match the expected checksum and may have been modified:' ); // phpcs:ignore WordPress.WP.I18n.MissingArgDomain, WordPress.WP.I18n.NonSingularStringLiteralDomain ?></p>
+						<ul>
+							<?php foreach ( $errors as $file ) : ?>
+								<li><?php echo $file; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></li>
+							<?php endforeach; ?>
+						</ul>
+						<?php
+					} else {
+						echo '<p><strong>' . esc_html__( 'Warning:' ) . '</strong> ' . $errors . '</p>'; // phpcs:ignore WordPress.WP.I18n.MissingArgDomain, WordPress.WP.I18n.NonSingularStringLiteralDomain, WordPress.Security.EscapeOutput.OutputNotEscaped
+					}
+					echo '</div>';
+				}
+			}
+		} // END display_integrity_notices()
+
+		/**
+		 * Display a warning if the file is missing or every 6 hours perform a checksum validation.
+		 */
+		public function plugin_scheduled_checksum_check() {
 			if ( ! file_exists( untrailingslashit( $this->plugin_dir ) . '/' . $this->checksum_file_name ) ) {
-				// Display warning admin notice.
 				add_action( 'admin_notices', array( $this, 'plugin_checksum_missing_warning' ) );
 			} else {
-				// Validate file integrity.
-				self::validate_file_integrity();
+				$this->validate_file_integrity();
 			}
 		} // END plugin_daily_checksum_check()
 
 		/**
-		 * Display an admin notice if the checksum file is missing.
+		 * Display a warning notice if the checksum file is missing.
 		 */
 		public function plugin_checksum_missing_warning() {
 			$plugin_data = get_plugin_data( $this->plugin_file );
@@ -89,7 +123,7 @@ if ( ! trait_exists( 'Plugin_Local_Integrity_Check' ) ) {
 					<?php
 					printf(
 						/* translators: %s = Plugin name */
-						esc_html__( 'The checksum file is missing for "%s". This may indicate the plugin has been altered. Please check your installation.' ), // phpcs:ignore WordPress.WP.I18n.MissingArgDomain, WordPress.WP.I18n.NonSingularStringLiteralDomain
+						esc_html__( 'The checksum file for "%s" is missing. This may indicate the plugin has been altered. Please verify your installation.' ), // phpcs:ignore WordPress.WP.I18n.MissingArgDomain, WordPress.WP.I18n.NonSingularStringLiteralDomain
 						esc_html( $plugin_name )
 					);
 					?>
@@ -170,19 +204,16 @@ if ( ! trait_exists( 'Plugin_Local_Integrity_Check' ) ) {
 		} // END check_plugin_integrity_on_update()
 
 		protected function validate_file_integrity() {
-			// Only check once an hour.
+			// Prevent redundant checks.
 			if ( get_transient( $this->plugin_slug . '_integrity_checked' ) ) {
 				return;
 			}
 
-			// Set a transient for one hour.
-			set_transient( $this->plugin_slug . '_integrity_checked', true, HOUR_IN_SECONDS );
+			// Set a transient for 6 hours.
+			set_transient( $this->plugin_slug . '_integrity_checked', true, HOUR_IN_SECONDS * 6 );
 
-			// Parse the .md5 content.
-			$checksums = self::fetch_checksums();
-
-			// Store errors detected.
-			$errors = array();
+			$checksums = $this->fetch_checksums();
+			$errors    = array();
 
 			// Verify each file's checksum.
 			foreach ( $checksums as $file_path => $expected_hash ) {
@@ -234,13 +265,16 @@ if ( ! trait_exists( 'Plugin_Local_Integrity_Check' ) ) {
 			if ( ! empty( $errors ) ) {
 				update_option( $this->plugin_integrity_notice, $errors );
 			}
-		}
+		} // END validate_file_integrity()
 
+		/**
+		 * Fetch checksums from the checksum file.
+		 *
+		 * @return array Parsed checksums as [file => hash].
+		 */
 		protected function fetch_checksums() {
-			$md5_content = file_get_contents( $this->plugin_dir . $this->checksum_file_name ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents
-
-			// Parse the .md5 content.
-			$checksums = array();
+			$md5_content = file_get_contents( $this->plugin_dir . $this->checksum_file_name ); // phpcs:ignore WordPress.WP.AlternativeFunctions
+			$checksums   = array();
 
 			foreach ( explode( "\n", $md5_content ) as $line ) {
 				if ( preg_match( '/^([a-f0-9]{32})\s+\*(.+)$/', $line, $matches ) ) {
@@ -256,5 +290,6 @@ if ( ! trait_exists( 'Plugin_Local_Integrity_Check' ) ) {
 			}
 
 			return $checksums;
-		}
+		} // END fetch_checksums()
+	} // END class
 }
