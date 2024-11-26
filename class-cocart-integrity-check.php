@@ -1,6 +1,6 @@
 <?php
 /**
- * This file checks the integrity of the WordPress plugin once updated.
+ * This file checks the integrity of the WordPress plugin.
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
