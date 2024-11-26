@@ -490,6 +490,11 @@ final class CoCart {
 	 * @since 4.1.0  Moved REST API classes to load ONLY when the REST API is used.
 	 */
 	public static function load_rest_api() {
+		// Prevent CoCart running in the backend should the REST API server be called by another plugin.
+		if ( is_admin() ) {
+			return;
+		}
+
 		if ( self::is_rest_api_request() ) {
 			// Get current request and remove the home URI and REST prefix.
 			$request_uri = esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ) );
