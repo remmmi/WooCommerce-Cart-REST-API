@@ -1,14 +1,17 @@
 <?php
 /**
- * This file checks the integrity of the WordPress plugin once updated.
+ * This file checks the integrity of the WordPress plugin locally
+ * during activation, when the plugin is updated and once an hour.
  */
+
+namespace MeshPress;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
-if ( ! trait_exists( 'Plugin_Integrity_Check' ) ) {
-	trait Plugin_Integrity_Check {
+if ( ! trait_exists( 'Plugin_Local_Integrity_Check' ) ) {
+	trait Plugin_Local_Integrity_Check {
 		protected string $plugin_slug;
 
 		protected string $plugin_file;
@@ -185,8 +188,8 @@ if ( ! trait_exists( 'Plugin_Integrity_Check' ) ) {
 			foreach ( $checksums as $file_path => $expected_hash ) {
 				$md5_file_path = $this->plugin_dir . $file_path;
 
-				if ( strpos( $file_path, './' ) === 0 ) { // Check if './' is at the beginning
-					$file_path = substr( $file_path, 2 ); // Remove the first two characters
+				if ( strpos( $file_path, './' ) === 0 ) { // Check if './' is at the beginning.
+					$file_path = substr( $file_path, 2 ); // Remove the first two characters.
 				}
 
 				$file_full_path = $this->plugin_dir . $file_path;
@@ -254,5 +257,4 @@ if ( ! trait_exists( 'Plugin_Integrity_Check' ) ) {
 
 			return $checksums;
 		}
-	} // END class
 }
