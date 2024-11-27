@@ -81,7 +81,7 @@
 
 		&:hover,
 		&:focus {
-			color: #111;
+			color: $shadow;
 		}
 	}
 
@@ -175,7 +175,7 @@
 
 			&:hover,
 			&:focus {
-				color: #111;
+				color: $shadow;
 				text-decoration: underline;
 			}
 		}
@@ -226,28 +226,6 @@
 	overflow: hidden;
 	margin: 20px 0 0;
 	position: relative;
-
-	.button-large {
-		font-weight: 300;
-		font-size: 16px;
-		padding: 1em 2em;
-		box-shadow: none;
-		min-width: 12em;
-		line-height: 1;
-		height: auto;
-		border-radius: 4px;
-	
-		&:focus,
-		&:hover,
-		&:active {
-			box-shadow: none;
-		}
-
-		&.button-primary {
-			margin: 0;
-			opacity: 1;
-		}
-	}
 }
 
 .cocart-setup-wizard-footer-links {

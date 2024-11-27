@@ -21,7 +21,7 @@ $campaign_args['utm_content']  = 'plugin-link'; // phpcs:ignore: WordPress.Namin
 <div class="notice notice-error cocart-notice is-dismissible">
 	<div class="cocart-notice-inner">
 		<div class="cocart-notice-icon">
-			<img src="<?php echo esc_url( COCART_URL_PATH . '/assets/images/brand/logo.jpg' ); ?>" alt="CoCart Logo" />
+			<img src="<?php echo esc_url( COCART_URL_PATH . '/assets/images/brand/icon-logo.png' ); ?>" alt="CoCart Logo" />
 		</div>
 
 		<div class="cocart-notice-content">

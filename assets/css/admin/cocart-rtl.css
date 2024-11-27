@@ -20,41 +20,40 @@ body.cocart-pagestyles .wp-header-end {
     text-align: right; }
 
 body:not(.rtl).cocart-pagestyles #wpbody {
-  color: #292929;
+  color: #212023;
   font-weight: 400; }
 
-.cocart-pagestyles {
-  /* #wpcontent,
-	#wpbody-content {
-		padding: 0;
-		overflow-x: hidden !important;
-		min-height: calc(100vh - 32px);
-	} */ }
-  .cocart-pagestyles #wpfooter {
-    display: initial; }
-  .cocart-pagestyles .woocommerce-layout__header-breadcrumbs {
-    margin: 0; }
-  .cocart-pagestyles .woocommerce-layout__header-breadcrumbs span:first-child {
-    display: none; }
-  .cocart-pagestyles .woocommerce-layout__header-breadcrumbs span:nth-child(2)::before {
-    content: none; }
-  .cocart-pagestyles a.button:not(.button-secondary):not(.cocart-manage-license-btn),
-  .cocart-pagestyles button:not(#collapse-button):not(.button-secondary):not(#contextual-help-link):not(.components-button),
-  .cocart-pagestyles .button-primary {
-    background-color: #5f32d9;
-    border-color: #5f32d9; }
-  .cocart-pagestyles a.button:not(.button-secondary):not(.cocart-manage-license-btn):hover,
-  .cocart-pagestyles button:not(#collapse-button):not(.button-secondary):not(#contextual-help-link):not(.components-button):hover,
-  .cocart-pagestyles .button-primary:hover,
-  .cocart-pagestyles a.button:not(.button-secondary):not(.cocart-manage-license-btn):focus,
-  .cocart-pagestyles button:not(#collapse-button):not(.button-secondary):not(#contextual-help-link):not(.components-button):focus,
-  .cocart-pagestyles .button-primary:focus {
-    background-color: #5329c4 !important;
-    border-color: #5329c4 !important; }
-  .cocart-pagestyles a.button:focus,
-  .cocart-pagestyles button:focus,
-  .cocart-pagestyles .button-primary:focus {
-    text-decoration-thickness: 4px; }
+.cocart-pagestyles #wpfooter {
+  display: initial; }
+
+.cocart-pagestyles .woocommerce-layout__header-breadcrumbs {
+  margin: 0; }
+
+.cocart-pagestyles .woocommerce-layout__header-breadcrumbs span:first-child {
+  display: none; }
+
+.cocart-pagestyles .woocommerce-layout__header-breadcrumbs span:nth-child(2)::before {
+  content: none; }
+
+.cocart-pagestyles a.button:not(.button-secondary):not(.cocart-manage-license-btn),
+.cocart-pagestyles button:not(#collapse-button):not(.button-secondary):not(#contextual-help-link):not(.components-button),
+.cocart-pagestyles .button-primary {
+  background-color: #5f32d9;
+  border-color: #5f32d9; }
+
+.cocart-pagestyles a.button:not(.button-secondary):not(.cocart-manage-license-btn):hover,
+.cocart-pagestyles button:not(#collapse-button):not(.button-secondary):not(#contextual-help-link):not(.components-button):hover,
+.cocart-pagestyles .button-primary:hover,
+.cocart-pagestyles a.button:not(.button-secondary):not(.cocart-manage-license-btn):focus,
+.cocart-pagestyles button:not(#collapse-button):not(.button-secondary):not(#contextual-help-link):not(.components-button):focus,
+.cocart-pagestyles .button-primary:focus {
+  background-color: #5329c4 !important;
+  border-color: #5329c4 !important; }
+
+.cocart-pagestyles a.button:focus,
+.cocart-pagestyles button:focus,
+.cocart-pagestyles .button-primary:focus {
+  text-decoration-thickness: 4px; }
 
 .notice.inline.notice-cocart {
   border-color: #6032b0; }
@@ -70,55 +69,46 @@ body:not(.rtl).cocart-pagestyles #wpbody {
 .notice.cocart-notice {
   border-color: #6032b0;
   padding: 10px !important; }
-
-.notice.cocart-notice a.button {
-  background-color: #5f32d9;
-  border-color: #5f32d9; }
-
-.notice.cocart-notice a.button:hover,
-.notice.cocart-notice a.button:focus {
-  background-color: #5329c4 !important;
-  border-color: #5329c4 !important; }
-
-.notice.cocart-notice a.button:focus {
-  text-decoration-thickness: 4px; }
-
-.notice.cocart-notice .no-thanks {
-  display: block;
-  margin-top: 10px; }
-  .notice.cocart-notice .no-thanks a {
-    color: #72777c;
-    text-decoration: none; }
-  .notice.cocart-notice .no-thanks a:hover {
-    color: #444; }
-
-.notice.cocart-notice p {
-  padding: 0;
-  margin: 0; }
-
-.notice.cocart-notice h3 {
-  margin: 0 0 5px; }
-
-.notice.cocart-notice .cocart-action {
-  float: left;
-  text-align: center; }
-  .notice.cocart-notice .cocart-action .cocart-button {
-    height: auto;
-    line-height: 20px;
-    padding: 6px 50px; }
-
-.notice.cocart-notice .cocart-notice-inner {
-  display: table;
-  width: 100%; }
-  .notice.cocart-notice .cocart-notice-inner .cocart-notice-icon,
-  .notice.cocart-notice .cocart-notice-inner .cocart-notice-content,
-  .notice.cocart-notice .cocart-notice-inner .cocart-review-now,
-  .notice.cocart-notice .cocart-notice-inner .cocart-send-feedback {
-    display: table-cell;
-    vertical-align: middle; }
-
-.notice.cocart-notice .cocart-notice-content {
-  padding: 0 20px 0 6%; }
+  .notice.cocart-notice a.button {
+    background-color: #5f32d9;
+    border-color: #5f32d9; }
+  .notice.cocart-notice a.button:hover,
+  .notice.cocart-notice a.button:focus {
+    background-color: #5329c4 !important;
+    border-color: #5329c4 !important; }
+  .notice.cocart-notice a.button:focus {
+    text-decoration-thickness: 4px; }
+  .notice.cocart-notice .no-thanks {
+    display: block;
+    margin-top: 10px; }
+    .notice.cocart-notice .no-thanks a {
+      color: #72777c;
+      text-decoration: none; }
+    .notice.cocart-notice .no-thanks a:hover {
+      color: #444; }
+  .notice.cocart-notice p {
+    padding: 0;
+    margin: 0; }
+  .notice.cocart-notice h3 {
+    margin: 0 0 5px; }
+  .notice.cocart-notice .cocart-action {
+    float: left;
+    text-align: center; }
+    .notice.cocart-notice .cocart-action .cocart-button {
+      height: auto;
+      line-height: 20px;
+      padding: 6px 50px; }
+  .notice.cocart-notice .cocart-notice-inner {
+    display: table;
+    width: 100%; }
+    .notice.cocart-notice .cocart-notice-inner .cocart-notice-icon,
+    .notice.cocart-notice .cocart-notice-inner .cocart-notice-content,
+    .notice.cocart-notice .cocart-notice-inner .cocart-review-now,
+    .notice.cocart-notice .cocart-notice-inner .cocart-send-feedback {
+      display: table-cell;
+      vertical-align: middle; }
+  .notice.cocart-notice .cocart-notice-content {
+    padding: 0 20px 0 6%; }
 
 .notice .cocart-notice-icon {
   color: #509ed2;
@@ -194,7 +184,7 @@ body.cocart-pagestyles .error:not(.cocart-notice) {
       height: 42px;
       padding: 0 8px;
       font-size: 16px;
-      color: #666;
+      color: #72777c;
       background-color: #fff;
       display: inline-block;
       margin-left: 6px;
@@ -264,6 +254,20 @@ ul.cocart-next-steps {
     align-items: center; }
     ul.cocart-next-steps .cocart-next-step-action .button {
       margin: 1em 1.5em !important; }
+    ul.cocart-next-steps .cocart-next-step-action .button-large {
+      font-weight: 400;
+      font-size: 16px;
+      padding: 1em 2em;
+      box-shadow: none;
+      min-width: 12em;
+      line-height: 1;
+      height: auto;
+      border-radius: 4px; }
+      ul.cocart-next-steps .cocart-next-step-action .button-large:focus, ul.cocart-next-steps .cocart-next-step-action .button-large:hover, ul.cocart-next-steps .cocart-next-step-action .button-large:active {
+        box-shadow: none; }
+      ul.cocart-next-steps .cocart-next-step-action .button-large.button-primary {
+        margin: 0;
+        opacity: 1; }
   ul.cocart-next-steps .cocart-additional-steps {
     border-top: 1px solid #eee; }
     ul.cocart-next-steps .cocart-additional-steps .cocart-next-step-description {
@@ -368,7 +372,7 @@ ul.cocart-next-steps {
 
 .cocart_untested_extensions_modal--content h1 {
   border-bottom: 1px solid #eee;
-  background: #e9e9e9;
+  background: #e5e5e5;
   border-top-right-radius: 4px;
   border-top-left-radius: 4px;
   font-size: 1.6em;

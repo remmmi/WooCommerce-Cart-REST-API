@@ -47,7 +47,7 @@ body.cocart-plugin-install .plugin-card {
   box-shadow: 0 1px 0 #d8c3e2; }
 
 .plugin-card .plugin-action-buttons .cocart-plugin-primary:hover {
-  background: #9b50e3;
+  background: #6131af;
   border-color: #422479;
   color: #fff; }
 
@@ -61,7 +61,7 @@ body.cocart-plugin-install .plugin-card {
   clear: both;
   padding: 12px 20px;
   background-color: #fafafa;
-  border-top: 1px solid #ddd;
+  border-top: 1px solid #e5e5e5;
   overflow: hidden; }
 
 .cocart-plugin-search__text {
