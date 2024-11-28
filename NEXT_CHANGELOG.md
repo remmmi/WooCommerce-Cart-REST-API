@@ -48,6 +48,7 @@ Simply provide these two parameters with the data point values on any page and t
 
 #### Developers
 
+* Introduced new filter `cocart_load_cart_from_session` allows you to decide if the cart should load user meta when initialized.
 * Introduced new filter `cocart_load_cart_redirect_home` allows you to change where to redirect should loading the cart fail.
 * Introduced new filter `cocart_cross_sell_item_thumbnail_src` that allows you to change the thumbnail source for a cross sell item.
 * Introduced new filter `cocart_http_allowed_safe_ports` that allows you to control the list of ports considered safe for accessing the API.
