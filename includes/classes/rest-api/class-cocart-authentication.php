@@ -148,11 +148,7 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 
 			if ( $current_user instanceof WP_User && $current_user->exists() ) {
 				wc_update_user_last_active( $current_user->ID );
-
-				// Don't trigger load saved cart when deleting.
-				if ( isset( $_SERVER['REQUEST_METHOD'] ) && 'DELETE' !== $_SERVER['REQUEST_METHOD'] ) {
-					update_user_meta( $current_user->ID, '_woocommerce_load_saved_cart_after_login', 1 );
-				}
+				update_user_meta( $current_user->ID, '_woocommerce_load_saved_cart_after_login', 1 );
 			}
 
 			return $error;
