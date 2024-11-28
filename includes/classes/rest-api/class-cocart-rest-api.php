@@ -7,7 +7,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\Classes
  * @since   1.0.0 Introduced.
- * @version 4.3.11
+ * @version 4.3.15
  */
 
 use WC_Customer as Customer;

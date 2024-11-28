@@ -306,6 +306,14 @@ We’d love to hear what you have to say. [Share your experience](https://testim
 
 == Changelog ==
 
+= v4.3.15 - 28th November, 2024 =
+
+### Bug Fix
+
+* REST API: Fix persistent cart for registered users. [Solves issue [#474](https://github.com/co-cart/co-cart/issues/474)]
+
+> Developer note: The last patch was not a great one but have found the root of the issue affecting carts for registered customers and is fixed in this one.
+
 = v4.3.14 - 21st November, 2024 =
 
 ### Bug Fixes
@@ -702,6 +710,10 @@ Hope you enjoy this release.
 [View the full changelog here](https://github.com/co-cart/co-cart/blob/trunk/CHANGELOG.md).
 
 == Upgrade Notice ==
+
+= 4.3.15 =
+
+REST API: Fix persistent cart for registered users.
 
 = 4.3.14 =
 
