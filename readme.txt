@@ -22,7 +22,7 @@ Built by developers, for developers, [CoCart](https://cocartapi.com/?utm_medium=
 
 #### Why WooCommerce?
 
-WooCommerce provides a **flexible, and efficient** way to build cutting-edge stores with WordPress at it's core. If you are looking to provide a great store for your customers that is fast, decoupling your store is a no brainer, but accessing the front side via the REST API was missing which is where CoCart comes in.
+WooCommerce provides a **flexible, and efficient** way to build cutting-edge stores with WordPress at it's core. If you are looking to provide a great store for your customers that is fast, decoupling your store is a no-brainer, but accessing the front side via the REST API was missing which is where CoCart comes in.
 
 #### Why CoCart?
 
@@ -68,7 +68,7 @@ We aim to provide regular support for the CoCart plugin via [our Discord communi
 ## 🧰 Developer Tools
 
 * **[CoCart Beta Tester](https://github.com/cocart-headless/cocart-beta-tester)** allows you to easily update to pre-release versions of CoCart for testing and development purposes.
-* **[CoCart VSCode](https://github.com/cocart-headless/cocart-vscode)** extension for Visual Studio Code adds snippets and autocompletion of functions, classes and hooks.
+* **[CoCart VSCode](https://github.com/cocart-headless/cocart-vscode)** extension for Visual Studio Code adds snippets and auto-completion of functions, classes and hooks.
 * **[CoCart Product Support Boilerplate](https://github.com/cocart-headless/cocart-product-support-boilerplate)** provides a basic boilerplate for supporting a different product types to add to the cart with validation including adding your own parameters.
 * **[CoCart Cart Callback Example](https://github.com/cocart-headless/cocart-cart-callback-example)** provides you an example of registering a callback that can be triggered when updating the cart.
 
