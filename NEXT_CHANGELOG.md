@@ -9,11 +9,17 @@
 
 > Developer note: Cart creation is normally done the moment the first item is added to the cart as it has something to save to session. But some users are confused with creating a cart for guest customers. So this route can help create a empty cart storing just the cart key and return it in the response guiding the developer to check the documentation for more information on how to use the cart key for a guest customer. It is not a requirement to use this route first.
 
+* Plugin: Integrity check of all files.
+
+> Developer note: Know if the version of CoCart is official and has not been tampered with. This is just the first iteration introduced.
+> You will never see the warning messages if all is in order, but if you do alter any files within the plugin yourself directly. You will be notified in your WordPress dashboard and in your error log that something has changed and does not match.
+
 ## Changes
 
 * REST API: Avatars only return if requested now when using the login endpoint.
 * REST API: Store API now returns array of CoCart versions installed not just the core version.
-* REST API: The following endpoints for Cart API v2 now extend `CoCart_REST_Cart_V2_Controller` instead of an Cart API v1 controller: `cart/add-item`, `cart/add-items`, `cart/calculate`
+* REST API: The following endpoints for Cart API v2 now extend `CoCart_REST_Cart_V2_Controller` instead of Cart API v1 controller: `cart/add-item`, `cart/add-items`, `cart/calculate`
+* WordPress Dashboard: Style adjustments.
 
 ## Improvements
 
@@ -34,7 +40,7 @@
 
 ### Load Cart from Session
 
-Originally only designed for guest customers to allow them to checkout via the native site, registered customers can now auto login and load their carts to do the same.
+Originally only designed for guest customers to allow them to checkout via the native site, registered customers can now auto login and load their carts to do the same without exposing login details.
 
 #### How does a registered customer load in without authenticating?
 

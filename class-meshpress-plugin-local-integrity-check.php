@@ -71,7 +71,7 @@ if ( ! trait_exists( 'MeshPress\Plugin_Local_Integrity_Check' ) ) {
 			// Display admin notices if issues are found.
 			add_action( 'admin_notices', array( $this, 'display_integrity_notices' ) );
 
-			// Perform an hourly checksum checks.
+			// Perform a scheduled checksum check.
 			add_action( 'admin_init', array( $this, 'plugin_scheduled_checksum_check' ) );
 		} // END initialize_integrity_check()
 
