@@ -4,7 +4,7 @@ Tags: woocommerce, rest-api, decoupled, headless, cart
 Requires at least: 5.6
 Requires PHP: 7.4
 Tested up to: 6.7
-Stable tag: 4.3.14
+Stable tag: 4.3.15
 WC requires at least: 7.0
 WC tested up to: 9.4
 License: GPLv3
@@ -306,7 +306,7 @@ We’d love to hear what you have to say. [Share your experience](https://testim
 
 == Changelog ==
 
-= v4.3.15 - 28th November, 2024 =
+= v4.3.15 - 29th November, 2024 =
 
 ### Bug Fix
 
