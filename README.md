@@ -20,19 +20,19 @@ If you are looking for documentation, head over here: [https://docs.cocart.xyz](
 
 ### Description
 
-Transform your WooCommerce store into a lightning-fast, decoupled shopping experience with CoCart — an open-source REST API designed to set your store free from WordPress's limitations. CoCart's developer-friendly API empowers you to build in modern frameworks like Astro, React, Vue, or Next.js, putting full control back in your hands and making complex customization's a breeze.
+CoCart's developer-friendly API integrates with WooCommerce and empowers you to build in modern frameworks like Astro, React, Vue, or Next.js, putting full control back in your hands and making complex customization's a breeze. Set your store free from WordPress's limitations.
 
-Built by developers, for developers, [CoCart](https://cocartapi.com/?utm_medium=repo&utm_source=github.com&utm_campaign=readme&utm_content=cocartcore) is more than just an API extension. It’s a suite of tools that make managing a headless WooCommerce store seamless and fast—without the constraints of a traditional WordPress theme.
+Built by developers, for developers, [CoCart](https://cocartapi.com/?utm_medium=repo&utm_source=github.com&utm_campaign=readme&utm_content=cocartcore) helps you manage a headless WooCommerce store seamless and fast — without the constraints of a traditional WordPress theme.
 
 [Want to try it out?](https://cocartapi.com/try-free-demo/?utm_medium=repo&utm_source=github.com&utm_campaign=readme&utm_content=cocartcore)
 
-#### Why WooCommerce?
+#### What is WooCommerce?
 
-WooCommerce provides a **flexible, and efficient** way to build cutting-edge stores with WordPress at it's core. If you are looking to provide a great store for your customers that is fast, decoupling your store is a no-brainer, but accessing the front side via the REST API was missing which is where CoCart comes in.
+WooCommerce is a free open-source eCommerce plugin that provides a **flexible, and efficient** way to build cutting-edge stores with WordPress at it's core.
 
-#### Why CoCart?
+#### Why do I need CoCart?
 
-Struggling with performance? Finding it hard to decouple WooCommerce from WordPress without hitting roadblocks? CoCart is here to eliminate the hassle of creating your own REST API endpoints for WooCommerce and provides all the essential features for a powerful, headless eCommerce experience.
+If you are looking to create a great store for your customers that is fast and unrestricted, decoupling your store is a no-brainer. However, accessing the front side via the REST API is not designed in WooCommerce, that's where CoCart comes in. It handles the roadblocks and eliminates the hassle of creating your own REST API endpoints and provides all the essential features for a powerful, headless eCommerce experience.
 
 * **Source of Truth** - CoCart integrates with WooCommerce's Data Stores API and includes WooCommerce hooks, making it compatible with most WooCommerce extensions right out of the box.
 * **Session Control Without Cookies** - CoCart uses a secure session key system, reducing server load and avoiding cookie issues for a smoother experience.
@@ -50,7 +50,7 @@ And this is just the start. With CoCart, your WooCommerce store can be faster, m
 
 ### 📦 Serious about going headless?
 
-Unlock your store’s true potential. Upgrade to access premium features and extend CoCart’s capabilities to take your headless WooCommerce store even further.
+Transform your WooCommerce store into a lightning-fast, decoupled shopping experience with CoCart and unlock your store’s true potential. Upgrade to access premium features and extend CoCart’s capabilities to take your headless WooCommerce store even further.
 
 [See what else we have in store](https://cocartapi.com/pricing/?utm_medium=repo&utm_source=github.com&utm_campaign=readme&utm_content=cocartcore).
 
@@ -58,9 +58,10 @@ Unlock your store’s true potential. Upgrade to access premium features and ext
 
 We also have add-ons that extend CoCart to enhance your development and your customers shopping experience.
 
-* **[CoCart - CORS](https://wordpress.org/plugins/cocart-cors/)** enables support for CORS to allow CoCart to work across multiple domains.
-* **[CoCart - JWT Authentication](https://wordpress.org/plugins/cocart-jwt-authentication/)** allows you to authenticate via a simple JWT Token.
-* **[CoCart - Cart Enhanced](https://wordpress.org/plugins/cocart-get-cart-enhanced/)** enhances the data returned for the cart and the items added to it.
+* **[CoCart - CORS](https://github.com/cocart-headless/cocart-cors)** enables support for CORS to allow CoCart to work across multiple domains.
+* **[CoCart - Rate Limiting](https://github.com/cocart-headless/cocart-rate-limiting)** enables the rate limiting feature for CoCart Plus or higher.
+* **[CoCart - JWT Authentication](https://github.com/cocart-headless/cocart-jwt-authentication)** allows you to authenticate via a simple JWT Token.
+* **[CoCart - Cart Enhanced](https://github.com/cocart-headless/cocart-get-cart-enhanced)** enhances the data returned for the cart and the items added to it.
 * and more add-ons in development.
 
 They work with the core of CoCart already, and these add-ons of course come with support too.
@@ -76,6 +77,10 @@ They work with the core of CoCart already, and these add-ons of course come with
 ## Need Support?
 
 We aim to provide regular support for the CoCart plugin via [our Discord community server](https://cocartapi.com/community/?utm_medium=repo&utm_source=github.com&utm_campaign=readme&utm_content=cocartcore). Please understand that we do prioritize support for our [paying customers](https://cocartapi.com/pricing/?utm_medium=repo&utm_source=github.com&utm_campaign=readme&utm_content=cocartcore).
+
+| Core | Plus |
+|------|------|
+| <a href="https://buy.polar.sh/polar_cl_jMOIZK9WxNTNmP_VZ6DsC-gTCM1sq38KDYw3MAb3PvM"><img src="https://polar.sh/embed/product.svg?organizationId=d2729179-cce9-479c-96cc-43de492209cc&productId=e954b15c-152a-4dbf-9727-98aadf449a99" alt="CoCart Core 'Early Access'" /></a> | <a href="https://buy.polar.sh/polar_cl_FZ4d7RgIRViEhkyfi5Q0A84N0jirhgoPKbWJKjPSKTA"><img src="https://polar.sh/embed/product.svg?organizationId=d2729179-cce9-479c-96cc-43de492209cc&productId=dada6fe2-0744-4393-a50d-a42c563b4825" alt="CoCart Plus - Single Site" /></a> |
 
 ## 🐞 Bug Reporting
 
