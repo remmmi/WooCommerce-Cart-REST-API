@@ -17,7 +17,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 <div class="notice notice-warning cocart-notice">
 	<div class="cocart-notice-inner">
 		<div class="cocart-notice-icon">
-			<img src="<?php echo esc_url( COCART_URL_PATH . '/assets/images/brand/icon-logo.png' ); ?>" alt="CoCart Logo" />
+			<img src="<?php echo esc_url( COCART_URL_PATH . '/assets/images/brand/icon-logo.png' ); ?>" alt="CoCart Logo" /><?php // phpcs:ignore PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage ?>
 		</div>
 
 		<div class="cocart-notice-content">
