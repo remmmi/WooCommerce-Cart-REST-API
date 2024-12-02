@@ -1,4 +1,4 @@
-<p align="center"><img src="https://raw.githubusercontent.com/co-cart/co-cart/trunk/.wordpress-org/banner-772x250.jpg" alt="CoCart. Build headless stores, without building an API" /></p>
+# CoCart API - Core
 
 <p align="center">
 	<a href="https://github.com/co-cart/co-cart/blob/trunk/license.txt" target="_blank">
@@ -12,11 +12,13 @@
 	</a>
 </p>
 
-> 👋 Looking to [contribute to CoCart](https://github.com/co-cart/co-cart/blob/development/.github/CONTRIBUTING.md)?
-
-Welcome to the CoCart repository on GitHub. Here you can browse the source, [look at open issues](https://github.com/co-cart/co-cart/issues?q=is%3Aopen+is%3Aissue) and keep track of development. We recommend all developers to follow the [CoCart development blog](https://cocart.dev/news/?utm_medium=github.com&utm_source=repository&utm_campaign=readme&utm_content=cocartcore) to stay up to date about everything happening in the project. You can also [follow @cocartapi](https://twitter.com/cocartapi) on Twitter for the latest development updates.
+Welcome to the CoCart core repository on GitHub. Here you can browse the source code, [look at open issues](https://github.com/co-cart/co-cart/issues?q=is%3Aopen+is%3Aissue) and keep track of development. We recommend all developers to follow the [CoCart development blog](https://cocart.dev/news/?utm_medium=github.com&utm_source=repository&utm_campaign=readme&utm_content=cocartcore) to stay up to date about everything happening in the project. You can also [follow @cocartapi](https://twitter.com/cocartapi) on Twitter for the latest development updates.
 
 If you are looking for documentation, head over here: [https://docs.cocart.xyz](https://docs.cocart.xyz/?utm_medium=github.com&utm_source=repository&utm_campaign=readme&utm_content=cocartcore)
+
+👋 Looking to [contribute to CoCart](https://github.com/co-cart/co-cart/blob/development/.github/CONTRIBUTING.md)?
+
+🫶 Show some appreciation by [sponsoring](https://github.com/co-cart/co-cart/blob/development/BACKERS.md).
 
 ### Description
 
@@ -88,7 +90,9 @@ Bug reports for CoCart are welcomed in the [CoCart repository on GitHub](https:/
 
 ## Support CoCart
 
-Please consider starring ✨ and sharing 👍 the project repo! This helps the project get known and grow with the community. We’d also love to hear what you have to say. [Share your thoughts](https://testimonial.to/cocart) and help others discover CoCart. Thank you! 🙏
+Please consider starring ✨ and sharing 👍 the project repo! This helps the project get known and grow with the community. If you like to help further CoCart's development, why not [consider sponsoring](https://github.com/co-cart/co-cart/blob/development/BACKERS.md).
+
+Thank you! 🙏
 
 ## Testimonials
 
@@ -110,7 +114,7 @@ Please consider starring ✨ and sharing 👍 the project repo! This helps the p
 >
 > **MightyGroup** – Rikard Kling ⭐️⭐️⭐️⭐️⭐️
 
-[See the wall of love](https://cocartapi.com/wall-of-love/?utm_medium=repo&utm_source=github.com&utm_campaign=readme&utm_content=cocartcore) for more testimonials.
+[See the wall of love](https://cocartapi.com/wall-of-love/?utm_medium=repo&utm_source=github.com&utm_campaign=readme&utm_content=cocartcore) for more testimonials. We’d also love to hear what you have to say. [Share your thoughts](https://testimonial.to/cocart) and help others discover if CoCart is for them.
 
 ---
 
