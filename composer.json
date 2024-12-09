@@ -34,8 +34,15 @@
 		}
 	],
 	"support": {
-		"issues": "https://github.com/co-cart/co-cart/issues"
+		"issues": "https://github.com/co-cart/co-cart/issues",
+		"source": "https://github.com/co-cart/co-cart"
 	},
+	"funding": [
+		{
+			"type": "polar",
+			"url": "https://polar.sh/cocartheadless"
+		}
+	],
 	"autoload": {
 		"classmap": [
 			"includes/"
