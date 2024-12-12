@@ -198,6 +198,10 @@ final class CoCart {
 		self::define( 'COCART_PLUGIN_BASENAME', plugin_basename( COCART_FILE ) );
 		self::define( 'COCART_VERSION', self::$version );
 		self::define( 'COCART_DB_VERSION', self::$db_version );
+		self::define( 'COCART_TESTED_WP', self::$tested_up_to_wp );
+		self::define( 'COCART_REQUIRED_WP', self::$required_wp );
+		self::define( 'COCART_REQUIRED_PHP', self::$required_php );
+		self::define( 'COCART_REQUIRED_WOO', self::$required_woo );
 		self::define( 'COCART_SLUG', 'cart-rest-api-for-woocommerce' );
 		self::define( 'COCART_URL_PATH', untrailingslashit( plugins_url( '/', COCART_FILE ) ) );
 		self::define( 'COCART_FILE_PATH', untrailingslashit( plugin_dir_path( COCART_FILE ) ) );
