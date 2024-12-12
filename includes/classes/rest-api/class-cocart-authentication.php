@@ -418,22 +418,13 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 
 			$user = get_user_by( 'login', $username );
 
-			if ( ! wp_check_password( $password, $user->user_pass, $user->ID ) ) {
-				$this->set_error(
-					new WP_Error(
-						'cocart_authentication_error',
-						sprintf(
-							/* translators: %s: User name. */
-							__( 'The password you entered for the username "%s" is incorrect.', 'cart-rest-api-for-woocommerce' ),
-							$username
-						), array( 'status' => 401 )
-					)
-				);
+			if ( is_wp_error( $user ) ) {
+				$this->set_error( new WP_Error( 'cocart_authentication_error', __( 'Authentication is invalid. Please check your login details are correct and try again.', 'cart-rest-api-for-woocommerce' ), array( 'status' => 401 ) ) );
 				return false;
 			}
 
-			if ( is_wp_error( $user ) ) {
-				$this->set_error( new WP_Error( 'cocart_authentication_error', __( 'Authentication is invalid. Please check the authentication information is correct and try again.', 'cart-rest-api-for-woocommerce' ), array( 'status' => 401 ) ) );
+			if ( ! wp_check_password( $password, $user->user_pass, $user->ID ) ) {
+				$this->set_error( new WP_Error( 'cocart_authentication_error', __( 'The password you entered is incorrect.', 'cart-rest-api-for-woocommerce' ), array( 'status' => 401 ) ) );
 				return false;
 			}
 
