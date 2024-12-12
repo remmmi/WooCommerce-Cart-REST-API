@@ -605,9 +605,9 @@ class CoCart_Helpers {
 	 */
 	public static function cocart_campaign( $args = array() ) {
 		$defaults = array(
-			'utm_medium'   => 'cocart-lite',
+			'utm_medium'   => 'cocart-core',
 			'utm_source'   => 'WordPress',
-			'utm_campaign' => 'liteplugin',
+			'utm_campaign' => 'coreplugin',
 			'utm_content'  => '',
 		);
 

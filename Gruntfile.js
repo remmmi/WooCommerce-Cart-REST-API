@@ -32,7 +32,10 @@ module.exports = function(grunt) {
 					{
 						expand: true,
 						cwd: '<%= dirs.scss %>/admin/',
-						src: ['**/*.scss'],
+						src: [
+							'**/*.scss',
+							'!cocart-updates.scss'
+						],
 						dest: '<%= dirs.css %>/admin/',
 						ext: '.css'
 					},

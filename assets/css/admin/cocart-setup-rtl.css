@@ -18,6 +18,10 @@ body.cocart-pagestyles .wp-header-end {
     overflow: hidden;
     zoom: 1;
     text-align: right; }
+    .cocart-wrapped .cocart-content.inner {
+      padding: 0; }
+      .cocart-wrapped .cocart-content.inner form {
+        padding: 24px; }
 
 body:not(.rtl).cocart-pagestyles #wpbody {
   color: #212023;
@@ -409,6 +413,114 @@ ul.cocart-next-steps {
   overflow: hidden; }
   .cocart_untested_extensions_modal--content .actions a.button-primary {
     float: left; }
+
+.cocart-icon {
+  border: transparent solid 1px;
+  border-radius: 100%;
+  box-sizing: border-box;
+  display: inline-block;
+  font-size: 20px;
+  height: 28px;
+  line-height: 21px;
+  text-align: center;
+  text-decoration: none;
+  vertical-align: top;
+  width: 28px; }
+
+i.cocart-icon {
+  display: inline-flex;
+  width: 20px;
+  height: 20px;
+  background-color: currentcolor;
+  border: none;
+  border-radius: 0;
+  -webkit-mask-size: contain;
+  mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  text-indent: 500%;
+  white-space: nowrap;
+  overflow: hidden; }
+  i.cocart-icon.cocart-icon-arrow-up-right {
+    -webkit-mask-image: url("../../images/icons/icon-arrow-up-right.svg");
+    mask-image: url("../../images/icons/icon-arrow-up-right.svg"); }
+
+#adminmenu #toplevel_page_cocart .wp-submenu a[href="admin.php?page=cocart-updates"],
+#adminmenu #toplevel_page_cocart .wp-submenu a[href="admin.php?page=cocart-updates"].current {
+  color: #FFC233;
+  font-weight: 700; }
+
+#cocart-license-information {
+  flex: 1 1 65%;
+  /* License Status */ }
+  #cocart-license-information .cocart-activation {
+    align-items: center;
+    float: left;
+    line-height: 2.1538;
+    margin-top: -54px;
+    text-decoration: none; }
+    #cocart-license-information .cocart-activation .cocart-manage-license-btn {
+      background-color: inherit;
+      border: none;
+      padding: 0 10px; }
+      #cocart-license-information .cocart-activation .cocart-manage-license-btn i {
+        margin: 5px 5px 0 0; }
+  #cocart-license-information .cocart-license-status-wrap {
+    background: #f9fafb;
+    border-top: 1px solid #eaecf0;
+    border-bottom-right-radius: 8px;
+    border-bottom-left-radius: 8px; }
+  #cocart-license-information .cocart-license-status-wrap .cocart-license-status-table {
+    font-size: 14px;
+    padding: 14px 24px 0; }
+  #cocart-license-information .cocart-license-status-wrap .cocart-license-status-table th {
+    width: 160px;
+    font-weight: 500;
+    text-align: right;
+    padding-bottom: 16px; }
+  #cocart-license-information .cocart-license-status-wrap .cocart-license-status-table td {
+    padding-bottom: 16px; }
+  #cocart-license-information .cocart-license-status-wrap
+.cocart-license-status-table
+td
+.cocart-license-status {
+    display: inline-block;
+    height: 24px;
+    line-height: 24px;
+    border-radius: 100px;
+    background: #eaecf0;
+    padding: 0 12px 1px 13px;
+    border: 1px solid rgba(0, 0, 0, 0.12);
+    color: #667085; }
+  #cocart-license-information .cocart-license-status-wrap
+.cocart-license-status-table
+td
+.cocart-license-status.active {
+    background: rgba(18, 183, 106, 0.15);
+    border: 1px solid rgba(18, 183, 106, 0.24);
+    color: #12b76a; }
+  #cocart-license-information .cocart-license-status-wrap
+.cocart-license-status-table
+td
+.cocart-license-status.expired,
+  #cocart-license-information .cocart-license-status-wrap
+.cocart-license-status-table
+td
+.cocart-license-status.cancelled {
+    background: rgba(209, 55, 55, 0.24);
+    border: 1px solid rgba(209, 55, 55, 0.24);
+    color: #d13737; }
+  #cocart-license-information .cocart-license-status-wrap .cocart-no-license-view-pricing {
+    padding: 12px 24px;
+    border-top: 1px solid #eaecf0;
+    color: #667085; }
+  @media screen and (max-width: 1024px) {
+    #cocart-license-information #cocart-license-information {
+      margin-bottom: 32px; } }
+  #cocart-license-information label {
+    font-weight: 500; }
 
 .cocart-setup-wizard {
   text-align: center; }

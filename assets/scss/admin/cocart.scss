@@ -29,6 +29,14 @@ body.cocart-pagestyles .wp-header-end { clear: both; }
 		overflow: hidden;
 		zoom: 1;
 		text-align: left;
+
+		&.inner {
+			padding: 0;
+
+			form {
+				padding: 24px;
+			}
+		}
 	}
 }
 
@@ -618,3 +626,43 @@ ul.cocart-next-steps {
 		}
 	}
 }
+
+.cocart-icon {
+	border: transparent solid 1px;
+	border-radius: 100%;
+	box-sizing: border-box;
+	display: inline-block;
+	font-size: 20px;
+	height: 28px;
+	line-height: 21px;
+	text-align: center;
+	text-decoration: none;
+	vertical-align: top;
+	width: 28px;
+}
+
+i.cocart-icon {
+	display: inline-flex;
+	width: 20px;
+	height: 20px;
+	background-color: currentcolor;
+	border: none;
+	border-radius: 0;
+	-webkit-mask-size: contain;
+	mask-size: contain;
+	-webkit-mask-repeat: no-repeat;
+	mask-repeat: no-repeat;
+	-webkit-mask-position: center;
+	mask-position: center;
+	text-indent: 500%;
+	white-space: nowrap;
+	overflow: hidden;
+
+	&.cocart-icon-arrow-up-right {
+		-webkit-mask-image: url("../../images/icons/icon-arrow-up-right.svg");
+		mask-image: url("../../images/icons/icon-arrow-up-right.svg");
+	}
+}
+
+// CoCart updates
+@import 'cocart-updates';
