@@ -45,6 +45,19 @@ final class CoCart {
 	public static $db_version = '3.0.0';
 
 	/**
+	 * Tested up to WordPress version.
+	 *
+	 * @access public
+	 *
+	 * @static
+	 *
+	 * @since 4.4.0 Introduced.
+	 *
+	 * @var string
+	 */
+	public static $tested_up_to_wp = '6.7';
+
+	/**
 	 * Required WordPress version.
 	 *
 	 * @access public

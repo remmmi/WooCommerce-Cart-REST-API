@@ -295,6 +295,10 @@ module.exports = function(grunt) {
 						to: "public static $version = '<%= pkg.version %>'"
 					},
 					{
+						from: /public static \$tested_up_to_wp = \'.*.'/m,
+						to: "public static $tested_up_to_wp = '<%= pkg.tested_up_to %>'"
+					},
+					{
 						from: /public static \$required_wp = \'.*.'/m,
 						to: "public static $required_wp = '<%= pkg.requires %>'"
 					},
