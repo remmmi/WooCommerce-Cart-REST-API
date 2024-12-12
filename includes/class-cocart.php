@@ -29,7 +29,7 @@ final class CoCart {
 	 *
 	 * @var string
 	 */
-	public static $version = '4.4.0-beta.7';
+	public static $version = '4.4.0-beta.8';
 
 	/**
 	 * CoCart Database Schema version.
@@ -191,7 +191,7 @@ final class CoCart {
 	 * @static
 	 *
 	 * @since   1.2.0 Introduced.
-	 * @version 3.0.0
+	 * @version 4.4.0
 	 */
 	public static function setup_constants() {
 		self::define( 'COCART_ABSPATH', dirname( COCART_FILE ) . '/' );
