@@ -1,5 +1,11 @@
 # Changelog for CoCart
 
+## v4.3.16 - 12th December, 2024
+
+### Bug Fix
+
+* REST API: Authentication failed to validate incorrect login now fixed.
+
 ## v4.3.15 - 29th November, 2024
 
 ### Bug Fix
