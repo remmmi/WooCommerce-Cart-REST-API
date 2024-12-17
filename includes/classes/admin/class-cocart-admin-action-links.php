@@ -4,8 +4,8 @@
  *
  * @author  Sébastien Dumont
  * @package CoCart\Admin
- * @since   1.2.0
- * @version 3.10.0
+ * @since   1.2.0 Introduced.
+ * @version 4.4.0
  * @license GPL-3.0
  */
 
@@ -37,18 +37,39 @@ if ( ! class_exists( 'CoCart_Admin_Action_Links' ) ) {
 			$this->campaign_args['utm_medium']  = 'plugin-admin';
 			$this->campaign_args['utm_content'] = 'action-links';
 
+			add_filter( 'plugin_action_links_' . plugin_basename( 'cart-rest-api-for-woocommerce/cart-rest-api-for-woocommerce.php' ), array( $this, 'disable_action_links' ) );
 			add_filter( 'plugin_action_links_' . plugin_basename( COCART_FILE ), array( $this, 'plugin_action_links' ) );
 			add_filter( 'plugin_row_meta', array( $this, 'plugin_row_meta' ), 10, 2 );
 		} // END __construct()
 
 		/**
+		 * Disable action links for CoCart core legacy version.
+		 *
+		 * @access public
+		 *
+		 * @since 4.4.0 Introduced.
+		 *
+		 * @param array $links An array of plugin links.
+		 *
+		 * @return array $links An array of plugin links.
+		 */
+		public function disable_action_links( $links ) {
+			unset( $links['activate'] );
+
+			return $links;
+		} // END disable_action_links()
+
+		/**
 		 * Plugin action links.
 		 *
-		 * @access  public
-		 * @since   2.0.0
+		 * @access public
+		 *
+		 * @since   2.0.0 Introduced.
 		 * @version 3.10.0
-		 * @param   array $links An array of plugin links.
-		 * @return  array $links
+		 *
+		 * @param array $links An array of plugin links.
+		 *
+		 * @return array $links An array of plugin links.
 		 */
 		public function plugin_action_links( $links ) {
 			if ( version_compare( get_option( 'cocart_version' ), COCART_VERSION, '<' ) ) {

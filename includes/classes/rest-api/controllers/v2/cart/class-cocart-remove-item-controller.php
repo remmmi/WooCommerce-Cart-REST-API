@@ -106,7 +106,7 @@ class CoCart_REST_Remove_Item_V2_Controller extends CoCart_REST_Cart_V2_Controll
 			$item_removed_title = apply_filters( 'cocart_cart_item_removed_title', sprintf(
 				/* translators: %s: Item name. */
 				_x( '"%s"', 'Item name in quotes', 'cart-rest-api-for-woocommerce' ),
-				$product ? $product->get_name() : __( 'Item', 'cart-rest-api-for-woocommerce' ),
+				$product ? $product->get_name() : __( 'Item', 'cart-rest-api-for-woocommerce' )
 			),
 			$current_data );
 

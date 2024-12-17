@@ -4,7 +4,7 @@
  *
  * @author  Sébastien Dumont
  * @package CoCart\Admin\Menus
- * @since   2.0.0
+ * @since   2.0.0 Introduced.
  * @version 3.1.0
  * @license GPL-3.0
  */
@@ -43,9 +43,10 @@ if ( ! class_exists( 'CoCart_Admin_Menus' ) ) {
 		/**
 		 * Add CoCart to the menu.
 		 *
-		 * @access  public
-		 * @since   2.0.0
-		 * @version 3.10.5
+		 * @access public
+		 *
+		 * @since 2.0.0 Introduced.
+		 * @since 4.4.0 Updated menu icon.
 		 */
 		public function add_main_menu_page() {
 			add_menu_page(
@@ -114,7 +115,7 @@ if ( ! class_exists( 'CoCart_Admin_Menus' ) ) {
 								'screen_id' => 'cocart_page_' . $submenu_page['data']['menu_slug'],
 								'title'     => array(
 									'CoCart',
-									$submenu_page['data']['menu_title'],
+									$submenu_page['data']['page_title'],
 								),
 								'path'      => add_query_arg(
 									array(

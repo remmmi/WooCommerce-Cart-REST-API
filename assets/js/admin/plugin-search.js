@@ -132,7 +132,7 @@ var CoCartPS = {};
 					downloads.remove();
 					lastUpdated.remove();
 
-					// Move plugin requimrent if it exists.
+					// Move plugin requirement if it exists.
 					if ( $(require).length > 0 ) {
 						bottomCard.append(require);
 					}

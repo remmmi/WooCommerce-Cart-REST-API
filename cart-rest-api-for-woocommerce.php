@@ -5,7 +5,7 @@
  * Description: Decouple your WooCommerce store with ease with our developer friendly REST API extension.
  * Author:      CoCart Headless, LLC
  * Author URI:  https://cocartapi.com
- * Version:     4.4.0-beta.7
+ * Version:     4.4.0-beta.9
  * Text Domain: cart-rest-api-for-woocommerce
  * Domain Path: /languages/
  * Requires at least: 5.6
@@ -30,11 +30,11 @@ if ( ! defined( 'COCART_SLUG' ) ) {
 	define( 'COCART_SLUG', 'cart-rest-api-for-woocommerce' );
 }
 
-require_once untrailingslashit( plugin_dir_path( COCART_FILE ) ) . '/class-cocart-integrity-check.php';
+require_once untrailingslashit( __DIR__ ) . '/class-cocart-integrity-check.php';
 
 // Include the main CoCart class.
 if ( ! class_exists( 'CoCart', false ) ) {
-	include_once untrailingslashit( plugin_dir_path( COCART_FILE ) ) . '/includes/class-cocart.php';
+	include_once untrailingslashit( __DIR__ ) . '/includes/class-cocart.php';
 }
 
 /**

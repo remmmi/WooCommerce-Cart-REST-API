@@ -615,12 +615,10 @@ if ( ! class_exists( 'CoCart_Admin_Plugin_Search' ) ) {
 				// Add plugin requirement.
 				if ( $key === $plugin['slug'] && ! empty( $plugin['requirement'] ) ) {
 					$links['cocart-requirement'] = '<div class="plugin-requirement">' . sprintf(
-						/* translators: %4$s: plugin does, %3$s: requirement */
-						esc_html__( '%1$sPlugin %4$s %2$s%3$s', 'cart-rest-api-for-woocommerce' ),
-						'<strong>',
-						'</strong>',
-						esc_html( $plugin['requirement'] ),
-						$plugin['plugin_does']
+						/* translators: %1$s: plugin does, %2$s: requirement */
+						esc_html__( 'Plugin %1$s %2$s', 'cart-rest-api-for-woocommerce' ),
+						$plugin['plugin_does'],
+						esc_html( $plugin['requirement'] )
 					) . '</div>';
 				}
 			}

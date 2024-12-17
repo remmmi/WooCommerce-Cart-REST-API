@@ -3,9 +3,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CoCart API - Decoupling Made Easy for WooCommerce "
-"4.4.0-beta.7\n"
+"4.4.0-beta.9\n"
 "Report-Msgid-Bugs-To: https://github.com/co-cart/co-cart/issues\n"
-"POT-Creation-Date: 2024-12-02 14:35:04+00:00\n"
+"POT-Creation-Date: 2024-12-17 05:02:11+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -83,26 +83,26 @@ msgstr ""
 msgid "A \"callback\" function must be registered when extending class \"%s\""
 msgstr ""
 
-#: includes/class-cocart.php:92
+#: includes/class-cocart.php:105
 msgid "Cloning this object is forbidden."
 msgstr ""
 
-#: includes/class-cocart.php:103
+#: includes/class-cocart.php:116
 msgid "Unserializing instances of this class is forbidden."
 msgstr ""
 
-#: includes/class-cocart.php:432
+#: includes/class-cocart.php:449
 #. translators: %1$s: CoCart, %2$s: Environment message
 msgid "%1$s could not be activated. %2$s"
 msgstr ""
 
-#: includes/class-cocart.php:444 includes/class-cocart.php:456
+#: includes/class-cocart.php:461 includes/class-cocart.php:473
 #. translators: %1$s: CoCart Core, %2$s: CoCart Plus
 #. translators: %1$s: CoCart Core, %2$s: CoCart Pro
 msgid "%1$s is not required as it is already packaged within %2$s"
 msgstr ""
 
-#: includes/classes/admin/class-cocart-admin-action-links.php:66
+#: includes/classes/admin/class-cocart-admin-action-links.php:87
 #: includes/classes/admin/class-cocart-admin-help-tab.php:100
 #: includes/classes/admin/class-cocart-admin-help-tab.php:102
 #: includes/classes/admin/class-cocart-admin-help-tab.php:115
@@ -112,62 +112,62 @@ msgstr ""
 msgid "Setup Wizard"
 msgstr ""
 
-#: includes/classes/admin/class-cocart-admin-action-links.php:76
-#: includes/classes/admin/class-cocart-admin-action-links.php:80
+#: includes/classes/admin/class-cocart-admin-action-links.php:97
+#: includes/classes/admin/class-cocart-admin-action-links.php:101
 #. translators: %s: CoCart
 msgid "Support for %s"
 msgstr ""
 
-#: includes/classes/admin/class-cocart-admin-action-links.php:82
+#: includes/classes/admin/class-cocart-admin-action-links.php:103
 #: includes/classes/admin/pages/class-cocart-admin-pages-support.php:76
 #: includes/classes/admin/pages/class-cocart-admin-pages-support.php:77
 msgid "Support"
 msgstr ""
 
-#: includes/classes/admin/class-cocart-admin-action-links.php:91
-#: includes/classes/admin/class-cocart-admin-action-links.php:97
+#: includes/classes/admin/class-cocart-admin-action-links.php:112
+#: includes/classes/admin/class-cocart-admin-action-links.php:118
 #. translators: %s: CoCart
 msgid "Upgrade %s"
 msgstr ""
 
-#: includes/classes/admin/class-cocart-admin-action-links.php:130
-#: includes/classes/admin/class-cocart-admin-action-links.php:135
+#: includes/classes/admin/class-cocart-admin-action-links.php:151
+#: includes/classes/admin/class-cocart-admin-action-links.php:156
 #. translators: %1$s: CoCart, %2$s :Discord
 msgid "Join %1$s Community on %2$s"
 msgstr ""
 
-#: includes/classes/admin/class-cocart-admin-action-links.php:138
+#: includes/classes/admin/class-cocart-admin-action-links.php:159
 #: includes/classes/admin/views/html-next-steps.php:109
 msgid "Join Community"
 msgstr ""
 
-#: includes/classes/admin/class-cocart-admin-action-links.php:141
-#: includes/classes/admin/class-cocart-admin-action-links.php:145
+#: includes/classes/admin/class-cocart-admin-action-links.php:162
+#: includes/classes/admin/class-cocart-admin-action-links.php:166
 #. translators: %s: CoCart
 msgid "View %s Documentation"
 msgstr ""
 
-#: includes/classes/admin/class-cocart-admin-action-links.php:147
+#: includes/classes/admin/class-cocart-admin-action-links.php:168
 msgid "Documentation"
 msgstr ""
 
-#: includes/classes/admin/class-cocart-admin-action-links.php:150
-#: includes/classes/admin/class-cocart-admin-action-links.php:154
+#: includes/classes/admin/class-cocart-admin-action-links.php:171
+#: includes/classes/admin/class-cocart-admin-action-links.php:175
 #. translators: %s: CoCart
 msgid "Translate %s"
 msgstr ""
 
-#: includes/classes/admin/class-cocart-admin-action-links.php:156
+#: includes/classes/admin/class-cocart-admin-action-links.php:177
 msgid "Translate"
 msgstr ""
 
-#: includes/classes/admin/class-cocart-admin-action-links.php:159
-#: includes/classes/admin/class-cocart-admin-action-links.php:163
+#: includes/classes/admin/class-cocart-admin-action-links.php:180
+#: includes/classes/admin/class-cocart-admin-action-links.php:184
 #. translators: %s: CoCart
 msgid "Submit a review for %s"
 msgstr ""
 
-#: includes/classes/admin/class-cocart-admin-action-links.php:165
+#: includes/classes/admin/class-cocart-admin-action-links.php:186
 msgid "Leave a Review"
 msgstr ""
 
@@ -400,6 +400,216 @@ msgstr ""
 msgid "Transfer Sessions"
 msgstr ""
 
+#: includes/classes/admin/class-cocart-admin-updates.php:623
+#. translators: %s = A link to the updates page.
+msgid " Please <a href=\"%s\">enter your license key</a> to enable updates."
+msgstr ""
+
+#: includes/classes/admin/class-cocart-admin-updates.php:657
+msgid ""
+"This legacy plugin will no longer receive updates as you have a newer "
+"version active. It is recommended to <strong>delete</strong> it."
+msgstr ""
+
+#: includes/classes/admin/class-cocart-admin-updates.php:670
+#. translators: %1 = Plugin name, %2 = A link to the updates page. %3 link to
+#. the pricing page
+msgid ""
+"To enable updates for %1$s, please <a href=\"%2$s\">enter your license "
+"key</a>. If you don't have a license key, please consider <a href=\"%3$s\" "
+"target=\"_blank\">purchasing one</a> to keep up to date, secure and receive "
+"support."
+msgstr ""
+
+#: includes/classes/admin/class-cocart-admin-updates.php:692
+#. translators: %1$s is the plugin name, %2$s and %3$s are a link.
+msgid ""
+"%1$s can't be updated because your license is expired. %2$sRenew your "
+"license%3$s to get updates again and use all the features of %1$s."
+msgstr ""
+
+#: includes/classes/admin/class-cocart-admin-updates.php:877
+msgid "Unknown"
+msgstr ""
+
+#: includes/classes/admin/pages/class-cocart-admin-pages-updates.php:94
+msgid "Save changes"
+msgstr ""
+
+#: includes/classes/admin/pages/class-cocart-admin-pages-updates.php:97
+msgid "Activate License"
+msgstr ""
+
+#: includes/classes/admin/pages/class-cocart-admin-pages-updates.php:103
+msgid "Manage License"
+msgstr ""
+
+#: includes/classes/admin/pages/class-cocart-admin-pages-updates.php:109
+msgid "License Status"
+msgstr ""
+
+#: includes/classes/admin/pages/class-cocart-admin-pages-updates.php:118
+msgid "Don't have an license?"
+msgstr ""
+
+#: includes/classes/admin/pages/class-cocart-admin-pages-updates.php:118
+msgid "View pricing & purchase"
+msgstr ""
+
+#: includes/classes/admin/pages/class-cocart-admin-pages-updates.php:124
+msgid "Recent Updates"
+msgstr ""
+
+#: includes/classes/admin/pages/class-cocart-admin-pages-updates.php:152
+#. translators: %s: updates counter
+msgid "Updates %s"
+msgstr ""
+
+#: includes/classes/admin/pages/class-cocart-admin-pages-updates.php:157
+msgid "Updates"
+msgstr ""
+
+#: includes/classes/admin/pages/class-cocart-admin-pages-updates.php:181
+msgid "License Information"
+msgstr ""
+
+#: includes/classes/admin/pages/class-cocart-admin-pages-updates.php:189
+msgid "License Key"
+msgstr ""
+
+#: includes/classes/admin/pages/class-cocart-admin-pages-updates.php:228
+msgid ""
+"There was a problem activating/deactivating your license. Please seek "
+"assistance."
+msgstr ""
+
+#: includes/classes/admin/pages/class-cocart-admin-pages-updates.php:230
+msgid "Activate your license to enable access to updates."
+msgstr ""
+
+#: includes/classes/admin/pages/class-cocart-admin-pages-updates.php:232
+msgid ""
+"Activations are not counted while on a local or staging environments, but "
+"you will still receive updates."
+msgstr ""
+
+#: includes/classes/admin/pages/class-cocart-admin-pages-updates.php:236
+msgid ""
+"It looks like this site has moved. Updates are disabled until you have "
+"reactivated your license."
+msgstr ""
+
+#: includes/classes/admin/pages/class-cocart-admin-pages-updates.php:242
+msgid "Copy and paste your license key here..."
+msgstr ""
+
+#: includes/classes/admin/pages/class-cocart-admin-pages-updates.php:258
+#. translators: %1$s and %2$s are a link.
+msgid "License is expired. %1$sRenew your license%2$s to get updates again."
+msgstr ""
+
+#: includes/classes/admin/pages/class-cocart-admin-pages-updates.php:265
+#. translators: %s Activation limit usage.
+msgid "Activation Limit Usage: %s"
+msgstr ""
+
+#: includes/classes/admin/pages/class-cocart-admin-pages-updates.php:271
+#. translators: %1$s and %2$s are a link.
+msgid ""
+"License key is invalid. Please copy and paste %1$syour license key from "
+"your account%2$s."
+msgstr ""
+
+#: includes/classes/admin/pages/class-cocart-admin-pages-updates.php:278
+#. translators: %s Activation limit available.
+msgid "Activation Limit Available: %s"
+msgstr ""
+
+#: includes/classes/admin/pages/class-cocart-admin-pages-updates.php:292
+#. translators: Product name associated with license.
+msgid "License for: %s"
+msgstr ""
+
+#: includes/classes/admin/pages/class-cocart-admin-pages-updates.php:304
+msgid "Never"
+msgstr ""
+
+#: includes/classes/admin/pages/class-cocart-admin-pages-updates.php:308
+#. translators: Expiration value
+msgid "Expiration Date: %s"
+msgstr ""
+
+#: includes/classes/admin/pages/class-cocart-admin-pages-updates.php:377
+#: includes/classes/admin/pages/class-cocart-admin-pages-updates.php:415
+msgid "Inactive"
+msgstr ""
+
+#: includes/classes/admin/pages/class-cocart-admin-pages-updates.php:407
+msgid "Disabled"
+msgstr ""
+
+#: includes/classes/admin/pages/class-cocart-admin-pages-updates.php:409
+msgid "Expired"
+msgstr ""
+
+#: includes/classes/admin/pages/class-cocart-admin-pages-updates.php:411
+msgid "Active"
+msgstr ""
+
+#: includes/classes/admin/pages/class-cocart-admin-pages-updates.php:413
+msgid "Deactivated"
+msgstr ""
+
+#: includes/classes/admin/pages/class-cocart-admin-pages-updates.php:415
+msgid "Inactive, but still receives updates."
+msgstr ""
+
+#: includes/classes/admin/pages/class-cocart-admin-pages-updates.php:417
+msgid "Invalid"
+msgstr ""
+
+#: includes/classes/admin/pages/class-cocart-admin-pages-updates.php:450
+#. translators: %s Date and time
+msgid "Posted %s"
+msgstr ""
+
+#: includes/classes/admin/pages/class-cocart-admin-pages-upgrade.php:52
+msgid "Want more?"
+msgstr ""
+
+#: includes/classes/admin/pages/class-cocart-admin-pages-upgrade.php:53
+msgid "Consider upgrading to unlock more features and support."
+msgstr ""
+
+#: includes/classes/admin/pages/class-cocart-admin-pages-upgrade.php:58
+msgid "1 Site"
+msgstr ""
+
+#: includes/classes/admin/pages/class-cocart-admin-pages-upgrade.php:65
+#: includes/classes/admin/views/html-next-steps.php:90
+msgid "Need something else?"
+msgstr ""
+
+#: includes/classes/admin/pages/class-cocart-admin-pages-upgrade.php:66
+#: includes/classes/admin/views/html-next-steps.php:91
+msgid "Install Plugins"
+msgstr ""
+
+#: includes/classes/admin/pages/class-cocart-admin-pages-upgrade.php:71
+#: includes/classes/admin/views/html-next-steps.php:83
+#: includes/classes/admin/woocommerce/notes/class-cocart-wc-admin-note-thanks-install.php:105
+msgid "View Documentation"
+msgstr ""
+
+#: includes/classes/admin/pages/class-cocart-admin-pages-upgrade.php:77
+msgid "Payments are handled via Polar."
+msgstr ""
+
+#: includes/classes/admin/pages/class-cocart-admin-pages-upgrade.php:100
+#: includes/classes/admin/pages/class-cocart-admin-pages-upgrade.php:101
+msgid "Upgrade"
+msgstr ""
+
 #: includes/classes/admin/plugin-suggestions/class-cocart-admin-plugin-search.php:167
 #. translators: %s: CoCart
 msgid ""
@@ -459,69 +669,69 @@ msgid "Learn more"
 msgstr ""
 
 #: includes/classes/admin/plugin-suggestions/class-cocart-admin-plugin-search.php:619
-#. translators: %4$s: plugin does, %3$s: requirement
-msgid "%1$sPlugin %4$s %2$s%3$s"
+#. translators: %1$s: plugin does, %2$s: requirement
+msgid "Plugin %1$s %2$s"
 msgstr ""
 
-#: includes/classes/admin/plugin-suggestions/class-cocart-admin-plugin-search.php:713
+#: includes/classes/admin/plugin-suggestions/class-cocart-admin-plugin-search.php:711
 #. translators: %s: Plugin name
 msgid "Purchase %s now"
 msgstr ""
 
-#: includes/classes/admin/plugin-suggestions/class-cocart-admin-plugin-search.php:718
+#: includes/classes/admin/plugin-suggestions/class-cocart-admin-plugin-search.php:716
 msgid "Purchase Now"
 msgstr ""
 
-#: includes/classes/admin/plugin-suggestions/class-cocart-admin-plugin-search.php:730
+#: includes/classes/admin/plugin-suggestions/class-cocart-admin-plugin-search.php:728
 #. translators: %s: Plugin name and version.
 msgid "Install %s now"
 msgstr ""
 
-#: includes/classes/admin/plugin-suggestions/class-cocart-admin-plugin-search.php:735
+#: includes/classes/admin/plugin-suggestions/class-cocart-admin-plugin-search.php:733
 msgid "Install Now"
 msgstr ""
 
-#: includes/classes/admin/plugin-suggestions/class-cocart-admin-plugin-search.php:741
-#: includes/classes/admin/plugin-suggestions/class-cocart-admin-plugin-search.php:808
+#: includes/classes/admin/plugin-suggestions/class-cocart-admin-plugin-search.php:739
+#: includes/classes/admin/plugin-suggestions/class-cocart-admin-plugin-search.php:806
 msgid "Not Compatible"
 msgstr ""
 
-#: includes/classes/admin/plugin-suggestions/class-cocart-admin-plugin-search.php:757
+#: includes/classes/admin/plugin-suggestions/class-cocart-admin-plugin-search.php:755
 #. translators: %s: Plugin name
 msgid "Update %s now"
 msgstr ""
 
-#: includes/classes/admin/plugin-suggestions/class-cocart-admin-plugin-search.php:759
+#: includes/classes/admin/plugin-suggestions/class-cocart-admin-plugin-search.php:757
 msgid "Update Now"
 msgstr ""
 
-#: includes/classes/admin/plugin-suggestions/class-cocart-admin-plugin-search.php:764
+#: includes/classes/admin/plugin-suggestions/class-cocart-admin-plugin-search.php:762
 msgid "Cannot Update"
 msgstr ""
 
-#: includes/classes/admin/plugin-suggestions/class-cocart-admin-plugin-search.php:776
+#: includes/classes/admin/plugin-suggestions/class-cocart-admin-plugin-search.php:774
 msgid "Installed & Active"
 msgstr ""
 
-#: includes/classes/admin/plugin-suggestions/class-cocart-admin-plugin-search.php:780
+#: includes/classes/admin/plugin-suggestions/class-cocart-admin-plugin-search.php:778
 msgid "Activate"
 msgstr ""
 
-#: includes/classes/admin/plugin-suggestions/class-cocart-admin-plugin-search.php:782
+#: includes/classes/admin/plugin-suggestions/class-cocart-admin-plugin-search.php:780
 #. translators: %s: Plugin name.
 msgid "Activate %s"
 msgstr ""
 
-#: includes/classes/admin/plugin-suggestions/class-cocart-admin-plugin-search.php:793
+#: includes/classes/admin/plugin-suggestions/class-cocart-admin-plugin-search.php:791
 msgid "Network Activate"
 msgstr ""
 
-#: includes/classes/admin/plugin-suggestions/class-cocart-admin-plugin-search.php:795
+#: includes/classes/admin/plugin-suggestions/class-cocart-admin-plugin-search.php:793
 #. translators: %s: Plugin name.
 msgid "Network Activate %s"
 msgstr ""
 
-#: includes/classes/admin/plugin-suggestions/class-cocart-admin-plugin-search.php:814
+#: includes/classes/admin/plugin-suggestions/class-cocart-admin-plugin-search.php:812
 msgid "Installed"
 msgstr ""
 
@@ -535,7 +745,7 @@ msgstr ""
 msgid "Auto-updates are disabled based on this setting for %1$s."
 msgstr ""
 
-#: includes/classes/admin/plugin-updates/class-cocart-admin-plugin-screen-update.php:249
+#: includes/classes/admin/plugin-updates/class-cocart-admin-plugin-screen-update.php:267
 #. translators: %1$s: Hyperlink opening, %2$s: Hyperlink closing , %3$s: plugin
 #. name, %4$s: version mentioned,
 msgid "%1$sSee what's coming next%2$s in %3$s v%4$s."
@@ -621,19 +831,6 @@ msgstr ""
 
 #: includes/classes/admin/views/html-next-steps.php:78
 msgid "You're ready to develop your headless store."
-msgstr ""
-
-#: includes/classes/admin/views/html-next-steps.php:83
-#: includes/classes/admin/woocommerce/notes/class-cocart-wc-admin-note-thanks-install.php:105
-msgid "View Documentation"
-msgstr ""
-
-#: includes/classes/admin/views/html-next-steps.php:90
-msgid "Need something else?"
-msgstr ""
-
-#: includes/classes/admin/views/html-next-steps.php:91
-msgid "Install Plugins"
 msgstr ""
 
 #: includes/classes/admin/views/html-next-steps.php:92
@@ -1266,70 +1463,70 @@ msgstr ""
 msgid "Unknown version specified"
 msgstr ""
 
-#: includes/classes/class-cocart-helpers.php:661
+#: includes/classes/class-cocart-helpers.php:663
 #. translators: %s: Number of years
 msgid "%s years"
 msgstr ""
 
-#: includes/classes/class-cocart-helpers.php:665
+#: includes/classes/class-cocart-helpers.php:667
 msgid "a year"
 msgstr ""
 
-#: includes/classes/class-cocart-helpers.php:673
+#: includes/classes/class-cocart-helpers.php:675
 #. translators: %s: Number of months
 msgid "%s months"
 msgstr ""
 
-#: includes/classes/class-cocart-helpers.php:677
+#: includes/classes/class-cocart-helpers.php:679
 msgid "1 month"
 msgstr ""
 
-#: includes/classes/class-cocart-helpers.php:685
+#: includes/classes/class-cocart-helpers.php:687
 #. translators: %s: Number of weeks
 msgid "%s weeks"
 msgstr ""
 
-#: includes/classes/class-cocart-helpers.php:689
+#: includes/classes/class-cocart-helpers.php:691
 msgid "a week"
 msgstr ""
 
-#: includes/classes/class-cocart-helpers.php:697
+#: includes/classes/class-cocart-helpers.php:699
 #. translators: %s: Number of days
 msgid "%s days"
 msgstr ""
 
-#: includes/classes/class-cocart-helpers.php:701
+#: includes/classes/class-cocart-helpers.php:703
 msgid "a day"
 msgstr ""
 
-#: includes/classes/class-cocart-helpers.php:709
+#: includes/classes/class-cocart-helpers.php:711
 #. translators: %s: Number of hours
 msgid "%s hours"
 msgstr ""
 
-#: includes/classes/class-cocart-helpers.php:713
+#: includes/classes/class-cocart-helpers.php:715
 msgid "an hour"
 msgstr ""
 
-#: includes/classes/class-cocart-helpers.php:720
+#: includes/classes/class-cocart-helpers.php:722
 #. translators: %s: Number of minutes
 msgid "%s minutes"
 msgstr ""
 
-#: includes/classes/class-cocart-helpers.php:722
+#: includes/classes/class-cocart-helpers.php:724
 msgid "a minute"
 msgstr ""
 
-#: includes/classes/class-cocart-helpers.php:730
+#: includes/classes/class-cocart-helpers.php:732
 #. translators: %s: Number of seconds
 msgid "%s seconds"
 msgstr ""
 
-#: includes/classes/class-cocart-helpers.php:734
+#: includes/classes/class-cocart-helpers.php:736
 msgid "a second"
 msgstr ""
 
-#: includes/classes/class-cocart-helpers.php:818
+#: includes/classes/class-cocart-helpers.php:820
 #. translators: 1: CoCart, 2: Required PHP version
 msgid "The minimum PHP version required for %1$s is %2$s. You are running %3$s."
 msgstr ""
@@ -1468,29 +1665,28 @@ msgstr ""
 msgid "Authentication invalid!"
 msgstr ""
 
-#: includes/classes/rest-api/class-cocart-authentication.php:427
-#. translators: %s: User name.
-msgid "The password you entered for the username \"%s\" is incorrect."
-msgstr ""
-
-#: includes/classes/rest-api/class-cocart-authentication.php:436
+#: includes/classes/rest-api/class-cocart-authentication.php:422
 msgid ""
-"Authentication is invalid. Please check the authentication information is "
-"correct and try again."
+"Authentication is invalid. Please check your login details are correct and "
+"try again."
 msgstr ""
 
-#: includes/classes/rest-api/class-cocart-authentication.php:543
+#: includes/classes/rest-api/class-cocart-authentication.php:427
+msgid "The password you entered is incorrect."
+msgstr ""
+
+#: includes/classes/rest-api/class-cocart-authentication.php:534
 msgid "This filter is no longer used."
 msgstr ""
 
-#: includes/classes/rest-api/class-cocart-authentication.php:801
-#: includes/classes/rest-api/class-cocart-authentication.php:820
-#: includes/classes/rest-api/class-cocart-authentication.php:836
+#: includes/classes/rest-api/class-cocart-authentication.php:792
+#: includes/classes/rest-api/class-cocart-authentication.php:811
+#: includes/classes/rest-api/class-cocart-authentication.php:827
 #. translators: 1: permission method, 2: api route
 msgid "Permission to %1$s %2$s is only permitted if the user is authenticated."
 msgstr ""
 
-#: includes/classes/rest-api/class-cocart-authentication.php:850
+#: includes/classes/rest-api/class-cocart-authentication.php:841
 #. translators: %s: api route
 msgid "Unknown request method for %s."
 msgstr ""
@@ -1685,12 +1881,12 @@ msgid "Cart in session is not valid!"
 msgstr ""
 
 #: includes/classes/rest-api/controllers/v1/cart/class-cocart-controller.php:453
-#: includes/classes/utilities/class-cocart-utilities-cart-helpers.php:1039
+#: includes/classes/utilities/class-cocart-utilities-cart-helpers.php:1043
 msgid "Product ID number is required!"
 msgstr ""
 
 #: includes/classes/rest-api/controllers/v1/cart/class-cocart-controller.php:459
-#: includes/classes/utilities/class-cocart-utilities-cart-helpers.php:1059
+#: includes/classes/utilities/class-cocart-utilities-cart-helpers.php:1063
 msgid "Product ID must be numeric!"
 msgstr ""
 
@@ -1699,18 +1895,18 @@ msgid "Quantity must be numeric!"
 msgstr ""
 
 #: includes/classes/rest-api/controllers/v1/cart/class-cocart-controller.php:537
-#: includes/classes/utilities/class-cocart-utilities-cart-helpers.php:1191
+#: includes/classes/utilities/class-cocart-utilities-cart-helpers.php:1195
 #. translators: %1$s: Attribute name, %2$s: Allowed values.
 msgid "Invalid value posted for %1$s. Allowed values: %2$s"
 msgstr ""
 
 #: includes/classes/rest-api/controllers/v1/cart/class-cocart-controller.php:563
-#: includes/classes/utilities/class-cocart-utilities-cart-helpers.php:1222
+#: includes/classes/utilities/class-cocart-utilities-cart-helpers.php:1226
 msgid "Missing variation data for variable product."
 msgstr ""
 
 #: includes/classes/rest-api/controllers/v1/cart/class-cocart-controller.php:565
-#: includes/classes/utilities/class-cocart-utilities-cart-helpers.php:1224
+#: includes/classes/utilities/class-cocart-utilities-cart-helpers.php:1228
 #. translators: %s: Attribute name.
 msgid "%s is a required field."
 msgid_plural "%s are required fields."
@@ -1718,13 +1914,13 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: includes/classes/rest-api/controllers/v1/cart/class-cocart-controller.php:603
-#: includes/classes/utilities/class-cocart-utilities-product-helpers.php:395
+#: includes/classes/utilities/class-cocart-utilities-product-helpers.php:431
 msgid "No matching variation found."
 msgstr ""
 
 #: includes/classes/rest-api/controllers/v1/cart/class-cocart-controller.php:630
 #: includes/classes/utilities/class-cocart-utilities-cart-helpers.php:134
-#: includes/classes/utilities/class-cocart-utilities-cart-helpers.php:999
+#: includes/classes/utilities/class-cocart-utilities-cart-helpers.php:1003
 msgid "This product cannot be added to the cart."
 msgstr ""
 
@@ -1773,7 +1969,7 @@ msgstr ""
 
 #: includes/classes/rest-api/controllers/v1/cart/class-cocart-controller.php:931
 #: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:1014
-#: includes/classes/utilities/class-cocart-utilities-cart-helpers.php:1277
+#: includes/classes/utilities/class-cocart-utilities-cart-helpers.php:1281
 #. translators: 1: Quantity Requested, 2: Product Name 3: Quantity in Stock
 #. translators: 1: Quantity Requested, 2: Product Name, 3: Quantity in Stock
 #. translators: 1: Quantity Requested, 2: Product Name, 3: Quantity in Stock
@@ -4445,37 +4641,37 @@ msgstr ""
 msgid "Free shipping coupon"
 msgstr ""
 
-#: includes/classes/utilities/class-cocart-utilities-cart-helpers.php:499
+#: includes/classes/utilities/class-cocart-utilities-cart-helpers.php:503
 #. translators: %s location.
 msgid "(estimated for %s)"
 msgstr ""
 
-#: includes/classes/utilities/class-cocart-utilities-cart-helpers.php:1051
+#: includes/classes/utilities/class-cocart-utilities-cart-helpers.php:1055
 msgid ""
 "Product does not exist! Check that you have submitted a product ID or SKU "
 "ID correctly for a product that exists."
 msgstr ""
 
-#: includes/classes/utilities/class-cocart-utilities-cart-helpers.php:1093
+#: includes/classes/utilities/class-cocart-utilities-cart-helpers.php:1097
 msgid "Quantity must be integer or a float value!"
 msgstr ""
 
-#: includes/classes/utilities/class-cocart-utilities-cart-helpers.php:1104
+#: includes/classes/utilities/class-cocart-utilities-cart-helpers.php:1108
 #. translators: %s: Minimum quantity.
 msgid "Quantity must be a minimum of %s."
 msgstr ""
 
-#: includes/classes/utilities/class-cocart-utilities-cart-helpers.php:1128
+#: includes/classes/utilities/class-cocart-utilities-cart-helpers.php:1132
 #. translators: %s: Maximum quantity.
 msgid "Quantity must be %s or lower."
 msgstr ""
 
-#: includes/classes/utilities/class-cocart-utilities-cart-helpers.php:1375
+#: includes/classes/utilities/class-cocart-utilities-cart-helpers.php:1379
 #. translators: %s: product name
 msgid "'%s' is not available for purchase."
 msgstr ""
 
-#: includes/classes/utilities/class-cocart-utilities-cart-helpers.php:1410
+#: includes/classes/utilities/class-cocart-utilities-cart-helpers.php:1414
 msgid "Missing cart item key is required!"
 msgstr ""
 

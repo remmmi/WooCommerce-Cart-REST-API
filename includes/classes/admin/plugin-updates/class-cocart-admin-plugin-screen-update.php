@@ -5,7 +5,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\Admin
  * @since   2.0.12 Introduced.
- * @version 4.3.0
+ * @version 4.4.0
  * @license GPL-3.0
  */
 
@@ -33,12 +33,29 @@ class CoCart_Admin_Plugin_Screen_Update extends CoCart_Admin_Plugin_Updates {
 	 * @access public
 	 */
 	public function __construct() {
+		// Prevent the legacy core version from activating.
+		add_filter( 'activated_plugin', array( $this, 'prevent_legacy_activation' ) );
+
 		add_action( 'in_plugin_update_message-' . plugin_basename( COCART_FILE ), array( $this, 'in_plugin_update_message' ), 10, 2 );
 
 		// Add after_plugin_row... action for CoCart.
 		add_action( 'after_plugin_row_' . plugin_basename( COCART_FILE ), array( $this, 'plugin_row' ), 11, 2 );
 	} // END __construct()
 
+	/**
+	 * Prevent the legacy core version from activating.
+	 *
+	 * @access public
+	 *
+	 * @since 4.4.0 Introduced.
+	 */
+	public function prevent_legacy_activation() {
+		$legacy_plugin = plugin_basename( 'cart-rest-api-for-woocommerce/cart-rest-api-for-woocommerce.php' );
+
+		if ( is_plugin_active( $legacy_plugin ) ) {
+			deactivate_plugins( $legacy_plugin );
+		}
+	} // END prevent_legacy_activation()
 
 	/**
 	 * Show plugin changes on the plugins screen.
@@ -152,6 +169,7 @@ class CoCart_Admin_Plugin_Screen_Update extends CoCart_Admin_Plugin_Updates {
 				break;
 			}
 		}
+
 		return wp_kses_post( $upgrade_notice );
 	} // END parse_update_notice()
 
@@ -164,7 +182,7 @@ class CoCart_Admin_Plugin_Screen_Update extends CoCart_Admin_Plugin_Updates {
 		?>
 		<script>
 			( function( $ ) {
-				var $update_box = $( '#cart-rest-api-for-woocommerce-update' );
+				var $update_box = $( '#<?php echo COCART_SLUG; ?>-update' );
 				var $update_link = $update_box.find('a.update-link').first();
 				var update_url = $update_link.attr( 'href' );
 
@@ -242,7 +260,7 @@ class CoCart_Admin_Plugin_Screen_Update extends CoCart_Admin_Plugin_Updates {
 				return;
 			}
 
-			echo '<tr class="plugin-update-tr' . esc_attr( $active_class ) . ' cocart-row-notice" id="' . esc_attr( 'cart-rest-api-for-woocommerce-update' ) . '" data-slug="cart-rest-api-for-woocommerce" data-plugin="' . esc_attr( $file ) . '"><td colspan="' . $wp_list_table->get_column_count() . '" class="plugin-update colspanchange"><div class="notice inline ' . esc_attr( $notice_type ) . '"><p class="cart">'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+			echo '<tr class="plugin-update-tr' . esc_attr( $active_class ) . ' cocart-row-notice" id="' . COCART_SLUG . esc_attr( '-update' ) . '" data-slug="' . COCART_SLUG . '" data-plugin="' . esc_attr( $file ) . '"><td colspan="' . $wp_list_table->get_column_count() . '" class="plugin-update colspanchange"><div class="notice inline ' . esc_attr( $notice_type ) . '"><p class="cart">'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 
 			printf(
 				/* translators: %1$s: Hyperlink opening, %2$s: Hyperlink closing , %3$s: plugin name, %4$s: version mentioned, */

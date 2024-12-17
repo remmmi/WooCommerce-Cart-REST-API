@@ -29,7 +29,7 @@ final class CoCart {
 	 *
 	 * @var string
 	 */
-	public static $version = '4.4.0-beta.7';
+	public static $version = '4.4.0-beta.9';
 
 	/**
 	 * CoCart Database Schema version.
@@ -43,6 +43,19 @@ final class CoCart {
 	 * @var string
 	 */
 	public static $db_version = '3.0.0';
+
+	/**
+	 * Tested up to WordPress version.
+	 *
+	 * @access public
+	 *
+	 * @static
+	 *
+	 * @since 4.4.0 Introduced.
+	 *
+	 * @var string
+	 */
+	public static $tested_up_to_wp = '6.7';
 
 	/**
 	 * Required WordPress version.
@@ -178,13 +191,17 @@ final class CoCart {
 	 * @static
 	 *
 	 * @since   1.2.0 Introduced.
-	 * @version 3.0.0
+	 * @version 4.4.0
 	 */
 	public static function setup_constants() {
 		self::define( 'COCART_ABSPATH', dirname( COCART_FILE ) . '/' );
 		self::define( 'COCART_PLUGIN_BASENAME', plugin_basename( COCART_FILE ) );
 		self::define( 'COCART_VERSION', self::$version );
 		self::define( 'COCART_DB_VERSION', self::$db_version );
+		self::define( 'COCART_TESTED_WP', self::$tested_up_to_wp );
+		self::define( 'COCART_REQUIRED_WP', self::$required_wp );
+		self::define( 'COCART_REQUIRED_PHP', self::$required_php );
+		self::define( 'COCART_REQUIRED_WOO', self::$required_woo );
 		self::define( 'COCART_SLUG', 'cart-rest-api-for-woocommerce' );
 		self::define( 'COCART_URL_PATH', untrailingslashit( plugins_url( '/', COCART_FILE ) ) );
 		self::define( 'COCART_FILE_PATH', untrailingslashit( plugin_dir_path( COCART_FILE ) ) );
@@ -196,7 +213,7 @@ final class CoCart {
 		self::define( 'COCART_SUGGEST_FEATURE', 'https://cocartapi.com/suggest-a-feature/' );
 		self::define( 'COCART_COMMUNITY_URL', 'https://cocartapi.com/community/' );
 		self::define( 'COCART_DOCUMENTATION_URL', 'https://docs.cocart.xyz' );
-		self::define( 'COCART_TRANSLATION_URL', 'https://translate.cocartapi.com/projects/cart-rest-api-for-woocommerce/' );
+		self::define( 'COCART_TRANSLATION_URL', 'https://translate.cocartapi.com/projects/cocart-core/' );
 		self::define( 'COCART_REPO_URL', 'https://github.com/co-cart/co-cart' );
 		self::define( 'COCART_NEXT_VERSION', '5.0.0' );
 	} // END setup_constants()

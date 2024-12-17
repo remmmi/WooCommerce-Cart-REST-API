@@ -4,8 +4,8 @@
  *
  * @author  Sébastien Dumont
  * @package CoCart\Admin
- * @since   1.2.0
- * @version 4.0.0
+ * @since   1.2.0 Introduced.
+ * @version 4.4.0
  * @license GPL-3.0
  */
 
@@ -51,6 +51,11 @@ if ( ! class_exists( 'CoCart_Admin' ) ) {
 			require_once __DIR__ . '/class-cocart-admin-help-tab.php';                              // Admin Help Tab.
 			require_once __DIR__ . '/class-cocart-admin-menus.php';                                 // Admin Menus.
 			require_once __DIR__ . '/class-cocart-admin-notices.php';                               // Plugin Notices.
+			include_once __DIR__ . '/class-cocart-admin-status.php';                                // Plugin Status.
+
+			// Plugin identification and updates.
+			include_once __DIR__ . '/abstract/abstract-class-plugin-updates.php';                   // Plugin identification.
+			require_once __DIR__ . '/class-cocart-admin-updates.php';                               // Plugin Updates.
 
 			// Plugin search and suggestions.
 			require_once __DIR__ . '/plugin-suggestions/class-cocart-admin-plugin-suggestions.php'; // Plugin Suggestions.
@@ -61,7 +66,9 @@ if ( ! class_exists( 'CoCart_Admin' ) ) {
 			include_once __DIR__ . '/woocommerce/class-cocart-wc-admin-system-status.php';          // WooCommerce System Status.
 
 			// Pages.
-			require_once __DIR__ . '/pages/class-cocart-admin-pages-support.php';                   // Support.
+			require_once __DIR__ . '/pages/class-cocart-admin-pages-support.php';                   // Support page.
+			require_once __DIR__ . '/pages/class-cocart-admin-pages-upgrade.php';                   // Upgrade page.
+			require_once __DIR__ . '/pages/class-cocart-admin-pages-updates.php';                   // Updates/License Manager page.
 			require_once __DIR__ . '/class-cocart-admin-setup-wizard.php';                          // Setup Wizard.
 		} // END includes()
 
