@@ -227,7 +227,11 @@ module.exports = function(grunt) {
 		checktextdomain: {
 			options:{
 				text_domain: '<%= pkg.name %>', // Project text domain.
-				updateDomains: [ 'woocommerce' ], // List of text domains to replace should they be incorrect.
+				updateDomains: [ // List of text domains to replace should they be incorrect.
+					'co-cart',
+					'meshpress',
+					'woocommerce'
+				],
 				keywords: [
 					'__:1,2d',
 					'_e:1,2d',
@@ -242,7 +246,8 @@ module.exports = function(grunt) {
 					'_n:1,2,4d',
 					'_nx:1,2,4c,5d',
 					'_n_noop:1,2,3d',
-					'_nx_noop:1,2,3c,4d'
+					'_nx_noop:1,2,3c,4d',
+					'wp_set_script_translations:1,2d,3'
 				]
 			},
 			files: {
