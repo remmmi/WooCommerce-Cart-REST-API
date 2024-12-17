@@ -138,10 +138,16 @@ if ( ! class_exists( 'CoCart_Admin_Updates' ) ) {
 		 * @return object|boolean
 		 */
 		protected function get_updates( $product_slug, $force_check = false ) {
+			$skip_license = false;
+
+			if ( 'cocart-core' === $product_slug ) {
+				$skip_license = true;
+			}
+
 			$license_key = self::get_license_key();
 
 			// Bail early if we don't have a key.
-			if ( ! $license_key ) {
+			if ( ! $skip_license && ! $license_key ) {
 				return false;
 			}
 
@@ -311,6 +317,11 @@ if ( ! class_exists( 'CoCart_Admin_Updates' ) ) {
 
 			foreach ( $this->get_installed_plugins() as $plugin_file => $installed_plugin ) {
 				$plugin_slug = $this->get_slug_by_plugin_file( $plugin_file );
+
+				// Ignore looking up updates for legacy version.
+				if ( 'cart-rest-api-for-woocommerce' === $plugin_slug ) {
+					continue;
+				}
 
 				$result = (object) array(
 					'id'               => 'cocart-' . $plugin_slug,
