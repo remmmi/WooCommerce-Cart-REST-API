@@ -849,7 +849,7 @@ if ( ! class_exists( 'CoCart_Admin_Updates' ) ) {
 					$plugin_slug = $plugin_data;
 				}
 
-				if ( array_key_exists( $plugin_slug, $cocart_update_settings ) ) {
+				if ( ! empty( $cocart_update_settings ) && array_key_exists( $plugin_slug, $cocart_update_settings ) ) {
 					$license_key = ! empty( $cocart_update_settings[ $plugin_slug ] ) ? $cocart_update_settings[ $plugin_slug ]['cocart_license_key'] : null;
 				} else {
 					$license_key = null;

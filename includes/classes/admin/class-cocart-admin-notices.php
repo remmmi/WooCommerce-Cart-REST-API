@@ -63,6 +63,7 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 			'upgrade_warning'     => 'upgrade_warning_notice',
 			'base_tables_missing' => 'base_tables_missing_notice',
 			'setup_wizard'        => 'setup_wizard_notice',
+			'disabled_wp_source'  => 'disabled_wp_source_notice',
 		);
 
 		/**
@@ -189,6 +190,7 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 			self::add_notice( 'check_wp' );
 			self::add_notice( 'check_wc' );
 			self::add_notice( 'check_beta' );
+			self::add_notice( 'disabled_wp_source' );
 		} // END reset_admin_notices()
 
 		/**
@@ -657,6 +659,27 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 		public function setup_wizard_notice() {
 			include_once __DIR__ . '/views/html-notice-setup-wizard.php';
 		} // END setup_wizard_notice()
+
+		/**
+		 * Displays a notice once activated only if a legacy version of CoCart
+		 * from WordPress dot ORG was detected.
+		 *
+		 * @access public
+		 *
+		 * @since 4.4.0 Introduced.
+		 *
+		 * @return void
+		 */
+		public function disabled_wp_source_notice() {
+			$deactivated_notice = (int) get_transient( 'cocart_legacy_deactivated' );
+			if ( ! $deactivated_notice ) {
+				return;
+			}
+
+			include_once __DIR__ . '/views/html-notice-disabled-wp-source.php';
+
+			delete_transient( 'cocart_legacy_deactivated' );
+		} // END disabled_wp_source_notice()
 
 		/**
 		 * Displays a notice if the user installed CoCart on WordPress Playground.
