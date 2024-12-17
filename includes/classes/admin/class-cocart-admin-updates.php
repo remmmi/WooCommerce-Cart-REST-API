@@ -63,6 +63,11 @@ if ( ! class_exists( 'CoCart_Admin_Updates' ) ) {
 		 * @return boolean True if expired, false if not.
 		 */
 		protected function has_license_expired( $plugin_data, $license_key = '' ) {
+			// Should either be false return nothing.
+			if ( ! is_array( $plugin_data ) || empty( $plugin_data ) ) {
+				return false;
+			}
+
 			if ( empty( $license_key ) ) {
 				$license_key = self::get_license_key( $plugin_data );
 			}
@@ -638,12 +643,17 @@ if ( ! class_exists( 'CoCart_Admin_Updates' ) ) {
 		 * @return void
 		 */
 		public function license_information( $file, $plugin_data ) {
+			// Should either be false return nothing.
+			if ( ! is_array( $plugin_data ) || empty( $plugin_data ) ) {
+				return;
+			}
+
 			$license_key = self::get_license_key( $plugin_data );
 
 			$wp_list_table = _get_list_table( 'WP_Plugins_List_Table' );
 
 			// If plugin is the legacy core plugin.
-			if ( 'cart-rest-api-for-woocommerce' == $plugin_data['slug'] ) {
+			if ( isset( $plugin_data['slug'] ) && 'cart-rest-api-for-woocommerce' == $plugin_data['slug'] ) {
 				echo '<tr class="plugin-update-tr" id="' . esc_attr( $plugin_data['slug'] . '-update-info' ) . '" data-slug="' . $plugin_data['Name'] . '" data-plugin="' . esc_attr( $file ) . '"><td colspan="' . $wp_list_table->get_column_count() . '" class="plugin-update colspanchange"><div class="update-message notice inline notice-error notice-alt">'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 
 				echo '<p>';
@@ -653,7 +663,7 @@ if ( ! class_exists( 'CoCart_Admin_Updates' ) ) {
 			}
 
 			// Warn users to provide license key to get updates.
-			if ( empty( $license_key ) ) {
+			if ( isset( $plugin_data['slug'] ) && empty( $license_key ) ) {
 				echo '<tr class="plugin-update-tr" id="' . esc_attr( $plugin_data['slug'] . '-update-info' ) . '" data-slug="' . $plugin_data['Name'] . '" data-plugin="' . esc_attr( $file ) . '"><td colspan="' . $wp_list_table->get_column_count() . '" class="plugin-update colspanchange"><div class="notice notice-info notice-alt inline">'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 
 				echo '<p><strong><span class="dashicons dashicons-info"></span></strong> '
@@ -833,7 +843,7 @@ if ( ! class_exists( 'CoCart_Admin_Updates' ) ) {
 
 			if ( ! empty( $plugin_data ) ) {
 				if ( is_array( $plugin_data ) ) {
-					$plugin_slug = $plugin_data['slug'];
+					$plugin_slug = isset( $plugin_data['slug'] ) ? $plugin_data['slug'] : '';
 				} else {
 					$plugin_slug = $plugin_data;
 				}
