@@ -46,6 +46,7 @@ if ( ! class_exists( 'CoCart_Admin_Updates' ) ) {
 			// Check each CoCart plugin installed.
 			foreach ( array_keys( $this->get_installed_plugins() ) as $plugin_file ) {
 				add_action( 'in_plugin_update_message-' . $plugin_file, array( $this, 'modify_plugin_update_message' ), 10, 2 );
+				add_action( 'after_plugin_row_' . $plugin_file, array( $this, 'compatibility_check' ), 10, 2 );
 				add_action( 'after_plugin_row_' . $plugin_file, array( $this, 'license_information' ), 10, 2 );
 			}
 		} // END __construct()
@@ -640,6 +641,48 @@ if ( ! class_exists( 'CoCart_Admin_Updates' ) ) {
 				add_query_arg( array( 'page' => 'cocart-updates' ), admin_url( 'admin.php' ) )
 			);
 		} // END modify_plugin_update_message()
+
+		/**
+		 * Displays a message to the user under the listed plugin if the CoCart plugin
+		 * is not tested with the version of CoCart core installed.
+		 *
+		 * @access public
+		 *
+		 * @since 4.4.0 Introduced.
+		 *
+		 * @param string $file        Path to the plugin file relative to the plugins directory.
+		 * @param array  $plugin_data An array of plugin data.
+		 *
+		 * @return void
+		 */
+		public function compatibility_check( $file, $plugin_data ) {
+			// Should either be false return nothing.
+			if ( ! is_array( $plugin_data ) || empty( $plugin_data ) ) {
+				return;
+			}
+
+			// Ignore legacy plugin.
+			if ( isset( $plugin_data['slug'] ) && 'cart-rest-api-for-woocommerce' === $plugin_data['slug'] ) {
+				return;
+			}
+
+			$wp_list_table = _get_list_table( 'WP_Plugins_List_Table' );
+
+			if ( isset( $plugin_data['slug'] ) && 'cocart-core' !== $plugin_data['slug'] ) {
+				if ( empty( $plugin_data['CoCart tested up to'] ) || version_compare( COCART_VERSION, $plugin_data['CoCart tested up to'], '<' ) ) {
+					echo '<tr class="plugin-update-tr" id="' . esc_attr( $plugin_data['slug'] . '-update-info' ) . '" data-slug="' . $plugin_data['Name'] . '" data-plugin="' . esc_attr( $file ) . '"><td colspan="' . $wp_list_table->get_column_count() . '" class="plugin-update colspanchange"><div class="update-message notice inline notice-error notice-alt">'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+
+					echo '<p>';
+					printf(
+						/* translators: %s = Plugin name. */
+						__( 'This version of %s has not been tested with the core version of CoCart you have installed.', 'cart-rest-api-for-woocommerce' ),
+						$plugin_data['Name']
+					);
+					echo '</p></div></td></tr>';
+					return;
+				}
+			}
+		} // END compatibility_check()
 
 		/**
 		 * Displays a message to the user under the listed plugin to enter their license key
