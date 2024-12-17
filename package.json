@@ -42,7 +42,7 @@
 	"wc_tested_up_to": "9.4",
 	"license": "GPL-3.0",
 	"copyright": "Copyright (c) 2024, CoCart Headless, LLC",
-	"description": "Decouple your WooCommerce store with ease with our developer friendly REST API extension.",
+	"description": "The core of CoCart helps you get started to decouple your WooCommerce store easy.",
 	"tags": "",
 	"keywords": [
 		"wordpress",
