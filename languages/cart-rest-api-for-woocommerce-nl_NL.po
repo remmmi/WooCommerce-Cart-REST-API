@@ -1,5 +1,5 @@
-# Translation of CoCart (Core) in Dutch
-# This file is distributed under the same license as the CoCart (Core) package.
+# Translation of CoCart Core (Legacy) in Dutch
+# This file is distributed under the same license as the CoCart Core (Legacy) package.
 msgid ""
 msgstr ""
 "PO-Revision-Date: 2024-03-02 00:19:24+0000\n"
@@ -9,9 +9,17 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: GlotPress/4.0.1\n"
 "Language: nl\n"
-"Project-Id-Version: CoCart (Core)\n"
+"Project-Id-Version: CoCart Core (Legacy)\n"
 
-#: includes/classes/rest-api/class-cocart-authentication.php:542
+#: includes/classes/rest-api/class-cocart-authentication.php:426
+msgid "The password you entered is incorrect."
+msgstr ""
+
+#: includes/classes/rest-api/class-cocart-authentication.php:421
+msgid "Authentication is invalid. Please check your login details are correct and try again."
+msgstr ""
+
+#: includes/classes/rest-api/class-cocart-authentication.php:533
 msgid "This filter is no longer used."
 msgstr ""
 
@@ -152,15 +160,6 @@ msgstr ""
 
 #: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2378
 msgid "The currency symbol position to which the currency needs to return for the prices."
-msgstr ""
-
-#: includes/classes/rest-api/class-cocart-authentication.php:435
-msgid "Authentication is invalid. Please check the authentication information is correct and try again."
-msgstr ""
-
-#. translators: %s: User name.
-#: includes/classes/rest-api/class-cocart-authentication.php:426
-msgid "The password you entered for the username \"%s\" is incorrect."
 msgstr ""
 
 #: includes/classes/rest-api/controllers/v2/products/class-cocart-products-controller.php:1155
@@ -3166,14 +3165,14 @@ msgid "Unable to dispatch CoCart updater: %s"
 msgstr "Kan CoCart-updater niet verzenden: %s"
 
 #. translators: %s: api route
-#: includes/classes/rest-api/class-cocart-authentication.php:726
+#: includes/classes/rest-api/class-cocart-authentication.php:717
 msgid "Unknown request method for %s."
 msgstr "Onbekende aanvraagmethode voor %s."
 
 #. translators: 1: permission method, 2: api route
-#: includes/classes/rest-api/class-cocart-authentication.php:677
-#: includes/classes/rest-api/class-cocart-authentication.php:696
-#: includes/classes/rest-api/class-cocart-authentication.php:712
+#: includes/classes/rest-api/class-cocart-authentication.php:668
+#: includes/classes/rest-api/class-cocart-authentication.php:687
+#: includes/classes/rest-api/class-cocart-authentication.php:703
 msgid "Permission to %1$s %2$s is only permitted if the user is authenticated."
 msgstr "Toestemming om te %1$s %2$s is alleen toegestaan als de gebruiker is geverifieerd."
 
