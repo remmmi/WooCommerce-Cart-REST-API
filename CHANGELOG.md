@@ -1,4 +1,4 @@
-# Changelog for CoCart
+# Changelog for CoCart Core
 
 ## v4.3.15 - 28th November, 2024
 

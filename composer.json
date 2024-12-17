@@ -13,6 +13,7 @@
 		"woocommerce-extension",
 		"woocommerce-plugin",
 		"e-commerce",
+		"core",
 		"api",
 		"cart",
 		"rest",

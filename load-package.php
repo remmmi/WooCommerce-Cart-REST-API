@@ -13,7 +13,7 @@ if ( ! defined( 'COCART_FILE' ) ) {
 }
 
 if ( ! defined( 'COCART_SLUG' ) ) {
-	define( 'COCART_SLUG', 'cart-rest-api-for-woocommerce' );
+	define( 'COCART_SLUG', 'cocart-core' );
 }
 
 // Include the main CoCart class.

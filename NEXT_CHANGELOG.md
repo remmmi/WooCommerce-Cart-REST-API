@@ -1,4 +1,4 @@
-# Next Changelog for CoCart <!-- omit in toc -->
+# Next Changelog for CoCart Core <!-- omit in toc -->
 
 📢 This changelog is **NOT** final so take it with a grain of salt. Feedback from users while in beta will also help determine the final changelog of the release.
 
@@ -9,6 +9,11 @@
 
 > Developer note: Cart creation is normally done the moment the first item is added to the cart as it has something to save to session. But some users are confused with creating a cart for guest customers. So this route can help create a empty cart storing just the cart key and return it in the response guiding the developer to check the documentation for more information on how to use the cart key for a guest customer. It is not a requirement to use this route first.
 
+* Plugin: Updates are provided from us for all supported CoCart plugins.
+* Plugin: Will deactivate legacy core version if one found installed and active. If you try to activate legacy version while the new core version is active it will deactivate. Recommend deleting.
+
+> Developer note: If you have the `COCART_REMOVE_ALL_DATA` constant set to true. Recommend setting it to false before uninstalling the legacy version to prevent any issues.
+
 * Plugin: Integrity check of all files.
 
 > Developer note: Know if the version of CoCart is official and has not been tampered with. This is just the first iteration introduced.
@@ -16,6 +21,7 @@
 
 ## Changes
 
+* Plugin: Text domain a.k.a the plugin slug, has changed from `cart-rest-api-for-woocommerce` to `cocart-core`. This affects any translations including custom. If you did a custom translation you will need to rename the text domain to match.
 * REST API: Avatars only return if requested now when using the login endpoint.
 * REST API: Store API now returns array of CoCart versions installed not just the core version.
 * REST API: The following endpoints for Cart API v2 now extend `CoCart_REST_Cart_V2_Controller` instead of Cart API v1 controller: `cart/add-item`, `cart/add-items`, `cart/calculate`
@@ -68,7 +74,7 @@ Simply provide these two parameters with the data point values on any page and t
 
 > Note: List other filters that have been changed here.
 
-#### Deprecations
+#### Deprecation's
 
 * Function `cocart_prepare_money_response()` is replaced with function `cocart_format_money()`.
 

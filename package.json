@@ -1,6 +1,6 @@
 {
-	"title": "CoCart API - Decoupling Made Easy for WooCommerce",
-	"name": "cart-rest-api-for-woocommerce",
+	"title": "CoCart Core",
+	"name": "cocart-core",
 	"version": "4.4.0-beta.9",
 	"private": false,
 	"contributors": [
@@ -54,6 +54,7 @@
 		"woocommerce-extension",
 		"woocommerce-plugin",
 		"e-commerce",
+		"core",
 		"api",
 		"cart",
 		"products",
