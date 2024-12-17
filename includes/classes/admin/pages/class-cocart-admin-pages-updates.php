@@ -47,7 +47,7 @@ class CoCart_Admin_Updates_Page extends CoCart_Submenu_Page {
 		$this->cocart_update_settings = get_option( 'cocart_update_settings' );
 
 		// Registers the updates page.
-		add_filter( 'cocart_register_submenu_page', array( $this, 'register_submenu_page' ), 15 );
+		add_filter( 'cocart_register_submenu_page', array( $this, 'register_submenu_page' ), 20 );
 
 		// Filters what screens the plugin will focus on displaying notices or enqueue scripts/styles.
 		add_filter(
