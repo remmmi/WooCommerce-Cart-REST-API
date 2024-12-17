@@ -583,16 +583,17 @@ if ( ! class_exists( 'CoCart_Admin_Updates' ) ) {
 		 */
 		public function purge( $upgrader, $options ) {
 			if (
-				$this->cache_allowed
-				&& 'update' === $options['action']
+				'update' === $options['action']
 				&& 'plugin' === $options['type']
 				&& ! empty( $options['plugins'] )
 			) {
 				foreach ( $options['plugins'] as $plugin ) {
-					if ( $plugin === $this->plugin_id ) {
-						$this->refresh_plugins_transient();
+					if ( $plugin === $this->is_cocart_plugin( $plugin ) ) {
+						$plugin_slug = $this->get_slug_by_plugin_file( $plugin );
+						delete_transient( self::get_cache_key( $plugin_slug ) );
 					}
 				}
+				$this->refresh_plugins_transient();
 			}
 		} // END purge()
 
