@@ -324,7 +324,7 @@ if ( ! class_exists( 'CoCart_Admin_Updates' ) ) {
 				}
 
 				$result = (object) array(
-					'id'               => 'cocart-' . $plugin_slug,
+					'id'               => 'cocart-headless/' . $plugin_slug,
 					'name'             => $installed_plugin['Name'],
 					'slug'             => $plugin_slug,
 					'plugin'           => $plugin_file,
@@ -665,7 +665,7 @@ if ( ! class_exists( 'CoCart_Admin_Updates' ) ) {
 			$wp_list_table = _get_list_table( 'WP_Plugins_List_Table' );
 
 			// If plugin is the legacy core plugin.
-			if ( isset( $plugin_data['slug'] ) && 'cart-rest-api-for-woocommerce' == $plugin_data['slug'] ) {
+			if ( isset( $plugin_data['slug'] ) && 'cart-rest-api-for-woocommerce' === $plugin_data['slug'] ) {
 				echo '<tr class="plugin-update-tr" id="' . esc_attr( $plugin_data['slug'] . '-update-info' ) . '" data-slug="' . $plugin_data['Name'] . '" data-plugin="' . esc_attr( $file ) . '"><td colspan="' . $wp_list_table->get_column_count() . '" class="plugin-update colspanchange"><div class="update-message notice inline notice-error notice-alt">'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 
 				echo '<p>';

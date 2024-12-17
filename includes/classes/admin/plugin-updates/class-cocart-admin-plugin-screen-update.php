@@ -121,6 +121,7 @@ class CoCart_Admin_Plugin_Screen_Update extends CoCart_Admin_Plugin_Updates {
 				set_transient( $transient_name, $upgrade_notice, DAY_IN_SECONDS );
 			}
 		}
+
 		return $upgrade_notice;
 	} // END get_upgrade_notice()
 
