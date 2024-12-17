@@ -675,7 +675,7 @@ if ( ! class_exists( 'CoCart_Admin_Updates' ) ) {
 			}
 
 			// Warn users to provide license key to get updates.
-			if ( isset( $plugin_data['slug'] ) && empty( $license_key ) ) {
+			if ( isset( $plugin_data['slug'] ) && empty( $license_key ) && 'cocart-core' !== $plugin_data['slug'] ) {
 				echo '<tr class="plugin-update-tr" id="' . esc_attr( $plugin_data['slug'] . '-update-info' ) . '" data-slug="' . $plugin_data['Name'] . '" data-plugin="' . esc_attr( $file ) . '"><td colspan="' . $wp_list_table->get_column_count() . '" class="plugin-update colspanchange"><div class="notice notice-info notice-alt inline">'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 
 				echo '<p><strong><span class="dashicons dashicons-info"></span></strong> '
