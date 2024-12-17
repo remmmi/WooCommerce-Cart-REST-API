@@ -30,11 +30,11 @@ if ( ! defined( 'COCART_SLUG' ) ) {
 	define( 'COCART_SLUG', 'cart-rest-api-for-woocommerce' );
 }
 
-require_once untrailingslashit( plugin_dir_path( COCART_FILE ) ) . '/class-cocart-integrity-check.php';
+require_once untrailingslashit( __DIR__ ) . '/class-cocart-integrity-check.php';
 
 // Include the main CoCart class.
 if ( ! class_exists( 'CoCart', false ) ) {
-	include_once untrailingslashit( plugin_dir_path( COCART_FILE ) ) . '/includes/class-cocart.php';
+	include_once untrailingslashit( __DIR__ ) . '/includes/class-cocart.php';
 }
 
 /**

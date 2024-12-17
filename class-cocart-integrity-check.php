@@ -7,7 +7,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
-require_once untrailingslashit( plugin_dir_path( COCART_FILE ) ) . '/class-meshpress-plugin-local-integrity-check.php';
+require_once untrailingslashit( __DIR__ ) . '/class-meshpress-plugin-local-integrity-check.php';
 
 final class CoCart_Integrity_Check {
 
