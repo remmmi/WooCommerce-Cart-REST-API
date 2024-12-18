@@ -10,6 +10,9 @@
 	<a href="https://wordpress.org/plugins/cart-rest-api-for-woocommerce/">
 		<img src="https://img.shields.io/wordpress/plugin/dt/cart-rest-api-for-woocommerce.svg" alt="WordPress Plugin Downloads">
 	</a>
+	<a href="https://polar.sh/cocartheadless/issues">
+		<img src="https://polar.sh/embed/seeks-funding-shield.svg?org=cocartheadless" />
+	</a>
 </p>
 
 Welcome to the CoCart core repository on GitHub. Here you can browse the source code, [look at open issues](https://github.com/co-cart/co-cart/issues?q=is%3Aopen+is%3Aissue) and keep track of development. We recommend all developers to follow the [CoCart development blog](https://cocart.dev/news/?utm_medium=github.com&utm_source=repository&utm_campaign=readme&utm_content=cocartcore) to stay up to date about everything happening in the project. You can also [follow @cocartapi](https://twitter.com/cocartapi) on Twitter for the latest development updates.
