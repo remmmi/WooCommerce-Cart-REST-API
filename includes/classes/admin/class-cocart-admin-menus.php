@@ -22,7 +22,8 @@ if ( ! class_exists( 'CoCart_Admin_Menus' ) ) {
 		 * A list with the objects that handle submenu pages
 		 *
 		 * @access public
-		 * @var    array
+		 *
+		 * @var array
 		 */
 		public $submenu_pages = array();
 
@@ -38,6 +39,7 @@ if ( ! class_exists( 'CoCart_Admin_Menus' ) ) {
 
 			// Add submenu pages.
 			add_action( 'admin_menu', array( $this, 'load_admin_submenu_pages' ), 9 );
+			add_filter( 'admin_menu', array( $this, 'register_menu_shortcuts' ), 15 );
 		} // END __construct()
 
 		/**
@@ -129,6 +131,26 @@ if ( ! class_exists( 'CoCart_Admin_Menus' ) ) {
 				}
 			}
 		} // END load_admin_submenu_pages()
+
+		/**
+		 * Register menu shortcuts.
+		 *
+		 * @access public
+		 *
+		 * @since 4.4.0 Introduced.
+		 */
+		public function register_menu_shortcuts() {
+			$shortcut_menus = array(
+				'plugin-suggestions' => array(
+					'menu_title' => __( 'Plugin Suggestions', 'cart-rest-api-for-woocommerce' ),
+					'menu_slug'  => admin_url( 'plugin-install.php?tab=cocart' ),
+				),
+			);
+
+			foreach ( $shortcut_menus as $menu => $value ) {
+				add_submenu_page( 'cocart', $menu, $value['menu_title'], 'read', $value['menu_slug'] );
+			}
+		} // END register_menu_shortcuts()
 	} // END class
 
 } // END if class exists
