@@ -241,7 +241,7 @@ if ( ! class_exists( 'CoCart_Admin_Updates' ) ) {
 				return false;
 			}
 
-			if ( ! isset( $args->slug ) ) {
+			if ( ! isset( $args->slug ) || ! $result ) {
 				return false;
 			}
 
@@ -668,6 +668,16 @@ if ( ! class_exists( 'CoCart_Admin_Updates' ) ) {
 
 			$wp_list_table = _get_list_table( 'WP_Plugins_List_Table' );
 
+			// If plugin is the legacy core plugin.
+			if ( isset( $plugin_data['slug'] ) && 'cart-rest-api-for-woocommerce' === $plugin_data['slug'] ) {
+				echo '<tr class="plugin-update-tr" id="' . esc_attr( $plugin_data['slug'] . '-update-info' ) . '" data-slug="' . $plugin_data['Name'] . '" data-plugin="' . esc_attr( $file ) . '"><td colspan="' . $wp_list_table->get_column_count() . '" class="plugin-update colspanchange"><div class="update-message notice inline notice-error notice-alt">'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+
+				echo '<p>';
+				echo __( 'This legacy plugin can no longer be activated because you have a newer version active. It is recommended to <strong>delete</strong> it.', 'cart-rest-api-for-woocommerce' );
+				echo '</p></div></td></tr>';
+				return;
+			}
+
 			if ( isset( $plugin_data['slug'] ) && 'cocart-core' !== $plugin_data['slug'] ) {
 				if ( empty( $plugin_data['CoCart tested up to'] ) || version_compare( COCART_VERSION, $plugin_data['CoCart tested up to'], '<' ) ) {
 					echo '<tr class="plugin-update-tr" id="' . esc_attr( $plugin_data['slug'] . '-update-info' ) . '" data-slug="' . $plugin_data['Name'] . '" data-plugin="' . esc_attr( $file ) . '"><td colspan="' . $wp_list_table->get_column_count() . '" class="plugin-update colspanchange"><div class="update-message notice inline notice-error notice-alt">'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
@@ -706,16 +716,6 @@ if ( ! class_exists( 'CoCart_Admin_Updates' ) ) {
 			$license_key = self::get_license_key( $plugin_data );
 
 			$wp_list_table = _get_list_table( 'WP_Plugins_List_Table' );
-
-			// If plugin is the legacy core plugin.
-			if ( isset( $plugin_data['slug'] ) && 'cart-rest-api-for-woocommerce' === $plugin_data['slug'] ) {
-				echo '<tr class="plugin-update-tr" id="' . esc_attr( $plugin_data['slug'] . '-update-info' ) . '" data-slug="' . $plugin_data['Name'] . '" data-plugin="' . esc_attr( $file ) . '"><td colspan="' . $wp_list_table->get_column_count() . '" class="plugin-update colspanchange"><div class="update-message notice inline notice-error notice-alt">'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-
-				echo '<p>';
-				echo __( 'This legacy plugin will no longer receive updates as you have a newer version active. It is recommended to <strong>delete</strong> it.', 'cart-rest-api-for-woocommerce' );
-				echo '</p></div></td></tr>';
-				return;
-			}
 
 			// Warn users to provide license key to get updates.
 			if ( isset( $plugin_data['slug'] ) && empty( $license_key ) && 'cocart-core' !== $plugin_data['slug'] ) {

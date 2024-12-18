@@ -1,6 +1,6 @@
 <?php
 /**
- * Adds a support page for CoCart.
+ * Admin Page: Support page for CoCart.
  *
  * @author  Sébastien Dumont
  * @package CoCart\Admin\Pages
@@ -21,7 +21,7 @@ class CoCart_Admin_Support_Page extends CoCart_Submenu_Page {
 	 * @access protected
 	 */
 	protected function init() {
-		add_filter( 'cocart_register_submenu_page', array( $this, 'register_submenu_page' ), 15 );
+		add_filter( 'cocart_register_submenu_page', array( $this, 'register_submenu_page' ), 5 );
 	} // END init()
 
 	/**

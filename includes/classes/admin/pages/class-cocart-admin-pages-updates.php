@@ -1,6 +1,6 @@
 <?php
 /**
- * Updates/License Manager for CoCart.
+ * Admin Page: Updates/License Manager for CoCart.
  *
  * @author  Sébastien Dumont
  * @package CoCart\Admin\Pages
@@ -49,7 +49,7 @@ class CoCart_Admin_Updates_Page extends CoCart_Submenu_Page {
 		// Registers the updates page.
 		add_filter( 'cocart_register_submenu_page', array( $this, 'register_submenu_page' ), 20 );
 
-		// Filters what screens the plugin will focus on displaying notices or enqueue scripts/styles.
+		// Enqueue CoCart scripts and styles.
 		add_filter(
 			'cocart_admin_screens',
 			function ( $screens ) {

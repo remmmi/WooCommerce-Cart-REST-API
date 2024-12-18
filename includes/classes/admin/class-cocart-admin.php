@@ -26,8 +26,10 @@ if ( ! class_exists( 'CoCart_Admin' ) ) {
 		public function __construct() {
 			add_action( 'init', array( $this, 'includes' ) );
 
-			// Plugin Updates.
+			// Just-incase a developer wants to add support for CoCart within a WordPress theme.
 			add_filter( 'extra_theme_headers', array( $this, 'enable_cocart_plugin_headers' ) );
+
+			// Plugin Updates.
 			add_filter( 'extra_plugin_headers', array( $this, 'enable_cocart_plugin_headers' ) );
 			add_filter( 'auto_update_plugin', array( $this, 'cocart_prevent_dangerous_auto_updates' ), 99, 2 );
 

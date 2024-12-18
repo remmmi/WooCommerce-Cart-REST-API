@@ -5,7 +5,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\Admin\Menus
  * @since   2.0.0 Introduced.
- * @version 3.1.0
+ * @version 4.4.0
  * @license GPL-3.0
  */
 
