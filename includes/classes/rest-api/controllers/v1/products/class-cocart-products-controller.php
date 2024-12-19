@@ -504,6 +504,16 @@ class CoCart_Products_Controller extends WP_REST_Controller {
 			}
 		}
 
+		// Filter product types to exclude.
+		if ( ! empty( $request['exclude_types'] ) ) {
+			$tax_query[] = array(
+				'taxonomy' => 'product_type',
+				'field'    => 'slug',
+				'terms'    => $request['exclude_types'],
+				'operator' => 'NOT IN',
+			);
+		}
+
 		// Set before into date query. Date query must be specified as an array of an array.
 		if ( isset( $request['before'] ) ) {
 			$args['date_query'][0]['before'] = $request['before'];
@@ -2340,6 +2350,16 @@ class CoCart_Products_Controller extends WP_REST_Controller {
 			'description'       => __( 'Limit response to products created before a given ISO8601 compliant date.', 'cart-rest-api-for-woocommerce' ),
 			'type'              => 'string',
 			'format'            => 'date-time',
+			'validate_callback' => 'rest_validate_request_arg',
+		);
+		$params['exclude_types']      = array(
+			'description'       => __( 'Exclude products with any of the types from result set.', 'cart-rest-api-for-woocommerce' ),
+			'type'              => 'array',
+			'items'             => array(
+				'type' => 'string',
+				'enum' => array_keys( wc_get_product_types() ),
+			),
+			'sanitize_callback' => 'wp_parse_list',
 			'validate_callback' => 'rest_validate_request_arg',
 		);
 		$params['include_types'] = array(
