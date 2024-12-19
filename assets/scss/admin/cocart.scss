@@ -6,6 +6,27 @@
 	border-color: $cocart-button-hover !important;
 }
 
+// Plugin menu
+#toplevel_page_cocart {
+	.wp-submenu li > a { display: flex; align-items: center; }
+
+	li:not(:last-child) a[href="admin.php?page=cocart-setup"] { position: relative; margin-bottom: 16px; }
+	li:not(:last-child) a[href="admin.php?page=cocart-updates"] { position: relative; margin: 16px 0; }
+
+	li:not(:last-child) a[href="admin.php?page=cocart-setup"]:after,
+	li:not(:last-child) a[href="admin.php?page=cocart-updates"]:before,
+	li:not(:last-child) a[href="admin.php?page=cocart-updates"]:after { display: block; content: ''; position: absolute; left: 0; right: 0; height: 0; border-bottom: 1px solid rgba( 255, 255, 255, 0.2 ); }
+
+	li:not(:last-child) a[href="admin.php?page=cocart-updates"]:before { top: -8px; }
+
+	li:not(:last-child) a[href="admin.php?page=cocart-setup"]:after,
+	li:not(:last-child) a[href="admin.php?page=cocart-add-ons"]:after,
+	li:not(:last-child) a[href="admin.php?page=cocart-updates"]:after { bottom: -8px; }
+
+	&.wp-not-current-submenu li:not(:last-child) a[href="admin.php?page=cocart-updates"]:before,
+	&.wp-not-current-submenu li:not(:last-child) a[href="admin.php?page=cocart-updates"]:after { right: 5px; }
+}
+
 // Common
 body.cocart-pagestyles .wp-header-end { clear: both; }
 

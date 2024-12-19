@@ -661,11 +661,6 @@ if ( ! class_exists( 'CoCart_Admin_Updates' ) ) {
 				return;
 			}
 
-			// Ignore legacy plugin.
-			if ( isset( $plugin_data['slug'] ) && 'cart-rest-api-for-woocommerce' === $plugin_data['slug'] ) {
-				return;
-			}
-
 			$wp_list_table = _get_list_table( 'WP_Plugins_List_Table' );
 
 			// If plugin is the legacy core plugin.
@@ -710,6 +705,11 @@ if ( ! class_exists( 'CoCart_Admin_Updates' ) ) {
 		public function license_information( $file, $plugin_data ) {
 			// Should either be false return nothing.
 			if ( ! is_array( $plugin_data ) || empty( $plugin_data ) ) {
+				return;
+			}
+
+			// Ignore legacy plugin.
+			if ( isset( $plugin_data['slug'] ) && 'cart-rest-api-for-woocommerce' === $plugin_data['slug'] ) {
 				return;
 			}
 

@@ -145,6 +145,18 @@ if ( ! class_exists( 'CoCart_Admin_Menus' ) ) {
 					'menu_title' => __( 'Plugin Suggestions', 'cart-rest-api-for-woocommerce' ),
 					'menu_slug'  => admin_url( 'plugin-install.php?tab=cocart' ),
 				),
+				'documentation'      => array(
+					'menu_title' => __( 'Documentation', 'cart-rest-api-for-woocommerce' ),
+					'menu_slug'  => esc_url( COCART_DOCUMENTATION_URL ),
+				),
+				'community'          => array(
+					'menu_title' => 'Discord',
+					'menu_slug'  => esc_url( COCART_COMMUNITY_URL ),
+				),
+				'changelog'          => array(
+					'menu_title' => __( 'Changelog', 'cart-rest-api-for-woocommerce' ),
+					'menu_slug'  => esc_url( 'https://cocart.dev/changelog/' ),
+				),
 			);
 
 			foreach ( $shortcut_menus as $menu => $value ) {

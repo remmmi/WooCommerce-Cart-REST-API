@@ -21,7 +21,7 @@ class CoCart_Admin_Support_Page extends CoCart_Submenu_Page {
 	 * @access protected
 	 */
 	protected function init() {
-		add_filter( 'cocart_register_submenu_page', array( $this, 'register_submenu_page' ), 5 );
+		add_filter( 'cocart_register_submenu_page', array( $this, 'register_submenu_page' ), 10 );
 	} // END init()
 
 	/**

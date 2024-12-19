@@ -7,7 +7,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\Admin
  * @since   3.1.0 Introduced.
- * @version 4.0.0
+ * @version 4.4.0
  * @license GPL-3.0
  */
 
@@ -45,7 +45,7 @@ class CoCart_Admin_Setup_Wizard extends CoCart_Submenu_Page {
 	 * @access public
 	 */
 	protected function init() {
-		add_filter( 'cocart_register_submenu_page', array( $this, 'register_submenu_page' ), 15 );
+		add_filter( 'cocart_register_submenu_page', array( $this, 'register_submenu_page' ), 1 );
 
 		add_filter( 'admin_body_class', array( $this, 'cocart_admin_body_class_setup_wizard' ) );
 
@@ -71,17 +71,23 @@ class CoCart_Admin_Setup_Wizard extends CoCart_Submenu_Page {
 			return $submenu_pages;
 		}
 
-		if ( apply_filters( 'cocart_enable_setup_wizard', true ) ) {
-			$submenu_pages['setup-wizard'] = array(
-				'class_name' => 'CoCart_Admin_Setup_Wizard',
-				'data'       => array(
-					'page_title' => __( 'Setup Wizard', 'cart-rest-api-for-woocommerce' ),
-					'menu_title' => __( 'Setup Wizard', 'cart-rest-api-for-woocommerce' ),
-					'capability' => apply_filters( 'cocart_screen_capability', 'manage_options' ),
-					'menu_slug'  => 'cocart-setup',
-				),
-			);
+		if ( ! apply_filters( 'cocart_enable_setup_wizard', true ) ) {
+			return $submenu_pages;
 		}
+
+		if ( ! empty( get_option( 'cocart_setup_wizard_completed' ) ) && ! isset( $_GET['reset-cc-wizard'] ) ) {
+			return $submenu_pages;
+		}
+
+		$submenu_pages['setup-wizard'] = array(
+			'class_name' => 'CoCart_Admin_Setup_Wizard',
+			'data'       => array(
+				'page_title' => __( 'Setup Wizard', 'cart-rest-api-for-woocommerce' ),
+				'menu_title' => __( 'Setup Wizard', 'cart-rest-api-for-woocommerce' ),
+				'capability' => apply_filters( 'cocart_screen_capability', 'manage_options' ),
+				'menu_slug'  => 'cocart-setup',
+			),
+		);
 
 		return $submenu_pages;
 	} // END register_submenu_page()
@@ -525,6 +531,7 @@ class CoCart_Admin_Setup_Wizard extends CoCart_Submenu_Page {
 	public function cocart_setup_wizard_ready() {
 		// We've made it! Don't prompt the user to run the wizard again.
 		CoCart_Admin_Notices::remove_notice( 'setup_wizard', true );
+		update_option( 'cocart_setup_wizard_completed', 'yes' );
 
 		$campaign_args = CoCart_Helpers::cocart_campaign(
 			array(

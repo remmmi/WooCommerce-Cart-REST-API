@@ -69,7 +69,6 @@ if ( ! class_exists( 'CoCart_Admin' ) ) {
 
 			// Pages.
 			require_once __DIR__ . '/pages/class-cocart-admin-pages-support.php';                   // Support page.
-			require_once __DIR__ . '/pages/class-cocart-admin-pages-upgrade.php';                   // Upgrade page.
 			require_once __DIR__ . '/pages/class-cocart-admin-pages-updates.php';                   // Updates/License Manager page.
 			require_once __DIR__ . '/class-cocart-admin-setup-wizard.php';                          // Setup Wizard.
 		} // END includes()
