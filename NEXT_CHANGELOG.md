@@ -5,6 +5,8 @@
 ## What's new?
 
 * REST API: Products now return the global unique id. (API v2 Only)
+* REST API: Products can now be filtered to include `include_types` or exclude `exclude_types` by multiple types simultaneously using the new parameters. Note: `include_types` takes precedence over `type` parameter should both be used.
+* REST API: Products can now be filtered to return virtual products by the boolean `virtual` parameter.
 * REST API: New POST method for the cart to create an empty cart for guest customers.
 
 > Developer note: Cart creation is normally done the moment the first item is added to the cart as it has something to save to session. But some users are confused with creating a cart for guest customers. So this route can help create a empty cart storing just the cart key and return it in the response guiding the developer to check the documentation for more information on how to use the cart key for a guest customer. It is not a requirement to use this route first.
