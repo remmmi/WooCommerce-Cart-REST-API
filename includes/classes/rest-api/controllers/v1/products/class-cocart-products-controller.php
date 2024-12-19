@@ -485,15 +485,21 @@ class CoCart_Products_Controller extends WP_REST_Controller {
 		// Taxonomy query to filter products by type, category, tag and attribute.
 		$tax_query = array();
 
-		// Filter product type by slug.
-		if ( ! empty( $request['type'] ) ) {
+		$terms = array();
+
+		if ( ! empty( $request['include_types'] ) ) {
+			$terms = $request['include_types'];
+		} elseif ( ! empty( $request['type'] ) ) {
+			// Filter by a single product type.
 			if ( 'variation' === $request['type'] ) {
 				$args['post_type'] = 'product_variation';
 			} else {
+				$terms = $request['type'];
+
 				$tax_query[] = array(
 					'taxonomy' => 'product_type',
 					'field'    => 'slug',
-					'terms'    => $request['type'],
+					'terms'    => $terms,
 				);
 			}
 		}
@@ -2334,6 +2340,16 @@ class CoCart_Products_Controller extends WP_REST_Controller {
 			'description'       => __( 'Limit response to products created before a given ISO8601 compliant date.', 'cart-rest-api-for-woocommerce' ),
 			'type'              => 'string',
 			'format'            => 'date-time',
+			'validate_callback' => 'rest_validate_request_arg',
+		);
+		$params['include_types'] = array(
+			'description'       => __( 'Limit result set to products with any of the types.', 'cart-rest-api-for-woocommerce' ),
+			'type'              => 'array',
+			'items'             => array(
+				'type' => 'string',
+				'enum' => array_keys( wc_get_product_types() ),
+			),
+			'sanitize_callback' => 'wp_parse_list',
 			'validate_callback' => 'rest_validate_request_arg',
 		);
 		$params['type']               = array(
