@@ -4,11 +4,8 @@
 	<a href="https://github.com/co-cart/co-cart/blob/trunk/license.txt" target="_blank">
 		<img src="https://img.shields.io/badge/license-GPL--3.0%2B-red.svg" alt="Licence">
 	</a>
-	<a href="https://wordpress.org/plugins/cart-rest-api-for-woocommerce/">
-		<img src="https://poser.pugx.org/co-cart/co-cart/v/stable" alt="Latest Stable Version">
-	</a>
-	<a href="https://wordpress.org/plugins/cart-rest-api-for-woocommerce/">
-		<img src="https://img.shields.io/wordpress/plugin/dt/cart-rest-api-for-woocommerce.svg" alt="WordPress Plugin Downloads">
+	<a href="https://polar.sh/cocartheadless/issues">
+		<img src="https://polar.sh/embed/seeks-funding-shield.svg?org=cocartheadless" />
 	</a>
 </p>
 
