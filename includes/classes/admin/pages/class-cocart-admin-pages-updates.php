@@ -123,7 +123,7 @@ class CoCart_Admin_Updates_Page extends CoCart_Submenu_Page {
 			<div class="cocart-content">
 				<h2><?php esc_html_e( 'Recent Updates', 'cart-rest-api-for-woocommerce' ); ?></h2>
 				<?php
-				$this->cocart_release_feed( 'https://cocart.dev/category/cocart-plus/feed/' );
+				$this->cocart_release_feed( 'https://cocart.dev/category/changelog/feed/', 3 );
 				?>
 			</div>
 		</div>
@@ -439,6 +439,8 @@ class CoCart_Admin_Updates_Page extends CoCart_Submenu_Page {
 			// Build an array of all the items, starting with element 0 (first element).
 			$rss_items = $feed->get_items( 0, $max_items );
 
+			echo '<ul>';
+
 			foreach ( $rss_items as $item ) :
 				?>
 				<li>
@@ -455,12 +457,14 @@ class CoCart_Admin_Updates_Page extends CoCart_Submenu_Page {
 						<?php echo esc_html( $item->get_title() ); ?>
 					</a>
 					<?php
-					$desc = html_entity_decode( $item->get_description(), ENT_QUOTES, get_option( 'blog_charset' ) );
-					echo esc_attr( wp_trim_words( $desc, 60, ' ...' ) );
+					//$desc = html_entity_decode( $item->get_description(), ENT_QUOTES, get_option( 'blog_charset' ) );
+					//echo esc_attr( wp_trim_words( $desc, 60, ' ...' ) );
 					?>
 				</li>
 				<?php
 			endforeach;
+
+			echo '</ul>';
 
 			$feed->__destruct();
 			unset( $feed );
