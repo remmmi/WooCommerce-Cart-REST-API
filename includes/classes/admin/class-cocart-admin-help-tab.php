@@ -105,7 +105,8 @@ if ( ! class_exists( 'CoCart_Admin_Help_Tab' ) ) {
 
 								'<p><a href="' . add_query_arg(
 									array(
-										'page' => 'cocart-setup',
+										'page'            => 'cocart-setup',
+										'reset-cc-wizard' => true,
 									),
 									admin_url( 'admin.php' )
 								) . '" class="button button-primary" aria-label="' . sprintf(
