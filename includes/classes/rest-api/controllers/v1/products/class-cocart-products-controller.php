@@ -614,6 +614,17 @@ class CoCart_Products_Controller extends WP_REST_Controller {
 			}
 		}
 
+		// Filter virtual products.
+		if ( isset( $request['virtual'] ) ) {
+			$args['meta_query'] = $this->add_meta_query( // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
+				$args,
+				array(
+					'key'   => '_virtual',
+					'value' => wc_bool_to_string( $request['virtual'] ),
+				)
+			);
+		}
+
 		// Hide free products.
 		if ( ! empty( $request['hide_free'] ) ) {
 			$args['meta_query'] = $this->add_meta_query( // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
@@ -2383,6 +2394,12 @@ class CoCart_Products_Controller extends WP_REST_Controller {
 			'description'       => __( 'Limit result set to products with specific SKU(s). Use commas to separate.', 'cart-rest-api-for-woocommerce' ),
 			'type'              => 'string',
 			'sanitize_callback' => 'sanitize_text_field',
+			'validate_callback' => 'rest_validate_request_arg',
+		);
+		$params['virtual']            = array(
+			'description'       => __( 'Limit result set to virtual products.', 'cart-rest-api-for-woocommerce' ),
+			'type'              => 'boolean',
+			'sanitize_callback' => 'rest_sanitize_boolean',
 			'validate_callback' => 'rest_validate_request_arg',
 		);
 		$params['hide_free']          = array(
