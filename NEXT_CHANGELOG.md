@@ -11,6 +11,7 @@
 
 > Developer note: Cart creation is normally done the moment the first item is added to the cart as it has something to save to session. But some users are confused with creating a cart for guest customers. So this route can help create a empty cart storing just the cart key and return it in the response guiding the developer to check the documentation for more information on how to use the cart key for a guest customer. It is not a requirement to use this route first.
 
+* Plugin: New WP-CLI command `wp cocart status` shows the status of carts in session.
 * Plugin: Updates are provided from us for all supported CoCart plugins.
 * Plugin: Will deactivate legacy core version if one found installed and active. If you try to activate legacy version while the new core version is active it will deactivate. Recommend deleting.
 
