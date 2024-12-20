@@ -487,6 +487,7 @@ class CoCart_Products_Controller extends WP_REST_Controller {
 
 		$terms = array();
 
+		// Filter product types to include.
 		if ( ! empty( $request['include_types'] ) ) {
 			$terms = $request['include_types'];
 		} elseif ( ! empty( $request['type'] ) ) {
@@ -2373,7 +2374,7 @@ class CoCart_Products_Controller extends WP_REST_Controller {
 			'sanitize_callback' => 'wp_parse_list',
 			'validate_callback' => 'rest_validate_request_arg',
 		);
-		$params['include_types'] = array(
+		$params['include_types']      = array(
 			'description'       => __( 'Limit result set to products with any of the types.', 'cart-rest-api-for-woocommerce' ),
 			'type'              => 'array',
 			'items'             => array(
