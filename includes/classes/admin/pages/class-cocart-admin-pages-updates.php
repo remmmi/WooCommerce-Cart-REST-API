@@ -99,9 +99,9 @@ class CoCart_Admin_Updates_Page extends CoCart_Submenu_Page {
 
 						submit_button( $submit_text );
 					?>
-					<div class="cocart-activation">
+					<!--div class="cocart-activation">
 						<a href="<?php echo esc_url( $manage_license_url ); ?>" target="_blank" class="button cocart-manage-license-btn"><?php esc_html_e( 'Manage License', 'cart-rest-api-for-woocommerce' ); ?><i class="cocart-icon cocart-icon-arrow-up-right"></i></a>
-					</div>
+					</div-->
 				</form>
 				<div class="cocart-license-status-wrap">
 					<table class="cocart-license-status-table">
