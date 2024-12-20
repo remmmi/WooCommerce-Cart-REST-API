@@ -25,13 +25,11 @@ Built by developers, for developers, [CoCart](https://cocartapi.com/?utm_medium=
 
 [Want to try it out?](https://cocartapi.com/try-free-demo/?utm_medium=repo&utm_source=github.com&utm_campaign=readme&utm_content=cocartcore)
 
-#### What is WooCommerce?
-
-WooCommerce is a free open-source eCommerce plugin that provides a **flexible, and efficient** way to build cutting-edge stores with WordPress at it's core.
-
 #### Why do I need CoCart?
 
-If you are looking to create a great store for your customers that is fast and unrestricted, decoupling your store is a no-brainer. However, accessing the front side via the REST API is not designed in WooCommerce, that's where CoCart comes in. It handles the roadblocks and eliminates the hassle of creating your own REST API endpoints and provides all the essential features for a powerful, headless eCommerce experience.
+If you are looking to create a great store for your customers that is fast and unrestricted then decoupling your store maybe the way to go. However, decoupling WooCommerce from WordPress is a challenge.
+
+That's where CoCart comes in. It handles the roadblocks and eliminates the hassle of creating your own REST API endpoints and provides all the essential features for a powerful, headless eCommerce experience.
 
 #### Features
 

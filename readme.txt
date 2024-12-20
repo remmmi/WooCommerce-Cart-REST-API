@@ -23,13 +23,11 @@ Transform your WooCommerce store into a lightning-fast, decoupled shopping exper
 
 [Want to try it out?](https://cocartapi.com/try-free-demo/?utm_medium=website&utm_source=wpplugindirectory&utm_campaign=readme&utm_content=readmelink)
 
-#### Why WooCommerce?
+#### Why do I need CoCart?
 
-WooCommerce provides a **flexible, and efficient** way to build cutting-edge stores with WordPress at it's core. If you are looking to provide a great store for your customers that is fast, decoupling your store is a no-brainer, but accessing the front side via the REST API was missing which is where CoCart comes in.
+If you are looking to create a great store for your customers that is fast and unrestricted then decoupling your store maybe the way to go. However, decoupling WooCommerce from WordPress is a challenge.
 
-#### Why CoCart?
-
-Struggling with performance? Finding it hard to decouple WooCommerce from WordPress without hitting roadblocks? CoCart is here to eliminate the hassle of creating your own REST API endpoints for WooCommerce and provides all the essential features for a powerful, headless eCommerce experience.
+That's where CoCart comes in. It handles the roadblocks and eliminates the hassle of creating your own REST API endpoints and provides all the essential features for a powerful, headless eCommerce experience.
 
 #### Features
 
