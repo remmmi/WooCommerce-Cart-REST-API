@@ -208,11 +208,11 @@ abstract class CoCart_Plugin_Updates {
 	/**
 	 * Retrieves the installed CoCart plugin.
 	 *
-	 * @access protected
+	 * @access public
 	 *
 	 * @return array The installed plugins.
 	 */
-	protected function get_installed_plugins() {
+	public function get_installed_plugins() {
 		return array_filter( $this->get_plugins(), array( $this, 'is_cocart_plugin' ), ARRAY_FILTER_USE_KEY );
 	} // END get_installed_plugins()
 
