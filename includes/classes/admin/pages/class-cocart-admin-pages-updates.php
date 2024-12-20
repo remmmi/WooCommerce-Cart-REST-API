@@ -121,6 +121,32 @@ class CoCart_Admin_Updates_Page extends CoCart_Submenu_Page {
 				</div>
 			</div>
 			<div class="cocart-content">
+				<h2><?php esc_html_e( 'Plugin Information', 'cart-rest-api-for-woocommerce' ); ?></h2>
+				<span><?php esc_html_e( 'Last checked', 'cart-rest-api-for-woocommerce' ); ?>: <?php echo date_i18n( 'l, j F Y', get_option( 'cocart_updates_last_checked', time() ) ); ?> <a href="#" class="button button-secondary"><?php esc_html_e( 'Pause Updates', 'cart-rest-api-for-woocommerce' ); ?></a></span>
+
+				<p><?php esc_html_e( 'Only installed CoCart plugins listed below will display information on a possible update available.', 'cart-rest-api-for-woocommerce' ); ?></p>
+
+				<table class="wp-list-table widefat plugins cocart-license-status-table">
+					<thead>
+						<tr>
+							<td><?php esc_html_e( 'Plugin name', 'cart-rest-api-for-woocommerce' ); ?></td>
+							<th><?php esc_html_e( 'Installed Version', 'cart-rest-api-for-woocommerce' ); ?></th>
+							<th><?php esc_html_e( 'Latest Version', 'cart-rest-api-for-woocommerce' ); ?></th>
+						</tr>
+					</thead>
+					<tbody>
+					<?php
+					$updates = new CoCart_Admin_Updates();
+					foreach ( $updates->get_installed_plugins() as $plugin_file => $installed_plugin ) {
+						echo '<tr><th>' . esc_html( $installed_plugin['Name'] ) . '</th>';
+						echo '<td><span class="cocart-version" style="color:blue;">' . esc_html( $installed_plugin['Version'] ) . '</td>';
+						echo '<td><span class="latest-version" style="color:red;">' . esc_html( $installed_plugin['Version'] ) . '</td></tr>';
+					}
+					?>
+					</tbody>
+				</table>
+			</div>
+			<div class="cocart-content">
 				<h2><?php esc_html_e( 'Recent Updates', 'cart-rest-api-for-woocommerce' ); ?></h2>
 				<?php
 				$this->cocart_release_feed( 'https://cocart.dev/category/changelog/feed/', 3 );
