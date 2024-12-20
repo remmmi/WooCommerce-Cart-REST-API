@@ -70,7 +70,7 @@ if ( ! class_exists( 'CoCart_Admin_Updates' ) ) {
 			}
 
 			if ( empty( $license_key ) ) {
-				$license_key = self::get_license_key( $plugin_data );
+				$license_key = CoCart_Helpers::get_license_key( $plugin_data );
 			}
 
 			// Bail early if we don't have a key.
@@ -145,7 +145,7 @@ if ( ! class_exists( 'CoCart_Admin_Updates' ) ) {
 				$skip_license = true;
 			}
 
-			$license_key = self::get_license_key();
+			$license_key = CoCart_Helpers::get_license_key();
 
 			// Bail early if we don't have a key.
 			if ( ! $skip_license && ! $license_key ) {
@@ -387,6 +387,9 @@ if ( ! class_exists( 'CoCart_Admin_Updates' ) ) {
 				// $data->translations = array_merge( isset( $data->translations ) ? $data->translations : array(), $translations );
 			}
 
+			// Set the time updates were last checked for CoCart.
+			update_option( 'cocart_updates_last_checked', time() );
+
 			return $data;
 		} // END check_for_updates()
 
@@ -623,7 +626,7 @@ if ( ! class_exists( 'CoCart_Admin_Updates' ) ) {
 		 */
 		public function modify_plugin_update_message( $plugin_data, $response ) {
 			// Bail early if we do have a license key.
-			if ( self::get_license_key( $plugin_data ) ) {
+			if ( CoCart_Helpers::get_license_key( $plugin_data ) ) {
 				return;
 			}
 
@@ -713,7 +716,7 @@ if ( ! class_exists( 'CoCart_Admin_Updates' ) ) {
 				return;
 			}
 
-			$license_key = self::get_license_key( $plugin_data );
+			$license_key = CoCart_Helpers::get_license_key( $plugin_data );
 
 			$wp_list_table = _get_list_table( 'WP_Plugins_List_Table' );
 
@@ -879,74 +882,6 @@ if ( ! class_exists( 'CoCart_Admin_Updates' ) ) {
 			delete_option( 'cocart_license_details' );
 			delete_option( 'cocart_instance_name' );
 		} // END deactivate_license()
-
-		/**
-		 * Get the license key.
-		 *
-		 * @access public
-		 *
-		 * @static
-		 *
-		 * @since 4.4.0 Introduced.
-		 *
-		 * @param string|array $plugin_data Plugin slug or plugin data.
-		 *
-		 * @return string $license_key Returns license key stored for specific plugin.
-		 */
-		public static function get_license_key( $plugin_data = null ) {
-			$cocart_update_settings = maybe_unserialize( get_option( 'cocart_update_settings' ) );
-
-			if ( ! empty( $plugin_data ) ) {
-				if ( is_array( $plugin_data ) ) {
-					$plugin_slug = isset( $plugin_data['slug'] ) ? $plugin_data['slug'] : '';
-				} else {
-					$plugin_slug = $plugin_data;
-				}
-
-				if ( ! empty( $cocart_update_settings ) && array_key_exists( $plugin_slug, $cocart_update_settings ) ) {
-					$license_key = ! empty( $cocart_update_settings[ $plugin_slug ] ) ? $cocart_update_settings[ $plugin_slug ]['cocart_license_key'] : null;
-				} else {
-					$license_key = null;
-				}
-			} else {
-				// Fallback for sites using previous versions of CoCart that had the legacy license system for just that plugin.
-				$license_key = ! empty( $cocart_update_settings['cocart_license_key'] ) ? $cocart_update_settings['cocart_license_key'] : null;
-			}
-
-			return $license_key;
-		} // END get_license_key()
-
-		/**
-		 * Returns the license type.
-		 *
-		 * @access protected
-		 *
-		 * @since 4.4.0 Introduced.
-		 *
-		 * @param boolean $raw True returns type raw, false returns translated.
-		 *
-		 * @return string License type.
-		 */
-		protected function get_license_type( $raw = true ) {
-			$license_verified = json_decode( get_option( 'cocart_license_verified' ) );
-			$license_details  = json_decode( get_option( 'cocart_license_details' ) );
-
-			if ( empty( $this->cocart_update_settings['cocart_license_key'] ) ) {
-				$license_status = ( ! $raw ) ? __( 'Unknown', 'cart-rest-api-for-woocommerce' ) : 'unknown';
-			} elseif ( ! empty( $license_details ) ) {
-				$meta = ! empty( $license_details->meta ) ? $license_details->meta : array();
-			} elseif ( ! empty( $license_verified ) ) {
-				$meta = ! empty( $license_verified->meta ) ? $license_verified->meta : array();
-			}
-
-			if ( empty( $meta ) ) {
-				return '';
-			}
-
-			$product_name = esc_attr( $meta->product_name );
-
-			return $license_status;
-		} // END cocart_license_status()
 	} // END class
 
 	return new CoCart_Admin_Updates();

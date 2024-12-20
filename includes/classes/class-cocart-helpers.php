@@ -5,7 +5,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\Classes
  * @since   2.3.0 Introduced.
- * @version 4.0.0
+ * @version 4.4.0
  * @license GPL-3.0
  */
 
@@ -1032,6 +1032,42 @@ class CoCart_Helpers {
 
 		return false;
 	} // END is_on_wordpress_playground()
+
+	/**
+	 * Get the license key.
+	 *
+	 * @access public
+	 *
+	 * @static
+	 *
+	 * @since 4.4.0 Introduced.
+	 *
+	 * @param string|array $plugin_data Plugin slug or plugin data.
+	 *
+	 * @return string $license_key Returns license key stored for specific plugin.
+	 */
+	public static function get_license_key( $plugin_data = null ) {
+		$cocart_update_settings = maybe_unserialize( get_option( 'cocart_update_settings' ) );
+
+		if ( ! empty( $plugin_data ) ) {
+			if ( is_array( $plugin_data ) ) {
+				$plugin_slug = isset( $plugin_data['slug'] ) ? $plugin_data['slug'] : '';
+			} else {
+				$plugin_slug = $plugin_data;
+			}
+
+			if ( ! empty( $cocart_update_settings ) && array_key_exists( $plugin_slug, $cocart_update_settings ) ) {
+				$license_key = ! empty( $cocart_update_settings[ $plugin_slug ] ) ? $cocart_update_settings[ $plugin_slug ]['cocart_license_key'] : null;
+			} else {
+				$license_key = null;
+			}
+		} else {
+			// Fallback for sites using previous versions of CoCart that had the legacy license system for just that plugin.
+			$license_key = ! empty( $cocart_update_settings['cocart_license_key'] ) ? $cocart_update_settings['cocart_license_key'] : null;
+		}
+
+		return $license_key;
+	} // END get_license_key()
 } // END class
 
 return new CoCart_Helpers();
