@@ -94,7 +94,7 @@ class CoCart_WooCommerce {
 	 * @static
 	 *
 	 * @since   2.1.0 Introduced.
-	 * @version 4.4.0
+	 * @version 5.0.0
 	 */
 	public static function validate_cart_requested() {
 		// Return nothing if WP-GraphQL is requested.

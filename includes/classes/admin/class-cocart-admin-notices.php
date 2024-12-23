@@ -666,7 +666,7 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 		 *
 		 * @access public
 		 *
-		 * @since 4.4.0 Introduced.
+		 * @since 5.0.0 Introduced.
 		 *
 		 * @return void
 		 */

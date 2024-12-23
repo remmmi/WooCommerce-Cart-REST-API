@@ -5,7 +5,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\API\Cart\v2
  * @since   3.0.0 Introduced.
- * @version 4.4.0
+ * @version 5.0.0
  * @license GPL-3.0
  */
 
@@ -212,7 +212,7 @@ class CoCart_REST_Cart_V2_Controller {
 	 *
 	 * @since 2.0.0 Introduced.
 	 *
-	 * @deprecated 4.4.0 No longer use `$cart_item_key` parameter. Left for declaration compatibility.
+	 * @deprecated 5.0.0 No longer use `$cart_item_key` parameter. Left for declaration compatibility.
 	 *
 	 * @see CoCart_REST_Cart_V2_Controller::is_completely_empty()
 	 * @see CoCart_REST_Cart_V2_Controller::calculate_totals()
@@ -365,7 +365,7 @@ class CoCart_REST_Cart_V2_Controller {
 	 * @since   1.0.0 Introduced.
 	 * @version 3.0.11
 	 *
-	 * @deprecated 4.4.0 Replaced with the same function in the utilities class.
+	 * @deprecated 5.0.0 Replaced with the same function in the utilities class.
 	 *
 	 * @see CoCart_Utilities_Cart_Helpers::validate_product_id()
 	 *
@@ -374,7 +374,7 @@ class CoCart_REST_Cart_V2_Controller {
 	 * @return int $product_id The validated product ID.
 	 */
 	protected function validate_product_id( $product_id ) {
-		cocart_deprecated_function( 'CoCart_REST_Cart_V2_Controller::validate_product_id', '4.4.0', 'CoCart_Utilities_Cart_Helpers::validate_product_id' );
+		cocart_deprecated_function( 'CoCart_REST_Cart_V2_Controller::validate_product_id', '5.0.0', 'CoCart_Utilities_Cart_Helpers::validate_product_id' );
 
 		return CoCart_Utilities_Cart_Helpers::validate_product_id( $product_id );
 	} // END validate_product_id()
@@ -389,7 +389,7 @@ class CoCart_REST_Cart_V2_Controller {
 	 * @since 1.0.0 Introduced.
 	 * @since 3.1.0 Added product object as parameter and validation for maximum quantity allowed to add to cart.
 	 *
-	 * @deprecated 4.4.0 Replaced with the same function in the utilities class.
+	 * @deprecated 5.0.0 Replaced with the same function in the utilities class.
 	 *
 	 * @see CoCart_Utilities_Cart_Helpers::validate_quantity()
 	 *
@@ -399,7 +399,7 @@ class CoCart_REST_Cart_V2_Controller {
 	 * @return int|float|\WP_Error
 	 */
 	protected function validate_quantity( $quantity, WC_Product $product = null ) {
-		cocart_deprecated_function( 'CoCart_REST_Cart_V2_Controller::validate_quantity', '4.4.0', 'CoCart_Utilities_Cart_Helpers::validate_quantity' );
+		cocart_deprecated_function( 'CoCart_REST_Cart_V2_Controller::validate_quantity', '5.0.0', 'CoCart_Utilities_Cart_Helpers::validate_quantity' );
 
 		return CoCart_Utilities_Cart_Helpers::validate_quantity( $quantity, $product );
 	} // END validate_quantity()
@@ -414,7 +414,7 @@ class CoCart_REST_Cart_V2_Controller {
 	 * @since   2.1.0 Introduced.
 	 * @version 3.0.6
 	 *
-	 * @deprecated 4.4.0 Replaced with the same function in the utilities class.
+	 * @deprecated 5.0.0 Replaced with the same function in the utilities class.
 	 *
 	 * @see CoCart_Utilities_Cart_Helpers::validate_variable_product()
 	 *
@@ -425,7 +425,7 @@ class CoCart_REST_Cart_V2_Controller {
 	 * @return array|WP_Error ID of the variation and attribute values.
 	 */
 	protected function validate_variable_product( int $variation_id, array $variation, WC_Product $product ) {
-		cocart_deprecated_function( 'CoCart_REST_Cart_V2_Controller::validate_variable_product', '4.4.0', 'CoCart_Utilities_Cart_Helpers::validate_variable_product' );
+		cocart_deprecated_function( 'CoCart_REST_Cart_V2_Controller::validate_variable_product', '5.0.0', 'CoCart_Utilities_Cart_Helpers::validate_variable_product' );
 
 		return CoCart_Utilities_Cart_Helpers::validate_variable_product( $variation_id, $variation, $product );
 	} // END validate_variable_product()
@@ -439,7 +439,7 @@ class CoCart_REST_Cart_V2_Controller {
 	 *
 	 * @since 2.1.2 Introduced.
 	 *
-	 * @deprecated 4.4.0 Replaced with the same function in the utilities class.
+	 * @deprecated 5.0.0 Replaced with the same function in the utilities class.
 	 *
 	 * @see CoCart_Utilities_Product_Helpers::get_variation_id_from_variation_data()
 	 *
@@ -449,7 +449,7 @@ class CoCart_REST_Cart_V2_Controller {
 	 * @return int|WP_Error $variation_id Matching variation ID.
 	 */
 	protected function get_variation_id_from_variation_data( $variation, $product ) {
-		cocart_deprecated_function( 'CoCart_REST_Cart_V2_Controller::get_variation_id_from_variation_data', '4.4.0', 'CoCart_Utilities_Product_Helpers::get_variation_id_from_variation_data' );
+		cocart_deprecated_function( 'CoCart_REST_Cart_V2_Controller::get_variation_id_from_variation_data', '5.0.0', 'CoCart_Utilities_Product_Helpers::get_variation_id_from_variation_data' );
 
 		return CoCart_Utilities_Product_Helpers::get_variation_id_from_variation_data( $variation, $product );
 	} // END get_variation_id_from_variation_data()
@@ -464,7 +464,7 @@ class CoCart_REST_Cart_V2_Controller {
 	 * @since   2.1.2 Introduced.
 	 * @version 3.0.0
 	 *
-	 * @deprecated 4.4.0 Replaced with the same function in the utilities class.
+	 * @deprecated 5.0.0 Replaced with the same function in the utilities class.
 	 *
 	 * @see CoCart_Utilities_Cart_Helpers::get_variable_product_attributes()
 	 *
@@ -473,7 +473,7 @@ class CoCart_REST_Cart_V2_Controller {
 	 * @return array $attributes Product attributes.
 	 */
 	protected function get_variable_product_attributes( $product ) {
-		cocart_deprecated_function( 'CoCart_REST_Cart_V2_Controller::get_variable_product_attributes', '4.4.0', 'CoCart_Utilities_Cart_Helpers::get_variable_product_attributes' );
+		cocart_deprecated_function( 'CoCart_REST_Cart_V2_Controller::get_variable_product_attributes', '5.0.0', 'CoCart_Utilities_Cart_Helpers::get_variable_product_attributes' );
 
 		return CoCart_Utilities_Cart_Helpers::get_variable_product_attributes( $product );
 	} // END get_variable_product_attributes()
@@ -638,7 +638,7 @@ class CoCart_REST_Cart_V2_Controller {
 	 *
 	 * @access public
 	 *
-	 * @since 4.4.0 Introduced.
+	 * @since 5.0.0 Introduced.
 	 *
 	 * @see CoCart_REST_Cart_V2_Controller::get_cart_contents()
 	 *
@@ -667,7 +667,7 @@ class CoCart_REST_Cart_V2_Controller {
 	 * @since   1.0.6 Introduced.
 	 * @version 3.0.0
 	 *
-	 * @deprecated 4.4.0 Replaced with the same function in the utilities class.
+	 * @deprecated 5.0.0 Replaced with the same function in the utilities class.
 	 *
 	 * @see CoCart_Utilities_Cart_Helpers::has_enough_stock()
 	 *
@@ -677,7 +677,7 @@ class CoCart_REST_Cart_V2_Controller {
 	 * @return bool|WP_Error
 	 */
 	protected function has_enough_stock( $current_data = array(), $quantity = 1 ) {
-		cocart_deprecated_function( 'CoCart_REST_Cart_V2_Controller::has_enough_stock', '4.4.0', 'CoCart_Utilities_Cart_Helpers::has_enough_stock' );
+		cocart_deprecated_function( 'CoCart_REST_Cart_V2_Controller::has_enough_stock', '5.0.0', 'CoCart_Utilities_Cart_Helpers::has_enough_stock' );
 
 		return CoCart_Utilities_Cart_Helpers::has_enough_stock( $current_data, $quantity );
 	} // END has_enough_stock()
@@ -725,7 +725,7 @@ class CoCart_REST_Cart_V2_Controller {
 	 *
 	 * @since 3.0.0 Introduced.
 	 *
-	 * @deprecated 4.4.0 Replaced with the same function in the utilities class.
+	 * @deprecated 5.0.0 Replaced with the same function in the utilities class.
 	 *
 	 * @see CoCart_Utilities_Cart_Helpers::get_tax_lines()
 	 *
@@ -734,7 +734,7 @@ class CoCart_REST_Cart_V2_Controller {
 	 * @return array Tax lines.
 	 */
 	protected function get_tax_lines( $cart ) {
-		cocart_deprecated_function( 'CoCart_REST_Cart_V2_Controller::get_tax_lines', '4.4.0', 'CoCart_Utilities_Cart_Helpers::get_tax_lines' );
+		cocart_deprecated_function( 'CoCart_REST_Cart_V2_Controller::get_tax_lines', '5.0.0', 'CoCart_Utilities_Cart_Helpers::get_tax_lines' );
 
 		return CoCart_Utilities_Cart_Helpers::get_tax_lines( $cart );
 	} // END get_tax_lines()
@@ -770,7 +770,7 @@ class CoCart_REST_Cart_V2_Controller {
 	 *
 	 * @since 3.0.0 Introduced.
 	 *
-	 * @deprecated 4.4.0 Replaced with the same function in the utilities class.
+	 * @deprecated 5.0.0 Replaced with the same function in the utilities class.
 	 *
 	 * @see CoCart_Utilities_Cart_Helpers::cocart_format_variation_data()
 	 *
@@ -780,7 +780,7 @@ class CoCart_REST_Cart_V2_Controller {
 	 * @return array
 	 */
 	protected function format_variation_data( $variation_data, $product ) {
-		cocart_deprecated_function( 'CoCart_REST_Cart_V2_Controller::cocart_format_variation_data', '4.4.0', 'cocart_format_variation_data' );
+		cocart_deprecated_function( 'CoCart_REST_Cart_V2_Controller::cocart_format_variation_data', '5.0.0', 'cocart_format_variation_data' );
 
 		return cocart_format_variation_data( $variation_data, $product );
 	} // END format_variation_data()
@@ -792,7 +792,7 @@ class CoCart_REST_Cart_V2_Controller {
 	 *
 	 * @since 3.0.0 Introduced.
 	 *
-	 * @deprecated 4.4.0 Replaced with the same function in the utilities class.
+	 * @deprecated 5.0.0 Replaced with the same function in the utilities class.
 	 *
 	 * @see CoCart_Utilities_Cart_Helpers::get_fees()
 	 *
@@ -801,7 +801,7 @@ class CoCart_REST_Cart_V2_Controller {
 	 * @return array Cart fees.
 	 */
 	public function get_fees( $cart ) {
-		cocart_deprecated_function( 'CoCart_REST_Cart_V2_Controller::get_fees', '4.4.0', 'CoCart_Utilities_Cart_Helpers::get_fees' );
+		cocart_deprecated_function( 'CoCart_REST_Cart_V2_Controller::get_fees', '5.0.0', 'CoCart_Utilities_Cart_Helpers::get_fees' );
 
 		return CoCart_Utilities_Cart_Helpers::get_fees( $cart );
 	} // END get_fees()
@@ -813,7 +813,7 @@ class CoCart_REST_Cart_V2_Controller {
 	 *
 	 * @since 3.0.0 Introduced.
 	 *
-	 * @deprecated 4.4.0 Replaced with the same function in the utilities class.
+	 * @deprecated 5.0.0 Replaced with the same function in the utilities class.
 	 *
 	 * @see CoCart_Utilities_Cart_Helpers::coupon_html()
 	 *
@@ -823,7 +823,7 @@ class CoCart_REST_Cart_V2_Controller {
 	 * @return string Returns coupon amount.
 	 */
 	public function coupon_html( $coupon, $formatted = true ) {
-		cocart_deprecated_function( 'CoCart_REST_Cart_V2_Controller::coupon_html', '4.4.0', 'CoCart_Utilities_Cart_Helpers::coupon_html' );
+		cocart_deprecated_function( 'CoCart_REST_Cart_V2_Controller::coupon_html', '5.0.0', 'CoCart_Utilities_Cart_Helpers::coupon_html' );
 
 		return CoCart_Utilities_Cart_Helpers::coupon_html( $this->get_cart_instance(), $coupon, $formatted );
 	} // END coupon_html()
@@ -835,7 +835,7 @@ class CoCart_REST_Cart_V2_Controller {
 	 *
 	 * @since 3.0.0 Introduced.
 	 *
-	 * @deprecated 4.4.0 Replaced with the same function in the utilities class.
+	 * @deprecated 5.0.0 Replaced with the same function in the utilities class.
 	 *
 	 * @see CoCart_Utilities_Cart_Helpers::fee_html()
 	 *
@@ -845,7 +845,7 @@ class CoCart_REST_Cart_V2_Controller {
 	 * @return string Returns the fee value.
 	 */
 	public function fee_html( $cart, $fee ) {
-		cocart_deprecated_function( 'CoCart_REST_Cart_V2_Controller::fee_html', '4.4.0', 'CoCart_Utilities_Cart_Helpers::fee_html' );
+		cocart_deprecated_function( 'CoCart_REST_Cart_V2_Controller::fee_html', '5.0.0', 'CoCart_Utilities_Cart_Helpers::fee_html' );
 
 		return CoCart_Utilities_Cart_Helpers::fee_html( $cart, $fee );
 	} // END fee_html()
@@ -859,7 +859,7 @@ class CoCart_REST_Cart_V2_Controller {
 	 *
 	 * @since 3.0.0 Introduced.
 	 *
-	 * @deprecated 4.4.0 Replaced with the same function in the utilities class.
+	 * @deprecated 5.0.0 Replaced with the same function in the utilities class.
 	 *
 	 * @see CoCart_Utilities_Cart_Helpers::validate_product_for_cart()
 	 *
@@ -868,7 +868,7 @@ class CoCart_REST_Cart_V2_Controller {
 	 * @return WC_Product|WP_Error Returns a product object if purchasable.
 	 */
 	public function validate_product_for_cart( $product ) {
-		cocart_deprecated_function( 'CoCart_REST_Cart_V2_Controller::validate_product_for_cart', '4.4.0', 'CoCart_Utilities_Cart_Helpers::validate_product_for_cart' );
+		cocart_deprecated_function( 'CoCart_REST_Cart_V2_Controller::validate_product_for_cart', '5.0.0', 'CoCart_Utilities_Cart_Helpers::validate_product_for_cart' );
 
 		return CoCart_Utilities_Cart_Helpers::validate_product_for_cart( $product );
 	} // END validate_product_for_cart()
@@ -883,7 +883,7 @@ class CoCart_REST_Cart_V2_Controller {
 	 * @since 3.0.0 Introduced.
 	 *
 	 * @deprecated 4.0.0 Removed $cart_id parameter as it is the same as $item_key.
-	 * @deprecated 4.4.0 Renamed function to `is_product_sold_individually()`
+	 * @deprecated 5.0.0 Renamed function to `is_product_sold_individually()`
 	 *
 	 * @see CoCart_REST_Cart_V2_Controller::is_product_sold_individually()
 	 *
@@ -897,7 +897,7 @@ class CoCart_REST_Cart_V2_Controller {
 	 * @return float|WP_Error The quantity returned.
 	 */
 	public function validate_item_quantity( $product, $quantity, $product_id, $variation_id, $item_data, $item_key ) {
-		cocart_deprecated_function( 'CoCart_REST_Cart_V2_Controller::validate_item_quantity', '4.4.0', 'CoCart_REST_Cart_V2_Controller::is_product_sold_individually' );
+		cocart_deprecated_function( 'CoCart_REST_Cart_V2_Controller::validate_item_quantity', '5.0.0', 'CoCart_REST_Cart_V2_Controller::is_product_sold_individually' );
 
 		return $this->is_product_sold_individually( $product, $quantity, $product_id, $variation_id, $item_data, $item_key );
 	} // END validate_item_quantity()
@@ -909,7 +909,7 @@ class CoCart_REST_Cart_V2_Controller {
 	 *
 	 * @access public
 	 *
-	 * @since 4.4.0 Introduced.
+	 * @since 5.0.0 Introduced.
 	 *
 	 * @see CoCart_REST_Cart_V2_Controller::get_cart_contents()
 	 *
@@ -1067,23 +1067,23 @@ class CoCart_REST_Cart_V2_Controller {
 	 *
 	 * @since 3.0.0 Introduced.
 	 *
-	 * @deprecated 4.4.0 No longer used.
+	 * @deprecated 5.0.0 No longer used.
 	 *
 	 * @param WP_REST_Request $request The request object.
 	 *
 	 * @return $request
 	 */
 	public function filter_request_data( $request ) {
-		cocart_deprecated_function( 'CoCart_REST_Cart_V2_Controller::filter_request_data', '4.4.0' );
+		cocart_deprecated_function( 'CoCart_REST_Cart_V2_Controller::filter_request_data', '5.0.0' );
 
 		/**
 		 * Filters additional requested data.
 		 *
 		 * @since 3.0.0 Introduced.
 		 *
-		 * @deprecated 4.4.0 No longer used.
+		 * @deprecated 5.0.0 No longer used.
 		 */
-		cocart_do_deprecated_filter( 'cocart_filter_request_data', '4.4.0', null, __( 'No longer use.', 'cart-rest-api-for-woocommerce' ), array( $request ) );
+		cocart_do_deprecated_filter( 'cocart_filter_request_data', '5.0.0', null, __( 'No longer use.', 'cart-rest-api-for-woocommerce' ), array( $request ) );
 	} // END filter_request_data()
 
 	/**
@@ -1093,7 +1093,7 @@ class CoCart_REST_Cart_V2_Controller {
 	 *
 	 * @since 3.0.0 Introduced.
 	 *
-	 * @deprecated 4.4.0 Replaced with the same function in the utilities class.
+	 * @deprecated 5.0.0 Replaced with the same function in the utilities class.
 	 *
 	 * @see CoCart_Utilities_Product_Helpers::get_product_slug()
 	 *
@@ -1102,7 +1102,7 @@ class CoCart_REST_Cart_V2_Controller {
 	 * @return string The product slug.
 	 */
 	public function get_product_slug( $product ) {
-		cocart_deprecated_function( 'CoCart_REST_Cart_V2_Controller::get_product_slug', '4.4.0', 'CoCart_Utilities_Product_Helpers::get_product_slug' );
+		cocart_deprecated_function( 'CoCart_REST_Cart_V2_Controller::get_product_slug', '5.0.0', 'CoCart_Utilities_Product_Helpers::get_product_slug' );
 
 		return CoCart_Utilities_Product_Helpers::get_product_slug( $product );
 	} // END get_product_slug()
@@ -1292,7 +1292,7 @@ class CoCart_REST_Cart_V2_Controller {
 			 *
 			 * Data is only returned for items in the cart, not removed items.
 			 *
-			 * @since 4.4.0 Introduced.
+			 * @since 5.0.0 Introduced.
 			 *
 			 * @param array      $extensions The extension data added.
 			 * @param array      $cart_item  The cart item data.
@@ -1311,7 +1311,7 @@ class CoCart_REST_Cart_V2_Controller {
 			 * Filter allows you to alter the remaining cart item data.
 			 *
 			 * @since 3.0.0 Introduced.
-			 * @since 4.4.0 Added product object as parameter.
+			 * @since 5.0.0 Added product object as parameter.
 			 *
 			 * @param array      $cart_item The cart item data.
 			 * @param string     $item_key  Generated ID based on the product information when added to the cart.
@@ -1426,7 +1426,7 @@ class CoCart_REST_Cart_V2_Controller {
 	 *
 	 * @since 3.0.0 Introduced.
 	 *
-	 * @deprecated 4.4.0 Replaced with the same function in the utilities class.
+	 * @deprecated 5.0.0 Replaced with the same function in the utilities class.
 	 *
 	 * @see CoCart_Utilities_Cart_Helpers::prepare_item()
 	 *
@@ -1435,7 +1435,7 @@ class CoCart_REST_Cart_V2_Controller {
 	 * @return array $cart_item Modified cart item data returned.
 	 */
 	protected function prepare_item( $cart_item ) {
-		cocart_deprecated_function( 'CoCart_REST_Cart_V2_Controller::prepare_item', '4.4.0', 'CoCart_Utilities_Cart_Helpers::prepare_item' );
+		cocart_deprecated_function( 'CoCart_REST_Cart_V2_Controller::prepare_item', '5.0.0', 'CoCart_Utilities_Cart_Helpers::prepare_item' );
 
 		return CoCart_Utilities_Cart_Helpers::prepare_item( $cart_item );
 	} // END prepare_item()
@@ -1509,7 +1509,7 @@ class CoCart_REST_Cart_V2_Controller {
 	 *
 	 * @since 3.0.0 Introduced.
 	 *
-	 * @deprecated 4.4.0 Replaced with the same function in the utilities class.
+	 * @deprecated 5.0.0 Replaced with the same function in the utilities class.
 	 *
 	 * @see CoCart_Utilities_Cart_Helpers::get_shipping_details()
 	 *
@@ -1518,7 +1518,7 @@ class CoCart_REST_Cart_V2_Controller {
 	 * @return array Shipping details.
 	 */
 	public function get_shipping_details( $cart ) {
-		cocart_deprecated_function( 'CoCart_REST_Cart_V2_Controller::get_shipping_details', '4.4.0', 'CoCart_Utilities_Cart_Helpers::get_shipping_details' );
+		cocart_deprecated_function( 'CoCart_REST_Cart_V2_Controller::get_shipping_details', '5.0.0', 'CoCart_Utilities_Cart_Helpers::get_shipping_details' );
 
 		return CoCart_Utilities_Cart_Helpers::get_shipping_details( $cart );
 	} // END get_shipping_details()
@@ -1531,7 +1531,7 @@ class CoCart_REST_Cart_V2_Controller {
 	 * @since   3.1.0 Introduced
 	 * @version 3.1.2
 	 *
-	 * @deprecated 4.4.0 Replaced with the same function in the utilities class.
+	 * @deprecated 5.0.0 Replaced with the same function in the utilities class.
 	 *
 	 * @see CoCart_Utilities_Cart_Helpers::clean_meta_data()
 	 *
@@ -1541,7 +1541,7 @@ class CoCart_REST_Cart_V2_Controller {
 	 * @return array Meta data.
 	 */
 	protected function clean_meta_data( $method, $type = 'shipping' ) {
-		cocart_deprecated_function( 'CoCart_REST_Cart_V2_Controller::clean_meta_data', '4.4.0', 'CoCart_Utilities_Cart_Helpers::clean_meta_data' );
+		cocart_deprecated_function( 'CoCart_REST_Cart_V2_Controller::clean_meta_data', '5.0.0', 'CoCart_Utilities_Cart_Helpers::clean_meta_data' );
 
 		return CoCart_Utilities_Cart_Helpers::clean_meta_data( $method, $type );
 	} // END clean_meta_data()
@@ -1553,14 +1553,14 @@ class CoCart_REST_Cart_V2_Controller {
 	 *
 	 * @since 3.0.0 Introduced.
 	 *
-	 * @deprecated 4.4.0 Replaced with the same function in the utilities class.
+	 * @deprecated 5.0.0 Replaced with the same function in the utilities class.
 	 *
 	 * @see CoCart_Utilities_Cart_Helpers::maybe_return_notices()
 	 *
 	 * @return array $notices.
 	 */
 	protected function maybe_return_notices() {
-		cocart_deprecated_function( 'CoCart_REST_Cart_V2_Controller::maybe_return_notices', '4.4.0', 'CoCart_Utilities_Cart_Helpers::maybe_return_notices' );
+		cocart_deprecated_function( 'CoCart_REST_Cart_V2_Controller::maybe_return_notices', '5.0.0', 'CoCart_Utilities_Cart_Helpers::maybe_return_notices' );
 
 		return CoCart_Utilities_Cart_Helpers::maybe_return_notices();
 	} // END maybe_return_notices()
@@ -1572,7 +1572,7 @@ class CoCart_REST_Cart_V2_Controller {
 	 *
 	 * @since 3.0.0 Introduced.
 	 *
-	 * @deprecated 4.4.0 Replaced with the same function in the utilities class.
+	 * @deprecated 5.0.0 Replaced with the same function in the utilities class.
 	 *
 	 * @see CoCart_Utilities_Cart_Helpers::print_notices()
 	 *
@@ -1583,7 +1583,7 @@ class CoCart_REST_Cart_V2_Controller {
 	 * @return array
 	 */
 	protected function print_notices( $all_notices = array() ) {
-		cocart_deprecated_function( 'CoCart_REST_Cart_V2_Controller::print_notices', '4.4.0', 'CoCart_Utilities_Cart_Helpers::print_notices' );
+		cocart_deprecated_function( 'CoCart_REST_Cart_V2_Controller::print_notices', '5.0.0', 'CoCart_Utilities_Cart_Helpers::print_notices' );
 
 		return CoCart_Utilities_Cart_Helpers::print_notices( $all_notices );
 	} // END print_notices()
@@ -2028,7 +2028,7 @@ class CoCart_REST_Cart_V2_Controller {
 	 * @access public
 	 *
 	 * @since 3.1.0 Introduced.
-	 * @since 4.4.0 Calculate shipping was removed here because it's called already by calculate_totals.
+	 * @since 5.0.0 Calculate shipping was removed here because it's called already by calculate_totals.
 	 */
 	public function calculate_totals() {
 		$this->get_cart_instance()->calculate_fees();
@@ -3080,7 +3080,7 @@ class CoCart_REST_Cart_V2_Controller {
 		 *
 		 * Filter allows you to extend the cart schema properties for extensions.
 		 *
-		 * @since 4.4.0 Introduced.
+		 * @since 5.0.0 Introduced.
 		 */
 		$this->schema['properties']['items']['items']['properties']['extensions'] += apply_filters( 'cocart_cart_items_extensions_schema', array() );
 

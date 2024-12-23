@@ -7,7 +7,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\Classes
  * @since   1.0.0 Introduced.
- * @version 4.4.0
+ * @version 5.0.0
  * @license GPL-3.0
  */
 
@@ -201,7 +201,7 @@ class CoCart_REST_API {
 	 * @access private
 	 *
 	 * @since 4.2.0 Introduced.
-	 * @since 4.4.0 Get the cart data from session and validate cart contents.
+	 * @since 5.0.0 Get the cart data from session and validate cart contents.
 	 */
 	private function initialize_cart_session() {
 		add_filter( 'woocommerce_cart_session_initialize', function ( $must_initialize, $session ) {
@@ -224,7 +224,7 @@ class CoCart_REST_API {
 			 * Filter allows you to decide if the cart should load user meta when initialized.
 			 * This means merge cart data from a registered customer with the requested cart.
 			 *
-			 * @since 4.4.0 Introduced.
+			 * @since 5.0.0 Introduced.
 			 *
 			 * @param int    $user_id     User ID when authenticated. Zero if not authenticated.
 			 * @param string $customer_id Customer ID requested when authenticated or a cart key for guests.
@@ -506,7 +506,7 @@ class CoCart_REST_API {
 	 *
 	 * @since 1.0.0 Introduced.
 	 * @since 3.1.0 Added cart callback support and Products API.
-	 * @since 4.4.0 Added create cart route.
+	 * @since 5.0.0 Added create cart route.
 	 */
 	public function rest_api_includes() {
 		// CoCart REST API v1 controllers.

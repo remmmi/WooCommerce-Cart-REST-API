@@ -29,7 +29,7 @@ final class CoCart {
 	 *
 	 * @var string
 	 */
-	public static $version = '4.4.0-beta.9';
+	public static $version = '5.0.0-beta.10';
 
 	/**
 	 * CoCart Database Schema version.
@@ -51,7 +51,7 @@ final class CoCart {
 	 *
 	 * @static
 	 *
-	 * @since 4.4.0 Introduced.
+	 * @since 5.0.0 Introduced.
 	 *
 	 * @var string
 	 */
@@ -123,7 +123,7 @@ final class CoCart {
 	 *
 	 * @static
 	 *
-	 * @since 4.4.0 Introduced.
+	 * @since 5.0.0 Introduced.
 	 *
 	 * @var string
 	 */
@@ -136,7 +136,7 @@ final class CoCart {
 	 *
 	 * @static
 	 *
-	 * @since 4.4.0 Introduced.
+	 * @since 5.0.0 Introduced.
 	 *
 	 * @var string
 	 */
@@ -194,7 +194,7 @@ final class CoCart {
 	 * @static
 	 *
 	 * @since   1.2.0 Introduced.
-	 * @version 4.4.0
+	 * @version 5.0.0
 	 */
 	public static function setup_constants() {
 		self::define( 'COCART_ABSPATH', dirname( COCART_FILE ) . '/' );
@@ -491,7 +491,7 @@ final class CoCart {
 	 *
 	 * @static
 	 *
-	 * @since 4.4.0 Introduced.
+	 * @since 5.0.0 Introduced.
 	 */
 	protected static function disable_legacy_version() {
 		$plugin_to_deactivate = 'cart-rest-api-for-woocommerce/cart-rest-api-for-woocommerce.php';
@@ -774,7 +774,7 @@ final class CoCart {
 	 *
 	 * @static
 	 *
-	 * @since 4.4.0 Introduced.
+	 * @since 5.0.0 Introduced.
 	 *
 	 * @param string $slug The plugin slug to convert.
 	 *

@@ -4,7 +4,7 @@
  *
  * @author  Sébastien Dumont
  * @package CoCart\Admin\Settings
- * @since   4.4.0 Introduced.
+ * @since   5.0.0 Introduced.
  * @license GPL-3.0
  */
 

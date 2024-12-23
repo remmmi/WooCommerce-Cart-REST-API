@@ -5,7 +5,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\Admin\Menus
  * @since   2.0.0 Introduced.
- * @version 4.4.0
+ * @version 5.0.0
  * @license GPL-3.0
  */
 
@@ -48,7 +48,7 @@ if ( ! class_exists( 'CoCart_Admin_Menus' ) ) {
 		 * @access public
 		 *
 		 * @since 2.0.0 Introduced.
-		 * @since 4.4.0 Updated menu icon.
+		 * @since 5.0.0 Updated menu icon.
 		 */
 		public function add_main_menu_page() {
 			add_menu_page(
@@ -137,7 +137,7 @@ if ( ! class_exists( 'CoCart_Admin_Menus' ) ) {
 		 *
 		 * @access public
 		 *
-		 * @since 4.4.0 Introduced.
+		 * @since 5.0.0 Introduced.
 		 */
 		public function register_menu_shortcuts() {
 			$shortcut_menus = array(

@@ -4,7 +4,7 @@
  *
  * @author  Sébastien Dumont
  * @package CoCart/Admin/Updates
- * @since   4.4.0 Introduced.
+ * @since   5.0.0 Introduced.
  * @license GPL-3.0
  */
 
@@ -56,7 +56,7 @@ if ( ! class_exists( 'CoCart_Admin_Updates' ) ) {
 		 *
 		 * @access protected
 		 *
-		 * @since 4.4.0 Introduced.
+		 * @since 5.0.0 Introduced.
 		 *
 		 * @param array  $plugin_data An array of plugin data.
 		 * @param string $license_key License key passed if already fetched.
@@ -103,7 +103,7 @@ if ( ! class_exists( 'CoCart_Admin_Updates' ) ) {
 		 *
 		 * @static
 		 *
-		 * @since 4.4.0 Introduced.
+		 * @since 5.0.0 Introduced.
 		 *
 		 * @return string The cache key.
 		 */
@@ -118,7 +118,7 @@ if ( ! class_exists( 'CoCart_Admin_Updates' ) ) {
 		 *
 		 * @static
 		 *
-		 * @since 4.4.0 Introduced.
+		 * @since 5.0.0 Introduced.
 		 */
 		public static function refresh_plugins_transient() {
 			delete_site_transient( 'update_plugins' );
@@ -131,7 +131,7 @@ if ( ! class_exists( 'CoCart_Admin_Updates' ) ) {
 		 *
 		 * @access protected
 		 *
-		 * @since 4.4.0 Introduced.
+		 * @since 5.0.0 Introduced.
 		 *
 		 * @param string  $product_slug Product slug to identify and filter updates.
 		 * @param boolean $force_check  Bypasses cached result. Defaults to false.
@@ -228,7 +228,7 @@ if ( ! class_exists( 'CoCart_Admin_Updates' ) ) {
 		 *
 		 * @access public
 		 *
-		 * @since 4.4.0 Introduced.
+		 * @since 5.0.0 Introduced.
 		 *
 		 * @param false|object|array $result Requested results.
 		 * @param string             $action The requested plugins_api().
@@ -300,7 +300,7 @@ if ( ! class_exists( 'CoCart_Admin_Updates' ) ) {
 		 *
 		 * @access public
 		 *
-		 * @since 4.4.0 Introduced.
+		 * @since 5.0.0 Introduced.
 		 *
 		 * @param stdClass|mixed $data The current data for update_plugins.
 		 *
@@ -511,7 +511,7 @@ if ( ! class_exists( 'CoCart_Admin_Updates' ) ) {
 		 *
 		 * @static
 		 *
-		 * @since 4.4.0 Introduced.
+		 * @since 5.0.0 Introduced.
 		 *
 		 * @return int The number of products with updates.
 		 */
@@ -530,7 +530,7 @@ if ( ! class_exists( 'CoCart_Admin_Updates' ) ) {
 		 *
 		 * @static
 		 *
-		 * @since 4.4.0 Introduced.
+		 * @since 5.0.0 Introduced.
 		 *
 		 * @return string Updates count markup, empty string if no updates available.
 		 */
@@ -549,7 +549,7 @@ if ( ! class_exists( 'CoCart_Admin_Updates' ) ) {
 		 *
 		 * @access public
 		 *
-		 * @since 4.4.0 Introduced.
+		 * @since 5.0.0 Introduced.
 		 *
 		 * @param array  $parsed_args An array of HTTP request arguments.
 		 * @param string $url         The request URL.
@@ -589,7 +589,7 @@ if ( ! class_exists( 'CoCart_Admin_Updates' ) ) {
 		 *
 		 * @access public
 		 *
-		 * @since 4.4.0 Introduced.
+		 * @since 5.0.0 Introduced.
 		 *
 		 * @param WP_Upgrader $upgrader WP_Upgrader instance.
 		 * @param array       $options  Array of bulk item update data.
@@ -617,7 +617,7 @@ if ( ! class_exists( 'CoCart_Admin_Updates' ) ) {
 		 *
 		 * @access public
 		 *
-		 * @since 4.4.0 Introduced.
+		 * @since 5.0.0 Introduced.
 		 *
 		 * @param array  $plugin_data An array of plugin metadata.
 		 * @param object $response    An object of metadata about the available plugin update.
@@ -651,7 +651,7 @@ if ( ! class_exists( 'CoCart_Admin_Updates' ) ) {
 		 *
 		 * @access public
 		 *
-		 * @since 4.4.0 Introduced.
+		 * @since 5.0.0 Introduced.
 		 *
 		 * @param string $file        Path to the plugin file relative to the plugins directory.
 		 * @param array  $plugin_data An array of plugin data.
@@ -698,7 +698,7 @@ if ( ! class_exists( 'CoCart_Admin_Updates' ) ) {
 		 *
 		 * @access public
 		 *
-		 * @since 4.4.0 Introduced.
+		 * @since 5.0.0 Introduced.
 		 *
 		 * @param string $file        Path to the plugin file relative to the plugins directory.
 		 * @param array  $plugin_data An array of plugin data.
@@ -766,7 +766,7 @@ if ( ! class_exists( 'CoCart_Admin_Updates' ) ) {
 		 *
 		 * @static
 		 *
-		 * @since 4.4.0 Introduced.
+		 * @since 5.0.0 Introduced.
 		 *
 		 * @param string  $license_key     License key to verify.
 		 * @param boolean $verify_instance Verify the license key instance.
@@ -817,7 +817,7 @@ if ( ! class_exists( 'CoCart_Admin_Updates' ) ) {
 		 *
 		 * @static
 		 *
-		 * @since 4.4.0 Introduced.
+		 * @since 5.0.0 Introduced.
 		 *
 		 * @param string $license_key License key to activate.
 		 */
@@ -852,7 +852,7 @@ if ( ! class_exists( 'CoCart_Admin_Updates' ) ) {
 		 *
 		 * @static
 		 *
-		 * @since 4.4.0 Introduced.
+		 * @since 5.0.0 Introduced.
 		 *
 		 * @param string $license_key License key to deactivate.
 		 * @param int    $instance_id Instance id assigned to the activation.

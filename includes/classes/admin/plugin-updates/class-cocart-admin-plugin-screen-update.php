@@ -5,7 +5,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\Admin
  * @since   2.0.12 Introduced.
- * @version 4.4.0
+ * @version 5.0.0
  * @license GPL-3.0
  */
 
@@ -47,7 +47,7 @@ class CoCart_Admin_Plugin_Screen_Update extends CoCart_Admin_Plugin_Updates {
 	 *
 	 * @access public
 	 *
-	 * @since 4.4.0 Introduced.
+	 * @since 5.0.0 Introduced.
 	 */
 	public function prevent_legacy_activation() {
 		$legacy_plugin = plugin_basename( 'cart-rest-api-for-woocommerce/cart-rest-api-for-woocommerce.php' );

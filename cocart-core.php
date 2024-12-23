@@ -5,7 +5,7 @@
  * Description: The core of CoCart helps you get started to decouple your WooCommerce store easy.
  * Author:      CoCart Headless, LLC
  * Author URI:  https://cocartapi.com
- * Version:     4.4.0-beta.10
+ * Version:     5.0.0-beta.10
  * Text Domain: cocart-core
  * Domain Path: /languages/
  * Requires at least: 5.6

@@ -5,7 +5,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\Classes
  * @since   2.6.0 Introduced.
- * @version 4.4.0
+ * @version 5.0.0
  * @license GPL-3.0
  */
 
@@ -602,7 +602,7 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 		 *
 		 * @access protected
 		 *
-		 * @since 4.4.0 Introduced.
+		 * @since 5.0.0 Introduced.
 		 *
 		 * @uses get_http_origin()
 		 *
@@ -648,7 +648,7 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 		 *
 		 * @access protected
 		 *
-		 * @since 4.4.0 Introduced.
+		 * @since 5.0.0 Introduced.
 		 *
 		 * @uses admin_url()
 		 * @uses home_url()
@@ -669,7 +669,7 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 					 *
 					 * Filter allows to change and allow external requests for the HTTP request.
 					 *
-					 * @since 4.4.0 Introduced.
+					 * @since 5.0.0 Introduced.
 					 *
 					 * @param int[]  $allowed_ports Array of integers for valid ports.
 					 * @param string $host          Host name of the requested URL.
@@ -698,7 +698,7 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 			/**
 			 * Filter changes the origin types allowed for HTTP requests.
 			 *
-			 * @since 4.4.0 Introduced.
+			 * @since 5.0.0 Introduced.
 			 *
 			 * @param string[] $allowed_origins {
 			 *     Array of default allowed HTTP origins.
@@ -715,7 +715,7 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 		 *
 		 * @access protected
 		 *
-		 * @since 4.4.0 Introduced.
+		 * @since 5.0.0 Introduced.
 		 *
 		 * @uses CoCart_Authentication()::get_http_origin()
 		 * @uses CoCart_Authentication()::get_allowed_http_origins()

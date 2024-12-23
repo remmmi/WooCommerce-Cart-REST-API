@@ -185,7 +185,7 @@ class CoCart_REST_Products_V2_Controller extends CoCart_Products_Controller {
 	 * @access public
 	 *
 	 * @since 3.1.0 Introduced.
-	 * @since 4.4.0 Added Global Unique ID in response.
+	 * @since 5.0.0 Added Global Unique ID in response.
 	 *
 	 * @param WC_Product      $product The product object.
 	 * @param WP_REST_Request $request The request object.
@@ -956,7 +956,7 @@ class CoCart_REST_Products_V2_Controller extends CoCart_Products_Controller {
 	 * @access public
 	 *
 	 * @since 3.1.0 Introduced.
-	 * @since 4.4.0 Added Global Unique ID.
+	 * @since 5.0.0 Added Global Unique ID.
 	 *
 	 * @return array Product schema data.
 	 */

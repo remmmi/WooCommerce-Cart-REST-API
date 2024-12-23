@@ -4,7 +4,7 @@
  *
  * @author  Sébastien Dumont
  * @package CoCart\API\Cart\v2
- * @since   4.4.0 Introduced.
+ * @since   5.0.0 Introduced.
  * @license GPL-3.0
  */
 
@@ -18,7 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * This REST API controller handles the request to create the cart
  * via "cocart/v2/cart" endpoint.
  *
- * @since 4.4.0 Introduced.
+ * @since 5.0.0 Introduced.
  *
  * @see CoCart_REST_Cart_V2_Controller
  */

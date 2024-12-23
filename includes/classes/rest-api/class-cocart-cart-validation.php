@@ -5,7 +5,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\Classes
  * @since   3.0.0 Introduced.
- * @version 4.4.0
+ * @version 5.0.0
  * @license GPL-3.0
  */
 
@@ -159,7 +159,7 @@ class CoCart_Cart_Validation {
 	 *
 	 * @access public
 	 *
-	 * @since 4.4.0 Introduced.
+	 * @since 5.0.0 Introduced.
 	 *
 	 * @hook: cocart_after_item_added_to_cart
 	 * @hook: cocart_after_items_added_to_cart

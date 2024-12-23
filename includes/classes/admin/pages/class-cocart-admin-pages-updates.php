@@ -4,7 +4,7 @@
  *
  * @author  Sébastien Dumont
  * @package CoCart\Admin\Pages
- * @since   4.4.0 Introduced.
+ * @since   5.0.0 Introduced.
  * @license GPL-3.0
  */
 
@@ -68,7 +68,7 @@ class CoCart_Admin_Updates_Page extends CoCart_Submenu_Page {
 	 *
 	 * @access public
 	 *
-	 * @since 4.4.0 Introduced.
+	 * @since 5.0.0 Introduced.
 	 */
 	public function output() {
 		$store_url          = CoCart_Helpers::build_shortlink( add_query_arg( CoCart_Helpers::cocart_campaign( $this->campaign_args ), esc_url( COCART_STORE_URL . 'pricing/#paid-plans' ) ) );
@@ -161,7 +161,7 @@ class CoCart_Admin_Updates_Page extends CoCart_Submenu_Page {
 	 *
 	 * @access public
 	 *
-	 * @since 4.4.0 Introduced.
+	 * @since 5.0.0 Introduced.
 	 *
 	 * @param array $submenu_pages Currently registered submenu pages.
 	 *
@@ -389,7 +389,7 @@ class CoCart_Admin_Updates_Page extends CoCart_Submenu_Page {
 	 *
 	 * @access protected
 	 *
-	 * @since 4.4.0 Introduced.
+	 * @since 5.0.0 Introduced.
 	 *
 	 * @param boolean $raw True returns raw status, false returns translated.
 	 *
@@ -419,7 +419,7 @@ class CoCart_Admin_Updates_Page extends CoCart_Submenu_Page {
 	 *
 	 * @access protected
 	 *
-	 * @since 4.4.0 Introduced.
+	 * @since 5.0.0 Introduced.
 	 *
 	 * @param string  $license_status The status of the license returned from Lemon Squeezy.
 	 * @param boolean $raw            True returns raw status, false returns translated.
@@ -449,7 +449,7 @@ class CoCart_Admin_Updates_Page extends CoCart_Submenu_Page {
 	 *
 	 * @access protected
 	 *
-	 * @since 4.4.0 Introduced.
+	 * @since 5.0.0 Introduced.
 	 *
 	 * @param string $feed_url  Feed URI.
 	 * @param int    $max_items Maximum releases to return. 1 is default.

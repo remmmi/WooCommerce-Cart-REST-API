@@ -4,7 +4,7 @@
  *
  * @author  Sébastien Dumont
  * @package CoCart/Classes
- * @since   4.4.0 Introduced.
+ * @since   5.0.0 Introduced.
  * @license GPL-3.0
  */
 
@@ -19,7 +19,7 @@ if ( ! class_exists( 'CoCart_Status' ) ) {
 	 *
 	 * Provides functions that help identify the status of the plugin.
 	 *
-	 * @since 4.4.0 Introduced.
+	 * @since 5.0.0 Introduced.
 	 */
 	class CoCart_Status {
 

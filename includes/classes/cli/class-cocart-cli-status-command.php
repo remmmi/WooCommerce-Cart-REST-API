@@ -4,7 +4,7 @@
  *
  * @author  Sébastien Dumont
  * @package CoCart\CLI
- * @since   4.4.0 Introduced.
+ * @since   5.0.0 Introduced.
  * @license GPL-3.0
  */
 
@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Manages CoCart via CLI.
  *
- * @version 4.4.0
+ * @version 5.0.0
  * @package CoCart\CLI
  */
 class CoCart_CLI_Status_Command {

@@ -408,7 +408,7 @@ function cocart_add_to_cart_message( $products, $show_qty = false, $return_msg =
  *
  * @since 3.1.0 Introduced.
  *
- * @deprecated 4.4.0 Replaced with `cocart_format_money()` function.
+ * @deprecated 5.0.0 Replaced with `cocart_format_money()` function.
  *
  * @see cocart_format_money()
  *
@@ -419,7 +419,7 @@ function cocart_add_to_cart_message( $products, $show_qty = false, $return_msg =
  * @return string The new amount.
  */
 function cocart_prepare_money_response( $amount, $decimals = 2, $rounding_mode = PHP_ROUND_HALF_UP ) {
-	cocart_deprecated_function( 'cocart_prepare_money_response', '4.4.0', 'cocart_format_money' );
+	cocart_deprecated_function( 'cocart_prepare_money_response', '5.0.0', 'cocart_format_money' );
 
 	return cocart_format_money( $amount );
 } // END cocart_prepare_money_response()
@@ -544,7 +544,7 @@ function cocart_get_notice_types() {
  *
  * Useful to maintain site performance even when lots of REST namespaces are registered.
  *
- * @since 4.4.0 Introduced.
+ * @since 5.0.0 Introduced.
  *
  * @param string $ns         The namespace to check.
  * @param string $rest_route (Optional) The REST route being checked.
@@ -591,7 +591,7 @@ function cocart_rest_should_load_namespace( string $ns, string $rest_route = '' 
 /**
  * Get CoCart requested namespace.
  *
- * @since 4.4.0 Introduced.
+ * @since 5.0.0 Introduced.
  *
  * @return string
  */
@@ -602,7 +602,7 @@ function cocart_get_requested_namespace() {
 /**
  * Get CoCart requested namespace version.
  *
- * @since 4.4.0 Introduced.
+ * @since 5.0.0 Introduced.
  *
  * @return string
  */
@@ -613,7 +613,7 @@ function cocart_get_requested_namespace_version() {
 /**
  * Get CoCart requested API.
  *
- * @since 4.4.0 Introduced.
+ * @since 5.0.0 Introduced.
  *
  * @return string
  */

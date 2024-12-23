@@ -7,7 +7,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\Uninstaller
  * @since   2.1.0
- * @version 4.4.0
+ * @version 5.0.0
  * @license GPL-3.0
  */
 

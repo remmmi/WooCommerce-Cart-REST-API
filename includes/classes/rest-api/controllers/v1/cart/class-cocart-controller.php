@@ -1179,7 +1179,7 @@ class CoCart_API_Controller {
 	 * @since 3.0.0 Introduced.
 	 * @since 4.0.0 Moved to this controller to share the validation.
 	 *
-	 * @deprecated 4.4.0 Moved function to `cocart-rest-functions.php`
+	 * @deprecated 5.0.0 Moved function to `cocart-rest-functions.php`
 	 *
 	 * @param int|float       $value   Number of quantity to validate.
 	 * @param WP_REST_Request $request The request object.

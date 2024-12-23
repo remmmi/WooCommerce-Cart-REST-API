@@ -412,7 +412,7 @@ class CoCart_Add_Item_Controller extends CoCart_API_Controller {
 	 * @access public
 	 *
 	 * @since   2.1.0 Introduced.
-	 * @version 4.4.0
+	 * @version 5.0.0
 	 *
 	 * @return array $params Query parameters for adding items.
 	 */

@@ -81,7 +81,7 @@ function cocart_get_source( $cart_key ) {
 /**
  * Returns the cart hash of the cart.
  *
- * @since 4.4.0 Introduced.
+ * @since 5.0.0 Introduced.
  *
  * @param string $cart_key The cart key.
  *
