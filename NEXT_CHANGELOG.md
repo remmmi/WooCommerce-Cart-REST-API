@@ -68,12 +68,17 @@ Simply provide these two parameters with the data point values on any page and t
 * Introduced new filter `cocart_cross_sell_item_thumbnail_src` that allows you to change the thumbnail source for a cross sell item.
 * Introduced new filter `cocart_http_allowed_safe_ports` that allows you to control the list of ports considered safe for accessing the API.
 * Introduced new filter `cocart_allowed_http_origins` that allows you to change the origin types allowed for HTTP requests.
+* Introduced new filter `cocart_wp_frontend_url` that allows you to control where to redirect users when visiting your WordPress site if you have disabled access to it.
+* Introduced new filter `cocart_wp_disable_access` to disable access to WordPress.
+* Introduced new filter `cocart_wp_accessible_page_ids` to allow you to set the page ID's that are still accessible when you disable access to WordPress.
 * Added the request object as a parameter for filter `cocart_add_to_cart_quantity`.
 * Added parameters for filter `cocart_add_to_cart_sold_individually_quantity`.
 * Added the request object as a parameter for filter `cocart_allow_origin`.
 * Added the product object as a parameter for filters `cocart_cart_item_price`, `cocart_cart_item_quantity` and `cocart_cart_item_data`.
 * Added the cart class as a parameter for filter `cocart_shipping_package_name`.
 * Added new parameter `$recurring_cart` for filter `cocart_available_shipping_packages`.
+
+> Developer note: By default, both the cart and checkout pages are still accessible to support the feature "Load cart from Session".
 
 > Note: List other filters that have been changed here.
 

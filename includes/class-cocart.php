@@ -161,6 +161,9 @@ final class CoCart {
 		register_activation_hook( COCART_FILE, array( __CLASS__, 'install_cocart' ) );
 		add_filter( 'wp_plugin_dependencies_slug', array( __CLASS__, 'convert_plugin_dependency_slug' ) );
 
+		// Maybe disable access to WP?
+		add_action( 'template_redirect', array( __CLASS__, 'maybe_disable_wp_access' ), -10 );
+
 		// Setup CoCart Session Handler.
 		add_filter( 'woocommerce_session_handler', array( __CLASS__, 'session_handler' ) );
 
@@ -597,6 +600,117 @@ final class CoCart {
 		 */
 		return apply_filters( 'cocart_is_rest_api_request', $is_rest_api_request );
 	} // END is_rest_api_request()
+
+	/**
+	 * Redirects to front-end site if set or simply dies with an error message.
+	 *
+	 * Only administrators will still have access to the WordPress site.
+	 *
+	 * @access public
+	 *
+	 * @static
+	 *
+	 * @since 5.0.0 Introduced.
+	 */
+	public static function maybe_disable_wp_access() {
+		/**
+		 * If request method is HEAD then the headless site is making a HEAD request to figure out redirects,
+		 * so don't mess with redirects.
+		 */
+		if (
+			isset( $_SERVER['REQUEST_METHOD'] ) &&
+			'HEAD' === sanitize_text_field( wp_unslash( $_SERVER['REQUEST_METHOD'] ) )
+		) {
+			return;
+		}
+
+		// Check if WordPress is already doing a redirect.
+		if ( isset( $_SERVER['HTTP_X_WP_REDIRECT_CHECK'] ) ) {
+			return;
+		}
+
+		// Check if WordPress is accessing the customizer.
+		if ( is_customize_preview() ) {
+			return;
+		}
+
+		$cocart_settings = get_option( 'cocart_settings', array() );
+
+		if ( empty( $cocart_settings ) ) {
+			return;
+		}
+
+		nocache_headers();
+
+		$location = ! empty( $cocart_settings['general']['frontend_url'] ) ? $cocart_settings['general']['frontend_url'] : '';
+		$disable  = ! empty( $cocart_settings['general']['disable_wp_access'] ) ? $cocart_settings['general']['disable_wp_access'] : 'no';
+
+		// Dev note: These filters will take precedence over the settings set above.
+
+		/**
+		 * Filters the frontend URL that users will be redirected to if WordPress access is disabled.
+		 *
+		 * @since 5.0.0 Introduced.
+		 */
+		$location = apply_filters( 'cocart_wp_frontend_url', $location );
+
+		/**
+		 * Filters access to WordPress. Default is 'no'.
+		 *
+		 * @since 5.0.0 Introduced.
+		 */
+		$disable  = apply_filters( 'cocart_wp_disable_access', $disable );
+
+		// WordPress is not disabled so exit early.
+		if ( 'no' === $disable ) {
+			return;
+		}
+
+		// Check which pages are still accessible.
+		$cart_id     = get_option( 'woocommerce_cart_page_id' );
+		$checkout_id = get_option( 'woocommerce_checkout_page_id' );
+
+		$current_page_id = get_the_ID();
+
+		/**
+		 * Filter controls which pages are accessible when WordPress is denied access.
+		 *
+		 * Both the cart and checkout pages are accessible by default.
+		 *
+		 * @since 5.0.0 Introduced.
+		 *
+		 * @return array Page ID's that are accessible.
+		 */
+		$accessible_pages = apply_filters( 'cocart_wp_accessible_page_ids', array( $cart_id, $checkout_id ) );
+
+		if ( $current_page_id > 0 && in_array( $current_page_id, $accessible_pages ) ) {
+			return;
+		}
+
+		// Check if user is not administrator.
+		$current_user = get_userdata( get_current_user_id() );
+
+		if ( ! empty( $current_user ) ) {
+			$user_roles = $current_user->roles;
+
+			if ( in_array( 'administrator', $user_roles, true ) ) {
+				return;
+			}
+		}
+
+		// Redirect if new location provided and disabled.
+		if ( ! empty( $location ) && 'yes' === $disable ) {
+			header( 'X-Redirect-By: CoCart' );
+			header( "Location: $location", true, 301 );
+			exit;
+		}
+
+		// Return just error message if disabled only.
+		$error = new \WP_Error( 'access_denied', __( "You don't have permission to access the site.", 'cart-rest-api-for-woocommerce' ), array( 'status' => 403 ) );
+
+		wp_send_json( $error->get_error_message(), 403 );
+		exit;
+	} // END maybe_disable_wp_access()
 
 	/**
 	 * Filters the session handler to replace with our own.
