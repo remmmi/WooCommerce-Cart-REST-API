@@ -253,6 +253,19 @@ if ( ! class_exists( 'CoCart_Status' ) ) {
 		} // END is_vip_site()
 
 		/**
+		 * Determine if this is a WP dot COM hosted site.
+		 *
+		 * @access public
+		 *
+		 * @static
+		 *
+		 * @return boolean
+		 */
+		public static function is_wp_com_site() {
+			return defined( 'IS_WPCOM' ) && true === constant( 'IS_WPCOM' );
+		} // END is_wp_com_site()
+
+		/**
 		 * Gets the sites WordPress URL.
 		 *
 		 * This is typically the URL the current site is accessible via.
