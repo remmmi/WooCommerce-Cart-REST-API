@@ -335,6 +335,7 @@ final class CoCart {
 		include_once __DIR__ . '/cocart-formatting-functions.php';
 
 		// Core classes.
+		require_once __DIR__ . '/classes/class-cocart-status.php';
 		require_once __DIR__ . '/classes/class-cocart-helpers.php';
 		require_once __DIR__ . '/classes/class-cocart-install.php';
 		require_once __DIR__ . '/classes/class-cocart-logger.php';

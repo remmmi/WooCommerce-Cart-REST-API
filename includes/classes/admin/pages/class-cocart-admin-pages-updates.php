@@ -244,7 +244,7 @@ class CoCart_Admin_Updates_Page extends CoCart_Submenu_Page {
 		$license_key   = $this->cocart_update_settings['cocart_license_key'];
 		$license_error = json_decode( get_option( 'cocart_license_error' ) );
 
-		if ( CoCart_Admin_Status::is_offline_mode() || CoCart_Admin_Status::is_staging_site() ) {
+		if ( CoCart_Status::is_offline_mode() || CoCart_Status::is_staging_site() ) {
 			$license_details = json_decode( get_option( 'cocart_license_verified' ) );
 		} else {
 			$license_details = json_decode( get_option( 'cocart_license_details' ) );
@@ -254,11 +254,11 @@ class CoCart_Admin_Updates_Page extends CoCart_Submenu_Page {
 			echo '<div class="notice notice-warning notice-alt cocart-notice"><p>' . esc_html__( 'There was a problem activating/deactivating your license. Please seek assistance.', 'cart-rest-api-for-woocommerce' ) . '</p></div>';
 		} elseif ( empty( $license_details ) || false === $license_details->license_key->status || isset( $license_details->deactivated ) || empty( $license_key ) ) {
 			echo '<div class="notice cocart-notice"><p>' . esc_html__( 'Activate your license to enable access to updates.', 'cart-rest-api-for-woocommerce' ) . '</p></div>';
-		} elseif ( CoCart_Admin_Status::is_offline_mode() || CoCart_Admin_Status::is_staging_site() ) {
+		} elseif ( CoCart_Status::is_offline_mode() || CoCart_Status::is_staging_site() ) {
 			echo '<div class="notice cocart-notice"><p>' . esc_html__( 'Activations are not counted while on a local or staging environments, but you will still receive updates.', 'cart-rest-api-for-woocommerce' ) . '</p></div>';
 		}
 
-		if ( ! empty( CoCart_Admin_Status::get_live_site_url() ) && CoCart_Admin_Status::strip_protocol( CoCart_Admin_Status::get_live_site_url() ) !== CoCart_Admin_Status::strip_protocol( CoCart_Admin_Status::get_site_url() ) ) {
+		if ( ! empty( CoCart_Status::get_live_site_url() ) && CoCart_Status::strip_protocol( CoCart_Status::get_live_site_url() ) !== CoCart_Status::strip_protocol( CoCart_Status::get_site_url() ) ) {
 			echo '<div class="notice notice-warning notice-alt cocart-notice"><p>' . esc_html__( 'It looks like this site has moved. Updates are disabled until you have reactivated your license.', 'cart-rest-api-for-woocommerce' ) . '</p></div>';
 		}
 
@@ -361,18 +361,18 @@ class CoCart_Admin_Updates_Page extends CoCart_Submenu_Page {
 			CoCart_Admin_Updates::verify_license( $new_value['cocart_license_key'] );
 
 			// Check we are not handling activation offline or on a staging site.
-			if ( ! CoCart_Admin_Status::is_offline_mode() && ! CoCart_Admin_Status::is_staging_site() ) {
+			if ( ! CoCart_Status::is_offline_mode() && ! CoCart_Status::is_staging_site() ) {
 				// Activate new license key.
 				CoCart_Admin_Updates::activate_license( $new_value['cocart_license_key'] );
 			}
 
 			// Set site url lock key.
-			CoCart_Admin_Status::set_site_url_lock();
+			CoCart_Status::set_site_url_lock();
 		}
 
 		if ( isset( $new_value['cocart_license_key'] ) && empty( $new_value['cocart_license_key'] ) && ! empty( $old_value['cocart_license_key'] ) ) {
 			// Only deactivate license if we are on a production site.
-			if ( ! CoCart_Admin_Status::is_offline_mode() && ! CoCart_Admin_Status::is_staging_site() ) {
+			if ( ! CoCart_Status::is_offline_mode() && ! CoCart_Status::is_staging_site() ) {
 				// Deactivate previous license key if any.
 				if ( isset( $license_details->instance->id ) ) {
 					CoCart_Admin_Updates::deactivate_license( $old_value['cocart_license_key'], $license_details->instance->id );
@@ -427,7 +427,7 @@ class CoCart_Admin_Updates_Page extends CoCart_Submenu_Page {
 	 * @return string License status.
 	 */
 	protected function get_license_status( $license_status, $raw = true ) {
-		$is_offline = ( CoCart_Admin_Status::is_offline_mode() || CoCart_Admin_Status::is_staging_site() );
+		$is_offline = ( CoCart_Status::is_offline_mode() || CoCart_Status::is_staging_site() );
 
 		if ( 'disabled' === $license_status ) {
 			return ( ! $raw ) ? __( 'Disabled', 'cart-rest-api-for-woocommerce' ) : 'disabled';

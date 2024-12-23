@@ -3,7 +3,7 @@
  * CoCart - Status of the sites environment.
  *
  * @author  Sébastien Dumont
- * @package CoCart/Admin/Classes
+ * @package CoCart/Classes
  * @since   4.4.0 Introduced.
  * @license GPL-3.0
  */
@@ -12,7 +12,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-if ( ! class_exists( 'CoCart_Admin_Status' ) ) {
+if ( ! class_exists( 'CoCart_Status' ) ) {
 
 	/**
 	 * CoCart status.
@@ -21,7 +21,7 @@ if ( ! class_exists( 'CoCart_Admin_Status' ) ) {
 	 *
 	 * @since 4.4.0 Introduced.
 	 */
-	class CoCart_Admin_Status {
+	class CoCart_Status {
 
 		/**
 		 * Is CoCart in offline mode?
@@ -378,5 +378,5 @@ if ( ! class_exists( 'CoCart_Admin_Status' ) ) {
 		} // END set_site_url_lock()
 	} // END class
 
-	return new CoCart_Admin_Status();
+	return new CoCart_Status();
 }

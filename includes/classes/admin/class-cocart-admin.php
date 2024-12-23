@@ -53,7 +53,6 @@ if ( ! class_exists( 'CoCart_Admin' ) ) {
 			require_once __DIR__ . '/class-cocart-admin-help-tab.php';                              // Admin Help Tab.
 			require_once __DIR__ . '/class-cocart-admin-menus.php';                                 // Admin Menus.
 			require_once __DIR__ . '/class-cocart-admin-notices.php';                               // Plugin Notices.
-			include_once __DIR__ . '/class-cocart-admin-status.php';                                // Plugin Status.
 
 			// Plugin identification and updates.
 			include_once __DIR__ . '/abstract/abstract-class-plugin-updates.php';                   // Plugin identification.

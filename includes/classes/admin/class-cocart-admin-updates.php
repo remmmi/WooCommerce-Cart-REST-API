@@ -822,7 +822,7 @@ if ( ! class_exists( 'CoCart_Admin_Updates' ) ) {
 		 * @param string $license_key License key to activate.
 		 */
 		public static function activate_license( $license_key ) {
-			$activation_url = self::$api_url . '/activate/' . $license_key . '/' . CoCart_Admin_Status::strip_protocol( CoCart_Admin_Status::get_site_url() );
+			$activation_url = self::$api_url . '/activate/' . $license_key . '/' . CoCart_Status::strip_protocol( CoCart_Status::get_site_url() );
 
 			$response = wp_remote_post(
 				$activation_url,
