@@ -93,14 +93,14 @@ class CoCart_REST_Store_V2_Controller {
 			'store_address'   => $this->get_store_address(),
 		);
 
-		if ( WP_DEBUG ) {
+		if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
 			$store = array_merge( $debug, $store );
 		}
 
 		$response = new WP_REST_Response( $store );
 
 		// Add link to documentation.
-		if ( WP_DEBUG ) {
+		if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
 			$response->add_link( 'help', COCART_DOCUMENTATION_URL );
 		}
 
