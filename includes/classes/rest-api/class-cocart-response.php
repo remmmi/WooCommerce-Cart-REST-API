@@ -100,7 +100,9 @@ class CoCart_Response {
 			$response->header( 'CoCart-Timestamp', time() );
 
 			// Add version of CoCart.
-			$response->header( 'CoCart-Version', COCART_VERSION );
+			if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+				$response->header( 'CoCart-Version', COCART_VERSION );
+			}
 
 			// Returns additional headers for the cart endpoint.
 			if ( strpos( $raw_endpoint, 'cart' ) !== false ) {
