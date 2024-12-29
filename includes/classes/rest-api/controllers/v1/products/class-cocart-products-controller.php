@@ -644,13 +644,13 @@ class CoCart_Products_Controller extends WP_REST_Controller {
 			$args['meta_query'] = $this->add_meta_query( $args, cocart_get_min_max_price_meta_query( $request ) ); // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query, WPCS: slow query ok.
 		}
 
-		// Filter product in stock or out of stock.
-		if ( is_bool( $request['stock_status'] ) ) {
+		// Filter by stock status.
+		if ( ! empty( $request['stock_status'] ) ) {
 			$args['meta_query'] = $this->add_meta_query( // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query, WPCS: slow query ok.
 				$args,
 				array(
 					'key'   => '_stock_status',
-					'value' => true === $request['stock_status'] ? 'instock' : 'outofstock',
+					'value' => in_array( $request['stock_status'], array_keys( wc_get_product_stock_status_options() ) ) ? $request['stock_status'] : 'outofstock',
 				)
 			);
 		}
