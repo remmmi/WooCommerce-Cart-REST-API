@@ -279,7 +279,13 @@ We’d love to hear what you have to say. [Share your experience](https://testim
 
 == Changelog ==
 
-= v4.3.15 - 28th November, 2024 =
+= v4.3.16 - 12th December, 2024 =
+
+### Bug Fix
+
+* REST API: Authentication failed to validate incorrect login now fixed.
+
+= v4.3.15 - 29th November, 2024 =
 
 ### Bug Fix
 
@@ -683,6 +689,10 @@ Hope you enjoy this release.
 [View the full changelog here](https://github.com/co-cart/co-cart/blob/trunk/CHANGELOG.md).
 
 == Upgrade Notice ==
+
+= 4.3.16 =
+
+REST API: Authentication failed to validate incorrect login now fixed.
 
 = 4.3.15 =
 
