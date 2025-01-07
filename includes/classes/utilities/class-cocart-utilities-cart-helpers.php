@@ -150,7 +150,7 @@ class CoCart_Utilities_Cart_Helpers {
 	 * @static
 	 *
 	 * @since 3.0.0 Introduced.
-	 * @since 4.4.0 Added cart class instance and recurring cart as new parameters.
+	 * @since 5.0.0 Added cart class instance and recurring cart as new parameters.
 	 *
 	 * @see cocart_format_money()
 	 * @see CoCart_Utilities_Cart_Helpers::is_shipping_enabled()
@@ -236,7 +236,7 @@ class CoCart_Utilities_Cart_Helpers {
 					 * Filters the package name for the shipping method.
 					 *
 					 * @since 3.0.0 Introduced.
-					 * @since 4.4.0 Added cart class instance as parameter.
+					 * @since 5.0.0 Added cart class instance as parameter.
 					 *
 					 * @param string  $shipping_name Package name.
 					 * @param int     $package_id    Package ID.
@@ -284,7 +284,7 @@ class CoCart_Utilities_Cart_Helpers {
 		 * Filter allows you to alter the shipping packages returned.
 		 *
 		 * @since 4.1.0 Introduced.
-		 * @since 4.4.0 Added $recurring_cart as parameter.
+		 * @since 5.0.0 Added $recurring_cart as parameter.
 		 *
 		 * @param array   $packages       Available shipping packages.
 		 * @param array   $chosen_method  Chosen shipping method.
@@ -402,7 +402,7 @@ class CoCart_Utilities_Cart_Helpers {
 	 * @static
 	 *
 	 * @since 3.0.0 Introduced.
-	 * @since 4.4.0 Added Cart class instance as the first parameter.
+	 * @since 5.0.0 Added Cart class instance as the first parameter.
 	 *
 	 * @see cocart_format_money()
 	 *
@@ -431,7 +431,11 @@ class CoCart_Utilities_Cart_Helpers {
 			$discount_amount_html = __( 'Free shipping coupon', 'cart-rest-api-for-woocommerce' );
 		}
 
-		$discount_amount_html = apply_filters( 'cocart_coupon_discount_amount_html', $discount_amount_html, $coupon );
+		if ( has_filter( 'woocommerce_coupon_discount_amount_html' ) ) {
+			$discount_amount_html = apply_filters( 'woocommerce_coupon_discount_amount_html', $discount_amount_html, $coupon );
+		} else {
+			$discount_amount_html = apply_filters( 'cocart_coupon_discount_amount_html', $discount_amount_html, $coupon );
+		}
 
 		return $discount_amount_html;
 	} // END coupon_html()
@@ -443,7 +447,7 @@ class CoCart_Utilities_Cart_Helpers {
 	 *
 	 * @static
 	 *
-	 * @since 4.4.0 Introduced.
+	 * @since 5.0.0 Introduced.
 	 *
 	 * @param WC_Cart $cart Cart class instance.
 	 *
@@ -479,7 +483,7 @@ class CoCart_Utilities_Cart_Helpers {
 	 *
 	 * @static
 	 *
-	 * @since 4.4.0 Introduced.
+	 * @since 5.0.0 Introduced.
 	 *
 	 * @see cocart_format_money()
 	 *
@@ -607,7 +611,7 @@ class CoCart_Utilities_Cart_Helpers {
 	 *
 	 * @static
 	 *
-	 * @since 4.4.0 Introduced.
+	 * @since 5.0.0 Introduced.
 	 *
 	 * @param WC_Product $product      The product object.
 	 * @param array      $cart_item    The cart item data.
@@ -657,7 +661,7 @@ class CoCart_Utilities_Cart_Helpers {
 	 *
 	 * @static
 	 *
-	 * @since 4.4.0 Introduced.
+	 * @since 5.0.0 Introduced.
 	 *
 	 * @param bool $removed_item Determines if the item in the cart is removed.
 	 *
@@ -685,7 +689,7 @@ class CoCart_Utilities_Cart_Helpers {
 	 *
 	 * @static
 	 *
-	 * @since 4.4.0 Introduced.
+	 * @since 5.0.0 Introduced.
 	 *
 	 * @param int    $thumbnail_id   Product thumbnail ID.
 	 * @param string $thumbnail_size Thumbnail size.
@@ -727,7 +731,7 @@ class CoCart_Utilities_Cart_Helpers {
 	 *
 	 * @static
 	 *
-	 * @since 4.4.0 Introduced.
+	 * @since 5.0.0 Introduced.
 	 *
 	 * @param int|WC_Product $product   The product ID or object.
 	 * @param array          $cart_item The cart item data.
@@ -802,7 +806,7 @@ class CoCart_Utilities_Cart_Helpers {
 			 * Filter allows you to alter the remaining cart item data.
 			 *
 			 * @since 3.0.0 Introduced.
-			 * @since 4.4.0 Added product object as parameter.
+			 * @since 5.0.0 Added product object as parameter.
 			 *
 			 * @param array      $cart_item The cart item data.
 			 * @param string     $item_key  Generated ID based on the product information when added to the cart.
@@ -823,7 +827,7 @@ class CoCart_Utilities_Cart_Helpers {
 	 *
 	 * @static
 	 *
-	 * @since 4.4.0 Introduced.
+	 * @since 5.0.0 Introduced.
 	 *
 	 * @param int|float       $quantity     The original quantity of the item.
 	 * @param int             $product_id   The product ID.
@@ -839,7 +843,7 @@ class CoCart_Utilities_Cart_Helpers {
 		 * Filters the quantity for specified products.
 		 *
 		 * @since 2.1.2 Introduced.
-		 * @since 4.4.0 Added the request object as a parameter.
+		 * @since 5.0.0 Added the request object as a parameter.
 		 *
 		 * @param int|float       $quantity     The original quantity of the item.
 		 * @param int             $product_id   The product ID.
@@ -860,7 +864,7 @@ class CoCart_Utilities_Cart_Helpers {
 	 *
 	 * @static
 	 *
-	 * @since 4.4.0 Introduced.
+	 * @since 5.0.0 Introduced.
 	 *
 	 * @param int|float       $quantity     The quantity to validate.
 	 * @param int             $product_id   The product ID.
@@ -875,7 +879,7 @@ class CoCart_Utilities_Cart_Helpers {
 		 * Filters the quantity for sold individual products.
 		 *
 		 * @since 2.0.13 Introduced.
-		 * @since 4.4.0 Added parameters: `$quantity`, `$product_id`, `$variation_id`, `$item_data` and `$request`
+		 * @since 5.0.0 Added parameters: `$quantity`, `$product_id`, `$variation_id`, `$item_data` and `$request`
 		 *
 		 * @param int             $sold_individual_quantity Sold individual quantity.
 		 * @param int|float       $quantity                 The quantity to validate.
@@ -896,7 +900,7 @@ class CoCart_Utilities_Cart_Helpers {
 	 *
 	 * @static
 	 *
-	 * @since 4.4.0 Introduced.
+	 * @since 5.0.0 Introduced.
 	 *
 	 * @param array           $item_data    The cart item data.
 	 * @param int             $product_id   The product ID.

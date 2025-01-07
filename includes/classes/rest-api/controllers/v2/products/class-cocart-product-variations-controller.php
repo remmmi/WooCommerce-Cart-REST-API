@@ -7,6 +7,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\API\Products\v2
  * @since   3.1.0 Introduced.
+ * @version 5.0.0
  * @license GPL-3.0
  */
 
