@@ -1,9 +1,10 @@
 // Variables
-@import '../variables';
+@use "sass:meta";
+@use '../variables';
 
 @mixin button-hover {
-	background-color: $cocart-button-hover !important;
-	border-color: $cocart-button-hover !important;
+	background-color: variables.$cocart-button-hover !important;
+	border-color: variables.$cocart-button-hover !important;
 }
 
 // Plugin menu
@@ -46,7 +47,7 @@ body.cocart-pagestyles .wp-header-end { clear: both; }
 		box-shadow: 0 1px 3px rgba(0, 0, 0, 0.13);
 		padding: 2em;
 		margin: 0 0 20px;
-		background: $white;
+		background: variables.$white;
 		overflow: hidden;
 		zoom: 1;
 		text-align: left;
@@ -63,7 +64,7 @@ body.cocart-pagestyles .wp-header-end { clear: both; }
 
 body:not(.rtl).cocart-pagestyles {
 	#wpbody {
-		color:$black;
+		color:variables.$black;
 		font-weight: 400;
 	}
 }
@@ -88,8 +89,8 @@ body:not(.rtl).cocart-pagestyles {
 	a.button:not(.button-secondary):not(.cocart-manage-license-btn),
 	button:not(#collapse-button):not(.button-secondary):not(#contextual-help-link):not(.components-button),
 	.button-primary {
-		background-color: $cocart-button;
-		border-color: $cocart-button;
+		background-color: variables.$cocart-button;
+		border-color: variables.$cocart-button;
 	}
 
 	a.button:not(.button-secondary):not(.cocart-manage-license-btn):hover,
@@ -111,10 +112,10 @@ body:not(.rtl).cocart-pagestyles {
 // Admin Notices
 .notice {
 	&.inline.notice-cocart {
-		border-color: $cocart;
+		border-color: variables.$cocart;
 
 		p.cart::before {
-			color: $cocart;
+			color: variables.$cocart;
 			content: '\f174';
 			display: inline-block;
 			font: normal 20px/1 'dashicons';
@@ -125,12 +126,12 @@ body:not(.rtl).cocart-pagestyles {
 	}
 
 	&.cocart-notice {
-		border-color: $cocart;
+		border-color: variables.$cocart;
 		padding: 10px !important;
 
 		a.button {
-			background-color: $cocart-button;
-			border-color: $cocart-button;
+			background-color: variables.$cocart-button;
+			border-color: variables.$cocart-button;
 		}
 
 		a.button:hover,
@@ -147,12 +148,12 @@ body:not(.rtl).cocart-pagestyles {
 			margin-top: 10px;
 
 			a {
-				color: $grey;
+				color: variables.$grey;
 				text-decoration: none;
 			}
 
 			a:hover {
-				color: $dark-grey;
+				color: variables.$dark-grey;
 			}
 		}
 
@@ -195,7 +196,7 @@ body:not(.rtl).cocart-pagestyles {
 	}
 
 	.cocart-notice-icon {
-		color: $light-blue;
+		color: variables.$light-blue;
 		font-size: 50px;
 		width: 60px;
 
@@ -304,8 +305,8 @@ body.cocart-pagestyles {
 			height: 42px;
 			padding: 0 8px;
 			font-size: 16px;
-			color: $grey;
-			background-color: $white;
+			color: variables.$grey;
+			background-color: variables.$white;
 			display: inline-block;
 			margin-right: 6px;
 			flex-grow: 1;
@@ -372,7 +373,7 @@ ul.cocart-next-steps {
 		}
 
 		a::before {
-			color: $blue-grey;
+			color: variables.$blue-grey;
 			font: 400 20px/1 dashicons; /* stylelint-disable-line font-family-no-missing-generic-family-keyword */
 			speak: none;
 			display: inline-block;
@@ -598,7 +599,7 @@ ul.cocart-next-steps {
 .cocart_untested_extensions_modal--content {
 	h1 {
 		border-bottom: 1px solid #eee;
-		background: $light-grey;
+		background: variables.$light-grey;
 		border-top-left-radius: 4px;
 		border-top-right-radius: 4px;
 		font-size: 1.6em;
@@ -686,4 +687,4 @@ i.cocart-icon {
 }
 
 // CoCart updates
-@import 'cocart-updates';
+@include meta.load-css('cocart-updates');

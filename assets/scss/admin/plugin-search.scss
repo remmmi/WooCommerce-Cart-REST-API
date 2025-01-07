@@ -1,9 +1,9 @@
 // Variables
-@import '../variables';
+@use '../variables';
 
 body.cocart-plugin-install {
 	.plugin-card {
-		border: 1px solid $cocart;
+		border: 1px solid variables.$cocart;
 
 		h3 {
 			margin: 0 0 4px;
@@ -28,7 +28,7 @@ body.cocart-plugin-install {
 	}
 
 	&.plugin-card-cocart-plugin-search {
-		border: 2px solid $cocart;
+		border: 2px solid variables.$cocart;
 	}
 }
 
@@ -70,16 +70,16 @@ body.cocart-plugin-install {
 		}
 
 		.cocart-plugin-primary {
-			background: $cocart;
-			border-color: $cocart-border-color;
-			color: $white;
+			background: variables.$cocart;
+			border-color: variables.$cocart-border-color;
+			color: variables.$white;
 			box-shadow: 0 1px 0 #d8c3e2;
 		}
 
 		.cocart-plugin-primary:hover {
-			background:$cocart-hover;
-			border-color: $cocart-border-color-hover;
-			color: $white;
+			background:variables.$cocart-hover;
+			border-color: variables.$cocart-border-color-hover;
+			color: variables.$white;
 		}
 	}
 }
@@ -95,8 +95,8 @@ body.cocart-plugin-install {
 	align-content: space-between;
 	clear: both;
 	padding: 12px 20px;
-	background-color: $smoke-white;
-	border-top: 1px solid $light-grey;
+	background-color: variables.$smoke-white;
+	border-top: 1px solid variables.$light-grey;
 	overflow: hidden;
 }
 

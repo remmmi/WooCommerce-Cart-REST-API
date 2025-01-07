@@ -5,7 +5,7 @@
  */
 
 module.exports = function(grunt) {
-	var sass = require( 'node-sass' );
+	var sass = require( 'sass' );
 	require( 'load-grunt-tasks' )( grunt );
 	grunt.loadNpmTasks('grunt-shell');
 
