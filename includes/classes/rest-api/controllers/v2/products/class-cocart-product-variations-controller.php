@@ -200,7 +200,7 @@ class CoCart_REST_Product_Variations_V2_Controller extends CoCart_Product_Variat
 
 		// Rename link type and add permalink for the parent product.
 		$links['up'] = array(
-			'permalink' => get_permalink( $product->get_parent_id() ),
+			'permalink' => cocart_get_permalink( get_permalink( $product->get_parent_id() ) ),
 			'href'      => $links['parent_product']['href'],
 		);
 
