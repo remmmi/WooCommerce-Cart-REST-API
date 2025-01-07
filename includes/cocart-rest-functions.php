@@ -621,6 +621,90 @@ function cocart_get_requested_api() {
 	return cocart_get_requested_namespace() . '/' . cocart_get_requested_namespace_version();
 } // END cocart_get_requested_api()
 
+/**
+ * Get the frontend URL.
+ *
+ * @since 5.0.0 Introduced.
+ *
+ * @param array $settings CoCart settings passed. Empty by default.
+ *
+ * @return string
+ */
+function cocart_get_frontend_url( array $settings = array() ) {
+	// If no settings already passed, fetch them.
+	if ( empty( $settings ) ) {
+		$settings = get_option( 'cocart_settings', array() );
+	}
+
+	$frontend_url = ! empty( $settings['general']['frontend_url'] ) ? $settings['general']['frontend_url'] : '';
+
+	// Dev note: The filter below will take precedence over the setting set above.
+
+	/**
+	 * Filters the frontend URL that users will be redirected to if WordPress access is disabled.
+	 *
+	 * @since 5.0.0 Introduced.
+	 */
+	$frontend_url = apply_filters( 'cocart_wp_frontend_url', $frontend_url );
+
+	// If nothing set or filtered then return default home_url().
+	if ( empty( $frontend_url ) ) {
+		return home_url();
+	}
+
+	return $frontend_url;
+} // END cocart_get_frontend_url()
+
+/**
+ * Checks if WordPress has been disabled access.
+ *
+ * @since 5.0.0 Introduced.
+ *
+ * @param array $settings CoCart settings passed. Default is 'no'.
+ *
+ * @return string
+ */
+function cocart_is_wp_disabled_access( array $settings = array() ) {
+	// If no settings already passed, fetch them.
+	if ( empty( $settings ) ) {
+		$settings = get_option( 'cocart_settings', array() );
+	}
+
+	$disabled = ! empty( $settings['general']['disable_wp_access'] ) ? $settings['general']['disable_wp_access'] : 'no';
+
+	// Dev note: The filter below will take precedence over the setting set above.
+
+	/**
+	 * Filters access to WordPress. Default is 'no'.
+	 *
+	 * @since 5.0.0 Introduced.
+	 */
+	$disabled = apply_filters( 'cocart_wp_disable_access', $disabled );
+
+	return $disabled;
+} // END cocart_is_wp_disabled_access()
+
+/**
+ * Returns the permalink for a page/post/product and replaces the frontend URL if set.
+ *
+ * @since 5.0.0 Introduced.
+ *
+ * @param string $url      Permalink of page/post/product.
+ * @param array  $settings CoCart settings passed. Empty by default.
+ *
+ * @return string Permalink.
+ */
+function cocart_get_permalink( string $url, array $settings = array() ) {
+	// If no settings already passed, fetch them.
+	if ( empty( $settings ) ) {
+		$settings = get_option( 'cocart_settings', array() );
+	}
+
+	$frontend_url = cocart_get_frontend_url( $settings );
+
+	return str_replace( home_url(), $frontend_url, $url );
+} // END cocart_get_permalink()
+
 if ( ! function_exists( 'rest_validate_quantity_arg' ) ) {
 	/**
 	 * Validates the quantity argument.

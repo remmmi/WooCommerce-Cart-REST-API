@@ -637,33 +637,13 @@ final class CoCart {
 
 		$cocart_settings = get_option( 'cocart_settings', array() );
 
-		if ( empty( $cocart_settings ) ) {
-			return;
-		}
-
 		nocache_headers();
 
-		$location = ! empty( $cocart_settings['general']['frontend_url'] ) ? $cocart_settings['general']['frontend_url'] : '';
-		$disable  = ! empty( $cocart_settings['general']['disable_wp_access'] ) ? $cocart_settings['general']['disable_wp_access'] : 'no';
-
-		// Dev note: These filters will take precedence over the settings set above.
-
-		/**
-		 * Filters the frontend URL that users will be redirected to if WordPress access is disabled.
-		 *
-		 * @since 5.0.0 Introduced.
-		 */
-		$location = apply_filters( 'cocart_wp_frontend_url', $location );
-
-		/**
-		 * Filters access to WordPress. Default is 'no'.
-		 *
-		 * @since 5.0.0 Introduced.
-		 */
-		$disable  = apply_filters( 'cocart_wp_disable_access', $disable );
+		$location = cocart_get_frontend_url( $cocart_settings );
+		$disabled = cocart_is_wp_disabled_access( $cocart_settings );
 
 		// WordPress is not disabled so exit early.
-		if ( 'no' === $disable ) {
+		if ( 'no' === $disabled ) {
 			return;
 		}
 
@@ -700,7 +680,7 @@ final class CoCart {
 		}
 
 		// Redirect if new location provided and disabled.
-		if ( ! empty( $location ) && 'yes' === $disable ) {
+		if ( ! empty( $location ) && 'yes' === $disabled ) {
 			header( 'X-Redirect-By: CoCart' );
 			header( "Location: $location", true, 301 );
 			exit;
