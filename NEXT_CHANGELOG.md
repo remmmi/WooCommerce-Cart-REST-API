@@ -15,18 +15,21 @@
 * Plugin: Updates are provided from us for all supported CoCart plugins.
 * Plugin: Will deactivate legacy core version if one found installed and active. If you try to activate legacy version while the new core version is active it will deactivate. Recommend deleting.
 
-> Developer note: If you have the `COCART_REMOVE_ALL_DATA` constant set to true. Recommend setting it to false before uninstalling the legacy version to prevent any issues.
+> Developer note: If you have the `COCART_REMOVE_ALL_DATA` constant set to true. Recommend setting it to false before uninstalling the legacy version from your WordPress dashboard to prevent any issues.
 
 * Plugin: Integrity check of all files.
 
 > Developer note: Know if the version of CoCart is official and has not been tampered with. This is just the first iteration introduced.
 > You will never see the warning messages if all is in order, but if you do alter any files within the plugin yourself directly. You will be notified in your WordPress dashboard and in your error log that something has changed and does not match.
 
-## Changes
+## Breaking Changes
 
-* Plugin: Text domain a.k.a the plugin slug, has changed from `cart-rest-api-for-woocommerce` to `cocart-core`. This affects any translations including custom. If you did a custom translation you will need to rename the text domain to match.
 * REST API: Avatars only return if requested now when using the login endpoint.
 * REST API: Store API now returns array of CoCart versions installed not just the core version.
+* Plugin: Text domain a.k.a the plugin slug, has changed from `cart-rest-api-for-woocommerce` to `cocart-core`. This affects any translations including custom. If you did a custom translation you will need to rename the text domain to match.
+
+## Changes
+
 * REST API: The following endpoints for Cart API v2 now extend `CoCart_REST_Cart_V2_Controller` instead of Cart API v1 controller: `cart/add-item`, `cart/add-items`, `cart/calculate`
 * WordPress Dashboard: Style adjustments.
 
@@ -61,7 +64,11 @@ Simply provide these two parameters with the data point values on any page and t
 
 `https://your.store/?cocart-load-cart={cart_key}&c_hash={cart_hash}`
 
+> Developer note: By default, both the cart and checkout pages are still accessible to support the feature "Load cart from Session".
+
 #### Developers
+
+##### New Filters
 
 * Introduced new filter `cocart_load_cart_from_session` allows you to decide if the cart should load user meta when initialized.
 * Introduced new filter `cocart_load_cart_redirect_home` allows you to change where to redirect should loading the cart fail.
@@ -71,6 +78,11 @@ Simply provide these two parameters with the data point values on any page and t
 * Introduced new filter `cocart_wp_frontend_url` that allows you to control where to redirect users when visiting your WordPress site if you have disabled access to it.
 * Introduced new filter `cocart_wp_disable_access` to disable access to WordPress.
 * Introduced new filter `cocart_wp_accessible_page_ids` to allow you to set the page ID's that are still accessible when you disable access to WordPress.
+
+> Note: List other filters that have been changed here.
+
+##### New parameters
+
 * Added the request object as a parameter for filter `cocart_add_to_cart_quantity`.
 * Added parameters for filter `cocart_add_to_cart_sold_individually_quantity`.
 * Added the request object as a parameter for filter `cocart_allow_origin`.
@@ -78,9 +90,14 @@ Simply provide these two parameters with the data point values on any page and t
 * Added the cart class as a parameter for filter `cocart_shipping_package_name`.
 * Added new parameter `$recurring_cart` for filter `cocart_available_shipping_packages`.
 
-> Developer note: By default, both the cart and checkout pages are still accessible to support the feature "Load cart from Session".
+##### New Functions
 
-> Note: List other filters that have been changed here.
+* Introduced new function `cocart_get_requested_namespace()` to get the requested CoCart namespace.
+* Introduced new function `cocart_get_requested_namespace_version()` to get the requested CoCart namespace version.
+* Introduced new function `cocart_get_requested_api()` to get the requested CoCart API.
+* Introduced new function `cocart_get_frontend_url()` to get the frontend URL.
+* Introduced new function `cocart_is_wp_disabled_access()` to check if WordPress has been disabled access.
+* Introduced new function `cocart_get_permalink()` to return the permalink for a page/post/product where the frontend URL maybe replaced.
 
 #### Deprecation's
 
