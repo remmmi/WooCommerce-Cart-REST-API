@@ -79,6 +79,7 @@ Simply provide these two parameters with the data point values on any page and t
 * Introduced new filter `cocart_wp_disable_access` to disable access to WordPress.
 * Introduced new filter `cocart_wp_accessible_page_ids` to allow you to set the page ID's that are still accessible when you disable access to WordPress.
 * Introduced new filter `cocart_get_product_slug` to change the product slug returned.
+* Introduced new filter `cocart_products_allowed_meta_keys` allows you to specify the allowed meta keys for the product.
 
 > Note: List other filters that have been changed here.
 
@@ -112,3 +113,4 @@ The following filters are no longer used:
 * `cocart_cart_loaded_successful_message`
 * `cocart_use_cookie_monster`
 * `cocart_filter_request_data`
+* `cocart_products_ignore_private_meta_keys`
