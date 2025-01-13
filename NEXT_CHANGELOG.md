@@ -27,6 +27,7 @@
 * REST API: Avatars only return if requested now when using the login endpoint.
 * REST API: Store API now returns array of CoCart versions installed not just the core version.
 * Plugin: Text domain a.k.a the plugin slug, has changed from `cart-rest-api-for-woocommerce` to `cocart-core`. This affects any translations including custom. If you did a custom translation you will need to rename the text domain to match.
+* Product meta will not return by default. To improve security and prevent PII from exposure, meta must now be whitelisted instead using the new filter `cocart_products_allowed_meta_keys`.
 
 ## Changes
 
