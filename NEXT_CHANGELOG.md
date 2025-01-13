@@ -78,6 +78,7 @@ Simply provide these two parameters with the data point values on any page and t
 * Introduced new filter `cocart_wp_frontend_url` that allows you to control where to redirect users when visiting your WordPress site if you have disabled access to it.
 * Introduced new filter `cocart_wp_disable_access` to disable access to WordPress.
 * Introduced new filter `cocart_wp_accessible_page_ids` to allow you to set the page ID's that are still accessible when you disable access to WordPress.
+* Introduced new filter `cocart_get_product_slug` to change the product slug returned.
 
 > Note: List other filters that have been changed here.
 

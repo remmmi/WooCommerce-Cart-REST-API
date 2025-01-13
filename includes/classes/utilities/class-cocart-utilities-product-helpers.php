@@ -403,7 +403,14 @@ class CoCart_Utilities_Product_Helpers {
 			$product_slug = $product->get_slug();
 		}
 
-		return $product_slug;
+		/**
+		 * Filter allows you to change the product slug returned.
+		 *
+		 * @since 5.0.0 Introduced.
+		 *
+		 * @param WC_Product $product The product object.
+		 */
+		return apply_filters( 'cocart_get_product_slug', $product_slug, $product );
 	} // END get_product_slug()
 
 	/**
