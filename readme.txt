@@ -22,7 +22,7 @@ Using CoCart makes building headless stores in modern frameworks like Astro, Rea
 
 #### Why WooCommerce?
 
-CoCart chose to support WooCommerce because it provides a **flexible, and efficient** way to build cutting-edge stores with WordPress at it’s core. But it was missing a key component to decouple WooCommerce via the REST API efficiently. That’s where CoCart comes in.
+CoCart choose to support WooCommerce because it provides a **flexible, and efficient** way to build cutting-edge stores with WordPress at it’s core. But it was missing a key component to decouple WooCommerce via the REST API efficiently. That’s where CoCart comes in.
 
 #### Finally a REST API that’s Easy and Powerful
 
