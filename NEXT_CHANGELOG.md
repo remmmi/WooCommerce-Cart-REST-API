@@ -27,6 +27,7 @@
 * REST API: Avatars only return if requested now when using the login endpoint.
 * REST API: Store API now returns array of CoCart versions installed not just the core version.
 * Plugin: Text domain a.k.a the plugin slug, has changed from `cart-rest-api-for-woocommerce` to `cocart-core`. This affects any translations including custom. If you did a custom translation you will need to rename the text domain to match.
+* Product meta will not return by default. To improve security and prevent PII from exposure, meta must now be whitelisted instead using the new filter `cocart_products_allowed_meta_keys`.
 
 ## Changes
 
@@ -78,6 +79,8 @@ Simply provide these two parameters with the data point values on any page and t
 * Introduced new filter `cocart_wp_frontend_url` that allows you to control where to redirect users when visiting your WordPress site if you have disabled access to it.
 * Introduced new filter `cocart_wp_disable_access` to disable access to WordPress.
 * Introduced new filter `cocart_wp_accessible_page_ids` to allow you to set the page ID's that are still accessible when you disable access to WordPress.
+* Introduced new filter `cocart_get_product_slug` to change the product slug returned.
+* Introduced new filter `cocart_products_allowed_meta_keys` allows you to specify the allowed meta keys for the product.
 
 > Note: List other filters that have been changed here.
 
@@ -111,3 +114,4 @@ The following filters are no longer used:
 * `cocart_cart_loaded_successful_message`
 * `cocart_use_cookie_monster`
 * `cocart_filter_request_data`
+* `cocart_products_ignore_private_meta_keys`

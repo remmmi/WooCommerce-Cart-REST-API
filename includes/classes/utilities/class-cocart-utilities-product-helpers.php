@@ -305,29 +305,28 @@ class CoCart_Utilities_Product_Helpers {
 		 *
 		 * @since 3.11.0 Introduced.
 		 *
+		 * @deprecated 5.0.0 Replaced with a new filter `cocart_products_allowed_meta_keys`.
+		 *
 		 * @param array      $ignored_meta_keys Ignored meta keys.
 		 * @param WC_Product $product           The product object.
 		 */
-		$ignore_private_meta_keys = apply_filters( 'cocart_products_ignore_private_meta_keys', array(), $product );
+		cocart_do_deprecated_filter( 'cocart_products_ignore_private_meta_keys', '5.0.0', 'cocart_products_allowed_meta_keys', __( 'Changed to improve product security.', 'cart-rest-api-for-woocommerce' ), array( array(), $product ) );
+
+		/**
+		 * Filter allows you to specify the allowed meta keys for the product.
+		 *
+		 * When filtering, only list the meta keys you want to include!
+		 *
+		 * @since 5.0.0 Updated to whitelist allowed meta keys.
+		 *
+		 * @param array      $allowed_meta_keys Allowed meta keys.
+		 * @param WC_Product $product           The product object.
+		 */
+		$allowed_meta_keys = apply_filters( 'cocart_products_allowed_meta_keys', array(), $product );
 
 		foreach ( $meta_data as $meta ) {
-			$ignore_meta = false;
-
-			// Should the meta key start with an underscore prefix, ignore it as it is suppose to be hidden from public.
-			if ( str_starts_with( $meta->key, '_' ) ) {
-				$ignore_meta = true;
-				break;
-			}
-
-			foreach ( $ignore_private_meta_keys as $ignore ) {
-				if ( str_starts_with( $meta->key, $ignore ) ) {
-					$ignore_meta = true;
-					break; // Exit the inner loop once a match is found.
-				}
-			}
-
-			// Add meta data only if it's not ignored.
-			if ( ! $ignore_meta ) {
+			// Add meta data only if the key is in the allowed list.
+			if ( in_array( $meta->key, $allowed_meta_keys, true ) ) {
 				$safe_meta[ $meta->key ] = $meta;
 			}
 		}
@@ -403,7 +402,14 @@ class CoCart_Utilities_Product_Helpers {
 			$product_slug = $product->get_slug();
 		}
 
-		return $product_slug;
+		/**
+		 * Filter allows you to change the product slug returned.
+		 *
+		 * @since 5.0.0 Introduced.
+		 *
+		 * @param WC_Product $product The product object.
+		 */
+		return apply_filters( 'cocart_get_product_slug', $product_slug, $product );
 	} // END get_product_slug()
 
 	/**
