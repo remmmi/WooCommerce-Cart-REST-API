@@ -26,13 +26,13 @@ CoCart chose to support WooCommerce because it provides a **flexible and efficie
 
 #### Finally, a REST API that’s Easy and Powerful
 
-Struggling with performance? Finding it hard to decouple WooCommerce from WordPress without hitting roadblocks? CoCart is here to eliminate the hassle of creating your own REST API endpoints for WooCommerce and provides all the essential features for a powerful, headless eCommerce experience making it easy to decouple from WordPress.
+Struggling with performance? Finding it hard to decouple WooCommerce from WordPress without hitting roadblocks? CoCart is here to eliminate the hassle of creating your own REST API endpoints for WooCommerce and provides all the essential features for a powerful, headless eCommerce experience making it easy to decouple WooCommerce from WordPress.
 
 * **Source of Truth** - CoCart utilizes WooCommerce’s Data Stores API and mirrors most WooCommerce hooks, ensuring broad compatibility with numerous extensions right from the start.
 * **No Cookie Required** - Our session handler generates a unique key for each user session in the WordPress database, storing session-related metadata on the client side without imposing a heavy load.
 * **Easy Authentication** - No Admin API Keys required. Customers can log in with their account either with Email+Password, Username+Password, or Phone Number+Password.
 * **Domain Dominance** - Addressing CORS issues in decoupled setups, CoCart grants you control over the origin.
-* **Efficient Product Search** - Search products by Name, ID, or SKU; filter and retrieve necessary product data without authentication, ensuring no private data is exposed.
+* **Efficient Product Search** - Search products by name, ID, or SKU; filter and retrieve necessary product data without authentication, ensuring no private data is exposed.
 * **Real-Time Cart Validation** - Our system minimizes the need for multiple requests to verify item and coupon validity in your cart. It efficiently checks stock, calculates totals and fees, ensuring real-time accuracy so your responses are consistently up-to-date.
 * **No Headless Checkout?** - Easily load any cart session into the native WooCommerce checkout if you prefer.
 * **Customizable Callbacks** - Register your own cart callbacks without creating new endpoints. CoCart handles the rest, returning responses once complete.
