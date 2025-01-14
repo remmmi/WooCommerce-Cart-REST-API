@@ -14,23 +14,23 @@ Make your WooCommerce store headless with CoCart, a REST API designed for decoup
 
 == Description ==
 
-[CoCart](https://cocartapi.com/?utm_medium=website&utm_source=wpplugindirectory&utm_campaign=readme&utm_content=readmelink) provides developers with a flexiable REST API, designed to save hours of development so you can spend time building modern and scalable store away from WordPress. Unlock your WooCommerce store, TODAY.
+[CoCart](https://cocartapi.com/?utm_medium=website&utm_source=wpplugindirectory&utm_campaign=readme&utm_content=readmelink) provides developers with a flexible REST API, designed to save hours of development so you can spend time building modern and scalable stores away from WordPress. Unlock your WooCommerce store, TODAY.
 
-Using CoCart makes building headless stores in modern frameworks like Astro, React, Vue, or Next.js easy and making complex customizations a breeze.
+Using CoCart makes building headless stores in modern frameworks like Astro, React, Vue, or Next.js easy and makes complex customizations a breeze.
 
 [Want to try it out?](https://cocartapi.com/try-free-demo/?utm_medium=website&utm_source=wpplugindirectory&utm_campaign=readme&utm_content=readmelink)
 
 #### Why WooCommerce?
 
-CoCart choose to support WooCommerce because it provides a **flexible, and efficient** way to build cutting-edge stores with WordPress at it’s core. But it was missing a key component to decouple WooCommerce via the REST API efficiently. That’s where CoCart comes in.
+CoCart chose to support WooCommerce because it provides a **flexible and efficient** way to build cutting-edge stores with WordPress at its core. However, it was missing a key component to decouple WooCommerce via the REST API efficiently. That’s where CoCart comes in.
 
-#### Finally a REST API that’s Easy and Powerful
+#### Finally, a REST API that’s Easy and Powerful
 
 Struggling with performance? Finding it hard to decouple WooCommerce from WordPress without hitting roadblocks? CoCart is here to eliminate the hassle of creating your own REST API endpoints for WooCommerce and provides all the essential features for a powerful, headless eCommerce experience making it easy to decouple from WordPress.
 
 * **Source of Truth** - CoCart utilizes WooCommerce’s Data Stores API and mirrors most WooCommerce hooks, ensuring broad compatibility with numerous extensions right from the start.
 * **No Cookie Required** - Our session handler generates a unique key for each user session in the WordPress database, storing session-related metadata on the client side without imposing a heavy load.
-* **Easy Authentication** - No Admin API Keys required. Customers can login with their account either with Email+Password, Username+Password, Phone Number+Password.
+* **Easy Authentication** - No Admin API Keys required. Customers can log in with their account either with Email+Password, Username+Password, or Phone Number+Password.
 * **Domain Dominance** - Addressing CORS issues in decoupled setups, CoCart grants you control over the origin.
 * **Efficient Product Search** - Search products by Name, ID, or SKU; filter and retrieve necessary product data without authentication, ensuring no private data is exposed.
 * **Real-Time Cart Validation** - Our system minimizes the need for multiple requests to verify item and coupon validity in your cart. It efficiently checks stock, calculates totals and fees, ensuring real-time accuracy so your responses are consistently up-to-date.
@@ -52,7 +52,7 @@ CoCart was born out of frustration with no easy solution on the market. As beaut
 Our goal is to create the API for you so you can focus on building a headless store. Integrate with CoCart in days, not months.
 
 ★★★★★
-> Amazing Plugin. I’m using it to create a react-native app with WooCommerce as back-end. This plugin is a life-saver! [Daniel Loureiro](https://wordpress.org/support/topic/amazing-plugin-1562/)
+> Amazing Plugin. I’m using it to create a react-native app with WooCommerce as the back-end. This plugin is a life-saver! [Daniel Loureiro](https://wordpress.org/support/topic/amazing-plugin-1562/)
 
 ### 📦 Serious about going headless?
 
@@ -61,7 +61,7 @@ Unlock your store’s true potential. Upgrade to access premium features and ext
 [See what else we have in store](https://cocartapi.com/pricing/?utm_medium=website&utm_source=wpplugindirectory&utm_campaign=readme&utm_content=readmelink).
 
 ★★★★★
-> This plugin saved me tones of work and it is working amazingly! The plugin author provides fast and high quality support. Well done! [@codenroll](https://wordpress.org/support/topic/great-plugin-with-a-great-support-7/)
+> This plugin saved me tons of work and it is working amazingly! The plugin author provides fast and high-quality support. Well done! [@codenroll](https://wordpress.org/support/topic/great-plugin-with-a-great-support-7/)
 
 ### 💜 Need Support?
 
@@ -70,14 +70,14 @@ We aim to provide regular support for the CoCart plugin via [our Discord communi
 ## 🧰 Developer Tools
 
 * **[CoCart Beta Tester](https://github.com/cocart-headless/cocart-beta-tester)** allows you to easily update to pre-release versions of CoCart for testing and development purposes.
-* **[CoCart VSCode](https://github.com/cocart-headless/cocart-vscode)** extension for Visual Studio Code adds snippets and autocompletion of functions, classes and hooks.
-* **[CoCart Product Support Boilerplate](https://github.com/cocart-headless/cocart-product-support-boilerplate)** provides a basic boilerplate for supporting a different product types to add to the cart with validation including adding your own parameters.
+* **[CoCart VSCode](https://github.com/cocart-headless/cocart-vscode)** extension for Visual Studio Code adds snippets and autocompletion of functions, classes, and hooks.
+* **[CoCart Product Support Boilerplate](https://github.com/cocart-headless/cocart-product-support-boilerplate)** provides a basic boilerplate for supporting different product types to add to the cart with validation including adding your own parameters.
 * **[CoCart Cart Callback Example](https://github.com/cocart-headless/cocart-cart-callback-example)** provides you an example of registering a callback that can be triggered when updating the cart.
 
 ## 📢 Testimonials - Developers just love it
 
 ★★★★★
-> Thanks for doing such a great work with this! Works exactly as expected and CoCart seems to have a nice community around it. The founder seems really devoted and that’s one of the key things for a plugin like this to live on and get the right updates in the future. We just got ourselves the lifetime subscription. [Mighty Group Agency](https://wordpress.org/support/topic/awesome-plugin-4681/)
+> Thanks for doing such great work with this! Works exactly as expected and CoCart seems to have a nice community around it. The founder seems really devoted and that’s one of the key things for a plugin like this to live on and get the right updates in the future. We just got ourselves the lifetime subscription. [Mighty Group Agency](https://wordpress.org/support/topic/awesome-plugin-4681/)
 
 ★★★★★
 > This plugin works great out of the box for adding products to the cart via API. The code is solid and functionality is as expected, thanks Sebastien! [Scott Bolinger, Creator of Holler Box](https://wordpress.org/support/topic/works-great-out-of-the-box-16/)
@@ -113,7 +113,7 @@ They work with the core of CoCart already, and these add-ons of course come with
 
 ### ⌨️ Join our growing community
 
-On Discord we have a community of developers, WordPress agencies and shop owners building the fastest and best headless WooCommerce stores with CoCart.
+On Discord, we have a community of developers, WordPress agencies, and shop owners building the fastest and best headless WooCommerce stores with CoCart.
 
 Come and [join our community](https://cocartapi.com/community/?utm_medium=website&utm_source=wpplugindirectory&utm_campaign=readme&utm_content=readmelink)
 
@@ -156,11 +156,11 @@ Founder of [CoCart Headless, LLC](https://twitter.com/cocartheadless).
 
 Automatic installation is the easiest option as WordPress handles the file transfers itself and you don’t need to leave your web browser. To do an automatic install of CoCart, log in to your WordPress dashboard, navigate to the Plugins menu and click Add New.
 
-In the search field type "CoCart" and click Search Plugins. Once you’ve found the plugin you can view details about it such as the point release, rating and description. Most importantly of course, you can install it by simply clicking "Install Now".
+In the search field type "CoCart" and click Search Plugins. Once you’ve found the plugin you can view details about it such as the point release, rating, and description. Most importantly of course, you can install it by simply clicking "Install Now".
 
 = Manual installation =
 
-The manual installation method involves downloading the plugin and uploading it to your webserver via your favorite FTP application. The WordPress codex contains [instructions on how to do this here](https://codex.wordpress.org/Managing_Plugins#Manual_Plugin_Installation).
+The manual installation method involves downloading the plugin and uploading it to your web server via your favorite FTP application. The WordPress codex contains [instructions on how to do this here](https://codex.wordpress.org/Managing_Plugins#Manual_Plugin_Installation).
 
 = Upgrading =
 
@@ -184,13 +184,13 @@ CoCart provides a REST API that is ready to decouple WooCommerce away from WordP
 
 = Who should use CoCart? =
 
-Pretty much everyone, who wants a faster ecommerce store to improve their business. WooCommerce runs multiple requests for multiple steps. We avoid the hassle of needing multiple requests for these steps and process them all together.
+Pretty much everyone, who wants a faster eCommerce store to improve their business. WooCommerce runs multiple requests for multiple steps. We avoid the hassle of needing multiple requests for these steps and process them all together.
 
-CoCart is perfect for ecommerce owners and developers who want to create an ecommerce app for mobile or a custom frontend shopping experience completely using the REST API.
+CoCart is perfect for eCommerce owners and developers who want to create an eCommerce app for mobile or a custom frontend shopping experience completely using the REST API.
 
 = Are there any limitations? =
 
-CoCart is designed with developers in mind allowing for complete control to customize or add support for a plugin to work with CoCart. CoCart does it's best to work out of the box but if there is a compatibility issue with a plugin that you would like to work with CoCart. We would be happy to hear about it.
+CoCart is designed with developers in mind allowing for complete control to customize or add support for a plugin to work with CoCart. CoCart does its best to work out of the box but if there is a compatibility issue with a plugin that you would like to work with CoCart. We would be happy to hear about it.
 
 = What is the source of truth? =
 
@@ -200,27 +200,27 @@ CoCart sources the WooCommerce’s Data Stores API and repeats most WooCommerce 
 
 Yes. Just install CoCart and activate it on the sites you want to use CoCart.
 
-= Can I have WordPress running on one domain and my headless ecommerce on another domain? =
+= Can I have WordPress running on one domain and my headless eCommerce on another domain? =
 
 Absolutely. That is what CoCart is mainly developed for. You just need to enable CORS. You can do that easily with [the CORS add-on](https://wordpress.org/plugins/cocart-cors/) or you can manually enable it via the filters available [in the documentation](https://docs.cocart.xyz/#filters-api-access-cors-allow-all-cross-origin-headers).
 
 = Will CoCart interfere with other plugins? =
 
-The majority of plugins are not REST API specific so it shouldn't. However, while we allow the source of truth for compatibility, there maybe a WooCommerce extension that returns data via an action hook that the REST API cannot understand during a specific action and may fail the response.
+The majority of plugins are not REST API specific so it shouldn't. However, while we allow the source of truth for compatibility, there may be a WooCommerce extension that returns data via an action hook that the REST API cannot understand during a specific action and may fail the response.
 
 If that does happen, simply report the situation with as much detail as possible on our [GitHub repository](https://github.com/co-cart/co-cart/issues) and we will try our best to find a solution.
 
 = How do I set up CoCart? =
 
-You will first need WooCommerce installed and set up to your configurations. Then install CoCart, activate and your ready to start using the REST API following the API Reference provided.
+You will first need WooCommerce installed and set up to your configurations. Then install CoCart, activate and you're ready to start using the REST API following the API Reference provided.
 
 > Please check the requirements listed in the [installation](https://wordpress.org/plugins/cart-rest-api-for-woocommerce/#installation) section.
 
 = Why use CoCart and not WooCommerce’s Store API? =
 
-WooCommerce’s Store API is designed for the Gutenberg blocks which only requires a fixed format and is still prone to be used on native storefronts. It also lacks validation on the server end which you will need and not every extensions yet works with it out of the box. A lot of valuable information and abilities that developers require to help them are also unavailable and if you try to use the Store API for headless you will have issues managing the cart sessions.
+WooCommerce’s Store API is designed for the Gutenberg blocks which only requires a fixed format and is still prone to be used on native storefronts. It also lacks validation on the server end which you will need and not every extension yet works with it out of the box. A lot of valuable information and abilities that developers require to help them are also unavailable and if you try to use the Store API for headless you will have issues managing the cart sessions.
 
-CoCart's API is designed for decoupling away from WordPress with ease. It's a plug and play solution that just works out of the box. Also, improvements are always made to CoCart to ensure you get the best decoupled experience.
+CoCart's API is designed for decoupling away from WordPress with ease. It's a plug-and-play solution that just works out of the box. Also, improvements are always made to CoCart to ensure you get the best decoupled experience.
 
 = Do I need to have coding skills to use CoCart? =
 
@@ -242,13 +242,13 @@ If you're familiar with WooCommerce, you may be wondering why using a custom ses
 - The default session handler only saves changes at the end of the request in the `shutdown` hook.
 - The default session handler has no support for concurrent requests.
 - The default session handler **does not support guest customers**.
-- The default session handler **does not store additional data that maybe required to help you**.
+- The default session handler **does not store additional data that may be required to help you**.
 - The default session handler **does not allow support for POS capability**.
 - More consistent with modern web.
 
 = Is "WooCommerce Shipping and Tax" plugin supported? =
 
-No. "WooCommerce Shipping and Tax" ignores any custom REST API's from allowing the ability to calculate the taxes from TaxJar except for WooCommerce Blocks and JetPack. We don't recommend it. However, [TaxJar for WooCommerce](https://wordpress.org/plugins/taxjar-simplified-taxes-for-woocommerce/) plugin is supported.
+No. "WooCommerce Shipping and Tax" ignores any custom REST APIs from allowing the ability to calculate the taxes from TaxJar except for WooCommerce Blocks and JetPack. We don't recommend it. However, [TaxJar for WooCommerce](https://wordpress.org/plugins/taxjar-simplified-taxes-for-woocommerce/) plugin is supported.
 
 = Is "TaxJar for WooCommerce" plugin supported? =
 
@@ -256,7 +256,7 @@ If you have "[TaxJar for WooCommerce](https://wordpress.org/plugins/taxjar-simpl
 
 = Can I use any modern stack? =
 
-Yes you can use your preferred tools and favorite modern technologies like [Astro](https://astro.build/) ,[NextJS](https://nextjs.org/), [React](https://reactjs.org/), [Vue](https://vuejs.org/), [Ember](https://emberjs.com/) and more giving you endless flexibility and customization.
+Yes, you can use your preferred tools and favorite modern technologies like [Astro](https://astro.build/), [NextJS](https://nextjs.org/), [React](https://reactjs.org/), [Vue](https://vuejs.org/), [Ember](https://emberjs.com/) and more giving you endless flexibility and customization.
 
 = Can I install/update CoCart via Composer? =
 
