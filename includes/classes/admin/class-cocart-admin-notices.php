@@ -305,11 +305,11 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 		public function hide_notices() {
 			if ( isset( $_GET['cocart-hide-notice'] ) && isset( $_GET['_cocart_notice_nonce'] ) ) {
 				if ( ! wp_verify_nonce( sanitize_key( wp_unslash( $_GET['_cocart_notice_nonce'] ) ), 'cocart_hide_notices_nonce' ) ) {
-					wp_die( esc_html__( 'Action failed. Please refresh the page and retry.', 'cart-rest-api-for-woocommerce' ) );
+					wp_die( esc_html__( 'Action failed. Please refresh the page and retry.', 'cocart-core' ) );
 				}
 
 				if ( ! CoCart_Helpers::user_has_capabilities() ) {
-					wp_die( esc_html__( 'You don&#8217;t have permission to do this.', 'cart-rest-api-for-woocommerce' ) );
+					wp_die( esc_html__( 'You don&#8217;t have permission to do this.', 'cocart-core' ) );
 				}
 
 				$notice_name = sanitize_text_field( wp_unslash( $_GET['cocart-hide-notice'] ) );

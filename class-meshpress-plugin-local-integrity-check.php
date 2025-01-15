@@ -85,7 +85,7 @@ if ( ! trait_exists( 'MeshPress\Plugin_Local_Integrity_Check' ) ) {
 				if ( ! empty( $errors ) ) {
 					echo '<div class="notice notice-warning">';
 					if ( is_array( $errors ) ) { ?>
-						<p><strong><?php echo esc_html__( 'Warning:', 'cart-rest-api-for-woocommerce' ); // phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralDomain ?></strong> <?php echo esc_html__( 'The following plugin files are either missing or do not match the expected checksum and may have been modified:', 'cart-rest-api-for-woocommerce' ); // phpcs:ignore WordPress.WP.I18n.MissingArgDomain, WordPress.WP.I18n.NonSingularStringLiteralDomain ?></p>
+						<p><strong><?php echo esc_html__( 'Warning:', 'cocart-core' ); // phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralDomain ?></strong> <?php echo esc_html__( 'The following plugin files are either missing or do not match the expected checksum and may have been modified:', 'cocart-core' ); // phpcs:ignore WordPress.WP.I18n.MissingArgDomain, WordPress.WP.I18n.NonSingularStringLiteralDomain ?></p>
 						<ul>
 							<?php foreach ( $errors as $file ) : ?>
 								<li><?php echo $file; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></li>
@@ -93,7 +93,7 @@ if ( ! trait_exists( 'MeshPress\Plugin_Local_Integrity_Check' ) ) {
 						</ul>
 						<?php
 					} else {
-						echo '<p><strong>' . esc_html__( 'Warning:', 'cart-rest-api-for-woocommerce' ) . '</strong> ' . $errors . '</p>'; // phpcs:ignore WordPress.WP.I18n.MissingArgDomain, WordPress.WP.I18n.NonSingularStringLiteralDomain, WordPress.Security.EscapeOutput.OutputNotEscaped
+						echo '<p><strong>' . esc_html__( 'Warning:', 'cocart-core' ) . '</strong> ' . $errors . '</p>'; // phpcs:ignore WordPress.WP.I18n.MissingArgDomain, WordPress.WP.I18n.NonSingularStringLiteralDomain, WordPress.Security.EscapeOutput.OutputNotEscaped
 					}
 					echo '</div>';
 				}
@@ -119,11 +119,11 @@ if ( ! trait_exists( 'MeshPress\Plugin_Local_Integrity_Check' ) ) {
 			$plugin_name = $plugin_data['Name'];
 			?>
 			<div class="notice notice-warning">
-				<p><strong><?php echo esc_html__( 'Warning:', 'cart-rest-api-for-woocommerce' ); // phpcs:ignore WordPress.WP.I18n.MissingArgDomain, WordPress.WP.I18n.NonSingularStringLiteralDomain ?></strong> 
+				<p><strong><?php echo esc_html__( 'Warning:', 'cocart-core' ); // phpcs:ignore WordPress.WP.I18n.MissingArgDomain, WordPress.WP.I18n.NonSingularStringLiteralDomain ?></strong> 
 					<?php
 					printf(
 						/* translators: %s = Plugin name */
-						esc_html__( 'The checksum file for "%s" is missing. This may indicate the plugin has been altered. Please verify your installation.', 'cart-rest-api-for-woocommerce' ), // phpcs:ignore WordPress.WP.I18n.MissingArgDomain, WordPress.WP.I18n.NonSingularStringLiteralDomain
+						esc_html__( 'The checksum file for "%s" is missing. This may indicate the plugin has been altered. Please verify your installation.', 'cocart-core' ), // phpcs:ignore WordPress.WP.I18n.MissingArgDomain, WordPress.WP.I18n.NonSingularStringLiteralDomain
 						esc_html( $plugin_name )
 					);
 					?>
@@ -141,7 +141,7 @@ if ( ! trait_exists( 'MeshPress\Plugin_Local_Integrity_Check' ) ) {
 				// Deactivate the plugin.
 				deactivate_plugins( plugin_basename( $this->plugin_file ) );
 
-				wp_die( esc_html__( 'Warning: For your security, the plugin did not activate because an important file is missing. This may indicate the plugin has been altered. Please contact support for help.', 'cart-rest-api-for-woocommerce' ) ); // phpcs:ignore WordPress.WP.I18n.MissingArgDomain, WordPress.WP.I18n.NonSingularStringLiteralDomain
+				wp_die( esc_html__( 'Warning: For your security, the plugin did not activate because an important file is missing. This may indicate the plugin has been altered. Please contact support for help.', 'cocart-core' ) ); // phpcs:ignore WordPress.WP.I18n.MissingArgDomain, WordPress.WP.I18n.NonSingularStringLiteralDomain
 			}
 		} // END plugin_activation_checksum_check()
 
@@ -178,7 +178,7 @@ if ( ! trait_exists( 'MeshPress\Plugin_Local_Integrity_Check' ) ) {
 					update_option( $this->plugin_integrity_notice,
 						sprintf(
 							/* translators: %s = Plugin name */
-							__( 'There appears to be an issue matching the plugin installed for "%s".', 'cart-rest-api-for-woocommerce' ), // phpcs:ignore WordPress.WP.I18n.MissingArgDomain, WordPress.WP.I18n.NonSingularStringLiteralDomain
+							__( 'There appears to be an issue matching the plugin installed for "%s".', 'cocart-core' ), // phpcs:ignore WordPress.WP.I18n.MissingArgDomain, WordPress.WP.I18n.NonSingularStringLiteralDomain
 							$plugin_name
 						)
 					);
@@ -192,7 +192,7 @@ if ( ! trait_exists( 'MeshPress\Plugin_Local_Integrity_Check' ) ) {
 					$this->plugin_integrity_notice,
 					sprintf(
 						/* translators: %1$s = Plugin name, %2$s = Plugin name */
-						__( 'The checksum file for "%1$s" is missing so we can\'t verify it\'s integrity. Please download "%2$s" from an official source.', 'cart-rest-api-for-woocommerce' ), // phpcs:ignore WordPress.WP.I18n.MissingArgDomain, WordPress.WP.I18n.NonSingularStringLiteralDomain
+						__( 'The checksum file for "%1$s" is missing so we can\'t verify it\'s integrity. Please download "%2$s" from an official source.', 'cocart-core' ), // phpcs:ignore WordPress.WP.I18n.MissingArgDomain, WordPress.WP.I18n.NonSingularStringLiteralDomain
 						$plugin_name,
 						$plugin_name
 					)
@@ -227,10 +227,10 @@ if ( ! trait_exists( 'MeshPress\Plugin_Local_Integrity_Check' ) ) {
 
 				// Skip if the file doesn't exist.
 				if ( ! file_exists( $file_full_path ) ) {
-					$errors[] = esc_html__( 'File missing:', 'cart-rest-api-for-woocommerce' ) . ' ' . '<u>' . untrailingslashit( $file_full_path ) . '</u>'; // phpcs:ignore WordPress.WP.I18n.MissingArgDomain, WordPress.WP.I18n.NonSingularStringLiteralDomain
+					$errors[] = esc_html__( 'File missing:', 'cocart-core' ) . ' ' . '<u>' . untrailingslashit( $file_full_path ) . '</u>'; // phpcs:ignore WordPress.WP.I18n.MissingArgDomain, WordPress.WP.I18n.NonSingularStringLiteralDomain
 
 					if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
-						error_log( esc_html__( 'File missing:', 'cart-rest-api-for-woocommerce' ) . ' ' . untrailingslashit( $file_full_path ) ); // phpcs:ignore WordPress.WP.I18n.MissingArgDomain, WordPress.WP.I18n.NonSingularStringLiteralDomain
+						error_log( esc_html__( 'File missing:', 'cocart-core' ) . ' ' . untrailingslashit( $file_full_path ) ); // phpcs:ignore WordPress.WP.I18n.MissingArgDomain, WordPress.WP.I18n.NonSingularStringLiteralDomain
 					}
 					continue;
 				}
@@ -242,7 +242,7 @@ if ( ! trait_exists( 'MeshPress\Plugin_Local_Integrity_Check' ) ) {
 				if ( $file_hash !== $expected_hash ) {
 					$errors[] = sprintf(
 						/* translators: 1: File path, 2: Expected hash, 3: Found hash */
-						__( 'File doesn\'t verify against checksum: %1$s. Expected: %2$s, got: %3$s.', 'cart-rest-api-for-woocommerce' ), // phpcs:ignore WordPress.WP.I18n.MissingArgDomain
+						__( 'File doesn\'t verify against checksum: %1$s. Expected: %2$s, got: %3$s.', 'cocart-core' ), // phpcs:ignore WordPress.WP.I18n.MissingArgDomain
 						'<u>' . esc_html( untrailingslashit( $file_full_path ) ) . '</u>',
 						'<strong style="color:green">' . esc_html( $expected_hash ) . '</strong>',
 						'<strong style="color:red">' . esc_html( $file_hash ) . '</strong>'
@@ -252,7 +252,7 @@ if ( ! trait_exists( 'MeshPress\Plugin_Local_Integrity_Check' ) ) {
 						error_log(
 							sprintf(
 								/* translators: 1 = File path, 2 = Expected hash, 3 = Found hash */
-								esc_html__( 'File doesn\'t verify against checksum: %1$s. Expected: %2$s got %3$s.', 'cart-rest-api-for-woocommerce' ), // phpcs:ignore WordPress.WP.I18n.MissingArgDomain, WordPress.WP.I18n.NonSingularStringLiteralDomain
+								esc_html__( 'File doesn\'t verify against checksum: %1$s. Expected: %2$s got %3$s.', 'cocart-core' ), // phpcs:ignore WordPress.WP.I18n.MissingArgDomain, WordPress.WP.I18n.NonSingularStringLiteralDomain
 								untrailingslashit( $file_full_path ),
 								esc_html( $expected_hash ),
 								esc_html( $file_hash )

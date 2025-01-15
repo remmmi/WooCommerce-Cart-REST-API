@@ -19,7 +19,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 		<?php
 		printf(
 			/* translators: 1: <strong>, 2: </strong>, 3: CoCart, 4: Required WordPress version number */
-			__( 'Sorry, %1$s%3$s%2$s requires WordPress %4$s or higher. Please upgrade your WordPress setup.', 'cart-rest-api-for-woocommerce' ), // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+			__( 'Sorry, %1$s%3$s%2$s requires WordPress %4$s or higher. Please upgrade your WordPress setup.', 'cocart-core' ), // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			'<strong>',
 			'</strong>',
 			'CoCart',

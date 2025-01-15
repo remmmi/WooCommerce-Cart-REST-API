@@ -45,7 +45,7 @@ class CoCart_REST_Product_Variations_V2_Controller extends CoCart_Product_Variat
 			array(
 				'args'   => array(
 					'product_id' => array(
-						'description' => __( 'Unique identifier for the variable product.', 'cart-rest-api-for-woocommerce' ),
+						'description' => __( 'Unique identifier for the variable product.', 'cocart-core' ),
 						'type'        => 'integer',
 					),
 				),
@@ -69,11 +69,11 @@ class CoCart_REST_Product_Variations_V2_Controller extends CoCart_Product_Variat
 					'callback'            => array( $this, 'get_item' ),
 					'args'                => array(
 						'product_id' => array(
-							'description' => __( 'Unique identifier for the variable product.', 'cart-rest-api-for-woocommerce' ),
+							'description' => __( 'Unique identifier for the variable product.', 'cocart-core' ),
 							'type'        => 'integer',
 						),
 						'id'         => array(
-							'description' => __( 'Unique identifier for the variation.', 'cart-rest-api-for-woocommerce' ),
+							'description' => __( 'Unique identifier for the variation.', 'cocart-core' ),
 							'type'        => 'integer',
 						),
 					),
@@ -101,12 +101,12 @@ class CoCart_REST_Product_Variations_V2_Controller extends CoCart_Product_Variat
 
 		// Validate the variation product exists.
 		if ( ! $variation || 0 === $variation->get_id() ) {
-			return new WP_Error( 'cocart_' . $this->post_type . '_invalid_id', __( 'Invalid ID.', 'cart-rest-api-for-woocommerce' ), array( 'status' => 404 ) );
+			return new WP_Error( 'cocart_' . $this->post_type . '_invalid_id', __( 'Invalid ID.', 'cocart-core' ), array( 'status' => 404 ) );
 		}
 
 		// Validate the variation requested to see if it is not one of the variations for the variable product.
 		if ( ! in_array( $variation->get_id(), $variation_ids ) ) {
-			return new WP_Error( 'cocart_' . $this->post_type . '_invalid_id', __( 'Invalid ID.', 'cart-rest-api-for-woocommerce' ), array( 'status' => 404 ) );
+			return new WP_Error( 'cocart_' . $this->post_type . '_invalid_id', __( 'Invalid ID.', 'cocart-core' ), array( 'status' => 404 ) );
 		}
 
 		// Validation successful.
@@ -170,7 +170,7 @@ class CoCart_REST_Product_Variations_V2_Controller extends CoCart_Product_Variat
 			$product = wc_get_product( $product_id );
 
 			if ( ! $product || 0 === $product->get_id() ) {
-				throw new CoCart_Data_Exception( 'cocart_' . $this->post_type . '_invalid_id', __( 'Invalid ID.', 'cart-rest-api-for-woocommerce' ), 404 );
+				throw new CoCart_Data_Exception( 'cocart_' . $this->post_type . '_invalid_id', __( 'Invalid ID.', 'cocart-core' ), 404 );
 			}
 
 			$data     = $this->prepare_object_for_response( $product, $request );

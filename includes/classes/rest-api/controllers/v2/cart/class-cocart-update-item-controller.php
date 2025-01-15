@@ -96,7 +96,7 @@ class CoCart_REST_Update_Item_V2_Controller extends CoCart_REST_Cart_V2_Controll
 
 			// If item does not exist in cart return response.
 			if ( empty( $current_data ) ) {
-				$message = __( 'Item specified does not exist in cart.', 'cart-rest-api-for-woocommerce' );
+				$message = __( 'Item specified does not exist in cart.', 'cocart-core' );
 
 				/**
 				 * Filters message about cart item key required.
@@ -153,7 +153,7 @@ class CoCart_REST_Update_Item_V2_Controller extends CoCart_REST_Cart_V2_Controll
 			if ( $product->is_sold_individually() && $quantity > 1 ) {
 				$message = sprintf(
 					/* translators: %s Product name. */
-					__( 'You can only have 1 "%s" in your cart.', 'cart-rest-api-for-woocommerce' ),
+					__( 'You can only have 1 "%s" in your cart.', 'cocart-core' ),
 					$product->get_name()
 				);
 
@@ -198,7 +198,7 @@ class CoCart_REST_Update_Item_V2_Controller extends CoCart_REST_Cart_V2_Controll
 						 */
 						$this->calculate_totals();
 					} else {
-						$message = __( 'Unable to update item quantity in cart.', 'cart-rest-api-for-woocommerce' );
+						$message = __( 'Unable to update item quantity in cart.', 'cocart-core' );
 
 						/**
 						 * Filters message about can not update item.
@@ -225,7 +225,7 @@ class CoCart_REST_Update_Item_V2_Controller extends CoCart_REST_Cart_V2_Controll
 						$response = array(
 							'message'  => sprintf(
 								/* translators: 1: product name, 2: new quantity */
-								__( 'The quantity for "%1$s" has increased to "%2$s".', 'cart-rest-api-for-woocommerce' ),
+								__( 'The quantity for "%1$s" has increased to "%2$s".', 'cocart-core' ),
 								$product->get_name(),
 								$new_data['quantity']
 							),
@@ -235,7 +235,7 @@ class CoCart_REST_Update_Item_V2_Controller extends CoCart_REST_Cart_V2_Controll
 						$response = array(
 							'message'  => sprintf(
 								/* translators: 1: product name, 2: new quantity */
-								__( 'The quantity for "%1$s" has decreased to "%2$s".', 'cart-rest-api-for-woocommerce' ),
+								__( 'The quantity for "%1$s" has decreased to "%2$s".', 'cocart-core' ),
 								$product->get_name(),
 								$new_data['quantity']
 							),
@@ -245,7 +245,7 @@ class CoCart_REST_Update_Item_V2_Controller extends CoCart_REST_Cart_V2_Controll
 						$response = array(
 							'message'  => sprintf(
 								/* translators: %s: product name */
-								__( 'The quantity for "%s" has not changed.', 'cart-rest-api-for-woocommerce' ),
+								__( 'The quantity for "%s" has not changed.', 'cocart-core' ),
 								$product->get_name()
 							),
 							'quantity' => $quantity,
@@ -289,19 +289,19 @@ class CoCart_REST_Update_Item_V2_Controller extends CoCart_REST_Cart_V2_Controll
 		// Update item query parameters.
 		$params += array(
 			'item_key'      => array(
-				'description'       => __( 'Unique identifier for the item in the cart.', 'cart-rest-api-for-woocommerce' ),
+				'description'       => __( 'Unique identifier for the item in the cart.', 'cocart-core' ),
 				'type'              => 'string',
 				'sanitize_callback' => 'sanitize_text_field',
 				'validate_callback' => 'rest_validate_request_arg',
 			),
 			'quantity'      => array(
-				'description'       => __( 'Quantity of this item to update to.', 'cart-rest-api-for-woocommerce' ),
+				'description'       => __( 'Quantity of this item to update to.', 'cocart-core' ),
 				'type'              => 'string',
 				'required'          => true,
 				'validate_callback' => 'rest_validate_quantity_arg',
 			),
 			'return_status' => array(
-				'description'       => __( 'Returns a message and quantity value after updating item in cart.', 'cart-rest-api-for-woocommerce' ),
+				'description'       => __( 'Returns a message and quantity value after updating item in cart.', 'cocart-core' ),
 				'default'           => false,
 				'type'              => 'boolean',
 				'validate_callback' => 'rest_validate_request_arg',

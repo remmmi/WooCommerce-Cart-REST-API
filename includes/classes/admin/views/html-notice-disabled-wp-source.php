@@ -18,7 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 		<?php
 		printf(
 			/* translators: %s: CoCart */
-			esc_html__( "We've automatically deactivated the legacy version of %s Core as it cannot run side by side with the new version.", 'cart-rest-api-for-woocommerce' ),
+			esc_html__( "We've automatically deactivated the legacy version of %s Core as it cannot run side by side with the new version.", 'cocart-core' ),
 			'CoCart'
 		);
 		?>

@@ -131,7 +131,7 @@ class CoCart_Utilities_Cart_Helpers {
 			}
 
 			if ( ! $product || ! $product->exists() || 'trash' === $product->get_status() ) {
-				$message = __( 'This product cannot be added to the cart.', 'cart-rest-api-for-woocommerce' );
+				$message = __( 'This product cannot be added to the cart.', 'cocart-core' );
 
 				throw new CoCart_Data_Exception( 'cocart_cart_invalid_parent_product', $message, 404 );
 			}
@@ -227,9 +227,9 @@ class CoCart_Utilities_Cart_Helpers {
 			if ( count( (array) $package['rates'] ) > 0 ) {
 				$shipping_name = ( ( $package_id + 1 ) > 1 ) ? sprintf(
 					/* translators: %d: shipping package ID */
-					_x( 'Shipping #%d', 'shipping packages', 'cart-rest-api-for-woocommerce' ),
+					_x( 'Shipping #%d', 'shipping packages', 'cocart-core' ),
 					( $package_id + 1 )
-				) : _x( 'Shipping', 'shipping packages', 'cart-rest-api-for-woocommerce' );
+				) : _x( 'Shipping', 'shipping packages', 'cocart-core' );
 
 				$packages[ $package_key ] = array(
 					/**
@@ -428,7 +428,7 @@ class CoCart_Utilities_Cart_Helpers {
 		$discount_amount_html = '-' . $savings;
 
 		if ( $coupon->get_free_shipping() && empty( $amount ) ) {
-			$discount_amount_html = __( 'Free shipping coupon', 'cart-rest-api-for-woocommerce' );
+			$discount_amount_html = __( 'Free shipping coupon', 'cocart-core' );
 		}
 
 		if ( has_filter( 'woocommerce_coupon_discount_amount_html' ) ) {
@@ -500,7 +500,7 @@ class CoCart_Utilities_Cart_Helpers {
 			if ( WC()->customer->is_customer_outside_base() && ! WC()->customer->has_calculated_shipping() ) {
 				$estimated_text = sprintf(
 					/* translators: %s location. */
-					' ' . esc_html__( '(estimated for %s)', 'cart-rest-api-for-woocommerce' ),
+					' ' . esc_html__( '(estimated for %s)', 'cocart-core' ),
 					WC()->countries->estimated_for_prefix( $taxable_address[0] ) . WC()->countries->countries[ $taxable_address[0] ]
 				);
 			}
@@ -1000,7 +1000,7 @@ class CoCart_Utilities_Cart_Helpers {
 		try {
 			// Check if the product exists before continuing.
 			if ( ! $product || ! $product->exists() || 'trash' === $product->get_status() ) {
-				$message = __( 'This product cannot be added to the cart.', 'cart-rest-api-for-woocommerce' );
+				$message = __( 'This product cannot be added to the cart.', 'cocart-core' );
 
 				/**
 				 * Filters message about product that cannot be added to cart.
@@ -1040,7 +1040,7 @@ class CoCart_Utilities_Cart_Helpers {
 		try {
 			// Need a product ID of some sort first!
 			if ( empty( $product_id ) ) {
-				$message = __( 'Product ID number is required!', 'cart-rest-api-for-woocommerce' );
+				$message = __( 'Product ID number is required!', 'cocart-core' );
 
 				throw new CoCart_Data_Exception( 'cocart_product_id_required', $message, 404 );
 			}
@@ -1052,7 +1052,7 @@ class CoCart_Utilities_Cart_Helpers {
 				if ( ! empty( $product_id_by_sku ) && $product_id_by_sku > 0 ) {
 					$product_id = $product_id_by_sku;
 				} else {
-					$message = __( 'Product does not exist! Check that you have submitted a product ID or SKU ID correctly for a product that exists.', 'cart-rest-api-for-woocommerce' );
+					$message = __( 'Product does not exist! Check that you have submitted a product ID or SKU ID correctly for a product that exists.', 'cocart-core' );
 
 					throw new CoCart_Data_Exception( 'cocart_unknown_product_id', $message, 404 );
 				}
@@ -1060,7 +1060,7 @@ class CoCart_Utilities_Cart_Helpers {
 
 			// Product ID did not identify as numeric.
 			if ( ! is_numeric( $product_id ) ) {
-				$message = __( 'Product ID must be numeric!', 'cart-rest-api-for-woocommerce' );
+				$message = __( 'Product ID must be numeric!', 'cocart-core' );
 
 				throw new CoCart_Data_Exception( 'cocart_product_id_not_numeric', $message, 405 );
 			}
@@ -1094,7 +1094,7 @@ class CoCart_Utilities_Cart_Helpers {
 	public static function validate_quantity( $quantity, WC_Product $product = null ) {
 		try {
 			if ( ! is_numeric( $quantity ) ) {
-				throw new CoCart_Data_Exception( 'cocart_quantity_not_numeric', __( 'Quantity must be integer or a float value!', 'cart-rest-api-for-woocommerce' ), 405 );
+				throw new CoCart_Data_Exception( 'cocart_quantity_not_numeric', __( 'Quantity must be integer or a float value!', 'cocart-core' ), 405 );
 			}
 
 			// Minimum quantity to validate with.
@@ -1105,7 +1105,7 @@ class CoCart_Utilities_Cart_Helpers {
 					'cocart_quantity_invalid_amount',
 					sprintf(
 						/* translators: %s: Minimum quantity. */
-						__( 'Quantity must be a minimum of %s.', 'cart-rest-api-for-woocommerce' ),
+						__( 'Quantity must be a minimum of %s.', 'cocart-core' ),
 						$minimum_quantity
 					),
 					405
@@ -1129,7 +1129,7 @@ class CoCart_Utilities_Cart_Helpers {
 					'cocart_quantity_invalid_amount',
 					sprintf(
 						/* translators: %s: Maximum quantity. */
-						__( 'Quantity must be %s or lower.', 'cart-rest-api-for-woocommerce' ),
+						__( 'Quantity must be %s or lower.', 'cocart-core' ),
 						$maximum_quantity
 					),
 					405
@@ -1192,7 +1192,7 @@ class CoCart_Utilities_Cart_Helpers {
 
 					$message = sprintf(
 						/* translators: %1$s: Attribute name, %2$s: Allowed values. */
-						__( 'Invalid value posted for %1$s. Allowed values: %2$s', 'cart-rest-api-for-woocommerce' ),
+						__( 'Invalid value posted for %1$s. Allowed values: %2$s', 'cocart-core' ),
 						$attribute_label,
 						implode( ', ', $attribute->get_slugs() )
 					);
@@ -1223,9 +1223,9 @@ class CoCart_Utilities_Cart_Helpers {
 			}
 
 			if ( ! empty( $missing_attributes ) ) {
-				$message = __( 'Missing variation data for variable product.', 'cart-rest-api-for-woocommerce' ) . ' ' . sprintf(
+				$message = __( 'Missing variation data for variable product.', 'cocart-core' ) . ' ' . sprintf(
 					/* translators: %s: Attribute name. */
-					_n( '%s is a required field.', '%s are required fields.', count( $missing_attributes ), 'cart-rest-api-for-woocommerce' ),
+					_n( '%s is a required field.', '%s are required fields.', count( $missing_attributes ), 'cocart-core' ),
 					wc_format_list_of_items( $missing_attributes )
 				);
 
@@ -1278,7 +1278,7 @@ class CoCart_Utilities_Cart_Helpers {
 
 				$message = sprintf(
 					/* translators: 1: Quantity Requested, 2: Product Name, 3: Quantity in Stock */
-					__( 'You cannot add that amount of (%1$s) for "%2$s" to the cart because there is not enough stock, only (%3$s remaining).', 'cart-rest-api-for-woocommerce' ),
+					__( 'You cannot add that amount of (%1$s) for "%2$s" to the cart because there is not enough stock, only (%3$s remaining).', 'cocart-core' ),
 					$quantity,
 					$current_product->get_name(),
 					wc_format_stock_quantity_for_display( $stock_quantity, $current_product )
@@ -1376,7 +1376,7 @@ class CoCart_Utilities_Cart_Helpers {
 	public static function throw_product_not_purchasable( $product ) {
 		$message = sprintf(
 			/* translators: %s: product name */
-			__( "'%s' is not available for purchase.", 'cart-rest-api-for-woocommerce' ),
+			__( "'%s' is not available for purchase.", 'cocart-core' ),
 			$product->get_name()
 		);
 
@@ -1411,7 +1411,7 @@ class CoCart_Utilities_Cart_Helpers {
 		$item_key = (string) $item_key; // Make sure the item key is a string value.
 
 		if ( '0' === $item_key ) {
-			$message = __( 'Missing cart item key is required!', 'cart-rest-api-for-woocommerce' );
+			$message = __( 'Missing cart item key is required!', 'cocart-core' );
 
 			/**
 			 * Filters message about cart item key required.

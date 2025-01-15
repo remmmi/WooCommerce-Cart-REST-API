@@ -84,7 +84,7 @@ class CoCart_REST_Remove_Item_V2_Controller extends CoCart_REST_Cart_V2_Controll
 
 			// Checks to see if the cart contains item before attempting to remove it.
 			if ( $this->get_cart_instance()->get_cart_contents_count() <= 0 && count( $this->get_cart_instance()->get_removed_cart_contents() ) <= 0 ) {
-				$message = __( 'No items in cart.', 'cart-rest-api-for-woocommerce' );
+				$message = __( 'No items in cart.', 'cocart-core' );
 
 				/**
 				 * Filters message about no items in cart.
@@ -105,8 +105,8 @@ class CoCart_REST_Remove_Item_V2_Controller extends CoCart_REST_Cart_V2_Controll
 
 			$item_removed_title = apply_filters( 'cocart_cart_item_removed_title', sprintf(
 				/* translators: %s: Item name. */
-				_x( '"%s"', 'Item name in quotes', 'cart-rest-api-for-woocommerce' ),
-				$product ? $product->get_name() : __( 'Item', 'cart-rest-api-for-woocommerce' )
+				_x( '"%s"', 'Item name in quotes', 'cocart-core' ),
+				$product ? $product->get_name() : __( 'Item', 'cocart-core' )
 			),
 			$current_data );
 
@@ -120,19 +120,19 @@ class CoCart_REST_Remove_Item_V2_Controller extends CoCart_REST_Cart_V2_Controll
 
 					$item_already_removed_title = apply_filters( 'cocart_cart_item_already_removed_title', $product ? sprintf(
 						/* translators: %s: Item name. */
-						_x( '"%s"', 'Item name in quotes', 'cart-rest-api-for-woocommerce' ),
+						_x( '"%s"', 'Item name in quotes', 'cocart-core' ),
 						$product->get_name()
-					) : __( 'Item', 'cart-rest-api-for-woocommerce' ) );
+					) : __( 'Item', 'cocart-core' ) );
 
 					$message = sprintf(
 						/* translators: %s: Item name. */
-						__( '%s has already been removed from cart.', 'cart-rest-api-for-woocommerce' ),
+						__( '%s has already been removed from cart.', 'cocart-core' ),
 						$item_already_removed_title
 					);
 				} else {
 					$message = sprintf(
 						/* translators: %s: Item name. */
-						__( '%s does not exist in cart.', 'cart-rest-api-for-woocommerce' ),
+						__( '%s does not exist in cart.', 'cocart-core' ),
 						$item_removed_title
 					);
 				}
@@ -166,7 +166,7 @@ class CoCart_REST_Remove_Item_V2_Controller extends CoCart_REST_Cart_V2_Controll
 
 				$message = sprintf(
 					/* translators: %s: Item name. */
-					__( '%s has been removed from cart.', 'cart-rest-api-for-woocommerce' ),
+					__( '%s has been removed from cart.', 'cocart-core' ),
 					$item_removed_title
 				);
 
@@ -184,7 +184,7 @@ class CoCart_REST_Remove_Item_V2_Controller extends CoCart_REST_Cart_V2_Controll
 
 				return CoCart_Response::get_response( $response, $this->namespace, $this->rest_base );
 			} else {
-				$message = __( 'Unable to remove item from cart.', 'cart-rest-api-for-woocommerce' );
+				$message = __( 'Unable to remove item from cart.', 'cocart-core' );
 
 				/**
 				 * Filters message about can not remove item.
@@ -219,13 +219,13 @@ class CoCart_REST_Remove_Item_V2_Controller extends CoCart_REST_Cart_V2_Controll
 		// Remove item parameters.
 		$params += array(
 			'item_key'      => array(
-				'description'       => __( 'Unique identifier for the item in the cart.', 'cart-rest-api-for-woocommerce' ),
+				'description'       => __( 'Unique identifier for the item in the cart.', 'cocart-core' ),
 				'type'              => 'string',
 				'sanitize_callback' => 'sanitize_text_field',
 				'validate_callback' => 'rest_validate_request_arg',
 			),
 			'return_status' => array(
-				'description'       => __( 'Returns a message after removing item from cart.', 'cart-rest-api-for-woocommerce' ),
+				'description'       => __( 'Returns a message after removing item from cart.', 'cocart-core' ),
 				'default'           => false,
 				'type'              => 'boolean',
 				'validate_callback' => 'rest_validate_request_arg',

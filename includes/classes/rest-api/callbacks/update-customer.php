@@ -45,7 +45,7 @@ class CoCart_Update_Customer_Callback extends CoCart_Cart_Extension_Callback {
 	public function callback( $request, $controller ) {
 		try {
 			if ( $controller->is_completely_empty() ) {
-				throw new CoCart_Data_Exception( 'cocart_cart_empty', __( 'Cart is empty. Please add items to cart first.', 'cart-rest-api-for-woocommerce' ), 404 );
+				throw new CoCart_Data_Exception( 'cocart_cart_empty', __( 'Cart is empty. Please add items to cart first.', 'cocart-core' ), 404 );
 			}
 
 			if ( $this->update_customer_on_cart( $request, $controller ) ) {
@@ -53,7 +53,7 @@ class CoCart_Update_Customer_Callback extends CoCart_Cart_Extension_Callback {
 
 				// Only returns success notice if there are no error notices.
 				if ( 0 === wc_notice_count( 'error' ) ) {
-					wc_add_notice( __( 'Cart updated.', 'cart-rest-api-for-woocommerce' ), 'success' );
+					wc_add_notice( __( 'Cart updated.', 'cocart-core' ), 'success' );
 				}
 			}
 
@@ -241,12 +241,12 @@ class CoCart_Update_Customer_Callback extends CoCart_Cart_Extension_Callback {
 			case 'shipping':
 				$country  = isset( $request['s_country'] ) ? $request['s_country'] : '';
 				$country  = empty( $country ) ? \WC()->countries->get_base_country() : $country;
-				$fieldset = esc_html__( 'Shipping', 'cart-rest-api-for-woocommerce' );
+				$fieldset = esc_html__( 'Shipping', 'cocart-core' );
 				break;
 			case 'billing':
 			default:
 				$country  = isset( $request['country'] ) ? $request['country'] : '';
-				$fieldset = esc_html__( 'Billing', 'cart-rest-api-for-woocommerce' );
+				$fieldset = esc_html__( 'Billing', 'cocart-core' );
 				break;
 		}
 
@@ -258,7 +258,7 @@ class CoCart_Update_Customer_Callback extends CoCart_Cart_Extension_Callback {
 
 		if ( empty( $country_exists ) ) {
 			/* translators: ISO 3166-1 alpha-2 country code */
-			wc_add_notice( sprintf( __( "'%s' is not a valid country code.", 'cart-rest-api-for-woocommerce' ), $country ), 'error' );
+			wc_add_notice( sprintf( __( "'%s' is not a valid country code.", 'cocart-core' ), $country ), 'error' );
 			return false;
 		}
 
@@ -266,7 +266,7 @@ class CoCart_Update_Customer_Callback extends CoCart_Cart_Extension_Callback {
 
 		if ( ! array_key_exists( $country, $allowed_countries ) ) {
 			/* translators: 1: Country name, 2: Field Set */
-			wc_add_notice( sprintf( __( '\'%1$s\' is not allowed for \'%2$s\'.', 'cart-rest-api-for-woocommerce' ), \WC()->countries->get_countries()[ $country ], $fieldset ), 'error' );
+			wc_add_notice( sprintf( __( '\'%1$s\' is not allowed for \'%2$s\'.', 'cocart-core' ), \WC()->countries->get_countries()[ $country ], $fieldset ), 'error' );
 			return false;
 		}
 
@@ -291,13 +291,13 @@ class CoCart_Update_Customer_Callback extends CoCart_Cart_Extension_Callback {
 				$country    = isset( $request['s_country'] ) ? $request['s_country'] : '';
 				$country    = empty( $country ) ? \WC()->countries->get_base_country() : $country;
 				$postcode   = wc_format_postcode( $request['s_postcode'], $country );
-				$field_name = esc_html__( 'Shipping postcode', 'cart-rest-api-for-woocommerce' );
+				$field_name = esc_html__( 'Shipping postcode', 'cocart-core' );
 				break;
 			case 'billing':
 			default:
 				$country    = isset( $request['country'] ) ? $request['country'] : '';
 				$postcode   = wc_format_postcode( $request['postcode'], $country );
-				$field_name = esc_html__( 'Billing postcode', 'cart-rest-api-for-woocommerce' );
+				$field_name = esc_html__( 'Billing postcode', 'cocart-core' );
 				break;
 		}
 
@@ -307,7 +307,7 @@ class CoCart_Update_Customer_Callback extends CoCart_Cart_Extension_Callback {
 
 		if ( ! empty( $postcode ) && ! \WC_Validation::is_postcode( $postcode, $country ) ) {
 			/* translators: %s: field name */
-			wc_add_notice( sprintf( __( '%s is not a valid postcode / ZIP.', 'cart-rest-api-for-woocommerce' ), esc_html( $field_name ) ), 'error' );
+			wc_add_notice( sprintf( __( '%s is not a valid postcode / ZIP.', 'cocart-core' ), esc_html( $field_name ) ), 'error' );
 			return false;
 		}
 

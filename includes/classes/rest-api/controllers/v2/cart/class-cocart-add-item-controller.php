@@ -167,7 +167,7 @@ class CoCart_REST_Add_Item_V2_Controller extends CoCart_REST_Cart_V2_Controller 
 					null,
 					sprintf(
 						/* translators: %s: action hook name */
-						__( 'This filter is no longer used. Recommend using action hook "%s" instead.', 'cart-rest-api-for-woocommerce' ),
+						__( 'This filter is no longer used. Recommend using action hook "%s" instead.', 'cocart-core' ),
 						'cocart_after_item_added_to_cart'
 					),
 					array( $item_added_to_cart, $request )
@@ -374,7 +374,7 @@ class CoCart_REST_Add_Item_V2_Controller extends CoCart_REST_Cart_V2_Controller 
 
 					$message = sprintf(
 						/* translators: %s: product name */
-						__( 'You cannot add "%s" to your cart.', 'cart-rest-api-for-woocommerce' ),
+						__( 'You cannot add "%s" to your cart.', 'cocart-core' ),
 						$product_data->get_name()
 					);
 
@@ -419,39 +419,39 @@ class CoCart_REST_Add_Item_V2_Controller extends CoCart_REST_Cart_V2_Controller 
 			'properties' => array(
 				'id'          => array(
 					'required'    => true,
-					'description' => __( 'Unique identifier for the product or variation ID.', 'cart-rest-api-for-woocommerce' ),
+					'description' => __( 'Unique identifier for the product or variation ID.', 'cocart-core' ),
 					'type'        => 'string',
 				),
 				'quantity'    => array(
 					'required'    => true,
 					'default'     => '1',
-					'description' => __( 'Quantity amount.', 'cart-rest-api-for-woocommerce' ),
+					'description' => __( 'Quantity amount.', 'cocart-core' ),
 					'type'        => 'string',
 				),
 				'variation'   => array(
 					'required'    => false,
-					'description' => __( 'Variation attributes that identity the variation of the item.', 'cart-rest-api-for-woocommerce' ),
+					'description' => __( 'Variation attributes that identity the variation of the item.', 'cocart-core' ),
 					'type'        => 'object',
 				),
 				'item_data'   => array(
 					'required'    => false,
-					'description' => __( 'Additional item data to make the item unique.', 'cart-rest-api-for-woocommerce' ),
+					'description' => __( 'Additional item data to make the item unique.', 'cocart-core' ),
 					'type'        => 'object',
 				),
 				'email'       => array(
 					'required'    => false,
-					'description' => __( 'Customers billing email address.', 'cart-rest-api-for-woocommerce' ),
+					'description' => __( 'Customers billing email address.', 'cocart-core' ),
 					'type'        => 'string',
 				),
 				'price'       => array(
 					'required'    => false,
-					'description' => __( 'Set a custom price for the item.', 'cart-rest-api-for-woocommerce' ),
+					'description' => __( 'Set a custom price for the item.', 'cocart-core' ),
 					'type'        => 'string',
 				),
 				'return_item' => array(
 					'required'    => false,
 					'default'     => false,
-					'description' => __( 'Returns the item details once added.', 'cart-rest-api-for-woocommerce' ),
+					'description' => __( 'Returns the item details once added.', 'cocart-core' ),
 					'type'        => 'boolean',
 				),
 			),
@@ -480,33 +480,33 @@ class CoCart_REST_Add_Item_V2_Controller extends CoCart_REST_Cart_V2_Controller 
 		// Add to cart query parameters.
 		$params += array(
 			'id'          => array(
-				'description'       => __( 'Unique identifier for the product or variation ID.', 'cart-rest-api-for-woocommerce' ),
+				'description'       => __( 'Unique identifier for the product or variation ID.', 'cocart-core' ),
 				'type'              => 'string',
 				'required'          => true,
 				'sanitize_callback' => 'sanitize_text_field',
 				'validate_callback' => 'rest_validate_request_arg',
 			),
 			'quantity'    => array(
-				'description'       => __( 'Quantity of this item to add to the cart.', 'cart-rest-api-for-woocommerce' ),
+				'description'       => __( 'Quantity of this item to add to the cart.', 'cocart-core' ),
 				'type'              => 'string',
 				'default'           => '1',
 				'required'          => true,
 				'validate_callback' => 'rest_validate_quantity_arg',
 			),
 			'variation'   => array(
-				'description'       => __( 'Variable attributes that identify the variation of the item.', 'cart-rest-api-for-woocommerce' ),
+				'description'       => __( 'Variable attributes that identify the variation of the item.', 'cocart-core' ),
 				'type'              => 'object',
 				'items'             => array(
 					'type'       => 'object',
 					'properties' => array(
 						'attribute' => array(
-							'description'       => __( 'Variation attribute name.', 'cart-rest-api-for-woocommerce' ),
+							'description'       => __( 'Variation attribute name.', 'cocart-core' ),
 							'type'              => 'string',
 							'sanitize_callback' => 'sanitize_text_field',
 							'validate_callback' => 'rest_validate_request_arg',
 						),
 						'value'     => array(
-							'description'       => __( 'Variation attribute value.', 'cart-rest-api-for-woocommerce' ),
+							'description'       => __( 'Variation attribute value.', 'cocart-core' ),
 							'type'              => 'string',
 							'sanitize_callback' => 'sanitize_text_field',
 							'validate_callback' => 'rest_validate_request_arg',
@@ -517,33 +517,33 @@ class CoCart_REST_Add_Item_V2_Controller extends CoCart_REST_Cart_V2_Controller 
 				'validate_callback' => 'rest_validate_request_arg',
 			),
 			'item_data'   => array(
-				'description'       => __( 'Additional item data passed to make item unique.', 'cart-rest-api-for-woocommerce' ),
+				'description'       => __( 'Additional item data passed to make item unique.', 'cocart-core' ),
 				'type'              => 'object',
 				'required'          => false,
 				'validate_callback' => 'rest_validate_request_arg',
 			),
 			'email'       => array(
-				'description'       => __( 'Set the customers billing email address.', 'cart-rest-api-for-woocommerce' ),
+				'description'       => __( 'Set the customers billing email address.', 'cocart-core' ),
 				'type'              => 'string',
 				'required'          => false,
 				'sanitize_callback' => 'sanitize_email',
 				'validate_callback' => 'rest_validate_request_arg',
 			),
 			'phone'       => array(
-				'description'       => __( 'Set the customers billing phone number.', 'cart-rest-api-for-woocommerce' ),
+				'description'       => __( 'Set the customers billing phone number.', 'cocart-core' ),
 				'type'              => 'string',
 				'required'          => false,
 				'sanitize_callback' => 'sanitize_text_field',
 				'validate_callback' => 'rest_validate_request_arg',
 			),
 			'price'       => array(
-				'description'       => __( 'Overrides the general or sale price with a custom price for the item if set.', 'cart-rest-api-for-woocommerce' ),
+				'description'       => __( 'Overrides the general or sale price with a custom price for the item if set.', 'cocart-core' ),
 				'type'              => 'string',
 				'required'          => false,
 				'validate_callback' => 'rest_validate_request_arg',
 			),
 			'return_item' => array(
-				'description' => __( 'Returns the item details once added.', 'cart-rest-api-for-woocommerce' ),
+				'description' => __( 'Returns the item details once added.', 'cocart-core' ),
 				'default'     => false,
 				'required'    => false,
 				'type'        => 'boolean',

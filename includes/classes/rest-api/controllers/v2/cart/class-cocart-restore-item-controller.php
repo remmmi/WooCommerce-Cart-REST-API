@@ -96,18 +96,18 @@ class CoCart_REST_Restore_Item_V2_Controller extends CoCart_REST_Cart_V2_Control
 
 					$item_already_restored_title = apply_filters( 'cocart_cart_item_already_restored_title', $product ? sprintf(
 						/* translators: %s: Item name. */
-						_x( '"%s"', 'Item name in quotes', 'cart-rest-api-for-woocommerce' ),
+						_x( '"%s"', 'Item name in quotes', 'cocart-core' ),
 						$product->get_name()
-					) : __( 'Item', 'cart-rest-api-for-woocommerce' ) );
+					) : __( 'Item', 'cocart-core' ) );
 
 					$message = sprintf(
 						/* translators: %s: Item name. */
-						__( '%s has already been restored to the cart.', 'cart-rest-api-for-woocommerce' ),
+						__( '%s has already been restored to the cart.', 'cocart-core' ),
 						$item_already_restored_title
 					);
 					$response_code = 405;
 				} else {
-					$message       = __( 'Item does not exist in cart.', 'cart-rest-api-for-woocommerce' );
+					$message       = __( 'Item does not exist in cart.', 'cocart-core' );
 					$response_code = 404;
 				}
 
@@ -144,13 +144,13 @@ class CoCart_REST_Restore_Item_V2_Controller extends CoCart_REST_Cart_V2_Control
 
 				$item_restored_title = apply_filters( 'cocart_cart_item_restored_title', $product ? sprintf(
 					/* translators: %s: Item name. */
-					_x( '"%s"', 'Item name in quotes', 'cart-rest-api-for-woocommerce' ),
+					_x( '"%s"', 'Item name in quotes', 'cocart-core' ),
 					$product->get_name()
-				) : __( 'Item', 'cart-rest-api-for-woocommerce' ) );
+				) : __( 'Item', 'cocart-core' ) );
 
 				$restored_message = sprintf(
 					/* translators: %s: product name */
-					__( '%s has been added back to your cart.', 'cart-rest-api-for-woocommerce' ),
+					__( '%s has been added back to your cart.', 'cocart-core' ),
 					$item_restored_title
 				);
 
@@ -177,7 +177,7 @@ class CoCart_REST_Restore_Item_V2_Controller extends CoCart_REST_Cart_V2_Control
 
 				return CoCart_Response::get_response( $response, $this->namespace, $this->rest_base );
 			} else {
-				$message = __( 'Unable to restore item to the cart.', 'cart-rest-api-for-woocommerce' );
+				$message = __( 'Unable to restore item to the cart.', 'cocart-core' );
 
 				/**
 				 * Filters message about can not restore item.
@@ -212,13 +212,13 @@ class CoCart_REST_Restore_Item_V2_Controller extends CoCart_REST_Cart_V2_Control
 		// Restore item parameters.
 		$params += array(
 			'item_key'    => array(
-				'description'       => __( 'Unique identifier for the item in the cart.', 'cart-rest-api-for-woocommerce' ),
+				'description'       => __( 'Unique identifier for the item in the cart.', 'cocart-core' ),
 				'type'              => 'string',
 				'sanitize_callback' => 'sanitize_text_field',
 				'validate_callback' => 'rest_validate_request_arg',
 			),
 			'return_item' => array(
-				'description'       => __( 'Returns the item details once restored.', 'cart-rest-api-for-woocommerce' ),
+				'description'       => __( 'Returns the item details once restored.', 'cocart-core' ),
 				'default'           => false,
 				'type'              => 'boolean',
 				'validate_callback' => 'rest_validate_request_arg',

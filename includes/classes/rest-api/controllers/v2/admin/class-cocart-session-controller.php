@@ -125,7 +125,7 @@ class CoCart_REST_Session_V2_Controller extends CoCart_REST_Cart_V2_Controller {
 	 */
 	public function get_items_permissions_check( $request ) {
 		if ( ! wc_rest_check_manager_permissions( 'settings', 'read' ) ) {
-			return new WP_Error( 'cocart_rest_cannot_view', __( 'Sorry, you cannot list resources.', 'cart-rest-api-for-woocommerce' ), array( 'status' => rest_authorization_required_code() ) );
+			return new WP_Error( 'cocart_rest_cannot_view', __( 'Sorry, you cannot list resources.', 'cocart-core' ), array( 'status' => rest_authorization_required_code() ) );
 		}
 
 		return true;
@@ -151,7 +151,7 @@ class CoCart_REST_Session_V2_Controller extends CoCart_REST_Cart_V2_Controller {
 		try {
 			// The cart key is a required variable.
 			if ( empty( $session_key ) ) {
-				throw new CoCart_Data_Exception( 'cocart_session_key_missing', __( 'Session Key is required!', 'cart-rest-api-for-woocommerce' ), 404 );
+				throw new CoCart_Data_Exception( 'cocart_session_key_missing', __( 'Session Key is required!', 'cocart-core' ), 404 );
 			}
 
 			// Get the cart in the database.
@@ -159,7 +159,7 @@ class CoCart_REST_Session_V2_Controller extends CoCart_REST_Cart_V2_Controller {
 
 			// If no cart is saved with the ID specified return error.
 			if ( empty( $cart ) ) {
-				throw new CoCart_Data_Exception( 'cocart_cart_in_session_not_valid', __( 'Cart in session is not valid!', 'cart-rest-api-for-woocommerce' ), 404 );
+				throw new CoCart_Data_Exception( 'cocart_cart_in_session_not_valid', __( 'Cart in session is not valid!', 'cocart-core' ), 404 );
 			}
 
 			return CoCart_Response::get_response( $this->return_session_data( $request, maybe_unserialize( $cart ) ), $this->namespace, $this->rest_base );
@@ -187,12 +187,12 @@ class CoCart_REST_Session_V2_Controller extends CoCart_REST_Cart_V2_Controller {
 			$session_key = ! empty( $request['session_key'] ) ? $request['session_key'] : '';
 
 			if ( empty( $session_key ) ) {
-				throw new CoCart_Data_Exception( 'cocart_session_key_missing', __( 'Session Key is required!', 'cart-rest-api-for-woocommerce' ), 404 );
+				throw new CoCart_Data_Exception( 'cocart_session_key_missing', __( 'Session Key is required!', 'cocart-core' ), 404 );
 			}
 
 			// If no session is saved with the ID specified return error.
 			if ( empty( WC()->session->get_session( $session_key ) ) ) {
-				throw new CoCart_Data_Exception( 'cocart_session_not_valid', __( 'Session is not valid!', 'cart-rest-api-for-woocommerce' ), 404 );
+				throw new CoCart_Data_Exception( 'cocart_session_not_valid', __( 'Session is not valid!', 'cocart-core' ), 404 );
 			}
 
 			// Delete cart session.
@@ -203,10 +203,10 @@ class CoCart_REST_Session_V2_Controller extends CoCart_REST_Cart_V2_Controller {
 			}
 
 			if ( ! empty( WC()->session->get_session( $session_key ) ) ) {
-				throw new CoCart_Data_Exception( 'cocart_session_not_deleted', __( 'Session could not be deleted!', 'cart-rest-api-for-woocommerce' ), 500 );
+				throw new CoCart_Data_Exception( 'cocart_session_not_deleted', __( 'Session could not be deleted!', 'cocart-core' ), 500 );
 			}
 
-			return CoCart_Response::get_response( __( 'Session successfully deleted!', 'cart-rest-api-for-woocommerce' ), $this->namespace, $this->rest_base );
+			return CoCart_Response::get_response( __( 'Session successfully deleted!', 'cocart-core' ), $this->namespace, $this->rest_base );
 		} catch ( CoCart_Data_Exception $e ) {
 			return CoCart_Response::get_error_response( $e->getErrorCode(), $e->getMessage(), $e->getCode(), $e->getAdditionalData() );
 		}
@@ -233,7 +233,7 @@ class CoCart_REST_Session_V2_Controller extends CoCart_REST_Cart_V2_Controller {
 		try {
 			// The cart key is a required variable.
 			if ( empty( $session_key ) ) {
-				throw new CoCart_Data_Exception( 'cocart_session_key_missing', __( 'Session Key is required!', 'cart-rest-api-for-woocommerce' ), 404 );
+				throw new CoCart_Data_Exception( 'cocart_session_key_missing', __( 'Session Key is required!', 'cocart-core' ), 404 );
 			}
 
 			// Get the cart in the database.
@@ -241,7 +241,7 @@ class CoCart_REST_Session_V2_Controller extends CoCart_REST_Cart_V2_Controller {
 
 			// If no cart is saved with the ID specified return error.
 			if ( empty( $cart ) ) {
-				throw new CoCart_Data_Exception( 'cocart_cart_in_session_not_valid', __( 'Cart in session is not valid!', 'cart-rest-api-for-woocommerce' ), 404 );
+				throw new CoCart_Data_Exception( 'cocart_cart_in_session_not_valid', __( 'Cart in session is not valid!', 'cocart-core' ), 404 );
 			}
 
 			return CoCart_Response::get_response( $this->get_items( maybe_unserialize( $cart['cart'] ), $show_thumb ), $this->namespace, $this->rest_base );
@@ -437,7 +437,7 @@ class CoCart_REST_Session_V2_Controller extends CoCart_REST_Cart_V2_Controller {
 		$item['meta']['variation'] = cocart_format_variation_data( $cart_item['variation'], $product );
 
 		// Backorder notification.
-		$item['backorders'] = $product->backorders_require_notification() && $product->is_on_backorder( $cart_item['quantity'] ) ? wp_kses_post( apply_filters( 'cocart_cart_item_backorder_notification', esc_html__( 'Available on backorder', 'cart-rest-api-for-woocommerce' ), $product->get_id() ) ) : '';
+		$item['backorders'] = $product->backorders_require_notification() && $product->is_on_backorder( $cart_item['quantity'] ) ? wp_kses_post( apply_filters( 'cocart_cart_item_backorder_notification', esc_html__( 'Available on backorder', 'cocart-core' ), $product->get_id() ) ) : '';
 
 		// Prepares the remaining cart item data.
 		$cart_item = CoCart_Utilities_Cart_Helpers::prepare_item( $cart_item );

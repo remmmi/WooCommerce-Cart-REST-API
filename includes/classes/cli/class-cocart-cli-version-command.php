@@ -33,7 +33,7 @@ class CoCart_CLI_Version_Command {
 			'cocart version', // Command.
 			array( __CLASS__, 'version' ), // Callback.
 			array( // Arguments.
-				'shortdesc' => __( 'Returns the version of CoCart installed.', 'cart-rest-api-for-woocommerce' ),
+				'shortdesc' => __( 'Returns the version of CoCart installed.', 'cocart-core' ),
 			)
 		);
 
@@ -41,7 +41,7 @@ class CoCart_CLI_Version_Command {
 			'cocart db-version', // Command.
 			array( __CLASS__, 'db_version' ), // Callback.
 			array( // Arguments.
-				'shortdesc' => __( 'Returns the database version of CoCart installed.', 'cart-rest-api-for-woocommerce' ),
+				'shortdesc' => __( 'Returns the database version of CoCart installed.', 'cocart-core' ),
 			)
 		);
 	} // END register_commands()
@@ -66,7 +66,7 @@ class CoCart_CLI_Version_Command {
 			WP_CLI::colorize(
 				'%y' . sprintf(
 					/* translators: 2: Version of CoCart */
-					__( '%1$s Version is %2$s', 'cart-rest-api-for-woocommerce' ),
+					__( '%1$s Version is %2$s', 'cocart-core' ),
 					'CoCart',
 					$current_version
 				)
@@ -94,7 +94,7 @@ class CoCart_CLI_Version_Command {
 			WP_CLI::colorize(
 				'%y' . sprintf(
 					/* translators: 2: Database Version of CoCart */
-					__( '%1$s Database Version is %2$s', 'cart-rest-api-for-woocommerce' ),
+					__( '%1$s Database Version is %2$s', 'cocart-core' ),
 					'CoCart',
 					$db_version
 				)

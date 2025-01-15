@@ -123,7 +123,7 @@ class CoCart_REST_Calculate_V2_Controller extends CoCart_REST_Cart_V2_Controller
 			'return_totals' => array(
 				'required'          => false,
 				'default'           => false,
-				'description'       => __( 'Returns the cart totals once calculated if requested.', 'cart-rest-api-for-woocommerce' ),
+				'description'       => __( 'Returns the cart totals once calculated if requested.', 'cocart-core' ),
 				'type'              => 'boolean',
 				'validate_callback' => 'rest_validate_request_arg',
 			),

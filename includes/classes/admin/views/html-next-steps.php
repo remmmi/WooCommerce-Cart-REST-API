@@ -41,12 +41,12 @@ $campaign_args = CoCart_Helpers::cocart_campaign( // phpcs:ignore: WordPress.Nam
 $docs_url  = 'https://cocart.dev/'; // phpcs:ignore: WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
 $help_text = sprintf( // phpcs:ignore: WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
 	/* translators: %1$s: link to docs */
-	__( 'Visit CoCart.dev to access <a href="%1$s" target="_blank" rel="noopener noreferrer">developer resources</a>.', 'cart-rest-api-for-woocommerce' ),
+	__( 'Visit CoCart.dev to access <a href="%1$s" target="_blank" rel="noopener noreferrer">developer resources</a>.', 'cocart-core' ),
 	$docs_url
 );
 ?>
 <div class="cocart-newsletter">
-	<p><?php esc_html_e( 'Get product updates, tutorials and more straight to your inbox.', 'cart-rest-api-for-woocommerce' ); ?></p>
+	<p><?php esc_html_e( 'Get product updates, tutorials and more straight to your inbox.', 'cocart-core' ); ?></p>
 	<form action="https://xyz.us1.list-manage.com/subscribe/post?u=48ead612ad85b23fe2239c6e3&amp;id=d462357844&amp;SIGNUPPAGE=plugin" method="post" target="_blank" rel="noopener noreferrer" novalidate>
 		<div class="newsletter-form-container">
 			<input
@@ -54,17 +54,17 @@ $help_text = sprintf( // phpcs:ignore: WordPress.NamingConventions.PrefixAllGlob
 				type="email"
 				value="<?php echo esc_attr( $user_email ); ?>"
 				name="EMAIL"
-				placeholder="<?php esc_attr_e( 'Email address', 'cart-rest-api-for-woocommerce' ); ?>"
+				placeholder="<?php esc_attr_e( 'Email address', 'cocart-core' ); ?>"
 				required
 			>
 			<p class="cocart-actions step newsletter-form-button-container">
 				<button
 					type="submit"
-					value="<?php esc_attr_e( 'Yes please!', 'cart-rest-api-for-woocommerce' ); ?>"
+					value="<?php esc_attr_e( 'Yes please!', 'cocart-core' ); ?>"
 					name="subscribe"
 					id="mc-embedded-subscribe"
 					class="button button-primary newsletter-form-button"
-				><?php esc_html_e( 'Yes please!', 'cart-rest-api-for-woocommerce' ); ?></button>
+				><?php esc_html_e( 'Yes please!', 'cocart-core' ); ?></button>
 			</p>
 		</div>
 	</form>
@@ -73,50 +73,50 @@ $help_text = sprintf( // phpcs:ignore: WordPress.NamingConventions.PrefixAllGlob
 <ul class="cocart-next-steps">
 	<li class="cocart-next-step-item">
 		<div class="cocart-next-step-description">
-			<p class="next-step-heading"><?php esc_html_e( 'Next step', 'cart-rest-api-for-woocommerce' ); ?></p>
-			<h3 class="next-step-description"><?php esc_html_e( 'Start Developing', 'cart-rest-api-for-woocommerce' ); ?></h3>
-			<p class="next-step-extra-info"><?php esc_html_e( "You're ready to develop your headless store.", 'cart-rest-api-for-woocommerce' ); ?></p>
+			<p class="next-step-heading"><?php esc_html_e( 'Next step', 'cocart-core' ); ?></p>
+			<h3 class="next-step-description"><?php esc_html_e( 'Start Developing', 'cocart-core' ); ?></h3>
+			<p class="next-step-extra-info"><?php esc_html_e( "You're ready to develop your headless store.", 'cocart-core' ); ?></p>
 		</div>
 		<div class="cocart-next-step-action">
 			<p class="cocart-actions step">
 				<a class="button button-primary button-large" href="<?php echo esc_url( CoCart_Helpers::build_shortlink( add_query_arg( $campaign_args, esc_url( COCART_DOCUMENTATION_URL ) ) ) ); ?>" target="_blank" rel="noopener noreferrer">
-					<?php esc_html_e( 'View Documentation', 'cart-rest-api-for-woocommerce' ); ?>
+					<?php esc_html_e( 'View Documentation', 'cocart-core' ); ?>
 				</a>
 			</p>
 		</div>
 	</li>
 	<li class="cocart-next-step-item">
 		<div class="cocart-next-step-description">
-			<p class="next-step-heading"><?php esc_html_e( 'Need something else?', 'cart-rest-api-for-woocommerce' ); ?></p>
-			<h3 class="next-step-description"><?php esc_html_e( 'Install Plugins', 'cart-rest-api-for-woocommerce' ); ?></h3>
-			<p class="next-step-extra-info"><?php esc_html_e( 'Checkout plugin suggestions by CoCart.', 'cart-rest-api-for-woocommerce' ); ?></p>
+			<p class="next-step-heading"><?php esc_html_e( 'Need something else?', 'cocart-core' ); ?></p>
+			<h3 class="next-step-description"><?php esc_html_e( 'Install Plugins', 'cocart-core' ); ?></h3>
+			<p class="next-step-extra-info"><?php esc_html_e( 'Checkout plugin suggestions by CoCart.', 'cocart-core' ); ?></p>
 		</div>
 		<div class="cocart-next-step-action">
 			<p class="cocart-actions step">
 				<a class="button button-secondary button-large" href="<?php echo esc_url( admin_url( 'plugin-install.php?tab=cocart' ) ); ?>" target="_blank">
-					<?php esc_html_e( 'View Plugin Suggestions', 'cart-rest-api-for-woocommerce' ); ?>
+					<?php esc_html_e( 'View Plugin Suggestions', 'cocart-core' ); ?>
 				</a>
 			</p>
 		</div>
 	</li>
 	<li class="cocart-additional-steps">
 		<div class="cocart-next-step-description">
-			<p class="next-step-heading"><?php esc_html_e( 'You can also', 'cart-rest-api-for-woocommerce' ); ?></p>
+			<p class="next-step-heading"><?php esc_html_e( 'You can also', 'cocart-core' ); ?></p>
 		</div>
 		<div class="cocart-next-step-action">
 			<p class="cocart-actions step">
 				<a class="button button-secondary" href="<?php echo esc_url( CoCart_Helpers::build_shortlink( add_query_arg( $campaign_args, esc_url( COCART_STORE_URL . 'community/' ) ) ) ); ?>" target="_blank" rel="noopener noreferrer">
-					<?php esc_html_e( 'Join Community', 'cart-rest-api-for-woocommerce' ); ?>
+					<?php esc_html_e( 'Join Community', 'cocart-core' ); ?>
 				</a>
 				<?php
 				// Only show upgrade option if neither CoCart Plus, Pro or above is found.
 				if ( apply_filters( 'cocart_show_upgrade_action_link', true ) ) {
 					?>
 				<a class="button button-secondary" href="<?php echo esc_url( CoCart_Helpers::build_shortlink( add_query_arg( $campaign_args, esc_url( COCART_STORE_URL . 'pricing/' ) ) ) ); ?>" target="_blank" rel="noopener noreferrer">
-						<?php esc_html_e( 'Unlock more features', 'cart-rest-api-for-woocommerce' ); ?>
+						<?php esc_html_e( 'Unlock more features', 'cocart-core' ); ?>
 				</a><?php } ?>
 				<a class="button button-secondary" href="<?php echo esc_url( 'https://marketplace.visualstudio.com/items?itemName=sebastien-dumont.cocart-vscode' ); ?>" target="_blank" rel="noopener noreferrer">
-					<?php esc_html_e( 'Install VSCode Extension', 'cart-rest-api-for-woocommerce' ); ?>
+					<?php esc_html_e( 'Install VSCode Extension', 'cocart-core' ); ?>
 				</a>
 			</p>
 		</div>

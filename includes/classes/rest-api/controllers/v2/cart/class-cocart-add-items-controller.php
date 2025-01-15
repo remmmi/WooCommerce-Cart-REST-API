@@ -227,7 +227,7 @@ class CoCart_REST_Add_Items_V2_Controller extends CoCart_REST_Add_Item_V2_Contro
 				}
 
 				if ( ! $was_added_to_cart && ! $quantity_set ) {
-					throw new CoCart_Data_Exception( 'cocart_grouped_product_failed', __( 'Please choose the quantity of items you wish to add to your cart.', 'cart-rest-api-for-woocommerce' ), 404 );
+					throw new CoCart_Data_Exception( 'cocart_grouped_product_failed', __( 'Please choose the quantity of items you wish to add to your cart.', 'cocart-core' ), 404 );
 				} elseif ( $was_added_to_cart ) {
 					cocart_add_to_cart_message( $added_to_cart );
 
@@ -237,7 +237,7 @@ class CoCart_REST_Add_Items_V2_Controller extends CoCart_REST_Add_Item_V2_Contro
 					return $added_to_cart;
 				}
 			} else {
-				throw new CoCart_Data_Exception( 'cocart_grouped_product_empty', __( 'Please choose a product to add to your cart.', 'cart-rest-api-for-woocommerce' ), 404 );
+				throw new CoCart_Data_Exception( 'cocart_grouped_product_empty', __( 'Please choose a product to add to your cart.', 'cocart-core' ), 404 );
 			}
 		} catch ( CoCart_Data_Exception $e ) {
 			return CoCart_Response::get_error_response( $e->getErrorCode(), $e->getMessage(), $e->getCode(), $e->getAdditionalData() );
@@ -266,23 +266,23 @@ class CoCart_REST_Add_Items_V2_Controller extends CoCart_REST_Add_Item_V2_Contro
 			'properties' => array(
 				'id'           => array(
 					'required'    => true,
-					'description' => __( 'Unique identifier for the container product ID.', 'cart-rest-api-for-woocommerce' ),
+					'description' => __( 'Unique identifier for the container product ID.', 'cocart-core' ),
 					'type'        => 'string',
 				),
 				'quantity'     => array(
 					'required'    => true,
-					'description' => __( 'List of items and quantity in the cart.', 'cart-rest-api-for-woocommerce' ),
+					'description' => __( 'List of items and quantity in the cart.', 'cocart-core' ),
 					'type'        => 'object',
 				),
 				'email'        => array(
 					'required'    => false,
-					'description' => __( 'Customers billing email address.', 'cart-rest-api-for-woocommerce' ),
+					'description' => __( 'Customers billing email address.', 'cocart-core' ),
 					'type'        => 'string',
 				),
 				'return_items' => array(
 					'required'    => false,
 					'default'     => false,
-					'description' => __( 'Returns the items details once added.', 'cart-rest-api-for-woocommerce' ),
+					'description' => __( 'Returns the items details once added.', 'cocart-core' ),
 					'type'        => 'boolean',
 				),
 			),
@@ -311,33 +311,33 @@ class CoCart_REST_Add_Items_V2_Controller extends CoCart_REST_Add_Item_V2_Contro
 		// Add to cart query parameters.
 		$params += array(
 			'id'           => array(
-				'description'       => __( 'Unique identifier for the container product ID.', 'cart-rest-api-for-woocommerce' ),
+				'description'       => __( 'Unique identifier for the container product ID.', 'cocart-core' ),
 				'type'              => 'string',
 				'sanitize_callback' => 'sanitize_text_field',
 				'validate_callback' => 'rest_validate_request_arg',
 			),
 			'quantity'     => array(
 				'required'          => true,
-				'description'       => __( 'List of items and quantity to add to the cart.', 'cart-rest-api-for-woocommerce' ),
+				'description'       => __( 'List of items and quantity to add to the cart.', 'cocart-core' ),
 				'type'              => 'object',
 				'validate_callback' => 'rest_validate_request_arg',
 			),
 			'email'        => array(
 				'required'          => false,
-				'description'       => __( 'Set the customers billing email address.', 'cart-rest-api-for-woocommerce' ),
+				'description'       => __( 'Set the customers billing email address.', 'cocart-core' ),
 				'type'              => 'string',
 				'sanitize_callback' => 'sanitize_email',
 				'validate_callback' => 'rest_validate_request_arg',
 			),
 			'phone'        => array(
-				'description'       => __( 'Set the customers billing phone number.', 'cart-rest-api-for-woocommerce' ),
+				'description'       => __( 'Set the customers billing phone number.', 'cocart-core' ),
 				'type'              => 'string',
 				'required'          => false,
 				'sanitize_callback' => 'sanitize_text_field',
 				'validate_callback' => 'rest_validate_request_arg',
 			),
 			'return_items' => array(
-				'description' => __( 'Returns the items details once added.', 'cart-rest-api-for-woocommerce' ),
+				'description' => __( 'Returns the items details once added.', 'cocart-core' ),
 				'default'     => false,
 				'type'        => 'boolean',
 			),

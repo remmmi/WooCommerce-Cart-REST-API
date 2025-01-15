@@ -41,7 +41,7 @@ class CoCart_Product_Attribute_Terms_Controller extends CoCart_REST_Terms_Contro
 			array(
 				'args'   => array(
 					'attribute_id' => array(
-						'description' => __( 'Unique identifier for the attribute of the terms.', 'cart-rest-api-for-woocommerce' ),
+						'description' => __( 'Unique identifier for the attribute of the terms.', 'cocart-core' ),
 						'type'        => 'integer',
 					),
 				),
@@ -61,11 +61,11 @@ class CoCart_Product_Attribute_Terms_Controller extends CoCart_REST_Terms_Contro
 			array(
 				'args'   => array(
 					'id'           => array(
-						'description' => __( 'Unique identifier for the attribute term.', 'cart-rest-api-for-woocommerce' ),
+						'description' => __( 'Unique identifier for the attribute term.', 'cocart-core' ),
 						'type'        => 'integer',
 					),
 					'attribute_id' => array(
-						'description' => __( 'Unique identifier for the attribute of the terms.', 'cart-rest-api-for-woocommerce' ),
+						'description' => __( 'Unique identifier for the attribute of the terms.', 'cocart-core' ),
 						'type'        => 'integer',
 					),
 				),
@@ -138,13 +138,13 @@ class CoCart_Product_Attribute_Terms_Controller extends CoCart_REST_Terms_Contro
 			'type'       => 'object',
 			'properties' => array(
 				'id'          => array(
-					'description' => __( 'Unique identifier for the attribute term.', 'cart-rest-api-for-woocommerce' ),
+					'description' => __( 'Unique identifier for the attribute term.', 'cocart-core' ),
 					'type'        => 'integer',
 					'context'     => array( 'view' ),
 					'readonly'    => true,
 				),
 				'name'        => array(
-					'description' => __( 'Term name.', 'cart-rest-api-for-woocommerce' ),
+					'description' => __( 'Term name.', 'cocart-core' ),
 					'type'        => 'string',
 					'context'     => array( 'view' ),
 					'arg_options' => array(
@@ -152,7 +152,7 @@ class CoCart_Product_Attribute_Terms_Controller extends CoCart_REST_Terms_Contro
 					),
 				),
 				'slug'        => array(
-					'description' => __( 'An alphanumeric identifier for the attribute term unique to its type.', 'cart-rest-api-for-woocommerce' ),
+					'description' => __( 'An alphanumeric identifier for the attribute term unique to its type.', 'cocart-core' ),
 					'type'        => 'string',
 					'context'     => array( 'view' ),
 					'arg_options' => array(
@@ -160,7 +160,7 @@ class CoCart_Product_Attribute_Terms_Controller extends CoCart_REST_Terms_Contro
 					),
 				),
 				'description' => array(
-					'description' => __( 'HTML description of the attribute term.', 'cart-rest-api-for-woocommerce' ),
+					'description' => __( 'HTML description of the attribute term.', 'cocart-core' ),
 					'type'        => 'string',
 					'context'     => array( 'view' ),
 					'arg_options' => array(
@@ -168,12 +168,12 @@ class CoCart_Product_Attribute_Terms_Controller extends CoCart_REST_Terms_Contro
 					),
 				),
 				'menu_order'  => array(
-					'description' => __( 'Menu order, used to custom sort the attribute term.', 'cart-rest-api-for-woocommerce' ),
+					'description' => __( 'Menu order, used to custom sort the attribute term.', 'cocart-core' ),
 					'type'        => 'integer',
 					'context'     => array( 'view' ),
 				),
 				'count'       => array(
-					'description' => __( 'Number of published products for the attribute term.', 'cart-rest-api-for-woocommerce' ),
+					'description' => __( 'Number of published products for the attribute term.', 'cocart-core' ),
 					'type'        => 'integer',
 					'context'     => array( 'view' ),
 					'readonly'    => true,

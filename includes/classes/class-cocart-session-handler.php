@@ -321,7 +321,7 @@ class CoCart_Session_Handler extends WC_Session_Handler {
 				null,
 				sprintf(
 					/* translators: %s: Filter name */
-					__( '%s is no longer used.', 'cart-rest-api-for-woocommerce' ),
+					__( '%s is no longer used.', 'cocart-core' ),
 					'cocart_empty_cart_expiration'
 				)
 			);
@@ -685,7 +685,7 @@ class CoCart_Session_Handler extends WC_Session_Handler {
 			null,
 			sprintf(
 				/* translators: %s: Filter name */
-				__( '%s is no longer used.', 'cart-rest-api-for-woocommerce' ),
+				__( '%s is no longer used.', 'cocart-core' ),
 				'cocart_cookie_supported'
 			)
 		);

@@ -90,7 +90,7 @@ class CoCart_REST_Update_Cart_V2_Controller extends CoCart_REST_Cart_V2_Controll
 					'cocart_update_cart_namespace_error',
 					sprintf(
 						/* translators: %s: Available namespaces */
-						__( 'You must provide a namespace when extending the cart endpoint. Available namespaces: (%s)', 'cart-rest-api-for-woocommerce' ),
+						__( 'You must provide a namespace when extending the cart endpoint. Available namespaces: (%s)', 'cocart-core' ),
 						implode( ', ', array_keys( $callback_methods ) )
 					),
 					404
@@ -102,7 +102,7 @@ class CoCart_REST_Update_Cart_V2_Controller extends CoCart_REST_Cart_V2_Controll
 					'cocart_update_cart_no_namespace_error',
 					sprintf(
 						/* translators: %s: Namespace */
-						__( 'There is no such namespace registered: %s.', 'cart-rest-api-for-woocommerce' ),
+						__( 'There is no such namespace registered: %s.', 'cocart-core' ),
 						$namespace
 					),
 					404
@@ -114,7 +114,7 @@ class CoCart_REST_Update_Cart_V2_Controller extends CoCart_REST_Cart_V2_Controll
 					'cocart_update_cart_invalid_callback_error',
 					sprintf(
 						/* translators: %s: Namespace */
-						__( 'There is no valid callback registered for: %s.', 'cart-rest-api-for-woocommerce' ),
+						__( 'There is no valid callback registered for: %s.', 'cocart-core' ),
 						$namespace
 					),
 					400
@@ -181,11 +181,11 @@ class CoCart_REST_Update_Cart_V2_Controller extends CoCart_REST_Cart_V2_Controll
 		// Add to cart query parameters.
 		$params += array(
 			'namespace' => array(
-				'description' => __( 'Namespace used to ensure the data in the request is routed appropriately.', 'cart-rest-api-for-woocommerce' ),
+				'description' => __( 'Namespace used to ensure the data in the request is routed appropriately.', 'cocart-core' ),
 				'type'        => 'string',
 			),
 			'data'      => array(
-				'description' => __( 'Additional data to pass.', 'cart-rest-api-for-woocommerce' ),
+				'description' => __( 'Additional data to pass.', 'cocart-core' ),
 				'type'        => 'object',
 			),
 		);

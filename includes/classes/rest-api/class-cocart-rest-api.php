@@ -261,7 +261,7 @@ class CoCart_REST_API {
 								wc_add_notice(
 									sprintf(
 										/* translators: %s = Product name */
-										__( '%s could not be added to your cart due to insufficient stock.', 'cart-rest-api-for-woocommerce' ),
+										__( '%s could not be added to your cart due to insufficient stock.', 'cocart-core' ),
 										$product->get_name()
 									),
 									'error'
@@ -322,7 +322,7 @@ class CoCart_REST_API {
 					wc_add_notice(
 						sprintf(
 							/* translators: %s = Product name */
-							__( '%s has been removed from your cart because it can no longer be purchased.', 'cart-rest-api-for-woocommerce' ),
+							__( '%s has been removed from your cart because it can no longer be purchased.', 'cocart-core' ),
 							$product->get_name()
 						),
 						'error'
@@ -347,7 +347,7 @@ class CoCart_REST_API {
 					wc_add_notice(
 						sprintf(
 							/* translators: %s = Product name */
-							__( '%s has been removed from your cart because it has been modified.', 'cart-rest-api-for-woocommerce' ),
+							__( '%s has been removed from your cart because it has been modified.', 'cocart-core' ),
 							$product->get_name()
 						),
 						'notice'
@@ -742,7 +742,7 @@ class CoCart_REST_API {
 	 * @return null|boolean
 	 */
 	protected function has_user_switched() {
-		cocart_deprecated_function( 'CoCart_REST_API::has_user_switched', __( 'User switching is now deprecated.', 'cart-rest-api-for-woocommerce' ), '4.1.0' );
+		cocart_deprecated_function( 'CoCart_REST_API::has_user_switched', __( 'User switching is now deprecated.', 'cocart-core' ), '4.1.0' );
 
 		if ( ! WC()->session instanceof CoCart_Session_Handler ) {
 			return;
@@ -763,7 +763,7 @@ class CoCart_REST_API {
 				CoCart_Logger::log(
 					sprintf(
 						/* translators: %1$s is previous ID, %2$s is current ID. */
-						__( 'User has changed! Was %1$s before and is now %2$s', 'cart-rest-api-for-woocommerce' ),
+						__( 'User has changed! Was %1$s before and is now %2$s', 'cocart-core' ),
 						$customer_id,
 						$current_user_id
 					),
@@ -787,7 +787,7 @@ class CoCart_REST_API {
 	 * @deprecated 4.1.0 No replacement.
 	 */
 	public function user_switched() {
-		cocart_deprecated_function( 'CoCart_REST_API::user_switched', __( 'User switching is now deprecated.', 'cart-rest-api-for-woocommerce' ), '4.1.0' );
+		cocart_deprecated_function( 'CoCart_REST_API::user_switched', __( 'User switching is now deprecated.', 'cocart-core' ), '4.1.0' );
 
 		cocart_do_deprecated_action( 'cocart_user_switched', '4.1.0', null );
 	} // END user_switched()

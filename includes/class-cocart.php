@@ -102,7 +102,7 @@ final class CoCart {
 	 * @since 3.10.0 Introduced.
 	 */
 	public function __clone() {
-		_doing_it_wrong( __FUNCTION__, esc_html__( 'Cloning this object is forbidden.', 'cart-rest-api-for-woocommerce' ), '3.10.0' );
+		_doing_it_wrong( __FUNCTION__, esc_html__( 'Cloning this object is forbidden.', 'cocart-core' ), '3.10.0' );
 	} // END __clone()
 
 	/**
@@ -113,7 +113,7 @@ final class CoCart {
 	 * @since 3.10.0 Introduced.
 	 */
 	public function __wakeup() {
-		_doing_it_wrong( __FUNCTION__, esc_html__( 'Unserializing instances of this class is forbidden.', 'cart-rest-api-for-woocommerce' ), '3.10.0' );
+		_doing_it_wrong( __FUNCTION__, esc_html__( 'Unserializing instances of this class is forbidden.', 'cocart-core' ), '3.10.0' );
 	} // END __wakeup()
 
 	/**
@@ -452,7 +452,7 @@ final class CoCart {
 			wp_die(
 				sprintf(
 					/* translators: %1$s: CoCart, %2$s: Environment message */
-					esc_html__( '%1$s could not be activated. %2$s', 'cart-rest-api-for-woocommerce' ),
+					esc_html__( '%1$s could not be activated. %2$s', 'cocart-core' ),
 					'CoCart',
 					CoCart_Helpers::get_environment_message() // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 				)
@@ -464,7 +464,7 @@ final class CoCart {
 			wp_die(
 				sprintf(
 					/* translators: %1$s: CoCart Core, %2$s: CoCart Plus */
-					esc_html__( '%1$s is not required as it is already packaged within %2$s', 'cart-rest-api-for-woocommerce' ),
+					esc_html__( '%1$s is not required as it is already packaged within %2$s', 'cocart-core' ),
 					'CoCart',
 					'CoCart Plus'
 				)
@@ -476,7 +476,7 @@ final class CoCart {
 			wp_die(
 				sprintf(
 					/* translators: %1$s: CoCart Core, %2$s: CoCart Pro */
-					esc_html__( '%1$s is not required as it is already packaged within %2$s', 'cart-rest-api-for-woocommerce' ),
+					esc_html__( '%1$s is not required as it is already packaged within %2$s', 'cocart-core' ),
 					'CoCart',
 					'CoCart Pro'
 				)
@@ -687,7 +687,7 @@ final class CoCart {
 		}
 
 		// Return just error message if disabled only.
-		$error = new \WP_Error( 'access_denied', __( "You don't have permission to access the site.", 'cart-rest-api-for-woocommerce' ), array( 'status' => 403 ) );
+		$error = new \WP_Error( 'access_denied', __( "You don't have permission to access the site.", 'cocart-core' ), array( 'status' => 403 ) );
 
 		wp_send_json( $error->get_error_message(), 403 );
 		exit;

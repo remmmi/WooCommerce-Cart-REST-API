@@ -63,7 +63,7 @@ if ( ! class_exists( 'CoCart_FGC_Compatibility' ) ) {
 					if ( ! empty( $values['fgc_quantity'] ) && $quantity !== $values['fgc_quantity'] ) {
 						$error_message = sprintf(
 							/* translators: %s Product title. */
-							__( 'You are not allowed to modify the quantity of your %s gift.', 'cart-rest-api-for-woocommerce' ),
+							__( 'You are not allowed to modify the quantity of your %s gift.', 'cocart-core' ),
 							$values['data']->get_name()
 						);
 

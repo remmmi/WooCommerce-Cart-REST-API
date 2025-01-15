@@ -142,11 +142,11 @@ if ( ! class_exists( 'CoCart_Admin_Menus' ) ) {
 		public function register_menu_shortcuts() {
 			$shortcut_menus = array(
 				'plugin-suggestions' => array(
-					'menu_title' => __( 'Plugin Suggestions', 'cart-rest-api-for-woocommerce' ),
+					'menu_title' => __( 'Plugin Suggestions', 'cocart-core' ),
 					'menu_slug'  => admin_url( 'plugin-install.php?tab=cocart' ),
 				),
 				'documentation'      => array(
-					'menu_title' => __( 'Documentation', 'cart-rest-api-for-woocommerce' ),
+					'menu_title' => __( 'Documentation', 'cocart-core' ),
 					'menu_slug'  => esc_url( COCART_DOCUMENTATION_URL ),
 				),
 				'community'          => array(
@@ -154,7 +154,7 @@ if ( ! class_exists( 'CoCart_Admin_Menus' ) ) {
 					'menu_slug'  => esc_url( COCART_COMMUNITY_URL ),
 				),
 				'changelog'          => array(
-					'menu_title' => __( 'Changelog', 'cart-rest-api-for-woocommerce' ),
+					'menu_title' => __( 'Changelog', 'cocart-core' ),
 					'menu_slug'  => esc_url( 'https://cocart.dev/changelog/' ),
 				),
 			);

@@ -30,7 +30,7 @@ function cocart_task_cleanup_carts() {
 	if ( is_callable( array( $session, 'cleanup_sessions' ) ) ) {
 		$session->cleanup_sessions();
 	} else {
-		CoCart_Logger::log( esc_html__( 'CoCart Task: Clean up carts failed.', 'cart-rest-api-for-woocommerce' ), 'error' );
+		CoCart_Logger::log( esc_html__( 'CoCart Task: Clean up carts failed.', 'cocart-core' ), 'error' );
 	}
 }
 add_action( 'cocart_cleanup_carts', 'cocart_task_cleanup_carts' );

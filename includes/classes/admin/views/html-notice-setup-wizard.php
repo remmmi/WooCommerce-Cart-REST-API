@@ -25,7 +25,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 				<?php
 				printf(
 					/* translators: %s: CoCart */
-					esc_html__( 'Welcome to %s!', 'cart-rest-api-for-woocommerce' ),
+					esc_html__( 'Welcome to %s!', 'cocart-core' ),
 					'CoCart'
 				);
 				?>
@@ -35,7 +35,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 				<?php
 					printf(
 						/* translators: %s: CoCart */
-						esc_html__( 'To help prepare %s running smoothly, we would like to guide you with a setup wizard.', 'cart-rest-api-for-woocommerce' ),
+						esc_html__( 'To help prepare %s running smoothly, we would like to guide you with a setup wizard.', 'cocart-core' ),
 						'CoCart'
 					);
 					?>
@@ -44,9 +44,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 		<div class="cocart-action">
 			<a href="<?php echo esc_url( admin_url( 'admin.php?page=cocart-setup' ) ); ?>" class="button button-primary cocart-button">
-				<?php echo esc_html__( 'Setup Wizard', 'cart-rest-api-for-woocommerce' ); ?>
+				<?php echo esc_html__( 'Setup Wizard', 'cocart-core' ); ?>
 			</a>
-			<a href="<?php echo esc_url( wp_nonce_url( add_query_arg( 'cocart-hide-notice', 'setup_wizard', CoCart_Helpers::cocart_get_current_admin_url() ), 'cocart_hide_notices_nonce', '_cocart_notice_nonce' ) ); ?>" class="no-thanks" aria-label="<?php echo esc_html__( 'Hide this notice forever.', 'cart-rest-api-for-woocommerce' ); ?>"><?php echo esc_html__( 'I will manually setup later.', 'cart-rest-api-for-woocommerce' ); ?></a>
+			<a href="<?php echo esc_url( wp_nonce_url( add_query_arg( 'cocart-hide-notice', 'setup_wizard', CoCart_Helpers::cocart_get_current_admin_url() ), 'cocart_hide_notices_nonce', '_cocart_notice_nonce' ) ); ?>" class="no-thanks" aria-label="<?php echo esc_html__( 'Hide this notice forever.', 'cocart-core' ); ?>"><?php echo esc_html__( 'I will manually setup later.', 'cocart-core' ); ?></a>
 		</div>
 	</div>
 </div>

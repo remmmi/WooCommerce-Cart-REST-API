@@ -51,7 +51,7 @@ class CoCart_Cart_Update_Callback extends CoCart_Cart_Extension_Callback {
 	public function callback( $request, $controller ) {
 		try {
 			if ( $controller->is_completely_empty() ) {
-				throw new CoCart_Data_Exception( 'cocart_cart_empty', __( 'Cart is empty. Please add items to cart first.', 'cart-rest-api-for-woocommerce' ), 404 );
+				throw new CoCart_Data_Exception( 'cocart_cart_empty', __( 'Cart is empty. Please add items to cart first.', 'cocart-core' ), 404 );
 			}
 
 			$items = isset( $request['quantity'] ) && is_array( $request['quantity'] ) ? wp_unslash( $request['quantity'] ) : array();
@@ -92,7 +92,7 @@ class CoCart_Cart_Update_Callback extends CoCart_Cart_Extension_Callback {
 					if ( $product->is_sold_individually() && $quantity > 1 ) {
 						$message = sprintf(
 							/* translators: %s Product name. */
-							__( 'You can only have 1 "%s" in your cart.', 'cart-rest-api-for-woocommerce' ),
+							__( 'You can only have 1 "%s" in your cart.', 'cocart-core' ),
 							$product->get_name()
 						);
 						wc_add_notice( $message, 'error' );
@@ -122,7 +122,7 @@ class CoCart_Cart_Update_Callback extends CoCart_Cart_Extension_Callback {
 
 				// Only returns success notice if there are no error notices.
 				if ( 0 === wc_notice_count( 'error' ) ) {
-					wc_add_notice( __( 'Cart updated.', 'cart-rest-api-for-woocommerce' ), 'success' );
+					wc_add_notice( __( 'Cart updated.', 'cocart-core' ), 'success' );
 				}
 			}
 

@@ -81,7 +81,7 @@ class CoCart_REST_Totals_V2_Controller extends CoCart_REST_Cart_V2_Controller {
 			}
 
 			if ( ! $totals_calculated ) {
-				$message = esc_html__( 'This cart either has no items or was not calculated.', 'cart-rest-api-for-woocommerce' );
+				$message = esc_html__( 'This cart either has no items or was not calculated.', 'cocart-core' );
 
 				throw new CoCart_Data_Exception( 'cocart_cart_totals_empty', $message, 404 );
 			}
@@ -131,7 +131,7 @@ class CoCart_REST_Totals_V2_Controller extends CoCart_REST_Cart_V2_Controller {
 			'html' => array(
 				'required'          => false,
 				'default'           => false,
-				'description'       => __( 'Returns the totals pre-formatted.', 'cart-rest-api-for-woocommerce' ),
+				'description'       => __( 'Returns the totals pre-formatted.', 'cocart-core' ),
 				'type'              => 'boolean',
 				'validate_callback' => 'rest_validate_request_arg',
 			),

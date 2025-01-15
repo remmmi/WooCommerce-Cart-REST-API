@@ -71,7 +71,7 @@ class CoCart_REST_Create_Cart_V2_Controller extends CoCart_REST_Cart_V2_Controll
 	 */
 	public function get_permission_callback() {
 		if ( strval( get_current_user_id() ) > 0 ) {
-			return new WP_Error( 'cocart_rest_cart_creation_not_allowed', __( 'You are already logged in so a cart is already created for you.', 'cart-rest-api-for-woocommerce' ), array( 'status' => 403 ) );
+			return new WP_Error( 'cocart_rest_cart_creation_not_allowed', __( 'You are already logged in so a cart is already created for you.', 'cocart-core' ), array( 'status' => 403 ) );
 		}
 
 		return true;
@@ -104,7 +104,7 @@ class CoCart_REST_Create_Cart_V2_Controller extends CoCart_REST_Cart_V2_Controll
 			WC()->session->update_cart( $cart_key );
 
 			$response = array(
-				'message'  => __( 'Here is your cart key. Either use it as a global parameter or set the CoCart cart key header for all future Cart API requests. See "Cart Key" section in the documentation to learn more.', 'cart-rest-api-for-woocommerce' ),
+				'message'  => __( 'Here is your cart key. Either use it as a global parameter or set the CoCart cart key header for all future Cart API requests. See "Cart Key" section in the documentation to learn more.', 'cocart-core' ),
 				'cart_key' => $cart_key,
 			);
 

@@ -628,7 +628,7 @@ UNIQUE KEY cart_key (cart_key)
 
 		$notice = sprintf(
 			/* translators: %2$s table name, %3$s database user, %4$s database name. */
-			esc_html__( '%1$s %2$s table creation failed. Does the %3$s user have CREATE privileges on the %4$s database?', 'cart-rest-api-for-woocommerce' ),
+			esc_html__( '%1$s %2$s table creation failed. Does the %3$s user have CREATE privileges on the %4$s database?', 'cocart-core' ),
 			'CoCart',
 			'<code>' . esc_html( $table_name ) . '</code>',
 			'<code>' . esc_html( DB_USER ) . '</code>',

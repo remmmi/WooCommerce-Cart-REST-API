@@ -19,7 +19,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 		<?php
 		printf(
 			/* translators: %s: CoCart */
-			esc_html__( '%s database update complete. Thank you for updating to the latest version!', 'cart-rest-api-for-woocommerce' ),
+			esc_html__( '%s database update complete. Thank you for updating to the latest version!', 'cocart-core' ),
 			'CoCart'
 		);
 		?>

@@ -21,12 +21,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 		</div>
 
 		<div class="cocart-notice-content">
-			<h3><?php echo esc_html__( 'Update Required!', 'cart-rest-api-for-woocommerce' ); ?></h3>
+			<h3><?php echo esc_html__( 'Update Required!', 'cocart-core' ); ?></h3>
 			<p>
 				<?php
 				printf(
 					/* translators: 1: CoCart, 2: WooCommerce, 3: Required WooCommerce version */
-					esc_html__( '%1$s requires at least %2$s v%3$s or higher.', 'cart-rest-api-for-woocommerce' ),
+					esc_html__( '%1$s requires at least %2$s v%3$s or higher.', 'cocart-core' ),
 					'CoCart',
 					'WooCommerce',
 					esc_attr( CoCart::$required_woo )
@@ -50,8 +50,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 			);
 			$upgrade_url = wp_nonce_url( add_query_arg( 'cocart-hide-notice', 'check_wc', $upgrade_url ), 'cocart_hide_notices_nonce', '_cocart_notice_nonce' ); // phpcs:ignore: WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
 			?>
-			<a href="<?php echo esc_url( $upgrade_url ); ?>" class="button button-primary cocart-button" aria-label="<?php echo esc_html__( 'Update WooCommerce', 'cart-rest-api-for-woocommerce' ); ?>"><?php echo esc_html__( 'Update WooCommerce', 'cart-rest-api-for-woocommerce' ); ?></a>
-			<a class="no-thanks" href="<?php echo esc_url( wp_nonce_url( add_query_arg( 'cocart-hide-notice', 'check_wc', esc_url( CoCart_Helpers::cocart_get_current_admin_url() ) ), 'cocart_hide_notices_nonce', '_cocart_notice_nonce' ) ); ?>"><?php esc_html_e( 'Dismiss', 'cart-rest-api-for-woocommerce' ); ?></a>
+			<a href="<?php echo esc_url( $upgrade_url ); ?>" class="button button-primary cocart-button" aria-label="<?php echo esc_html__( 'Update WooCommerce', 'cocart-core' ); ?>"><?php echo esc_html__( 'Update WooCommerce', 'cocart-core' ); ?></a>
+			<a class="no-thanks" href="<?php echo esc_url( wp_nonce_url( add_query_arg( 'cocart-hide-notice', 'check_wc', esc_url( CoCart_Helpers::cocart_get_current_admin_url() ) ), 'cocart_hide_notices_nonce', '_cocart_notice_nonce' ) ); ?>"><?php esc_html_e( 'Dismiss', 'cocart-core' ); ?></a>
 		</div>
 		<?php } ?>
 	</div>

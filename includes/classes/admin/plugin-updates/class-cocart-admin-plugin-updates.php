@@ -108,7 +108,7 @@ class CoCart_Admin_Plugin_Updates {
 		}
 
 		/* translators: %s: version number */
-		$message = sprintf( __( "<strong>Heads up!</strong> The versions of the following plugins you're running haven't been tested with CoCart %s. Please update them or confirm compatibility before updating CoCart, or you may experience issues:", 'cart-rest-api-for-woocommerce' ), $new_version );
+		$message = sprintf( __( "<strong>Heads up!</strong> The versions of the following plugins you're running haven't been tested with CoCart %s. Please update them or confirm compatibility before updating CoCart, or you may experience issues:", 'cocart-core' ), $new_version );
 
 		ob_start();
 		include __DIR__ . '/views/html-notice-untested-extensions-inline.php';
@@ -181,7 +181,7 @@ class CoCart_Admin_Plugin_Updates {
 					$untested[ $file ] = $plugin;
 				}
 			} else {
-				$plugin[ self::VERSION_TESTED_HEADER ] = __( 'unknown', 'cart-rest-api-for-woocommerce' );
+				$plugin[ self::VERSION_TESTED_HEADER ] = __( 'unknown', 'cocart-core' );
 				$untested[ $file ]                     = $plugin;
 			}
 		}

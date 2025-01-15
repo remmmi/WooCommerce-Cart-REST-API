@@ -634,7 +634,7 @@ if ( ! class_exists( 'CoCart_Admin_Updates' ) ) {
 			printf(
 				wp_kses(
 					/* translators: %s = A link to the updates page. */
-					__( ' Please <a href="%s">enter your license key</a> to enable updates.', 'cart-rest-api-for-woocommerce' ),
+					__( ' Please <a href="%s">enter your license key</a> to enable updates.', 'cocart-core' ),
 					array(
 						'a' => array(
 							'href' => array(),
@@ -671,7 +671,7 @@ if ( ! class_exists( 'CoCart_Admin_Updates' ) ) {
 				echo '<tr class="plugin-update-tr" id="' . esc_attr( $plugin_data['slug'] . '-update-info' ) . '" data-slug="' . $plugin_data['Name'] . '" data-plugin="' . esc_attr( $file ) . '"><td colspan="' . $wp_list_table->get_column_count() . '" class="plugin-update colspanchange"><div class="update-message notice inline notice-error notice-alt">'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 
 				echo '<p>';
-				echo __( 'This legacy plugin can no longer be activated because you have a newer version active. It is recommended to <strong>delete</strong> it.', 'cart-rest-api-for-woocommerce' );
+				echo __( 'This legacy plugin can no longer be activated because you have a newer version active. It is recommended to <strong>delete</strong> it.', 'cocart-core' );
 				echo '</p></div></td></tr>';
 				return;
 			}
@@ -683,7 +683,7 @@ if ( ! class_exists( 'CoCart_Admin_Updates' ) ) {
 					echo '<p>';
 					printf(
 						/* translators: %s = Plugin name. */
-						__( 'This version of %s has not been tested with the core version of CoCart you have installed.', 'cart-rest-api-for-woocommerce' ),
+						__( 'This version of %s has not been tested with the core version of CoCart you have installed.', 'cocart-core' ),
 						$plugin_data['Name']
 					);
 					echo '</p></div></td></tr>';
@@ -728,7 +728,7 @@ if ( ! class_exists( 'CoCart_Admin_Updates' ) ) {
 					. wp_kses_post(
 						sprintf(
 							/* translators: %1 = Plugin name, %2 = A link to the updates page. %3 link to the pricing page */
-							__( 'To enable updates for %1$s, please <a href="%2$s">enter your license key</a>. If you don\'t have a license key, please consider <a href="%3$s" target="_blank">purchasing one</a> to keep up to date, secure and receive support.', 'cart-rest-api-for-woocommerce' ),
+							__( 'To enable updates for %1$s, please <a href="%2$s">enter your license key</a>. If you don\'t have a license key, please consider <a href="%3$s" target="_blank">purchasing one</a> to keep up to date, secure and receive support.', 'cocart-core' ),
 							$plugin_data['Name'],
 							add_query_arg( array( 'page' => 'cocart-updates' ), admin_url( 'admin.php' ) ),
 							CoCart_Helpers::build_shortlink( COCART_STORE_URL . 'pricing/' ),
@@ -750,7 +750,7 @@ if ( ! class_exists( 'CoCart_Admin_Updates' ) ) {
 			echo '<p><strong><span class="dashicons dashicons-warning"></span></strong> '
 				. sprintf(
 					/* translators: %1$s is the plugin name, %2$s and %3$s are a link. */
-					esc_html__( '%1$s can\'t be updated because your license is expired. %2$sRenew your license%3$s to get updates again and use all the features of %1$s.', 'cart-rest-api-for-woocommerce' ),
+					esc_html__( '%1$s can\'t be updated because your license is expired. %2$sRenew your license%3$s to get updates again and use all the features of %1$s.', 'cocart-core' ),
 					esc_html( $plugin_data['Name'] ),
 					'<a href="' . esc_url( 'https://cocartapi.com/billing' ) . '">',
 					'</a>'

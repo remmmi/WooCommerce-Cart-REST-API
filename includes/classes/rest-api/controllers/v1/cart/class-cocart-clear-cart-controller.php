@@ -122,7 +122,7 @@ class CoCart_Clear_Cart_Controller extends CoCart_API_Controller {
 			 */
 			do_action( 'cocart_cart_cleared' );
 
-			$message = __( 'Cart is cleared.', 'cart-rest-api-for-woocommerce' );
+			$message = __( 'Cart is cleared.', 'cocart-core' );
 
 			CoCart_Logger::log( $message, 'notice' );
 
@@ -137,7 +137,7 @@ class CoCart_Clear_Cart_Controller extends CoCart_API_Controller {
 
 			return $this->get_response( $message, $this->rest_base );
 		} else {
-			$message = __( 'Clearing the cart failed!', 'cart-rest-api-for-woocommerce' );
+			$message = __( 'Clearing the cart failed!', 'cocart-core' );
 
 			CoCart_Logger::log( $message, 'error' );
 

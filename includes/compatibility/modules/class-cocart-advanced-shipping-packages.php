@@ -51,7 +51,7 @@ if ( ! class_exists( 'CoCart_ASP_Compatibility' ) ) {
 
 			// Default package name.
 			if ( 0 === $i ) {
-				$name = get_option( 'advanced_shipping_packages_default_package_name', __( 'Shipping', 'cart-rest-api-for-woocommerce' ) );
+				$name = get_option( 'advanced_shipping_packages_default_package_name', __( 'Shipping', 'cocart-core' ) );
 			}
 
 			return $name;

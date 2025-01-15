@@ -412,19 +412,19 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 				return false;
 			} elseif ( empty( $username ) || empty( $password ) ) {
 				// If either username or password is missing then return error.
-				$this->set_error( new WP_Error( 'cocart_authentication_error', __( 'Authentication invalid!', 'cart-rest-api-for-woocommerce' ), array( 'status' => 401 ) ) );
+				$this->set_error( new WP_Error( 'cocart_authentication_error', __( 'Authentication invalid!', 'cocart-core' ), array( 'status' => 401 ) ) );
 				return false;
 			}
 
 			$user = get_user_by( 'login', $username );
 
 			if ( empty( $user ) ) {
-				$this->set_error( new WP_Error( 'cocart_authentication_error', __( 'Authentication is invalid. Please check your login details are correct and try again.', 'cart-rest-api-for-woocommerce' ), array( 'status' => 401 ) ) );
+				$this->set_error( new WP_Error( 'cocart_authentication_error', __( 'Authentication is invalid. Please check your login details are correct and try again.', 'cocart-core' ), array( 'status' => 401 ) ) );
 				return false;
 			}
 
 			if ( ! wp_check_password( $password, $user->data->user_pass, $user->ID ) ) {
-				$this->set_error( new WP_Error( 'cocart_authentication_error', __( 'The password you entered is incorrect.', 'cart-rest-api-for-woocommerce' ), array( 'status' => 401 ) ) );
+				$this->set_error( new WP_Error( 'cocart_authentication_error', __( 'The password you entered is incorrect.', 'cocart-core' ), array( 'status' => 401 ) ) );
 				return false;
 			}
 
@@ -531,7 +531,7 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 				 *
 				 * @deprecated 4.3.11 No longer used. See `cocart_send_cache_control_patterns` filter instead to control which routes are not cached.
 				 */
-				cocart_do_deprecated_filter( 'cocart_send_nocache_headers', '4.3.11', null, __( 'This filter is no longer used.', 'cart-rest-api-for-woocommerce' ), array( is_user_logged_in() ) );
+				cocart_do_deprecated_filter( 'cocart_send_nocache_headers', '4.3.11', null, __( 'This filter is no longer used.', 'cocart-core' ), array( is_user_logged_in() ) );
 			}
 
 			// Exit early during preflight requests. This is so someone cannot access API data by sending an OPTIONS request
@@ -789,7 +789,7 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 										'cocart_rest_permission_error',
 										sprintf(
 											/* translators: 1: permission method, 2: api route */
-											__( 'Permission to %1$s %2$s is only permitted if the user is authenticated.', 'cart-rest-api-for-woocommerce' ),
+											__( 'Permission to %1$s %2$s is only permitted if the user is authenticated.', 'cocart-core' ),
 											'READ',
 											$path
 										),
@@ -808,7 +808,7 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 										'cocart_rest_permission_error',
 										sprintf(
 											/* translators: 1: permission method, 2: api route */
-											__( 'Permission to %1$s %2$s is only permitted if the user is authenticated.', 'cart-rest-api-for-woocommerce' ),
+											__( 'Permission to %1$s %2$s is only permitted if the user is authenticated.', 'cocart-core' ),
 											'WRITE',
 											$path
 										),
@@ -824,7 +824,7 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 										'cocart_rest_permission_error',
 										sprintf(
 											/* translators: 1: permission method, 2: api route */
-											__( 'Permission to %1$s %2$s is only permitted if the user is authenticated.', 'cart-rest-api-for-woocommerce' ),
+											__( 'Permission to %1$s %2$s is only permitted if the user is authenticated.', 'cocart-core' ),
 											'OPTIONS',
 											$path
 										),
@@ -838,7 +838,7 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 								'cocart_rest_permission_error',
 								sprintf(
 									/* translators: %s: api route */
-									__( 'Unknown request method for %s.', 'cart-rest-api-for-woocommerce' ),
+									__( 'Unknown request method for %s.', 'cocart-core' ),
 									$path
 								),
 								401

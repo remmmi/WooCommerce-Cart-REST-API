@@ -99,8 +99,8 @@ class CoCart_Utilities_Product_Helpers {
 			$images[] = array(
 				'id'       => 0,
 				'src'      => $attachments,
-				'name'     => __( 'Placeholder', 'cart-rest-api-for-woocommerce' ),
-				'alt'      => __( 'Placeholder', 'cart-rest-api-for-woocommerce' ),
+				'name'     => __( 'Placeholder', 'cocart-core' ),
+				'alt'      => __( 'Placeholder', 'cocart-core' ),
 				'position' => 0,
 				'featured' => true,
 			);
@@ -310,7 +310,7 @@ class CoCart_Utilities_Product_Helpers {
 		 * @param array      $ignored_meta_keys Ignored meta keys.
 		 * @param WC_Product $product           The product object.
 		 */
-		cocart_do_deprecated_filter( 'cocart_products_ignore_private_meta_keys', '5.0.0', 'cocart_products_allowed_meta_keys', __( 'Changed to improve product security.', 'cart-rest-api-for-woocommerce' ), array( array(), $product ) );
+		cocart_do_deprecated_filter( 'cocart_products_ignore_private_meta_keys', '5.0.0', 'cocart_products_allowed_meta_keys', __( 'Changed to improve product security.', 'cocart-core' ), array( array(), $product ) );
 
 		/**
 		 * Filter allows you to specify the allowed meta keys for the product.
@@ -434,7 +434,7 @@ class CoCart_Utilities_Product_Helpers {
 			$variation_id = $data_store->find_matching_product_variation( $product, $variation );
 
 			if ( empty( $variation_id ) ) {
-				$message = __( 'No matching variation found.', 'cart-rest-api-for-woocommerce' );
+				$message = __( 'No matching variation found.', 'cocart-core' );
 
 				throw new CoCart_Data_Exception( 'cocart_no_variation_found', $message, 404 );
 			}

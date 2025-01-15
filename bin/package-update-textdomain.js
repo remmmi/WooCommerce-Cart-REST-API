@@ -14,7 +14,7 @@ files.forEach((file) => {
     wpTextdomain(
         file,
         {
-            domain: 'cart-rest-api-for-woocommerce',
+            domain: 'cocart-core',
             fix: true,
             missingDomain: true,
             variableDomain: true,

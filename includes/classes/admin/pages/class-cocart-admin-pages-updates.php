@@ -91,22 +91,22 @@ class CoCart_Admin_Updates_Page extends CoCart_Submenu_Page {
 
 						$license_status = $this->cocart_license_status();
 
-						$submit_text = __( 'Save changes', 'cart-rest-api-for-woocommerce' );
+						$submit_text = __( 'Save changes', 'cocart-core' );
 
 					if ( empty( $this->cocart_update_settings['cocart_license_key'] ) || 'deactivated' === $license_status || 'expired' === $license_status || 'disabled' === $license_status ) {
-						$submit_text = __( 'Activate License', 'cart-rest-api-for-woocommerce' );
+						$submit_text = __( 'Activate License', 'cocart-core' );
 					}
 
 						submit_button( $submit_text );
 					?>
 					<!--div class="cocart-activation">
-						<a href="<?php echo esc_url( $manage_license_url ); ?>" target="_blank" class="button cocart-manage-license-btn"><?php esc_html_e( 'Manage License', 'cart-rest-api-for-woocommerce' ); ?><i class="cocart-icon cocart-icon-arrow-up-right"></i></a>
+						<a href="<?php echo esc_url( $manage_license_url ); ?>" target="_blank" class="button cocart-manage-license-btn"><?php esc_html_e( 'Manage License', 'cocart-core' ); ?><i class="cocart-icon cocart-icon-arrow-up-right"></i></a>
 					</div-->
 				</form>
 				<div class="cocart-license-status-wrap">
 					<table class="cocart-license-status-table">
 						<tbody><tr>
-							<th><?php esc_html_e( 'License Status', 'cart-rest-api-for-woocommerce' ); ?></th>
+							<th><?php esc_html_e( 'License Status', 'cocart-core' ); ?></th>
 							<td><span class="cocart-license-status <?php echo esc_attr( $this->cocart_license_status() ); ?>"><?php echo esc_attr( $this->cocart_license_status( false ) ); ?></span></td>
 						</tr>
 						</tbody>
@@ -115,23 +115,23 @@ class CoCart_Admin_Updates_Page extends CoCart_Submenu_Page {
 					if ( empty( $this->cocart_update_settings['cocart_license_key'] ) || 'expired' === $license_status || 'disabled' === $license_status ) {
 						?>
 					<div class="cocart-no-license-view-pricing">
-						<span><?php esc_html_e( 'Don\'t have an license?', 'cart-rest-api-for-woocommerce' ); ?> <a href="<?php echo esc_url( $store_url ); ?>" target="_blank"><?php esc_html_e( 'View pricing & purchase', 'cart-rest-api-for-woocommerce' ); ?></a></span>
+						<span><?php esc_html_e( 'Don\'t have an license?', 'cocart-core' ); ?> <a href="<?php echo esc_url( $store_url ); ?>" target="_blank"><?php esc_html_e( 'View pricing & purchase', 'cocart-core' ); ?></a></span>
 					</div>
 					<?php } ?>
 				</div>
 			</div>
 			<div class="cocart-content">
-				<h2><?php esc_html_e( 'Plugin Information', 'cart-rest-api-for-woocommerce' ); ?></h2>
-				<span><?php esc_html_e( 'Last checked', 'cart-rest-api-for-woocommerce' ); ?>: <?php echo date_i18n( 'l, j F Y', get_option( 'cocart_updates_last_checked', time() ) ); ?> <a href="#" class="button button-secondary"><?php esc_html_e( 'Pause Updates', 'cart-rest-api-for-woocommerce' ); ?></a></span>
+				<h2><?php esc_html_e( 'Plugin Information', 'cocart-core' ); ?></h2>
+				<span><?php esc_html_e( 'Last checked', 'cocart-core' ); ?>: <?php echo date_i18n( 'l, j F Y', get_option( 'cocart_updates_last_checked', time() ) ); ?> <a href="#" class="button button-secondary"><?php esc_html_e( 'Pause Updates', 'cocart-core' ); ?></a></span>
 
-				<p><?php esc_html_e( 'Only installed CoCart plugins listed below will display information on a possible update available.', 'cart-rest-api-for-woocommerce' ); ?></p>
+				<p><?php esc_html_e( 'Only installed CoCart plugins listed below will display information on a possible update available.', 'cocart-core' ); ?></p>
 
 				<table class="wp-list-table widefat plugins cocart-license-status-table">
 					<thead>
 						<tr>
-							<td><?php esc_html_e( 'Plugin name', 'cart-rest-api-for-woocommerce' ); ?></td>
-							<th><?php esc_html_e( 'Installed Version', 'cart-rest-api-for-woocommerce' ); ?></th>
-							<th><?php esc_html_e( 'Latest Version', 'cart-rest-api-for-woocommerce' ); ?></th>
+							<td><?php esc_html_e( 'Plugin name', 'cocart-core' ); ?></td>
+							<th><?php esc_html_e( 'Installed Version', 'cocart-core' ); ?></th>
+							<th><?php esc_html_e( 'Latest Version', 'cocart-core' ); ?></th>
 						</tr>
 					</thead>
 					<tbody>
@@ -147,7 +147,7 @@ class CoCart_Admin_Updates_Page extends CoCart_Submenu_Page {
 				</table>
 			</div>
 			<div class="cocart-content">
-				<h2><?php esc_html_e( 'Recent Updates', 'cart-rest-api-for-woocommerce' ); ?></h2>
+				<h2><?php esc_html_e( 'Recent Updates', 'cocart-core' ); ?></h2>
 				<?php
 				$this->cocart_release_feed( 'https://cocart.dev/category/changelog/feed/', 3 );
 				?>
@@ -175,12 +175,12 @@ class CoCart_Admin_Updates_Page extends CoCart_Submenu_Page {
 		$count_html = CoCart_Admin_Updates::get_updates_count_html();
 
 		/* translators: %s: updates counter */
-		$menu_title = sprintf( __( 'Updates %s', 'cart-rest-api-for-woocommerce' ), $count_html );
+		$menu_title = sprintf( __( 'Updates %s', 'cocart-core' ), $count_html );
 
 		$submenu_pages['updates'] = array(
 			'class_name' => 'CoCart_Admin_Updates_Page',
 			'data'       => array(
-				'page_title' => __( 'Updates', 'cart-rest-api-for-woocommerce' ),
+				'page_title' => __( 'Updates', 'cocart-core' ),
 				'menu_title' => $menu_title,
 				'capability' => apply_filters( 'cocart_updates_screen_capability', 'manage_options' ),
 				'menu_slug'  => 'cocart-updates',
@@ -204,7 +204,7 @@ class CoCart_Admin_Updates_Page extends CoCart_Submenu_Page {
 
 		add_settings_section(
 			'cocart_update_settings_section',
-			__( 'License Information', 'cart-rest-api-for-woocommerce' ),
+			__( 'License Information', 'cocart-core' ),
 			function () {
 				return ''; },
 			'cocart-plugin-update-settings'
@@ -212,7 +212,7 @@ class CoCart_Admin_Updates_Page extends CoCart_Submenu_Page {
 
 		add_settings_field(
 			'cocart_license_key',
-			__( 'License Key', 'cart-rest-api-for-woocommerce' ),
+			__( 'License Key', 'cocart-core' ),
 			array( $this, 'cocart_license_key_callback' ),
 			'cocart-plugin-update-settings',
 			'cocart_update_settings_section'
@@ -251,21 +251,21 @@ class CoCart_Admin_Updates_Page extends CoCart_Submenu_Page {
 		}
 
 		if ( ! empty( $license_error ) ) {
-			echo '<div class="notice notice-warning notice-alt cocart-notice"><p>' . esc_html__( 'There was a problem activating/deactivating your license. Please seek assistance.', 'cart-rest-api-for-woocommerce' ) . '</p></div>';
+			echo '<div class="notice notice-warning notice-alt cocart-notice"><p>' . esc_html__( 'There was a problem activating/deactivating your license. Please seek assistance.', 'cocart-core' ) . '</p></div>';
 		} elseif ( empty( $license_details ) || false === $license_details->license_key->status || isset( $license_details->deactivated ) || empty( $license_key ) ) {
-			echo '<div class="notice cocart-notice"><p>' . esc_html__( 'Activate your license to enable access to updates.', 'cart-rest-api-for-woocommerce' ) . '</p></div>';
+			echo '<div class="notice cocart-notice"><p>' . esc_html__( 'Activate your license to enable access to updates.', 'cocart-core' ) . '</p></div>';
 		} elseif ( CoCart_Status::is_offline_mode() || CoCart_Status::is_staging_site() ) {
-			echo '<div class="notice cocart-notice"><p>' . esc_html__( 'Activations are not counted while on a local or staging environments, but you will still receive updates.', 'cart-rest-api-for-woocommerce' ) . '</p></div>';
+			echo '<div class="notice cocart-notice"><p>' . esc_html__( 'Activations are not counted while on a local or staging environments, but you will still receive updates.', 'cocart-core' ) . '</p></div>';
 		}
 
 		if ( ! empty( CoCart_Status::get_live_site_url() ) && CoCart_Status::strip_protocol( CoCart_Status::get_live_site_url() ) !== CoCart_Status::strip_protocol( CoCart_Status::get_site_url() ) ) {
-			echo '<div class="notice notice-warning notice-alt cocart-notice"><p>' . esc_html__( 'It looks like this site has moved. Updates are disabled until you have reactivated your license.', 'cart-rest-api-for-woocommerce' ) . '</p></div>';
+			echo '<div class="notice notice-warning notice-alt cocart-notice"><p>' . esc_html__( 'It looks like this site has moved. Updates are disabled until you have reactivated your license.', 'cocart-core' ) . '</p></div>';
 		}
 
 		printf(
 			'<input class="regular-text" type="text" name="cocart_update_settings[cocart_license_key]" id="cocart_license_key" value="%s" placeholder="%s">',
 			isset( $license_key ) && empty( $license_error ) ? esc_attr( $license_key ) : '',
-			esc_html__( 'Copy and paste your license key here...', 'cart-rest-api-for-woocommerce' )
+			esc_html__( 'Copy and paste your license key here...', 'cocart-core' )
 		);
 
 		$message            = false;
@@ -281,27 +281,27 @@ class CoCart_Admin_Updates_Page extends CoCart_Submenu_Page {
 			if ( 'disabled' === $license_status || 'expired' === $license_status ) {
 				$message = '<strong><span class="warning dashicons dashicons-warning"></span></strong> ' . sprintf(
 					/* translators: %1$s and %2$s are a link. */
-					esc_html__( 'License is expired. %1$sRenew your license%2$s to get updates again.', 'cart-rest-api-for-woocommerce' ),
+					esc_html__( 'License is expired. %1$sRenew your license%2$s to get updates again.', 'cocart-core' ),
 					'<a href="' . esc_url( 'https://cocartapi.com/billing' ) . '">',
 					'</a>'
 				);
 			} elseif ( isset( $license_details->activated ) || isset( $license_details->deactivated ) ) {
 				$message = sprintf(
 					/* translators: %s Activation limit usage. */
-					__( 'Activation Limit Usage: %s', 'cart-rest-api-for-woocommerce' ),
+					__( 'Activation Limit Usage: %s', 'cocart-core' ),
 					"{$license_details->license_key->activation_usage}/{$limit}"
 				);
 			} elseif ( isset( $license_details->error_code ) && 'invalid_license_key' === $license_details->error_code ) {
 				$message = sprintf(
 					/* translators: %1$s and %2$s are a link. */
-					__( 'License key is invalid. Please copy and paste %1$syour license key from your account%2$s.', 'cart-rest-api-for-woocommerce' ),
+					__( 'License key is invalid. Please copy and paste %1$syour license key from your account%2$s.', 'cocart-core' ),
 					'<a href="' . esc_url( 'https://cocartapi.com/billing' ) . '">',
 					'</a>'
 				);
 			} else {
 				$message = sprintf(
 					/* translators: %s Activation limit available. */
-					__( 'Activation Limit Available: %s', 'cart-rest-api-for-woocommerce' ),
+					__( 'Activation Limit Available: %s', 'cocart-core' ),
 					"{$limit}"
 				);
 			}
@@ -315,7 +315,7 @@ class CoCart_Admin_Updates_Page extends CoCart_Submenu_Page {
 			if ( ! empty( $meta ) ) {
 				echo '<p>' . sprintf(
 					/* translators: Product name associated with license. */
-					esc_attr__( 'License for: %s', 'cart-rest-api-for-woocommerce' ),
+					esc_attr__( 'License for: %s', 'cocart-core' ),
 					'<strong>' . esc_attr( $meta->product_name ) . '</strong>'
 				) . '</p>';
 			}
@@ -327,11 +327,11 @@ class CoCart_Admin_Updates_Page extends CoCart_Submenu_Page {
 			if ( $license_expires_at > 0 ) {
 				$expiration = '<strong style="color:' . $highlight_color . '">' . gmdate( 'l d F Y', $license_expires_at ) . '</strong>';
 			} else {
-				$expiration = '<strong style="color:blue">' . __( 'Never', 'cart-rest-api-for-woocommerce' ) . '</strong>';
+				$expiration = '<strong style="color:blue">' . __( 'Never', 'cocart-core' ) . '</strong>';
 			}
 			echo '<p>' . sprintf(
 				/* translators: Expiration value */
-				esc_html__( 'Expiration Date: %s', 'cart-rest-api-for-woocommerce' ),
+				esc_html__( 'Expiration Date: %s', 'cocart-core' ),
 				$expiration //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			) . '</p>';
 		}
@@ -400,7 +400,7 @@ class CoCart_Admin_Updates_Page extends CoCart_Submenu_Page {
 		$license_details  = json_decode( get_option( 'cocart_license_details' ) );
 
 		if ( empty( $this->cocart_update_settings['cocart_license_key'] ) ) {
-			$license_status = ( ! $raw ) ? __( 'Inactive', 'cart-rest-api-for-woocommerce' ) : 'inactive';
+			$license_status = ( ! $raw ) ? __( 'Inactive', 'cocart-core' ) : 'inactive';
 		} elseif ( ! empty( $license_details ) ) {
 			$license_status = $license_details->license_key->status;
 
@@ -430,17 +430,17 @@ class CoCart_Admin_Updates_Page extends CoCart_Submenu_Page {
 		$is_offline = ( CoCart_Status::is_offline_mode() || CoCart_Status::is_staging_site() );
 
 		if ( 'disabled' === $license_status ) {
-			return ( ! $raw ) ? __( 'Disabled', 'cart-rest-api-for-woocommerce' ) : 'disabled';
+			return ( ! $raw ) ? __( 'Disabled', 'cocart-core' ) : 'disabled';
 		} elseif ( 'expired' === $license_status ) {
-			return ( ! $raw ) ? __( 'Expired', 'cart-rest-api-for-woocommerce' ) : 'expired';
+			return ( ! $raw ) ? __( 'Expired', 'cocart-core' ) : 'expired';
 		} elseif ( isset( $license_details->activated ) || 'active' === $license_status ) {
-			return ( ! $raw ) ? __( 'Active', 'cart-rest-api-for-woocommerce' ) : 'active';
+			return ( ! $raw ) ? __( 'Active', 'cocart-core' ) : 'active';
 		} elseif ( isset( $license_details->deactivated ) || 'deactivated' === $license_status ) {
-			return ( ! $raw ) ? __( 'Deactivated', 'cart-rest-api-for-woocommerce' ) : 'deactivated';
+			return ( ! $raw ) ? __( 'Deactivated', 'cocart-core' ) : 'deactivated';
 		} elseif ( 'inactive' === $license_status ) {
-			return ( ! $raw ) ? $is_offline ? __( 'Inactive, but still receives updates.', 'cart-rest-api-for-woocommerce' ) : __( 'Inactive', 'cart-rest-api-for-woocommerce' ) : 'inactive';
+			return ( ! $raw ) ? $is_offline ? __( 'Inactive, but still receives updates.', 'cocart-core' ) : __( 'Inactive', 'cocart-core' ) : 'inactive';
 		} else {
-			return ( ! $raw ) ? __( 'Invalid', 'cart-rest-api-for-woocommerce' ) : 'invalid';
+			return ( ! $raw ) ? __( 'Invalid', 'cocart-core' ) : 'invalid';
 		}
 	} // END get_license_status()
 
@@ -475,7 +475,7 @@ class CoCart_Admin_Updates_Page extends CoCart_Submenu_Page {
 						<?php
 						printf(
 							/* translators: %s Date and time */
-							esc_html__( 'Posted %s', 'cart-rest-api-for-woocommerce' ),
+							esc_html__( 'Posted %s', 'cocart-core' ),
 							esc_html( $item->get_date( 'j F Y | g:i a' ) )
 						);
 						?>

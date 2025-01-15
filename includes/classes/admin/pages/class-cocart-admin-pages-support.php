@@ -73,8 +73,8 @@ class CoCart_Admin_Support_Page extends CoCart_Submenu_Page {
 		$submenu_pages['support'] = array(
 			'class_name' => 'CoCart_Admin_Support_Page',
 			'data'       => array(
-				'page_title' => __( 'Support', 'cart-rest-api-for-woocommerce' ),
-				'menu_title' => __( 'Support', 'cart-rest-api-for-woocommerce' ),
+				'page_title' => __( 'Support', 'cocart-core' ),
+				'menu_title' => __( 'Support', 'cocart-core' ),
 				'capability' => apply_filters( 'cocart_screen_capability', 'manage_options' ),
 				'menu_slug'  => 'cocart-support',
 			),

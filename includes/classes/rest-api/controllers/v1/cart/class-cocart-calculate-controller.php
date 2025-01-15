@@ -53,7 +53,7 @@ class CoCart_Calculate_Controller extends CoCart_API_Controller {
 					'return' => array(
 						'required'          => false,
 						'default'           => false,
-						'description'       => __( 'Returns the cart totals once calculated.', 'cart-rest-api-for-woocommerce' ),
+						'description'       => __( 'Returns the cart totals once calculated.', 'cocart-core' ),
 						'type'              => 'boolean',
 						'validate_callback' => 'rest_validate_request_arg',
 					),
@@ -84,7 +84,7 @@ class CoCart_Calculate_Controller extends CoCart_API_Controller {
 			return CoCart_Totals_Controller::get_totals( $request );
 		}
 
-		$message = __( 'Cart totals have been calculated.', 'cart-rest-api-for-woocommerce' );
+		$message = __( 'Cart totals have been calculated.', 'cocart-core' );
 
 		CoCart_Logger::log( $message, 'notice' );
 

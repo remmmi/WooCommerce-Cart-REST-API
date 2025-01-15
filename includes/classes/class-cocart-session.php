@@ -72,7 +72,7 @@ class CoCart_Load_Cart {
 
 				wc_clear_notices();
 				wc_add_notice(
-					esc_html__( 'Cart is not valid! If this is an error, contact for help.', 'cart-rest-api-for-woocommerce' ),
+					esc_html__( 'Cart is not valid! If this is an error, contact for help.', 'cocart-core' ),
 					'error'
 				);
 			}
@@ -203,7 +203,7 @@ class CoCart_Load_Cart {
 	 * @return string $checkout_url Original checkout URL or checkout URL with added query argument.
 	 */
 	public static function proceed_to_checkout( $checkout_url ) {
-		cocart_deprecated_function( 'CoCart_Load_Cart::proceed_to_checkout', '5.0.0', __( 'No longer use.', 'cart-rest-api-for-woocommerce' ) );
+		cocart_deprecated_function( 'CoCart_Load_Cart::proceed_to_checkout', '5.0.0', __( 'No longer use.', 'cocart-core' ) );
 
 		if ( ! is_user_logged_in() && self::maybe_load_cart() ) {
 			$action   = self::get_action_query();
@@ -235,7 +235,7 @@ class CoCart_Load_Cart {
 			'cocart_use_cookie_monster',
 			'5.0.0',
 			null,
-			__( 'No longer use.', 'cart-rest-api-for-woocommerce' ),
+			__( 'No longer use.', 'cocart-core' ),
 			array( true )
 		);
 	} // END maybe_use_cookie_monster()

@@ -18,8 +18,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	<table class="plugin-details-table" cellspacing="0">
 		<thead>
 			<tr>
-				<th><?php esc_html_e( 'Plugin', 'cart-rest-api-for-woocommerce' ); ?></th>
-				<th><?php esc_html_e( 'Tested up to CoCart version', 'cart-rest-api-for-woocommerce' ); ?></th>
+				<th><?php esc_html_e( 'Plugin', 'cocart-core' ); ?></th>
+				<th><?php esc_html_e( 'Tested up to CoCart version', 'cocart-core' ); ?></th>
 			</tr>
 		</thead>
 		<tbody>

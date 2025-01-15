@@ -76,7 +76,7 @@ class CoCart_Cart_Validation {
 				wc_add_notice(
 					sprintf(
 						/* translators: %s: product name */
-						__( 'Sorry, "%s" is not in stock. Please edit your cart and try again. We apologize for any inconvenience caused.', 'cart-rest-api-for-woocommerce' ),
+						__( 'Sorry, "%s" is not in stock. Please edit your cart and try again. We apologize for any inconvenience caused.', 'cocart-core' ),
 						$product->get_name()
 					),
 					'error'
@@ -106,7 +106,7 @@ class CoCart_Cart_Validation {
 					wc_add_notice(
 						sprintf(
 							/* translators: 1: product name 2: quantity in stock */
-							__( 'Sorry, we do not have enough "%1$s" in stock to fulfill your order (%2$s available). We apologize for any inconvenience caused.', 'cart-rest-api-for-woocommerce' ),
+							__( 'Sorry, we do not have enough "%1$s" in stock to fulfill your order (%2$s available). We apologize for any inconvenience caused.', 'cocart-core' ),
 							$product->get_name(),
 							wc_format_stock_quantity_for_display( $product->get_stock_quantity() - $held_stock, $product )
 						),

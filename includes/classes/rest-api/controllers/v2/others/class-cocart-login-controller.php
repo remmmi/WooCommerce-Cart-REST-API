@@ -76,7 +76,7 @@ class CoCart_REST_Login_V2_Controller {
 	 */
 	public function get_permission_callback() {
 		if ( strval( get_current_user_id() ) <= 0 ) {
-			return new WP_Error( 'cocart_rest_not_authorized', __( 'Sorry, you are not authorized.', 'cart-rest-api-for-woocommerce' ), array( 'status' => rest_authorization_required_code() ) );
+			return new WP_Error( 'cocart_rest_not_authorized', __( 'Sorry, you are not authorized.', 'cocart-core' ), array( 'status' => rest_authorization_required_code() ) );
 		}
 
 		return true;
@@ -124,7 +124,7 @@ class CoCart_REST_Login_V2_Controller {
 			 * @param object $current_user The current user.
 			 */
 			'extras'       => apply_filters( 'cocart_login_extras', array(), $current_user ),
-			'dev_note'     => __( "Don't forget to store the users login information in order to authenticate all other routes with CoCart.", 'cart-rest-api-for-woocommerce' ),
+			'dev_note'     => __( "Don't forget to store the users login information in order to authenticate all other routes with CoCart.", 'cocart-core' ),
 		);
 
 		// Returns avatars if requested.
@@ -151,57 +151,57 @@ class CoCart_REST_Login_V2_Controller {
 			'type'       => 'object',
 			'properties' => array(
 				'user_id'      => array(
-					'description' => __( 'Unique ID to the user on the site.', 'cart-rest-api-for-woocommerce' ),
+					'description' => __( 'Unique ID to the user on the site.', 'cocart-core' ),
 					'type'        => 'string',
 					'context'     => array( 'view' ),
 					'readonly'    => true,
 				),
 				'first_name'   => array(
-					'description' => __( 'The first name of the user (if any).', 'cart-rest-api-for-woocommerce' ),
+					'description' => __( 'The first name of the user (if any).', 'cocart-core' ),
 					'type'        => 'string',
 					'context'     => array( 'view' ),
 					'readonly'    => true,
 				),
 				'last_name'    => array(
-					'description' => __( 'The last name of the user (if any).', 'cart-rest-api-for-woocommerce' ),
+					'description' => __( 'The last name of the user (if any).', 'cocart-core' ),
 					'type'        => 'string',
 					'context'     => array( 'view' ),
 					'readonly'    => true,
 				),
 				'display_name' => array(
-					'description' => __( 'The display name of the user (if any).', 'cart-rest-api-for-woocommerce' ),
+					'description' => __( 'The display name of the user (if any).', 'cocart-core' ),
 					'type'        => 'string',
 					'context'     => array( 'view' ),
 					'readonly'    => true,
 				),
 				'role'         => array(
-					'description' => __( 'The role type assigned to the user.', 'cart-rest-api-for-woocommerce' ),
+					'description' => __( 'The role type assigned to the user.', 'cocart-core' ),
 					'type'        => 'string',
 					'context'     => array( 'view' ),
 					'readonly'    => true,
 				),
 				'avatar_urls'  => array(
-					'description' => __( 'The avatar URLs of the user for each avatar size registered.', 'cart-rest-api-for-woocommerce' ),
+					'description' => __( 'The avatar URLs of the user for each avatar size registered.', 'cocart-core' ),
 					'type'        => 'object',
 					'context'     => array( 'view' ),
 					'properties'  => array(),
 					'readonly'    => true,
 				),
 				'email'        => array(
-					'description' => __( 'The email address of the user.', 'cart-rest-api-for-woocommerce' ),
+					'description' => __( 'The email address of the user.', 'cocart-core' ),
 					'type'        => 'string',
 					'context'     => array( 'view' ),
 					'readonly'    => true,
 				),
 				'extras'       => array(
-					'description' => __( 'Extra details added via the filter.', 'cart-rest-api-for-woocommerce' ),
+					'description' => __( 'Extra details added via the filter.', 'cocart-core' ),
 					'type'        => 'object',
 					'context'     => array( 'view' ),
 					'properties'  => array(),
 					'readonly'    => true,
 				),
 				'dev_note'     => array(
-					'description' => __( 'A message to developers.', 'cart-rest-api-for-woocommerce' ),
+					'description' => __( 'A message to developers.', 'cocart-core' ),
 					'type'        => 'string',
 					'context'     => array( 'view' ),
 					'readonly'    => true,
@@ -222,7 +222,7 @@ class CoCart_REST_Login_V2_Controller {
 	public function get_collection_params() {
 		$params = array(
 			'avatars' => array(
-				'description'       => __( 'True if you want to return the avatars for the user.', 'cart-rest-api-for-woocommerce' ),
+				'description'       => __( 'True if you want to return the avatars for the user.', 'cocart-core' ),
 				'default'           => false,
 				'type'              => 'boolean',
 				'required'          => false,

@@ -99,7 +99,7 @@ class CoCart_REST_Count_Items_V2_Controller extends CoCart_REST_Cart_V2_Controll
 			}
 
 			if ( 'numeric' !== $return && $count <= 0 ) {
-				$message = __( 'No items in the cart.', 'cart-rest-api-for-woocommerce' );
+				$message = __( 'No items in the cart.', 'cocart-core' );
 
 				/**
 				 * Filters message about no items in the cart.
@@ -137,7 +137,7 @@ class CoCart_REST_Count_Items_V2_Controller extends CoCart_REST_Cart_V2_Controll
 				'removed_items' => array(
 					'required'    => false,
 					'default'     => false,
-					'description' => __( 'Returns count for removed items from the cart.', 'cart-rest-api-for-woocommerce' ),
+					'description' => __( 'Returns count for removed items from the cart.', 'cocart-core' ),
 					'type'        => 'boolean',
 				),
 			),
@@ -163,13 +163,13 @@ class CoCart_REST_Count_Items_V2_Controller extends CoCart_REST_Cart_V2_Controll
 		// Count Items parameters.
 		$params += array(
 			'removed_items' => array(
-				'description' => __( 'Set as true to count items removed from the cart.', 'cart-rest-api-for-woocommerce' ),
+				'description' => __( 'Set as true to count items removed from the cart.', 'cocart-core' ),
 				'type'        => 'boolean',
 				'required'    => false,
 				'default'     => false,
 			),
 			'return'        => array(
-				'description'       => __( 'Internal parameter. No description.', 'cart-rest-api-for-woocommerce' ),
+				'description'       => __( 'Internal parameter. No description.', 'cocart-core' ),
 				'required'          => false,
 				'default'           => 'numeric',
 				'type'              => 'string',

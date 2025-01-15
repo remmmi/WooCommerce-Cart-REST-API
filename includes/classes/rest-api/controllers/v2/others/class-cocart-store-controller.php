@@ -217,7 +217,7 @@ class CoCart_REST_Store_V2_Controller {
 				'versions'        => array(
 					'description' => sprintf(
 						/* translators: %s: CoCart */
-						__( 'Versions of %s plugins.', 'cart-rest-api-for-woocommerce' ),
+						__( 'Versions of %s plugins.', 'cocart-core' ),
 						'CoCart'
 					),
 					'type'        => 'object',
@@ -225,78 +225,78 @@ class CoCart_REST_Store_V2_Controller {
 					'readonly'    => true,
 				),
 				'routes'          => array(
-					'description' => __( 'The routes of CoCart.', 'cart-rest-api-for-woocommerce' ),
+					'description' => __( 'The routes of CoCart.', 'cocart-core' ),
 					'type'        => 'object',
 					'context'     => array( 'view' ),
 					'properties'  => array(),
 				),
 				'title'           => array(
-					'description' => __( 'Title of the site.', 'cart-rest-api-for-woocommerce' ),
+					'description' => __( 'Title of the site.', 'cocart-core' ),
 					'type'        => 'string',
 					'context'     => array( 'view' ),
 					'readonly'    => true,
 				),
 				'description'     => array(
-					'description' => __( 'The site tag line.', 'cart-rest-api-for-woocommerce' ),
+					'description' => __( 'The site tag line.', 'cocart-core' ),
 					'type'        => 'string',
 					'context'     => array( 'view' ),
 					'readonly'    => true,
 				),
 				'home_url'        => array(
-					'description' => __( 'The site home URL.', 'cart-rest-api-for-woocommerce' ),
+					'description' => __( 'The site home URL.', 'cocart-core' ),
 					'type'        => 'string',
 					'context'     => array( 'view' ),
 					'readonly'    => true,
 				),
 				'language'        => array(
-					'description' => __( 'The site language, by default.', 'cart-rest-api-for-woocommerce' ),
+					'description' => __( 'The site language, by default.', 'cocart-core' ),
 					'type'        => 'string',
 					'context'     => array( 'view' ),
 					'readonly'    => true,
 				),
 				'gmt_offset'      => array(
-					'description' => __( 'The time offset for the timezone.', 'cart-rest-api-for-woocommerce' ),
+					'description' => __( 'The time offset for the timezone.', 'cocart-core' ),
 					'type'        => 'string',
 					'context'     => array( 'view' ),
 					'readonly'    => true,
 				),
 				'timezone_string' => array(
-					'description' => __( 'The timezone from site settings as a string.', 'cart-rest-api-for-woocommerce' ),
+					'description' => __( 'The timezone from site settings as a string.', 'cocart-core' ),
 					'type'        => 'string',
 					'context'     => array( 'view' ),
 					'readonly'    => true,
 				),
 				'store_address'   => array(
-					'description' => __( 'The full store address.', 'cart-rest-api-for-woocommerce' ),
+					'description' => __( 'The full store address.', 'cocart-core' ),
 					'type'        => 'object',
 					'context'     => array( 'view' ),
 					'properties'  => array(
 						'address'   => array(
-							'description' => __( 'The store address line one.', 'cart-rest-api-for-woocommerce' ),
+							'description' => __( 'The store address line one.', 'cocart-core' ),
 							'type'        => 'string',
 							'context'     => array( 'view' ),
 							'readonly'    => true,
 						),
 						'address_2' => array(
-							'description' => __( 'The store address line two.', 'cart-rest-api-for-woocommerce' ),
+							'description' => __( 'The store address line two.', 'cocart-core' ),
 							'type'        => 'string',
 							'context'     => array( 'view' ),
 							'readonly'    => true,
 						),
 						'city'      => array(
-							'description' => __( 'The store address city.', 'cart-rest-api-for-woocommerce' ),
+							'description' => __( 'The store address city.', 'cocart-core' ),
 							'type'        => 'string',
 							'context'     => array( 'view' ),
 							'readonly'    => true,
 						),
 						'country'   => array(
-							'description' => __( 'The store address country.', 'cart-rest-api-for-woocommerce' ),
+							'description' => __( 'The store address country.', 'cocart-core' ),
 							'type'        => 'string',
 							'context'     => array( 'view' ),
 							'readonly'    => true,
 						),
 						'postcode'  => array(
-							'description' => __( 'The store address postcode or zip.', 'cart-rest-api-for-woocommerce' ),
+							'description' => __( 'The store address postcode or zip.', 'cocart-core' ),
 							'type'        => 'string',
 							'context'     => array( 'view' ),
 							'readonly'    => true,
@@ -314,7 +314,7 @@ class CoCart_REST_Store_V2_Controller {
 				$schema['properties']['routes']['properties'][ $route ] = array(
 					'description' => sprintf(
 						/* translators: %s: Route URL */
-						__( 'The "%s" route URL.', 'cart-rest-api-for-woocommerce' ),
+						__( 'The "%s" route URL.', 'cocart-core' ),
 						$route
 					),
 					'type'        => 'string',

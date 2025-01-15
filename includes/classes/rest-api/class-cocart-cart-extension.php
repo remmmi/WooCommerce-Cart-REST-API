@@ -81,7 +81,7 @@ class CoCart_Cart_Extension {
 				esc_html(
 					sprintf(
 						/* translators: %s: Callback name. */
-						__( '"%s" is already registered.', 'cart-rest-api-for-woocommerce' ),
+						__( '"%s" is already registered.', 'cocart-core' ),
 						$name
 					)
 				),

@@ -87,7 +87,7 @@ class CoCart_Response {
 						'cocart_response_returned_empty',
 						sprintf(
 							/* translators: %s: REST API URL */
-							__( 'Request returned nothing for "%s"! Please seek assistance.', 'cart-rest-api-for-woocommerce' ),
+							__( 'Request returned nothing for "%s"! Please seek assistance.', 'cocart-core' ),
 							rest_url( sprintf( '/%s/%s/', $name_space, $endpoint ) )
 						)
 					);

@@ -126,7 +126,7 @@ function cocart_upload_image_from_url( $image_url ) {
 			'cocart_invalid_image_url',
 			sprintf(
 				/* translators: %s: image URL */
-				__( 'Invalid URL %s.', 'cart-rest-api-for-woocommerce' ),
+				__( 'Invalid URL %s.', 'cocart-core' ),
 				$image_url
 			),
 			array( 'status' => 400 )
@@ -153,12 +153,12 @@ function cocart_upload_image_from_url( $image_url ) {
 			'cocart_invalid_remote_image_url',
 			sprintf(
 				/* translators: %s: image URL */
-				__( 'Error getting remote image %s.', 'cart-rest-api-for-woocommerce' ),
+				__( 'Error getting remote image %s.', 'cocart-core' ),
 				$image_url
 			) . ' '
 			. sprintf(
 				/* translators: %s: error message */
-				__( 'Error: %s', 'cart-rest-api-for-woocommerce' ),
+				__( 'Error: %s', 'cocart-core' ),
 				$file_array['tmp_name']->get_error_message()
 			),
 			array( 'status' => 400 )
@@ -186,7 +186,7 @@ function cocart_upload_image_from_url( $image_url ) {
 			'cocart_invalid_image',
 			sprintf(
 				/* translators: %s: error message */
-				__( 'Invalid image: %s', 'cart-rest-api-for-woocommerce' ),
+				__( 'Invalid image: %s', 'cocart-core' ),
 				$file['error']
 			),
 			array( 'status' => 400 )
@@ -377,7 +377,7 @@ function cocart_add_to_cart_message( $products, $show_qty = false, $return_msg =
 			'cocart_add_to_cart_item_name_in_quotes',
 			sprintf(
 				/* translators: %s: product name */
-				_x( '&ldquo;%s&rdquo;', 'Item name in quotes', 'cart-rest-api-for-woocommerce' ),
+				_x( '&ldquo;%s&rdquo;', 'Item name in quotes', 'cocart-core' ),
 				wp_strip_all_tags( get_the_title( $product_id ) )
 			),
 			$product_id
@@ -389,7 +389,7 @@ function cocart_add_to_cart_message( $products, $show_qty = false, $return_msg =
 
 	$added_text = sprintf(
 		/* translators: %s: product name */
-		_n( '%s has been added to your cart.', '%s have been added to your cart.', $count, 'cart-rest-api-for-woocommerce' ),
+		_n( '%s has been added to your cart.', '%s have been added to your cart.', $count, 'cocart-core' ),
 		wc_format_list_of_items( $titles )
 	);
 

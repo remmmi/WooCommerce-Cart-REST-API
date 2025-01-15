@@ -78,7 +78,7 @@ class CoCart_REST_Sessions_V2_Controller {
 	 */
 	public function get_items_permissions_check() {
 		if ( ! wc_rest_check_manager_permissions( 'settings', 'read' ) ) {
-			return new WP_Error( 'cocart_rest_cannot_view', __( 'Sorry, you cannot list resources.', 'cart-rest-api-for-woocommerce' ), array( 'status' => rest_authorization_required_code() ) );
+			return new WP_Error( 'cocart_rest_cannot_view', __( 'Sorry, you cannot list resources.', 'cocart-core' ), array( 'status' => rest_authorization_required_code() ) );
 		}
 
 		return true;
@@ -107,7 +107,7 @@ class CoCart_REST_Sessions_V2_Controller {
 			);
 
 			if ( empty( $results ) ) {
-				throw new CoCart_Data_Exception( 'cocart_no_carts_in_session', __( 'No carts in session!', 'cart-rest-api-for-woocommerce' ), 404 );
+				throw new CoCart_Data_Exception( 'cocart_no_carts_in_session', __( 'No carts in session!', 'cocart-core' ), 404 );
 			}
 
 			// Contains the results of sessions.
@@ -161,51 +161,51 @@ class CoCart_REST_Sessions_V2_Controller {
 			'type'       => 'object',
 			'properties' => array(
 				'cart_id'         => array(
-					'description' => __( 'Unique identifier for the session.', 'cart-rest-api-for-woocommerce' ),
+					'description' => __( 'Unique identifier for the session.', 'cocart-core' ),
 					'type'        => 'integer',
 					'context'     => array( 'view' ),
 					'readonly'    => true,
 				),
 				'cart_key'        => array(
-					'description' => __( 'Unique identifier for the customers cart.', 'cart-rest-api-for-woocommerce' ),
+					'description' => __( 'Unique identifier for the customers cart.', 'cocart-core' ),
 					'type'        => 'string',
 					'context'     => array( 'view' ),
 					'readonly'    => true,
 				),
 				'customers_name'  => array(
-					'description' => __( 'The name of the customer provided.', 'cart-rest-api-for-woocommerce' ),
+					'description' => __( 'The name of the customer provided.', 'cocart-core' ),
 					'type'        => 'string',
 					'context'     => array( 'view' ),
 					'readonly'    => true,
 				),
 				'customers_email' => array(
-					'description' => __( 'The email the customer provided.', 'cart-rest-api-for-woocommerce' ),
+					'description' => __( 'The email the customer provided.', 'cocart-core' ),
 					'type'        => 'string',
 					'context'     => array( 'view' ),
 					'readonly'    => true,
 				),
 				'cart_created'    => array(
-					'description' => __( 'The date and time the cart was created, in the site\'s timezone.', 'cart-rest-api-for-woocommerce' ),
+					'description' => __( 'The date and time the cart was created, in the site\'s timezone.', 'cocart-core' ),
 					'type'        => 'string',
 					'format'      => 'date-time',
 					'context'     => array( 'view' ),
 					'readonly'    => true,
 				),
 				'cart_expiry'     => array(
-					'description' => __( 'The date and time the cart will expire, in the site\'s timezone.', 'cart-rest-api-for-woocommerce' ),
+					'description' => __( 'The date and time the cart will expire, in the site\'s timezone.', 'cocart-core' ),
 					'type'        => 'string',
 					'format'      => 'date-time',
 					'context'     => array( 'view' ),
 					'readonly'    => true,
 				),
 				'cart_source'     => array(
-					'description' => __( 'Identifies the source of how the cart was made, native or headless.', 'cart-rest-api-for-woocommerce' ),
+					'description' => __( 'Identifies the source of how the cart was made, native or headless.', 'cocart-core' ),
 					'type'        => 'string',
 					'context'     => array( 'view' ),
 					'readonly'    => true,
 				),
 				'link'            => array(
-					'description' => __( 'URL to the individual cart in session.', 'cart-rest-api-for-woocommerce' ),
+					'description' => __( 'URL to the individual cart in session.', 'cocart-core' ),
 					'type'        => 'string',
 					'context'     => array( 'view' ),
 					'readonly'    => true,

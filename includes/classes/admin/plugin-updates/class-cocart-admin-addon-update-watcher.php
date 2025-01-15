@@ -94,7 +94,7 @@ class CoCart_Admin_Addon_Update_Watcher {
 				'<em>%s</em>',
 				sprintf(
 					/* translators: %1$s resolves to CoCart. */
-					esc_html__( 'Auto-updates are enabled based on this setting for %1$s.', 'cart-rest-api-for-woocommerce' ),
+					esc_html__( 'Auto-updates are enabled based on this setting for %1$s.', 'cocart-core' ),
 					'CoCart'
 				)
 			);
@@ -104,7 +104,7 @@ class CoCart_Admin_Addon_Update_Watcher {
 			'<em>%s</em>',
 			sprintf(
 				/* translators: %1$s resolves to CoCart. */
-				esc_html__( 'Auto-updates are disabled based on this setting for %1$s.', 'cart-rest-api-for-woocommerce' ),
+				esc_html__( 'Auto-updates are disabled based on this setting for %1$s.', 'cocart-core' ),
 				'CoCart'
 			)
 		);

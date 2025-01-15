@@ -134,7 +134,7 @@ function cocart_carts_in_session( $session = '' ) {
 	global $wpdb;
 
 	if ( ! cocart_maybe_show_results() ) {
-		return __( 'Missing session table.', 'cart-rest-api-for-woocommerce' );
+		return __( 'Missing session table.', 'cocart-core' );
 	}
 
 	if ( empty( $session ) ) {
@@ -260,7 +260,7 @@ function cocart_carts_source_web() {
 	global $wpdb;
 
 	if ( ! cocart_maybe_show_results() ) {
-		return __( 'Missing session table.', 'cart-rest-api-for-woocommerce' );
+		return __( 'Missing session table.', 'cocart-core' );
 	}
 
 	$results = $wpdb->get_results( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
@@ -290,7 +290,7 @@ function cocart_carts_source_headless() {
 	global $wpdb;
 
 	if ( ! cocart_maybe_show_results() ) {
-		return __( 'Missing session table.', 'cart-rest-api-for-woocommerce' );
+		return __( 'Missing session table.', 'cocart-core' );
 	}
 
 	$results = $wpdb->get_results( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
@@ -320,7 +320,7 @@ function cocart_carts_source_other() {
 	global $wpdb;
 
 	if ( ! cocart_maybe_show_results() ) {
-		return __( 'Missing session table.', 'cart-rest-api-for-woocommerce' );
+		return __( 'Missing session table.', 'cocart-core' );
 	}
 
 	$results = $wpdb->get_results( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching

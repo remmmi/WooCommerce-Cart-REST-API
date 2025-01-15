@@ -80,14 +80,14 @@ class CoCart_Product_Validation {
 			if ( ! empty( $route ) && ( false === strpos( $route, 'cocart/v2/add-item' ) ) && $product_data->get_type() === 'grouped' ) {
 				$message = sprintf(
 					/* translators: %1$s: product type, %2$s: api route */
-					__( 'You cannot use this route to add "%1$s" products to the cart. Please use %2$s instead.', 'cart-rest-api-for-woocommerce' ),
+					__( 'You cannot use this route to add "%1$s" products to the cart. Please use %2$s instead.', 'cocart-core' ),
 					$product_data->get_type(),
 					str_replace( 'add-item', 'add-items', $route )
 				);
 			} else {
 				$message = sprintf(
 					/* translators: %1$s: product name, %2$s: product type */
-					__( 'You cannot add "%1$s" to your cart as it is an "%2$s" product.', 'cart-rest-api-for-woocommerce' ),
+					__( 'You cannot add "%1$s" to your cart as it is an "%2$s" product.', 'cocart-core' ),
 					$product_data->get_name(),
 					$product_data->get_type()
 				);
@@ -163,7 +163,7 @@ class CoCart_Product_Validation {
 			CoCart_Logger::log(
 				sprintf(
 					/* translators: %s: product name */
-					__( 'Product "%s" is protected and cannot be purchased.', 'cart-rest-api-for-woocommerce' ),
+					__( 'Product "%s" is protected and cannot be purchased.', 'cocart-core' ),
 					$product->get_name()
 				),
 				'error'
@@ -204,7 +204,7 @@ class CoCart_Product_Validation {
 				CoCart_Logger::log(
 					sprintf(
 						/* translators: %s: product name */
-						__( 'Variation for "%s" is not purchasable.', 'cart-rest-api-for-woocommerce' ),
+						__( 'Variation for "%s" is not purchasable.', 'cocart-core' ),
 						$product->get_name()
 					),
 					'error'

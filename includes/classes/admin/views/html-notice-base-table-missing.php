@@ -21,7 +21,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 		</div>
 
 		<div class="cocart-notice-content">
-			<h3><?php esc_html_e( 'Database table missing', 'cart-rest-api-for-woocommerce' ); ?></h3>
+			<h3><?php esc_html_e( 'Database table missing', 'cocart-core' ); ?></h3>
 			<p>
 				<?php
 				$verify_db_tool_available = array_key_exists( 'cocart_verify_db_tables', WC_Admin_Status::get_tools() ); // phpcs:ignore: WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
@@ -30,7 +30,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 					echo wp_kses_post(
 						sprintf(
 							/* translators: %1%s: Missing table (separated by ",") %2$s: Link to check again */
-							__( 'One table is required for CoCart to function is missing and will not work as expected. Missing table: <code>%1$s</code> <a href="%2$s">Check again.</a>', 'cart-rest-api-for-woocommerce' ),
+							__( 'One table is required for CoCart to function is missing and will not work as expected. Missing table: <code>%1$s</code> <a href="%2$s">Check again.</a>', 'cocart-core' ),
 							esc_html( implode( ', ', $missing_tables ) ),
 							wp_nonce_url( admin_url( 'admin.php?page=wc-status&tab=tools&action=cocart_verify_db_tables' ), 'debug_action' )
 						)
@@ -39,7 +39,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 					echo wp_kses_post(
 						sprintf(
 							/* translators: %1%s: Missing table (separated by ",") */
-							__( 'One table is required for CoCart to function is missing and will not work as expected. Missing table: <code>%1$s</code>', 'cart-rest-api-for-woocommerce' ),
+							__( 'One table is required for CoCart to function is missing and will not work as expected. Missing table: <code>%1$s</code>', 'cocart-core' ),
 							esc_html( implode( ', ', $missing_tables ) )
 						)
 					);
@@ -49,7 +49,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 		</div>
 
 		<div class="cocart-action">
-			<a class="button button-primary cocart-button" href="<?php echo esc_url( wp_nonce_url( add_query_arg( 'cocart-hide-notice', 'base_tables_missing', CoCart_Helpers::cocart_get_current_admin_url() ), 'cocart_hide_notices_nonce', '_cocart_notice_nonce' ) ); ?>"><?php esc_html_e( 'Dismiss', 'cart-rest-api-for-woocommerce' ); ?></a>
+			<a class="button button-primary cocart-button" href="<?php echo esc_url( wp_nonce_url( add_query_arg( 'cocart-hide-notice', 'base_tables_missing', CoCart_Helpers::cocart_get_current_admin_url() ), 'cocart_hide_notices_nonce', '_cocart_notice_nonce' ) ); ?>"><?php esc_html_e( 'Dismiss', 'cocart-core' ); ?></a>
 		</div>
 	</div>
 </div>
