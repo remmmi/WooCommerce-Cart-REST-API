@@ -194,7 +194,7 @@ class CoCart_REST_Cart_V2_Controller {
 		/**
 		 * Deprecated action hook `cocart_get_cart`.
 		 *
-		 * @deprecated 3.0.0 Use `cocart_cart` filter instead.
+		 * @deprecated 3.0.0 Use `cocart_cart` action instead.
 		 *
 		 * @see cocart_cart
 		 */
