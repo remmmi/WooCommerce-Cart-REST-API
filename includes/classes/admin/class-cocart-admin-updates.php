@@ -630,6 +630,11 @@ if ( ! class_exists( 'CoCart_Admin_Updates' ) ) {
 				return;
 			}
 
+			// Do not modify message if legacy plugin detected.
+			if ( 'cart-rest-api-for-woocommerce' === $plugin_data['slug'] ) {
+				return;
+			}
+
 			// Display message.
 			printf(
 				wp_kses(
