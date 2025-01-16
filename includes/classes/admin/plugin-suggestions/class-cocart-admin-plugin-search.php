@@ -107,7 +107,8 @@ if ( ! class_exists( 'CoCart_Admin_Plugin_Search' ) ) {
 				'page'              => isset( $_GET['paged'] ) ? max( 0, intval( $_GET['paged'] - 1 ) * $per_page ) : 0, // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 				'per_page'          => $per_page,
 				'author'            => 'cocartforwc',
-				'installed_plugins' => array_keys( $installed_plugins ),
+				//'installed_plugins' => array_keys( $installed_plugins ), // Disabled for now because WordPress dot ORG is having "414 Request-URI Too Large" error.
+				'installed_plugins' => array(),
 				// Send the locale to the API so it can provide context-sensitive results.
 				'locale'            => get_user_locale(),
 			);
@@ -483,6 +484,10 @@ if ( ! class_exists( 'CoCart_Admin_Plugin_Search' ) ) {
 		public function cocart_plugins( $result, $action, $args ) {
 			// If we are not browsing just CoCart then return results.
 			if ( ! isset( $args->author ) || 'cocartforwc' !== $args->author ) {
+				return $result;
+			}
+
+			if ( is_wp_error( $result ) ) {
 				return $result;
 			}
 
