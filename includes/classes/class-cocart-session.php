@@ -231,13 +231,7 @@ class CoCart_Load_Cart {
 	 * @return boolean
 	 */
 	protected static function maybe_use_cookie_monster() {
-		return cocart_do_deprecated_filter(
-			'cocart_use_cookie_monster',
-			'5.0.0',
-			null,
-			__( 'No longer use.', 'cocart-core' ),
-			array( true )
-		);
+		return cocart_do_deprecated_filter( 'cocart_use_cookie_monster', '5.0.0', null, __( 'No longer used.', 'cocart-core' ), array( true ) );
 	} // END maybe_use_cookie_monster()
 
 	/**

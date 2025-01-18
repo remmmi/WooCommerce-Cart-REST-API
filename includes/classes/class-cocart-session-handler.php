@@ -315,16 +315,7 @@ class CoCart_Session_Handler extends WC_Session_Handler {
 			 *
 			 * @deprecated 2.7.2 No replacement.
 			 */
-			cocart_do_deprecated_filter(
-				'cocart_empty_cart_expiration',
-				'2.7.2',
-				null,
-				sprintf(
-					/* translators: %s: Filter name */
-					__( '%s is no longer used.', 'cocart-core' ),
-					'cocart_empty_cart_expiration'
-				)
-			);
+			cocart_do_deprecated_filter( 'cocart_empty_cart_expiration', '2.7.2', null );
 
 			// Check the data exists before continuing.
 			if ( ! $this->_data || empty( $this->_data ) || is_null( $this->_data ) ) {
