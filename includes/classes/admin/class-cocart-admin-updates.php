@@ -317,15 +317,17 @@ if ( ! class_exists( 'CoCart_Admin_Updates' ) ) {
 
 			// If unable to get response from remote server then just return details of the plugin installed.
 			if ( ! $remote || ! $remote->success || empty( $remote->update ) ) {
-				$result->name                  = $plugin_data['Name'];
-				$result->slug                  = $plugin_data['TextDomain'];
-				$result->description           = $plugin_data['Description'];
-				$result->author                = $plugin_data['Author'];
-				$result->author_homepage       = $plugin_data['PluginURI'];
-				$result->version               = $plugin_data['Version'];
-				$result->requires              = $plugin_data['RequiresWP'];
-				$result->requires_php          = $plugin_data['RequiresPHP'];
-				$result->sections->description = $plugin_data['Description'];
+				$result                          = new stdClass();
+				$result->name                    = $plugin_data['Name'];
+				$result->slug                    = $plugin_data['TextDomain'];
+				$result->description             = $plugin_data['Description'];
+				$result->author                  = $plugin_data['Author'];
+				$result->author_homepage         = $plugin_data['PluginURI'];
+				$result->version                 = $plugin_data['Version'];
+				$result->requires                = $plugin_data['RequiresWP'];
+				$result->requires_php            = $plugin_data['RequiresPHP'];
+				$result->sections                = array( 'description' => '' );
+				$result->sections['description'] = $plugin_data['Description'];
 			} else {
 				// Remote server returned so let's override data for plugin information.
 				$result                  = $remote->update;
