@@ -52,7 +52,7 @@ $current_user = wp_get_current_user(); // phpcs:ignore WordPress.WP.GlobalVariab
 
 		<div class="cocart-action review-actions">
 			<a href="<?php echo esc_url( COCART_SUGGEST_FEATURE ); ?>" class="button button-primary cocart-notice-dismiss" target="_blank" rel="noopener noreferrer"><?php esc_html_e( 'Give Feedback', 'cocart-core' ); ?></a>
-			<button class="button cocart-notice-dismiss"><?php esc_html_e( 'No thanks', 'cocart-core' ); ?></button>
+			<a href="<?php echo esc_url( wp_nonce_url( add_query_arg( 'cocart-hide-notice', 'plugin_review', CoCart_Helpers::cocart_get_current_admin_url() ), 'cocart_hide_notices_nonce', '_cocart_notice_nonce' ) ); ?>" class="button-secondary no-thanks" aria-label="<?php echo esc_html__( 'Hide this notice forever.', 'cocart-core' ); ?>"><?php echo esc_html__( 'No thanks', 'cocart-core' ); ?></a>
 		</div>
 	</div>
 
@@ -78,7 +78,7 @@ $current_user = wp_get_current_user(); // phpcs:ignore WordPress.WP.GlobalVariab
 
 		<div class="cocart-action review-actions">
 			<a href="<?php echo esc_url( COCART_REVIEW_URL ); ?>" class="button button-primary cocart-notice-dismiss" target="_blank" rel="noopener noreferrer"><?php esc_html_e( 'Ok, you deserve it!', 'cocart-core' ); ?></a>
-			<a href="<?php echo esc_url( wp_nonce_url( add_query_arg( 'cocart-hide-notice', 'plugin_review', CoCart_Helpers::cocart_get_current_admin_url() ), 'cocart_hide_notices_nonce', '_cocart_notice_nonce' ) ); ?>" class="no-thanks" aria-label="<?php echo esc_html__( 'Hide this notice forever.', 'cocart-core' ); ?>"><?php echo esc_html__( 'No thank you', 'cocart-core' ); ?></a>
+			<a href="<?php echo esc_url( wp_nonce_url( add_query_arg( 'cocart-hide-notice', 'plugin_review', CoCart_Helpers::cocart_get_current_admin_url() ), 'cocart_hide_notices_nonce', '_cocart_notice_nonce' ) ); ?>" class="button-secondary no-thanks" aria-label="<?php echo esc_html__( 'Hide this notice forever.', 'cocart-core' ); ?>"><?php echo esc_html__( 'No thank you', 'cocart-core' ); ?></a>
 		</div>
 	</div>
 </div>
