@@ -407,12 +407,6 @@ if ( ! class_exists( 'CoCart_Admin_Updates' ) ) {
 					'update-supported' => true,
 				);
 
-				$updates_paused = get_transient( 'cocart_updates_paused' );
-
-				if ( ! empty( $updates_paused ) ) {
-					continue;
-				}
-
 				$remote = $this->get_updates( $plugin_slug, $force_check );
 
 				if (
