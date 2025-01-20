@@ -285,7 +285,7 @@ class CoCart_Load_Cart {
 			// No cart hash or found then just redirect home. It's possible the session does not exist.
 			if ( empty( $hash ) || $cart_hash !== $hash ) {
 				// Determine if we redirect or not based on the cart key value type.
-				if ( is_int( $customer_id ) && $cart_key == $customer_id ) {
+				if ( is_int( $customer_id ) && $cart_key === $customer_id ) {
 					wp_safe_redirect( $redirect_home );
 					exit;
 				} else {

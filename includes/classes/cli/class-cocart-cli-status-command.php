@@ -71,15 +71,24 @@ class CoCart_CLI_Status_Command {
 				'results' => cocart_count_carts_expired(),
 			),
 			array(
-				'status'  => sprintf( esc_html__( 'Carts Created (%s)', 'cocart-core' ), esc_html__( 'by CoCart', 'cocart-core' ) ),
+				'status'  => sprintf(
+					/* translators: %s = by CoCart */
+					esc_html__( 'Carts Created (%s)', 'cocart-core' ), esc_html__( 'by CoCart', 'cocart-core' )
+				),
 				'results' => cocart_carts_source_headless(),
 			),
 			array(
-				'status'  => sprintf( esc_html__( 'Carts Created (%s)', 'cocart-core' ), esc_html__( 'by Web', 'cocart-core' ) ),
+				'status'  => sprintf(
+					/* translators: %s = by Web */
+					esc_html__( 'Carts Created (%s)', 'cocart-core' ), esc_html__( 'by Web', 'cocart-core' )
+				),
 				'results' => cocart_carts_source_web(),
 			),
 			array(
-				'status'  => sprintf( esc_html__( 'Carts Created (%s)', 'cocart-core' ), esc_html__( 'by Other', 'cocart-core' ) ),
+				'status'  => sprintf(
+					/* translators: %s = by Other */
+					esc_html__( 'Carts Created (%s)', 'cocart-core' ), esc_html__( 'by Other', 'cocart-core' )
+				),
 				'results' => cocart_carts_source_other(),
 			),
 		);
