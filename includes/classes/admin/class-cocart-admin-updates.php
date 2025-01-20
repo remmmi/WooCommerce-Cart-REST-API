@@ -39,7 +39,7 @@ if ( ! class_exists( 'CoCart_Admin_Updates' ) ) {
 			add_filter( 'plugins_api', array( $this, 'get_remote_plugin_info' ), 20, 3 );
 
 			// Excludes any CoCart plugins from WP.org updates.
-			add_filter( 'http_request_args', array( $this, 'exclude_plugins_from_update_check' ), 10, 2 );
+			add_filter( 'http_request_args', array( $this, 'exclude_plugins_from_update_check' ), 5, 2 );
 
 			add_action( 'upgrader_process_complete', array( $this, 'purge' ), 10, 2 );
 
@@ -154,14 +154,13 @@ if ( ! class_exists( 'CoCart_Admin_Updates' ) ) {
 
 			// Check cache if $force_check is not overrided.
 			if ( ! $force_check ) {
-				$remote = get_transient( self::get_cache_key( $product_slug ) );
-				if ( false !== $remote ) {
-					if ( 'error' === $remote ) {
-						return false;
-					}
+				$request = get_site_transient( self::get_cache_key( $product_slug ) );
 
-					return json_decode( $remote );
+				if ( false !== $request ) {
+					return false;
 				}
+
+				return json_decode( $request );
 			}
 
 			if ( wp_doing_cron() ) {
@@ -174,7 +173,7 @@ if ( ! class_exists( 'CoCart_Admin_Updates' ) ) {
 			 * ?Dev note: Replace API request to check all plugins from CoCart instead of individually.
 			 */
 			/*
-			$remote = wp_remote_get(
+			$request = wp_remote_get(
 				add_query_arg(
 					array(
 						'license_key' => $license_key,
@@ -187,7 +186,7 @@ if ( ! class_exists( 'CoCart_Admin_Updates' ) ) {
 				)
 			);*/
 
-			$remote = wp_remote_get(
+			$request = wp_remote_get(
 				add_query_arg(
 					array(
 						'license_key'  => $license_key,
@@ -201,22 +200,77 @@ if ( ! class_exists( 'CoCart_Admin_Updates' ) ) {
 				)
 			);
 
-			if (
-				is_wp_error( $remote )
-				|| 200 !== wp_remote_retrieve_response_code( $remote )
-				|| empty( wp_remote_retrieve_body( $remote ) )
-			) {
-				set_transient( self::get_cache_key( $product_slug ), 'error', MINUTE_IN_SECONDS * 10 );
-
-				return false;
+			if ( is_wp_error( $request ) ) {
+				$request = $this->get_request_error(
+					array(
+						'error_code' => $request->get_error_code(),
+						'response'   => $request->get_error_message(),
+					)
+				);
 			}
 
-			$payload = wp_remote_retrieve_body( $remote );
+			$response = wp_remote_retrieve_body( $request );
+			$code     = wp_remote_retrieve_response_code( $request );
 
-			set_transient( self::get_cache_key( $product_slug ), $payload, HOUR_IN_SECONDS * 12 );
+			if ( 200 !== $code ) {
+				/**
+				 * If the response doesn’t have a status 200: it is an error, or there is no new update.
+				 */
+				$request = $this->get_request_error(
+					array(
+						'http_code' => $code,
+						'response'  => $response,
+					)
+				);
+			}
 
-			return json_decode( $payload );
+			$cache_duration = 12 * HOUR_IN_SECONDS;
+
+			if ( is_wp_error( $response ) ) {
+				if ( ! empty( $error_data['error_code'] ) ) {
+					// `wp_remote_get()` returned an internal error ('error_code' contains a WP_Error code ).
+					$cache_duration = HOUR_IN_SECONDS;
+				} elseif ( ! empty( $error_data['http_code'] ) && $error_data['http_code'] >= 400 ) {
+					// We got a 4xx or 5xx HTTP error.
+					$cache_duration = 2 * HOUR_IN_SECONDS;
+				}
+			}
+
+			set_site_transient( self::get_cache_key( $product_slug ), $response, $cache_duration );
+
+			return json_decode( $response );
 		} // END get_updates()
+
+		/**
+		 * Get a WP_Error object to use when the request to CoCart’s server fails.
+		 *
+		 * @access protected
+		 *
+		 * @param mixed $data Error data to pass along the WP_Error object.
+		 *
+		 * @return WP_Error object.
+		 */
+		protected function get_request_error( $data = array() ) {
+			$logger = new CoCart_Logger();
+
+			if ( ! is_array( $data ) ) {
+				$data = array(
+					'response' => $data,
+				);
+			}
+
+			$logger->log( esc_html__( 'Error when contacting the CoCartAPI.com server.', 'cocart-core' ), 'debug' );
+
+			return new \WP_Error(
+				'cocart_update_failed',
+				sprintf(
+					/* translators: %s is an email address. */
+					__( 'An unexpected error occurred. Something may be wrong with CoCartAPI.com or this server&#8217;s configuration. If you continue to have problems, <a href="%s">contact support</a>.', 'cocart-core' ),
+					'mailto:support@cocartapi.com'
+				),
+				$data
+			);
+		} // END get_request_error()
 
 		/**
 		 * Override the WordPress request to return the correct plugin information.
@@ -241,7 +295,7 @@ if ( ! class_exists( 'CoCart_Admin_Updates' ) ) {
 				return false;
 			}
 
-			if ( ! isset( $args->slug ) || ! $result ) {
+			if ( ! isset( $args->slug ) ) {
 				return false;
 			}
 
@@ -379,7 +433,7 @@ if ( ! class_exists( 'CoCart_Admin_Updates' ) ) {
 				++$this->checked;
 			}
 
-			set_transient( '_cocart_updates_count', $count_updates, 12 * HOUR_IN_SECONDS );
+			set_site_transient( '_cocart_updates_count', $count_updates, 12 * HOUR_IN_SECONDS );
 
 			if ( ! empty( $data ) ) {
 				// Enable the two lines below once the translations payload API is created.
@@ -516,7 +570,7 @@ if ( ! class_exists( 'CoCart_Admin_Updates' ) ) {
 		 * @return int The number of products with updates.
 		 */
 		public static function get_updates_count() {
-			$count = get_transient( '_cocart_updates_count' );
+			$count = get_site_transient( '_cocart_updates_count' );
 
 			if ( false !== $count ) {
 				return $count;
@@ -545,41 +599,94 @@ if ( ! class_exists( 'CoCart_Admin_Updates' ) ) {
 		} // END get_updates_count_html()
 
 		/**
-		 * Excludes any CoCart plugins from WP.org updates.
+		 * When WP checks plugin versions against the latest versions hosted on WordPress.org, remove any CoCart plugin from the list.
+		 *
+		 * @see wp_update_plugins()
 		 *
 		 * @access public
 		 *
 		 * @since 5.0.0 Introduced.
 		 *
-		 * @param array  $parsed_args An array of HTTP request arguments.
-		 * @param string $url         The request URL.
+		 * @param array  $request An array of HTTP request arguments.
+		 * @param string $url     The request URL.
 		 *
-		 * @return array $parsed_args An array of HTTP request arguments.
+		 * @return array $request Updated array of HTTP request arguments.
 		 */
-		public function exclude_plugins_from_update_check( $parsed_args, $url ) {
-			if ( ( strpos( $url, 'https://api.wordpress.org/plugins/update-check/' ) !== false ) ) {
-				$plugins = isset( $parsed_args['body']['plugins'] ) ? json_decode( $parsed_args['body']['plugins'], true ) : '';
+		public function exclude_plugins_from_update_check( $request, $url ) {
+			if ( ! is_string( $url ) ) { // @phpstan-ignore-line - $url variable may be changed by other plugins to something else other than string.
+				return $request;
+			}
 
-				if ( is_array( $plugins ) ) {
+			if ( ! preg_match( '@^https?://api.wordpress.org/plugins/update-check(/|\?|$)@', $url ) || empty( $request['body']['plugins'] ) ) {
+				// Not a plugin update request. Stop immediately.
+				return $request;
+			}
+
+			/**
+			 * Depending on the API version, the data can have several forms:
+			 * - Can be serialized or JSON encoded,
+			 * - Can be an object of arrays or an object of objects.
+			 */
+			$is_serialized = is_serialized( $request['body']['plugins'] );
+			$edited        = false;
+
+			if ( $is_serialized ) {
+				$plugins = maybe_unserialize( $request['body']['plugins'] );
+			} else {
+				$plugins = json_decode( $request['body']['plugins'], true );
+			}
+
+			if ( ! empty( $plugins->plugins ) ) {
+				if ( is_object( $plugins->plugins ) ) {
 					foreach ( array_keys( $this->get_installed_plugins() ) as $plugin_file ) {
-						$plugin_slug = $this->get_slug_by_plugin_file( $plugin_file );
-
-						unset( $plugins['plugins'][ $plugin_slug ] );
-						unset( $plugins['active'][ array_search( $plugin_slug, $plugins['active'], true ) ] );
+						if ( isset( $plugins->plugins->$plugin_file ) ) {
+							unset( $plugins->plugins->$plugin_file );
+							$edited = true;
+						}
 					}
+				} elseif ( is_array( $plugins->plugins ) ) {
+					foreach ( array_keys( $this->get_installed_plugins() ) as $plugin_file ) {
+						if ( isset( $plugins->plugins[ $plugin_file ] ) ) {
+							unset( $plugins->plugins[ $plugin_file ] );
+							$edited = true;
+						}
+					}
+				}
 
-					// Remove legacy core plugin.
-					unset( $plugins['plugins']['cart-rest-api-for-woocommerce'] );
-					unset( $plugins['active']['cart-rest-api-for-woocommerce'] );
+				// Remove legacy core plugin.
+				unset( $plugins->plugins['cart-rest-api-for-woocommerce/cart-rest-api-for-woocommerce.php'] );
+			}
 
-					// Re-encode the plugins back into the request body.
-					$plugins = wp_json_encode( $plugins );
+			if ( ! empty( $plugins->active ) ) {
+				$active_is_object = is_object( $plugins->active );
 
-					$parsed_args['body']['plugins'] = $plugins;
+				if ( $active_is_object || is_array( $plugins->active ) ) {
+					foreach ( $plugins->active as $key => $plugin_basename ) {
+						if ( in_array( $plugin_basename, array_keys( $this->get_installed_plugins() ), true ) ) {
+							continue;
+						}
+
+						if ( $active_is_object ) {
+							unset( $plugins->active->$key );
+						} else {
+							unset( $plugins->active[ $key ] );
+						}
+
+						$edited = true;
+						break;
+					}
 				}
 			}
 
-			return $parsed_args;
+			if ( $edited ) {
+				if ( $is_serialized ) {
+					$request['body']['plugins'] = maybe_serialize( $plugins );
+				} else {
+					$request['body']['plugins'] = wp_json_encode( $plugins );
+				}
+			}
+
+			return $request;
 		} // END exclude_plugins_from_update_check()
 
 		/**
@@ -605,7 +712,7 @@ if ( ! class_exists( 'CoCart_Admin_Updates' ) ) {
 				foreach ( $options['plugins'] as $plugin ) {
 					if ( $plugin === $this->is_cocart_plugin( $plugin ) ) {
 						$plugin_slug = $this->get_slug_by_plugin_file( $plugin );
-						delete_transient( self::get_cache_key( $plugin_slug ) );
+						delete_site_transient( self::get_cache_key( $plugin_slug ) );
 					}
 				}
 				$this->refresh_plugins_transient();
