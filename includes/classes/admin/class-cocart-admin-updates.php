@@ -369,6 +369,13 @@ if ( ! class_exists( 'CoCart_Admin_Updates' ) ) {
 
 			$count_updates = 0;
 
+			// If updates are paused then don't check for any updates.
+			$updates_paused = get_site_transient( 'cocart_updates_paused' );
+
+			if ( ! empty( $updates_paused ) ) {
+				return $data;
+			}
+
 			// Force-check (only once).
 			$force_check = ! empty( $_GET['force-check'] ) ? true : false;
 
