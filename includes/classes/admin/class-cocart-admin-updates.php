@@ -122,8 +122,7 @@ if ( ! class_exists( 'CoCart_Admin_Updates' ) ) {
 		 */
 		public static function refresh_plugins_transient() {
 			delete_site_transient( 'update_plugins' );
-			// delete_transient( self::get_cache_key() );
-			delete_transient( '_cocart_updates_count' );
+			delete_site_transient( '_cocart_updates_count' );
 		} // END refresh_plugins_transient()
 
 		/**
