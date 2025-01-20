@@ -5,7 +5,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\Classes
  * @since   3.7.10 Introduced.
- * @version 4.3.10
+ * @version 5.0.0
  * @license GPL-3.0
  */
 
@@ -31,8 +31,6 @@ class CoCart_Security {
 	 */
 	public function __construct() {
 		add_filter( 'rest_index', array( $this, 'hide_from_rest_index' ) );
-
-		add_filter( 'cocart_products_ignore_private_meta_keys', array( $this, 'remove_exposed_product_meta' ), 0, 2 );
 	} // END __construct()
 
 	/**
@@ -74,6 +72,8 @@ class CoCart_Security {
 	 * @access public
 	 *
 	 * @since 4.3.9 Introduced.
+	 *
+	 * @deprecated 5.0.0
 	 *
 	 * @hooked: cocart_products_ignore_private_meta_keys - 1
 	 *
