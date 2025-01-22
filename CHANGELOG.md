@@ -1,5 +1,16 @@
 # Changelog for CoCart Core
 
+## v4.3.18 - 22nd January, 2025
+
+### General
+
+* Updated link to Next Changelog for coming future major release. (v5.0)
+* Improved SASS to CSS conversion.
+
+### Compatibility
+
+* Tested with WooCommerce v9.6
+
 ## v4.3.17 - 14th January, 2025
 
 ### Bug Fix
@@ -10,6 +21,10 @@
 
 * REST API: Version of CoCart only returns in the returned headers when debug is enabled now.
 * REST API: `WP_DEBUG` is made sure it is defined before returning extras for developers in the store response.
+
+### Compatibility
+
+* Tested with WooCommerce v9.5
 
 ## v4.3.16 - 12th December, 2024
 

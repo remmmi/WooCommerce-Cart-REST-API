@@ -3,9 +3,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CoCart API - Decoupling Made Easy for WooCommerce "
-"4.3.17\n"
+"4.3.18\n"
 "Report-Msgid-Bugs-To: https://github.com/co-cart/co-cart/issues\n"
-"POT-Creation-Date: 2025-01-14 17:58:12+00:00\n"
+"POT-Creation-Date: 2025-01-22 17:51:54+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -820,10 +820,8 @@ msgstr ""
 #: includes/classes/admin/views/html-notice-upgrade-warning.php:38
 #. translators: %1$s: CoCart, %2$s: CoCart's Next Version
 msgid ""
-"Version %2$s of %1$s is in development with many improvements and options "
-"including improved security. A newly added settings page with multiple "
-"options to quickly configure %1$s as you need and many more action hooks "
-"and filters for developers."
+"Version %2$s of %1$s is almost ready for beta testing with many "
+"improvements including some broken changes."
 msgstr ""
 
 #: includes/classes/admin/views/html-notice-upgrade-warning.php:47

@@ -4,9 +4,9 @@ Tags: woocommerce, rest-api, decoupled, headless, cart
 Requires at least: 5.6
 Requires PHP: 7.4
 Tested up to: 6.7
-Stable tag: 4.3.17
+Stable tag: 4.3.18
 WC requires at least: 7.0
-WC tested up to: 9.5
+WC tested up to: 9.6
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -306,6 +306,19 @@ We’d love to hear what you have to say. [Share your experience](https://testim
 
 == Changelog ==
 
+📢 Only bug and security updates will be provided here on WordPress dot ORG. Any new major updates starting with v5.0 will be provided [directly from us](https://cocartapi.com?utm_medium=website&utm_source=wpplugindirectory&utm_campaign=readme&utm_content=readmelink).
+
+## v4.3.18 - 22nd January, 2025
+
+### General
+
+* Updated link to Next Changelog for coming future major release. (v5.0)
+* Improved SASS to CSS conversion.
+
+### Compatibility
+
+* Tested with WooCommerce v9.6
+
 = v4.3.17 - 14th January, 2025 =
 
 ### Bug Fix
@@ -316,6 +329,10 @@ We’d love to hear what you have to say. [Share your experience](https://testim
 
 * REST API: Version of CoCart only returns in the returned headers when debug is enabled now.
 * REST API: `WP_DEBUG` is made sure it is defined before returning extras for developers in the store response.
+
+### Compatibility
+
+* Tested with WooCommerce v9.5
 
 = v4.3.16 - 12th December, 2024 =
 
@@ -727,6 +744,14 @@ Hope you enjoy this release.
 [View the full changelog here](https://github.com/co-cart/co-cart/blob/trunk/CHANGELOG.md).
 
 == Upgrade Notice ==
+
+= 4.3.18 =
+
+Tested with WooCommerce v9.6
+
+= 4.3.17 =
+
+Tested with WooCommerce v9.5
 
 = 4.3.16 =
 
