@@ -308,7 +308,7 @@ We’d love to hear what you have to say. [Share your experience](https://testim
 
 📢 Only bug and security updates will be provided here on WordPress dot ORG. Any new major updates starting with v5.0 will be provided [directly from us](https://cocartapi.com?utm_medium=website&utm_source=wpplugindirectory&utm_campaign=readme&utm_content=readmelink).
 
-## v4.3.18 - 22nd January, 2025
+= v4.3.18 - 22nd January, 2025 =
 
 ### General
 
