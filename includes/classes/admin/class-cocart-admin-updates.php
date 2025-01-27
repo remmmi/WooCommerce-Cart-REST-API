@@ -664,7 +664,7 @@ if ( ! class_exists( 'CoCart_Admin_Updates' ) ) {
 
 				if ( $active_is_object || is_array( $plugins->active ) ) {
 					foreach ( $plugins->active as $key => $plugin_basename ) {
-						if ( in_array( $plugin_basename, array_keys( $this->get_installed_plugins() ), true ) ) {
+						if ( ! in_array( $plugin_basename, array_keys( $this->get_installed_plugins() ), true ) ) {
 							continue;
 						}
 
@@ -797,8 +797,8 @@ if ( ! class_exists( 'CoCart_Admin_Updates' ) ) {
 					echo '<p>';
 					printf(
 						/* translators: %s = Plugin name. */
-						__( 'This version of %s has not been tested with the core version of CoCart you have installed.', 'cocart-core' ),
-						$plugin_data['Name']
+						esc_html__( 'This version of %s has not been tested with the core version of CoCart you have installed.', 'cocart-core' ),
+						esc_html( $plugin_data['Name'] )
 					);
 					echo '</p></div></td></tr>';
 					return;

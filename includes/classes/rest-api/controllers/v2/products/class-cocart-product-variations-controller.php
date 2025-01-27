@@ -118,8 +118,8 @@ class CoCart_REST_Product_Variations_V2_Controller extends CoCart_Product_Variat
 	 *
 	 * @access public
 	 *
-	 * @param WC_Product      $product The product object.
-	 * @param WP_REST_Request $request The request object.
+	 * @param WC_Product_Variation $product The product object.
+	 * @param WP_REST_Request      $request The request object.
 	 *
 	 * @return WP_REST_Response The returned response.
 	 */
