@@ -1,5 +1,11 @@
 # Changelog for CoCart Core
 
+## v4.3.19 - 6th February, 2025
+
+### Bug Fix
+
+* REST API: Fixed setting a customers shipping address line 1 and 2.
+
 ## v4.3.18 - 22nd January, 2025
 
 ### General
