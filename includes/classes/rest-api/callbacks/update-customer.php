@@ -196,6 +196,12 @@ class CoCart_Update_Customer_Callback extends CoCart_Cart_Extension_Callback {
 
 					// Use setters where available.
 					if ( is_callable( array( $customer, "set_{$key}" ) ) ) {
+						// Nullify field if no value is provided to prevent "Undefined array key" error.
+						if ( empty( $details[ $key ] ) ) {
+							$details[ $key ] = null;
+						}
+
+						// Set customer information.
 						$customer->{"set_{$key}"}( $details[ $key ] );
 
 						// Store custom fields prefixed with either `billing_` or `shipping_`.
