@@ -177,6 +177,7 @@ class CoCart_REST_API {
 			'cocart-v2-sessions'                => 'CoCart_REST_Sessions_V2_Controller',
 			'cocart-v2-product-attributes'      => 'CoCart_REST_Product_Attributes_V2_Controller',
 			'cocart-v2-product-attribute-terms' => 'CoCart_REST_Product_Attribute_Terms_V2_Controller',
+			'cocart-v2-product-brands'          => 'CoCart_REST_Product_Brands_V2_Controller',
 			'cocart-v2-product-categories'      => 'CoCart_REST_Product_Categories_V2_Controller',
 			'cocart-v2-product-reviews'         => 'CoCart_REST_Product_Reviews_V2_Controller',
 			'cocart-v2-product-tags'            => 'CoCart_REST_Product_Tags_V2_Controller',
@@ -506,7 +507,7 @@ class CoCart_REST_API {
 	 *
 	 * @since 1.0.0 Introduced.
 	 * @since 3.1.0 Added cart callback support and Products API.
-	 * @since 5.0.0 Added create cart route.
+	 * @since 5.0.0 Added create cart route, brands and pagination utility.
 	 */
 	public function rest_api_includes() {
 		require_once __DIR__ . '/utilities/class-cocart-rest-utilities-pagination.php';
@@ -553,6 +554,7 @@ class CoCart_REST_API {
 		require_once __DIR__ . '/controllers/v2/products/class-cocart-product-attribute-terms-controller.php';
 		require_once __DIR__ . '/controllers/v2/products/class-cocart-product-attributes-controller.php';
 		require_once __DIR__ . '/controllers/v2/products/class-cocart-product-categories-controller.php';
+		require_once __DIR__ . '/controllers/v2/products/class-cocart-product-brands-controller.php';
 		require_once __DIR__ . '/controllers/v2/products/class-cocart-product-reviews-controller.php';
 		require_once __DIR__ . '/controllers/v2/products/class-cocart-product-tags-controller.php';
 		require_once __DIR__ . '/controllers/v2/products/class-cocart-products-controller.php';
