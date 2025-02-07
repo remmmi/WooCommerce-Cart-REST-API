@@ -509,6 +509,8 @@ class CoCart_REST_API {
 	 * @since 5.0.0 Added create cart route.
 	 */
 	public function rest_api_includes() {
+		require_once __DIR__ . '/utilities/class-cocart-rest-utilities-pagination.php';
+
 		// CoCart REST API v1 controllers.
 		require_once __DIR__ . '/controllers/v1/cart/class-cocart-controller.php';
 		require_once __DIR__ . '/controllers/v1/cart/class-cocart-add-item-controller.php';
