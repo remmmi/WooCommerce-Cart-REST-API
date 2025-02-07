@@ -19,7 +19,6 @@ class_alias( 'CoCart_REST_Product_Reviews_V2_Controller', 'CoCart_Product_Review
 /**
  * CoCart REST API v2 - Product Reviews controller class.
  *
- * @package CoCart Products/API
  * @extends CoCart_Product_Reviews_V2_Controller
  */
 class CoCart_REST_Product_Reviews_V2_Controller extends CoCart_Product_Reviews_Controller {

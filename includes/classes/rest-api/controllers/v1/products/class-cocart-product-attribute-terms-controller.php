@@ -17,7 +17,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * REST API Product Attribute Terms controller class.
  *
- * @package CoCart/API
  * @extends CoCart_REST_Terms_Controller
  */
 class CoCart_Product_Attribute_Terms_Controller extends CoCart_REST_Terms_Controller {

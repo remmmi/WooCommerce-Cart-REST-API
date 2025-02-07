@@ -18,7 +18,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * REST API Product controller class.
  *
- * @package CoCart Products/API
  * @extends WP_REST_Controller
  */
 class CoCart_Products_Controller extends WP_REST_Controller {

@@ -15,7 +15,6 @@ defined( 'ABSPATH' ) || exit;
 /**
  * REST API variations controller class.
  *
- * @package CoCart Products/API
  * @extends CoCart_Products_Controller
  */
 class CoCart_Product_Variations_Controller extends CoCart_Products_Controller {

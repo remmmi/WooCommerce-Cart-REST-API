@@ -22,6 +22,8 @@ class_alias( 'CoCart_REST_Products_V2_Controller', 'CoCart_Products_V2_Controlle
  * via "cocart/v2/products" endpoint.
  *
  * @since 3.1.0 Introduced.
+ *
+ * @extends CoCart_Products_Controller
  */
 class CoCart_REST_Products_V2_Controller extends CoCart_Products_Controller {
 
