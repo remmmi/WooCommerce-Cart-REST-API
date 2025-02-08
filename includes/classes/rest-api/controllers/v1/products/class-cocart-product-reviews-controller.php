@@ -266,10 +266,6 @@ class CoCart_Product_Reviews_Controller extends WC_REST_Controller {
 		$reviews      = array();
 
 		foreach ( $query_result as $review ) {
-			if ( ! wc_rest_check_product_reviews_permissions( 'read', $review->comment_ID ) ) {
-				continue;
-			}
-
 			$data      = $this->prepare_item_for_response( $review, $request );
 			$reviews[] = $this->prepare_response_for_collection( $data );
 		}
@@ -672,12 +668,6 @@ class CoCart_Product_Reviews_Controller extends WC_REST_Controller {
 					'description' => __( 'Reviewer name.', 'cart-rest-api-for-woocommerce' ),
 					'type'        => 'string',
 					'context'     => array( 'view', 'edit' ),
-				),
-				'reviewer_email'   => array(
-					'description' => __( 'Reviewer email.', 'cart-rest-api-for-woocommerce' ),
-					'type'        => 'string',
-					'format'      => 'email',
-					'context'     => array( 'edit' ),
 				),
 				'review'           => array(
 					'description' => __( 'The content of the review.', 'cart-rest-api-for-woocommerce' ),
