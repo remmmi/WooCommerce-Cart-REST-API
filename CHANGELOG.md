@@ -1,5 +1,11 @@
 # Changelog for CoCart Core
 
+## v4.3.20 - 8th February, 2025
+
+### Bug Fix
+
+* REST API: Fixed product reviews not returning.
+
 ## v4.3.19 - 6th February, 2025
 
 ### Bug Fix
