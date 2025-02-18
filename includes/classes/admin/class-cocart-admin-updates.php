@@ -744,6 +744,10 @@ if ( ! class_exists( 'CoCart_Admin_Updates' ) ) {
 				return;
 			}
 
+			if ( ! current_user_can( 'update_plugins' ) ) {
+				return;
+			}
+
 			// Display message.
 			printf(
 				wp_kses(
@@ -775,6 +779,10 @@ if ( ! class_exists( 'CoCart_Admin_Updates' ) ) {
 		public function compatibility_check( $file, $plugin_data ) {
 			// Should either be false return nothing.
 			if ( ! is_array( $plugin_data ) || empty( $plugin_data ) ) {
+				return;
+			}
+
+			if ( ! current_user_can( 'activate_plugins' ) ) {
 				return;
 			}
 
@@ -827,6 +835,10 @@ if ( ! class_exists( 'CoCart_Admin_Updates' ) ) {
 
 			// Ignore legacy plugin.
 			if ( isset( $plugin_data['slug'] ) && 'cart-rest-api-for-woocommerce' === $plugin_data['slug'] ) {
+				return;
+			}
+
+			if ( ! current_user_can( 'activate_plugins' ) ) {
 				return;
 			}
 
