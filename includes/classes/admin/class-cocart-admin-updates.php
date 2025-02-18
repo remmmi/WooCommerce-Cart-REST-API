@@ -1,6 +1,6 @@
 <?php
 /**
- * CoCart - Plugin Updates.
+ * CoCart - Admin Updates.
  *
  * @author  Sébastien Dumont
  * @package CoCart/Admin/Updates
@@ -748,18 +748,25 @@ if ( ! class_exists( 'CoCart_Admin_Updates' ) ) {
 				return;
 			}
 
-			// Display message.
+			if ( is_multisite() ) {
+				/* translators: %s = A link to the updates page. */
+				$message           = __( 'Please enter your license key on the <a href="%s">Updates</a> page of the main site.', 'cocart-core' );
+				$updates_page_link = add_query_arg( array( 'page' => 'cocart-updates' ), get_admin_url( get_main_site_id(), 'admin.php' ) );
+			} else {
+				$message           = __( 'Please <a href="%s">enter your license key</a> to enable updates.', 'cocart-core' );
+				$updates_page_link = add_query_arg( array( 'page' => 'cocart-updates' ), admin_url( 'admin.php' ) );
+			}
+
 			printf(
 				wp_kses(
-					/* translators: %s = A link to the updates page. */
-					__( ' Please <a href="%s">enter your license key</a> to enable updates.', 'cocart-core' ),
+					$message,
 					array(
 						'a' => array(
 							'href' => array(),
 						),
 					)
 				),
-				add_query_arg( array( 'page' => 'cocart-updates' ), admin_url( 'admin.php' ) )
+				esc_url( $updates_page_link )
 			);
 		} // END modify_plugin_update_message()
 
@@ -847,19 +854,41 @@ if ( ! class_exists( 'CoCart_Admin_Updates' ) ) {
 			$wp_list_table = _get_list_table( 'WP_Plugins_List_Table' );
 
 			// Warn users to provide license key to get updates.
-			if ( isset( $plugin_data['slug'] ) && empty( $license_key ) && 'cocart-core' !== $plugin_data['slug'] ) {
+			if ( isset( $plugin_data['slug'] ) && empty( $license_key ) ) {
 				echo '<tr class="plugin-update-tr" id="' . esc_attr( $plugin_data['slug'] . '-update-info' ) . '" data-slug="' . $plugin_data['Name'] . '" data-plugin="' . esc_attr( $file ) . '"><td colspan="' . $wp_list_table->get_column_count() . '" class="plugin-update colspanchange"><div class="notice notice-info notice-alt inline">'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 
+				if ( is_multisite() ) {
+					/* translators: %1 = Plugin name, %2 = A link to the updates page. %3 link to the pricing page */
+					$message           = __( 'To enable updates for %1$s, please enter your license key on the <a href="%2$s">Updates</a> page of the main site. If you don\'t have a license key, please consider <a href="%3$s" target="_blank">purchasing one</a> to keep up to date, secure and receive support.', 'cocart-core' );
+					$updates_page_link = add_query_arg( array( 'page' => 'cocart-updates' ), get_admin_url( get_main_site_id(), 'admin.php' ) );
+				} else {
+					$message           = __( 'To enable updates for %1$s, please <a href="%2$s">enter your license key</a>. If you don\'t have a license key, please consider <a href="%3$s" target="_blank">purchasing one</a> to keep up to date, secure and receive support.', 'cocart-core' );
+					$updates_page_link = add_query_arg( array( 'page' => 'cocart-updates' ), admin_url( 'admin.php' ) );
+				}
+
+				$get_license = CoCart_Helpers::build_shortlink( COCART_STORE_URL . 'pricing/' );
+
+				if ( 'cocart-core' === $plugin_data['slug'] ) {
+					$message     = __( 'To enable updates for %1$s, please <a href="%2$s">enter your license key</a>. If you don\'t have a license key, <a href="%3$s" target="_blank">get one here</a> to keep up to date and secure.', 'cocart-core' );
+					$get_license = esc_url( 'https://buy.polar.sh/polar_cl_Zt69TR1nlQ7vIntrCeyPzuiqPcp3oxdULW_kqhQ0xFY' );
+				}
+
 				echo '<p><strong><span class="dashicons dashicons-info"></span></strong> '
-					. wp_kses_post(
+					. wp_kses(
 						sprintf(
 							/* translators: %1 = Plugin name, %2 = A link to the updates page. %3 link to the pricing page */
-							__( 'To enable updates for %1$s, please <a href="%2$s">enter your license key</a>. If you don\'t have a license key, please consider <a href="%3$s" target="_blank">purchasing one</a> to keep up to date, secure and receive support.', 'cocart-core' ),
+							$message,
 							$plugin_data['Name'],
-							add_query_arg( array( 'page' => 'cocart-updates' ), admin_url( 'admin.php' ) ),
-							CoCart_Helpers::build_shortlink( COCART_STORE_URL . 'pricing/' ),
+							$updates_page_link,
+							$get_license,
 							'CoCart upgrade',
 							'updates'
+						),
+						array(
+							'a' => array(
+								'href'   => array(),
+								'target' => array(),
+							),
 						)
 					);
 
