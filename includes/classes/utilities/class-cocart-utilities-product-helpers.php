@@ -403,6 +403,57 @@ class CoCart_Utilities_Product_Helpers {
 		}
 	} // END get_product_slug()
 
+	/**
+	 * Get a product by slug.
+	 *
+	 * @access public
+	 *
+	 * @static
+	 *
+	 * @since 5.0.0 Introduced.
+	 *
+	 * @param string $slug The slug of the product.
+	 *
+	 * @return WC_Product $product The product object.
+	 */
+	public static function get_product_by_slug( $slug ) {
+		return wc_get_product( get_page_by_path( $slug, OBJECT, 'product' ) );
+	} // END get_product_by_slug()
+
+	/**
+	 * Get a product variation by slug.
+	 *
+	 * @access public
+	 *
+	 * @static
+	 *
+	 * @since 5.0.0 Introduced.
+	 *
+	 * @param string $slug The slug of the product variation.
+	 *
+	 * @global wpdb $wpdb WordPress database abstraction object.
+	 *
+	 * @return WC_Product $product The product object.
+	 */
+	public static function get_product_variation_by_slug( $slug ) {
+		global $wpdb;
+
+		$result = $wpdb->get_results(
+			$wpdb->prepare(
+				"SELECT ID, post_name, post_parent, post_type
+				FROM $wpdb->posts
+				WHERE post_name = %s
+				AND post_type = 'product_variation'",
+				$slug
+			)
+		);
+
+		if ( ! $result ) {
+			return null;
+		}
+
+		return wc_get_product( $result[0]->ID );
+	} // END get_product_variation_by_slug()
 
 	/**
 	 * Tries to match variation attributes passed to a variation ID and return the ID.
