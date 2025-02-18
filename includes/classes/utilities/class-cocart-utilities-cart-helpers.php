@@ -403,7 +403,9 @@ class CoCart_Utilities_Cart_Helpers {
 	 *
 	 * @since 3.0.0 Introduced.
 	 * @since 5.0.0 Added Cart class instance as the first parameter.
+	 * @since 5.0.0 Now use `cocart_price_no_html()` function for formatted return.
 	 *
+	 * @see cocart_price_no_html()
 	 * @see cocart_format_money()
 	 *
 	 * @param WC_Cart          $cart      Cart class instance.
@@ -420,7 +422,7 @@ class CoCart_Utilities_Cart_Helpers {
 		$amount = $cart->get_coupon_discount_amount( $coupon->get_code(), $cart->display_cart_ex_tax );
 
 		if ( $formatted ) {
-			$savings = html_entity_decode( wp_strip_all_tags( wc_price( $amount ) ) );
+			$savings = cocart_price_no_html( $amount );
 		} else {
 			$savings = cocart_format_money( $amount );
 		}
