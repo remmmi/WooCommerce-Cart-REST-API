@@ -585,7 +585,17 @@ function cocart_rest_should_load_namespace( string $ns, string $rest_route = '' 
 		return true;
 	}
 
-	return str_starts_with( $rest_route, $ns );
+	/**
+	 * Filters whether a namespace should be loaded.
+	 *
+	 * @param bool   $should_load True if the namespace should be loaded, false otherwise.
+	 * @param string $ns          The namespace to check.
+	 * @param string $rest_route  The REST route being checked.
+	 * @param array  $known_namespaces Known namespaces that we know are safe to not load if the request is not for them.
+	 *
+	 * @since 5.0.0 Introduced.
+	 */
+	return apply_filters( 'cocart_rest_should_load_namespace', str_starts_with( $rest_route, $ns ), $ns, $rest_route, $known_namespaces );
 } // END cocart_rest_should_load_namespace()
 
 /**
