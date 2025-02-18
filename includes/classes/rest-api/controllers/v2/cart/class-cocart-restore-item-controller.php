@@ -221,6 +221,7 @@ class CoCart_REST_Restore_Item_V2_Controller extends CoCart_REST_Cart_V2_Control
 				'description'       => __( 'Returns the item details once restored.', 'cocart-core' ),
 				'default'           => false,
 				'type'              => 'boolean',
+				'sanitize_callback' => 'rest_sanitize_boolean',
 				'validate_callback' => 'rest_validate_request_arg',
 			),
 		);

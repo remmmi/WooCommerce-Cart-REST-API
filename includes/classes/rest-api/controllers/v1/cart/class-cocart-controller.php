@@ -1164,6 +1164,7 @@ class CoCart_API_Controller {
 				'description'       => __( 'Returns the URL of the product image thumbnail.', 'cocart-core' ),
 				'default'           => false,
 				'type'              => 'boolean',
+				'sanitize_callback' => 'rest_sanitize_boolean',
 				'validate_callback' => 'rest_validate_request_arg',
 			),
 		);

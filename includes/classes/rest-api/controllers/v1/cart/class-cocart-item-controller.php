@@ -512,6 +512,7 @@ class CoCart_Item_Controller extends CoCart_API_Controller {
 				'description'       => __( 'Returns the whole cart to reduce API requests.', 'cocart-core' ),
 				'default'           => false,
 				'type'              => 'boolean',
+				'sanitize_callback' => 'rest_sanitize_boolean',
 				'validate_callback' => 'rest_validate_request_arg',
 			),
 		);

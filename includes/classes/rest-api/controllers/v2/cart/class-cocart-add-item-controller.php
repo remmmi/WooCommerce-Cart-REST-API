@@ -491,6 +491,7 @@ class CoCart_REST_Add_Item_V2_Controller extends CoCart_REST_Cart_V2_Controller 
 				'type'              => 'string',
 				'default'           => '1',
 				'required'          => true,
+				'sanitize_callback' => 'sanitize_text_field',
 				'validate_callback' => 'rest_validate_quantity_arg',
 			),
 			'variation'   => array(
@@ -540,13 +541,16 @@ class CoCart_REST_Add_Item_V2_Controller extends CoCart_REST_Cart_V2_Controller 
 				'description'       => __( 'Overrides the general or sale price with a custom price for the item if set.', 'cocart-core' ),
 				'type'              => 'string',
 				'required'          => false,
+				'sanitize_callback' => 'sanitize_text_field',
 				'validate_callback' => 'rest_validate_request_arg',
 			),
 			'return_item' => array(
-				'description' => __( 'Returns the item details once added.', 'cocart-core' ),
-				'default'     => false,
-				'required'    => false,
-				'type'        => 'boolean',
+				'description'       => __( 'Returns the item details once added.', 'cocart-core' ),
+				'default'           => false,
+				'required'          => false,
+				'type'              => 'boolean',
+				'sanitize_callback' => 'rest_sanitize_boolean',
+				'validate_callback' => 'rest_validate_request_arg',
 			),
 		);
 

@@ -55,6 +55,7 @@ class CoCart_Calculate_Controller extends CoCart_API_Controller {
 						'default'           => false,
 						'description'       => __( 'Returns the cart totals once calculated.', 'cocart-core' ),
 						'type'              => 'boolean',
+						'sanitize_callback' => 'rest_sanitize_boolean',
 						'validate_callback' => 'rest_validate_request_arg',
 					),
 				),

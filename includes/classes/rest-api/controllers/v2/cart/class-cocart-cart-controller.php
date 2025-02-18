@@ -2544,6 +2544,7 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_REST_Cart_Controller {
 				'default'           => true,
 				'type'              => 'boolean',
 				'required'          => false,
+				'sanitize_callback' => 'rest_sanitize_boolean',
 				'validate_callback' => 'rest_validate_request_arg',
 			),
 			'default'  => array(
@@ -2551,6 +2552,7 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_REST_Cart_Controller {
 				'default'           => false,
 				'type'              => 'boolean',
 				'required'          => false,
+				'sanitize_callback' => 'rest_sanitize_boolean',
 				'validate_callback' => 'rest_validate_request_arg',
 			),
 		);

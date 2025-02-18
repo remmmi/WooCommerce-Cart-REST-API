@@ -455,6 +455,7 @@ class CoCart_Add_Item_Controller extends CoCart_API_Controller {
 				'default'           => false,
 				'description'       => __( 'Returns the cart once item is added.', 'cocart-core' ),
 				'type'              => 'boolean',
+				'sanitize_callback' => 'rest_sanitize_boolean',
 				'validate_callback' => 'rest_validate_request_arg',
 			),
 		);

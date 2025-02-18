@@ -196,6 +196,7 @@ class CoCart_REST_Clear_Cart_V2_Controller extends CoCart_REST_Cart_V2_Controlle
 			'default'           => false,
 			'description'       => __( 'Keeps removed items in session when clearing the cart.', 'cocart-core' ),
 			'type'              => 'boolean',
+			'sanitize_callback' => 'rest_sanitize_boolean',
 			'validate_callback' => 'rest_validate_request_arg',
 		);
 

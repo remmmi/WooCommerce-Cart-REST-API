@@ -492,6 +492,7 @@ if ( ! class_exists( 'CoCart_REST_Terms_Controller' ) ) {
 				'description'       => __( 'Whether to hide resources not assigned to any products.', 'cocart-core' ),
 				'type'              => 'boolean',
 				'default'           => false,
+				'sanitize_callback' => 'rest_sanitize_boolean',
 				'validate_callback' => 'rest_validate_request_arg',
 			);
 			if ( $taxonomy->hierarchical ) {
