@@ -32,6 +32,10 @@
 
 ## Changes
 
+* REST API: The main cart controller `CoCart_REST_Cart_V2_Controller` for API v2 now extends a new abstract controller `CoCart_REST_Cart_Controller` for the cart which also extends the core `WP_REST_Controller` of WordPress.
+
+> Developer note: This allows to better extend the cart API rather than the whole cart controller.
+
 * REST API: New product reviews posted are set to status `hold` by default.
 * WordPress Dashboard: Style adjustments.
 

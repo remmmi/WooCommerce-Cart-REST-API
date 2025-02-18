@@ -531,6 +531,7 @@ class CoCart_REST_API {
 		require_once __DIR__ . '/controllers/v1/products/class-cocart-product-variations-controller.php';
 
 		// CoCart REST API v2 controllers.
+		require_once __DIR__ . '/controllers/class-cocart-cart-controller.php';
 		require_once __DIR__ . '/controllers/v2/others/class-cocart-store-controller.php';
 		require_once __DIR__ . '/controllers/v2/others/class-cocart-login-controller.php';
 		require_once __DIR__ . '/controllers/v2/others/class-cocart-logout-controller.php';
