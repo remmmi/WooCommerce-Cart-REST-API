@@ -247,7 +247,7 @@ class CoCart_Install {
 		// Maybe update database version.
 		self::maybe_update_db_version();
 
-		delete_transient( 'cocart_installing' );
+		CoCart_Utilities_Cache_Helpers::queue_delete_transient( 'cocart_installing' );
 
 		/**
 		 * Hook: Runs after CoCart has been installed.

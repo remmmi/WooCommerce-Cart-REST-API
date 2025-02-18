@@ -678,7 +678,7 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 
 			include_once __DIR__ . '/views/html-notice-disabled-wp-source.php';
 
-			delete_transient( 'cocart_legacy_deactivated' );
+			CoCart_Utilities_Cache_Helpers::queue_delete_transient( 'cocart_legacy_deactivated' );
 		} // END disabled_wp_source_notice()
 
 		/**

@@ -5,7 +5,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\Classes
  * @since   2.1.0 Introduced.
- * @version 4.2.0
+ * @version 5.0.0
  * @license GPL-3.0
  */
 
@@ -292,7 +292,7 @@ class CoCart_Session_Handler extends WC_Session_Handler {
 	 * @return string
 	 */
 	public function get_cache_prefix() {
-		return WC_Cache_Helper::get_cache_prefix( COCART_CART_CACHE_GROUP );
+		return CoCart_Utilities_Cache_Helpers::get_cache_prefix( COCART_CART_CACHE_GROUP );
 	} // END get_cache_prefix()
 
 	/**
@@ -422,8 +422,8 @@ class CoCart_Session_Handler extends WC_Session_Handler {
 		);
 
 		// Invalidate cache group.
-		if ( class_exists( 'WC_Cache_Helper' ) ) {
-			WC_Cache_Helper::invalidate_cache_group( COCART_CART_CACHE_GROUP );
+		if ( class_exists( 'CoCart_Utilities_Cache_Helpers' ) ) {
+			CoCart_Utilities_Cache_Helpers::invalidate_cache_group( COCART_CART_CACHE_GROUP );
 		}
 	} // END cleanup_sessions()
 

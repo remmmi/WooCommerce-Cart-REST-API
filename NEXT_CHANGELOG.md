@@ -46,6 +46,7 @@
 * REST API: Override sale and regular price too so the set price is what is shown even if there prices are originally lower.
 * Feature: Load cart from session now supports registered customers.
 * Localization: Similar messages are now consistent with each other.
+* Plugin: We now manage cache related calls under our own cache helper utility to not conflict with any WooCommerce cache calls happening in the background.
 * WordPress Dashboard: CoCart is prevented from running in the backend should the REST API server be called by another plugin.
 
 ## Third Party Support

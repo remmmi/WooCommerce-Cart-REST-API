@@ -130,12 +130,12 @@ if ( ! class_exists( 'CoCart_Admin' ) ) {
 
 				// On these pages, or during these events, disable the redirect.
 				if ( 'cocart-setup' === $current_page || ! CoCart_Admin_Notices::has_notice( 'setup_wizard' ) || apply_filters( 'cocart_prevent_automatic_wizard_redirect', false ) || isset( $_GET['activate-multi'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-					delete_transient( '_cocart_activation_redirect' );
+					CoCart_Utilities_Cache_Helpers::queue_delete_transient( '_cocart_activation_redirect' );
 					$do_redirect = false;
 				}
 
 				if ( $do_redirect ) {
-					delete_transient( '_cocart_activation_redirect' );
+					CoCart_Utilities_Cache_Helpers::queue_delete_transient( '_cocart_activation_redirect' );
 					wp_safe_redirect( admin_url( 'admin.php?page=cocart-setup' ) );
 					exit;
 				}
