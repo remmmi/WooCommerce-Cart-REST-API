@@ -43,7 +43,6 @@ abstract class CoCart_Plugin_Updates {
 		'cocart-core.php'                   => 'cocart-core',
 		'cocart-plus.php'                   => 'cocart-plus',
 		'cocart-pro.php'                    => 'cocart-pro',
-		'cocart-jwt-authentication.php'     => 'cocart-jwt-authentication',
 	);
 
 	/**
@@ -60,7 +59,6 @@ abstract class CoCart_Plugin_Updates {
 		'cocart-core'                   => 'CoCart',
 		'cocart-plus'                   => 'CoCart_Plus',
 		'cocart-pro'                    => 'CoCart_Pro',
-		'cocart-jwt-authentication'     => 'CoCart\JWTAuthentication\Plugin',
 		'cocart-wpcli-addon'            => 'CoCart\WPCLI\Plugin',
 	);
 
