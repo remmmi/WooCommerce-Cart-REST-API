@@ -625,7 +625,7 @@ class CoCart_REST_API {
 
 		$cache_control = ( function_exists( 'is_user_logged_in' ) && is_user_logged_in() )
 		? 'no-cache, must-revalidate, max-age=0, no-store, private'
-		: 'no-cache, must-revalidate, max-age=0';
+		: 'no-cache, must-revalidate, max-age=0, no-store';
 
 		foreach ( $regex_path_patterns as $regex_path_pattern ) {
 			if ( preg_match( $regex_path_pattern, ltrim( wp_unslash( $request->get_route() ), '/' ) ) ) {
