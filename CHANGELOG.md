@@ -1,5 +1,11 @@
 # Changelog for CoCart Core
 
+## v4.3.21 - 20th February, 2025
+
+### Improvement
+
+* REST API: Added `no-store` as part of the `Cache-Control` header for guest users.
+
 ## v4.3.20 - 8th February, 2025
 
 ### Bug Fix
