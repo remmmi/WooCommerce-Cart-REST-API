@@ -2602,19 +2602,19 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 								'properties'  => array(
 									'value'        => array(
 										'description' => __( 'The quantity of the item in the cart.', 'cart-rest-api-for-woocommerce' ),
-										'type'        => 'float',
+										'type'        => 'number',
 										'context'     => array( 'view' ),
 										'readonly'    => true,
 									),
 									'min_purchase' => array(
 										'description' => __( 'The minimum purchase amount required.', 'cart-rest-api-for-woocommerce' ),
-										'type'        => 'float',
+										'type'        => 'number',
 										'context'     => array( 'view' ),
 										'readonly'    => true,
 									),
 									'max_purchase' => array(
 										'description' => __( 'The maximum purchase amount allowed. If -1 the item has an unlimited purchase amount.', 'cart-rest-api-for-woocommerce' ),
-										'type'        => 'float',
+										'type'        => 'number',
 										'context'     => array( 'view' ),
 										'readonly'    => true,
 									),
@@ -2628,25 +2628,25 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 								'properties'  => array(
 									'subtotal'     => array(
 										'description' => __( 'The subtotal of the item in the cart.', 'cart-rest-api-for-woocommerce' ),
-										'type'        => 'float',
+										'type'        => 'number',
 										'context'     => array( 'view' ),
 										'readonly'    => true,
 									),
 									'subtotal_tax' => array(
 										'description' => __( 'The subtotal tax of the item in the cart.', 'cart-rest-api-for-woocommerce' ),
-										'type'        => 'float',
+										'type'        => 'number',
 										'context'     => array( 'view' ),
 										'readonly'    => true,
 									),
 									'total'        => array(
 										'description' => __( 'The total of the item in the cart.', 'cart-rest-api-for-woocommerce' ),
-										'type'        => 'float',
+										'type'        => 'number',
 										'context'     => array( 'view' ),
 										'readonly'    => true,
 									),
 									'total_tax'    => array(
 										'description' => __( 'The total tax of the item in the cart.', 'cart-rest-api-for-woocommerce' ),
-										'type'        => 'float',
+										'type'        => 'number',
 										'context'     => array( 'view' ),
 										'readonly'    => true,
 									),
@@ -2850,65 +2850,68 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 											'readonly'    => true,
 											'properties'  => array(
 												'[a-z0-9]' => array(
-													'key'  => array(
-														'description' => __( 'The rate key.', 'cart-rest-api-for-woocommerce' ),
-														'type'        => 'string',
-														'context'     => array( 'view' ),
-														'readonly'    => true,
-													),
-													'method_id' => array(
-														'description' => __( 'The method ID.', 'cart-rest-api-for-woocommerce' ),
-														'type'        => 'string',
-														'context'     => array( 'view' ),
-														'readonly'    => true,
-													),
-													'instance_id' => array(
-														'description' => __( 'The instance ID.', 'cart-rest-api-for-woocommerce' ),
-														'type'        => 'string',
-														'context'     => array( 'view' ),
-														'readonly'    => true,
-													),
-													'label' => array(
-														'description' => __( 'The rate label.', 'cart-rest-api-for-woocommerce' ),
-														'type'        => 'string',
-														'context'     => array( 'view' ),
-														'readonly'    => true,
-													),
-													'cost' => array(
-														'description' => __( 'The rate cost.', 'cart-rest-api-for-woocommerce' ),
-														'type'        => 'string',
-														'context'     => array( 'view' ),
-														'readonly'    => true,
-													),
-													'html' => array(
-														'description' => __( 'The rate label and cost formatted.', 'cart-rest-api-for-woocommerce' ),
-														'type'        => 'string',
-														'context'     => array( 'view' ),
-														'readonly'    => true,
-													),
-													'taxes' => array(
-														'description' => __( 'The rate tax cost.', 'cart-rest-api-for-woocommerce' ),
-														'type'        => 'string',
-														'context'     => array( 'view' ),
-														'readonly'    => true,
-													),
-													'chosen_method' => array(
-														'description' => __( 'The chosen method.', 'cart-rest-api-for-woocommerce' ),
-														'type'        => 'boolean',
-														'context'     => array( 'view' ),
-														'readonly'    => true,
-													),
-													'meta_data' => array(
-														'description' => __( 'The rate meta data.', 'cart-rest-api-for-woocommerce' ),
-														'type'        => 'object',
-														'context'     => array( 'view' ),
-														'readonly'    => true,
-														'properties' => array(
-															'items' => array(
-																'description' => __( 'The items the shipping rate has calculated based on.', 'cart-rest-api-for-woocommerce' ),
-																'type'        => 'string',
-																'context'     => array( 'view' ),
-																'readonly'    => true,
+													'type'  => 'object',
+													'properties' => array(
+														'key'  => array(
+															'description' => __( 'The rate key.', 'cart-rest-api-for-woocommerce' ),
+															'type'        => 'string',
+															'context'     => array( 'view' ),
+															'readonly'    => true,
+														),
+														'method_id' => array(
+															'description' => __( 'The method ID.', 'cart-rest-api-for-woocommerce' ),
+															'type'        => 'string',
+															'context'     => array( 'view' ),
+															'readonly'    => true,
+														),
+														'instance_id' => array(
+															'description' => __( 'The instance ID.', 'cart-rest-api-for-woocommerce' ),
+															'type'        => 'integer',
+															'context'     => array( 'view' ),
+															'readonly'    => true,
+														),
+														'label' => array(
+															'description' => __( 'The rate label.', 'cart-rest-api-for-woocommerce' ),
+															'type'        => 'string',
+															'context'     => array( 'view' ),
+															'readonly'    => true,
+														),
+														'cost' => array(
+															'description' => __( 'The rate cost.', 'cart-rest-api-for-woocommerce' ),
+															'type'        => 'string',
+															'context'     => array( 'view' ),
+															'readonly'    => true,
+														),
+														'html' => array(
+															'description' => __( 'The rate label and cost formatted.', 'cart-rest-api-for-woocommerce' ),
+															'type'        => 'string',
+															'context'     => array( 'view' ),
+															'readonly'    => true,
+														),
+														'taxes' => array(
+															'description' => __( 'The rate tax cost.', 'cart-rest-api-for-woocommerce' ),
+															'type'        => 'string',
+															'context'     => array( 'view' ),
+															'readonly'    => true,
+														),
+														'chosen_method' => array(
+															'description' => __( 'The chosen method.', 'cart-rest-api-for-woocommerce' ),
+															'type'        => 'boolean',
+															'context'     => array( 'view' ),
+															'readonly'    => true,
+														),
+														'meta_data' => array(
+															'description' => __( 'The rate meta data.', 'cart-rest-api-for-woocommerce' ),
+															'type'        => 'object',
+															'context'     => array( 'view' ),
+															'readonly'    => true,
+															'properties' => array(
+																'items' => array(
+																	'description' => __( 'The items the shipping rate has calculated based on.', 'cart-rest-api-for-woocommerce' ),
+																	'type'        => 'string',
+																	'context'     => array( 'view' ),
+																	'readonly'    => true,
+																),
 															),
 														),
 													),
@@ -2952,17 +2955,20 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 					'readonly'    => true,
 					'properties'  => array(
 						'[a-zA-Z0-9]' => array(
-							'name' => array(
-								'description' => __( 'The fee name.', 'cart-rest-api-for-woocommerce' ),
-								'type'        => 'string',
-								'context'     => array( 'view' ),
-								'readonly'    => true,
-							),
-							'fee'  => array(
-								'description' => __( 'The fee value.', 'cart-rest-api-for-woocommerce' ),
-								'type'        => 'string',
-								'context'     => array( 'view' ),
-								'readonly'    => true,
+							'type'  => 'object',
+							'properties' => array(
+								'name' => array(
+									'description' => __( 'The fee name.', 'cart-rest-api-for-woocommerce' ),
+									'type'        => 'string',
+									'context'     => array( 'view' ),
+									'readonly'    => true,
+								),
+								'fee'  => array(
+									'description' => __( 'The fee value.', 'cart-rest-api-for-woocommerce' ),
+									'type'        => 'string',
+									'context'     => array( 'view' ),
+									'readonly'    => true,
+								),
 							),
 						),
 					),
@@ -2974,11 +2980,8 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 					'readonly'    => true,
 					'properties'  => array(
 						'[A-Z-TAX-0-9]' => array(
-							'description' => __( 'The store currency information.', 'cart-rest-api-for-woocommerce' ),
-							'type'        => 'object',
-							'context'     => array( 'view' ),
-							'readonly'    => true,
-							'properties'  => array(
+							'type'  => 'object',
+							'properties' => array(
 								'name'  => array(
 									'description' => __( 'The tax name.', 'cart-rest-api-for-woocommerce' ),
 									'type'        => 'string',
@@ -3103,7 +3106,7 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 							),
 							'quantity'       => array(
 								'description' => __( 'The quantity of the item.', 'cart-rest-api-for-woocommerce' ),
-								'type'        => 'float',
+								'type'        => 'number',
 								'context'     => array( 'view' ),
 								'readonly'    => true,
 							),
@@ -3115,25 +3118,25 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 								'properties'  => array(
 									'subtotal'     => array(
 										'description' => __( 'The subtotal of the item.', 'cart-rest-api-for-woocommerce' ),
-										'type'        => 'float',
+										'type'        => 'number',
 										'context'     => array( 'view' ),
 										'readonly'    => true,
 									),
 									'subtotal_tax' => array(
 										'description' => __( 'The subtotal tax of the item.', 'cart-rest-api-for-woocommerce' ),
-										'type'        => 'float',
+										'type'        => 'number',
 										'context'     => array( 'view' ),
 										'readonly'    => true,
 									),
 									'total'        => array(
 										'description' => __( 'The total of the item.', 'cart-rest-api-for-woocommerce' ),
-										'type'        => 'float',
+										'type'        => 'number',
 										'context'     => array( 'view' ),
 										'readonly'    => true,
 									),
 									'total_tax'    => array(
 										'description' => __( 'The total tax of the item.', 'cart-rest-api-for-woocommerce' ),
-										'type'        => 'float',
+										'type'        => 'number',
 										'context'     => array( 'view' ),
 										'readonly'    => true,
 									),
