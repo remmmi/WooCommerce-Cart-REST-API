@@ -45,6 +45,25 @@ abstract class CoCart_REST_Cart_Controller extends WP_REST_Controller {
 	}
 
 	/**
+	 * Permission callback checks if the cart was initialized.
+	 *
+	 * @access public
+	 *
+	 * @since 5.0.0 Introduced.
+	 *
+	 * @return \WP_Error|bool Returns error if failed else true.
+	 */
+	public function check_cart_instance() {
+		$cart_instance = $this->get_cart_instance();
+
+		if ( ! is_wp_error( $cart_instance ) ) {
+			return true;
+		}
+
+		return $cart_instance;
+	} // END check_cart_instance()
+
+	/**
 	 * Gets the cart instance so we only call it once in the API.
 	 *
 	 * @throws CoCart_Data_Exception Exception if invalid data is detected.
@@ -53,16 +72,24 @@ abstract class CoCart_REST_Cart_Controller extends WP_REST_Controller {
 	 *
 	 * @since 3.0.0 Introduced.
 	 *
-	 * @return WC_Cart The cart object.
+	 * @return \WP_Error|\WC_Cart Error response or the cart object.
 	 */
 	public function get_cart_instance() {
 		$cart = WC()->cart;
 
-		if ( ! $cart || ! $cart instanceof \WC_Cart ) {
-			throw new CoCart_Data_Exception( 'cocart_cart_error', esc_html__( 'Unable to retrieve cart.', 'cocart-core' ), 500 );
+		if ( is_wp_error( $cart ) ) {
+			return $cart;
 		}
 
-		return $cart;
+		try {
+			if ( ! $cart || ! $cart instanceof \WC_Cart ) {
+				throw new CoCart_Data_Exception( 'cocart_cart_error', esc_html__( 'Unable to retrieve cart.', 'cocart-core' ), 500 );
+			}
+
+			return $cart;
+		} catch ( CoCart_Data_Exception $e ) {
+			return CoCart_Response::get_error_response( $e->getErrorCode(), $e->getMessage(), $e->getCode(), $e->getAdditionalData() );
+		}
 	} // END get_cart_instance()
 
 	/**
