@@ -2850,7 +2850,7 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 											'readonly'    => true,
 											'properties'  => array(
 												'[a-z0-9]' => array(
-													'type'  => 'object',
+													'type' => 'object',
 													'properties' => array(
 														'key'  => array(
 															'description' => __( 'The rate key.', 'cart-rest-api-for-woocommerce' ),
@@ -2955,7 +2955,7 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 					'readonly'    => true,
 					'properties'  => array(
 						'[a-zA-Z0-9]' => array(
-							'type'  => 'object',
+							'type'       => 'object',
 							'properties' => array(
 								'name' => array(
 									'description' => __( 'The fee name.', 'cart-rest-api-for-woocommerce' ),
@@ -2980,7 +2980,7 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 					'readonly'    => true,
 					'properties'  => array(
 						'[A-Z-TAX-0-9]' => array(
-							'type'  => 'object',
+							'type'       => 'object',
 							'properties' => array(
 								'name'  => array(
 									'description' => __( 'The tax name.', 'cart-rest-api-for-woocommerce' ),
