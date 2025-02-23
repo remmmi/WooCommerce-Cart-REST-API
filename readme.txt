@@ -4,7 +4,7 @@ Tags: woocommerce, rest-api, decoupled, headless, cart
 Requires at least: 5.6
 Requires PHP: 7.4
 Tested up to: 6.7
-Stable tag: 4.3.21
+Stable tag: 4.3.22
 WC requires at least: 7.0
 WC tested up to: 9.6
 License: GPLv3
@@ -307,6 +307,29 @@ We’d love to hear what you have to say. [Share your experience](https://testim
 == Changelog ==
 
 📢 Only bug and security updates will be provided here on WordPress dot ORG. Any new major updates starting with v5.0 will be provided [directly from us](https://cocartapi.com?utm_medium=website&utm_source=wpplugindirectory&utm_campaign=readme&utm_content=readmelink).
+
+= v4.3.22 - 23rd February, 2025 =
+
+* REST API: Schema corrections for cart endpoint.
+* REST API: Schema corrections for items endpoint to match cart schema.
+
+### For Developers
+
+* Moved filter `cocart_get_customer_{field}` after value instead of using it only when there is no value returned for a customers field. Replace `{field}` with the section prefix followed by the field name. e.g. `billing_country`
+
+> Developer note: This allows you to then alter values such as the billing country. See example.
+
+```php
+add_filter( 'cocart_get_customer_billing_country', function( $value ) {
+	if ( WC()->countries->country_exists( $value ) ) {
+		return WC()->countries->get_countries()[ $value ];
+	}
+
+	return $value;
+}, 10, 1);
+```
+
+* Introduced new filter `cocart_get_after_customer_{field-type}_fields` that allows you to change the customer fields after they returned. Replace `{field-type}` with either `billing` or `shipping` for the fields to alter.
 
 = v4.3.21 - 20th February, 2025 =
 
@@ -762,6 +785,10 @@ Hope you enjoy this release.
 [View the full changelog here](https://github.com/co-cart/co-cart/blob/trunk/CHANGELOG.md).
 
 == Upgrade Notice ==
+
+= 4.3.22 =
+
+REST API: Schema corrections for both cart and items endpoint.
 
 = 4.3.21=
 
