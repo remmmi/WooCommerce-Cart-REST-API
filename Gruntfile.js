@@ -352,7 +352,7 @@ module.exports = function(grunt) {
 						src: [
 							'**',
 							'!.*',
-							'!**/*.{dist,gif,html,jpg,jpeg,js,json,log,lock,md,neon,png,scss,sh,txt,xml,zip}',
+							'!**/*.{dist,gif,html,jpg,jpeg,js,json,log,lock,md,neon,png,scss,sh,txt,xml,yml,zip}',
 							'!.*/**',
 							'!.DS_Store',
 							'!.htaccess',
