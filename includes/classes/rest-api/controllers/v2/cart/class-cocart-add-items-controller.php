@@ -88,7 +88,7 @@ class CoCart_REST_Add_Items_V2_Controller extends CoCart_Add_Item_Controller {
 			$controller = new CoCart_REST_Cart_V2_Controller();
 
 			// Validate product ID before continuing and return correct product ID if different.
-			$product_id = $this->validate_product_id( $product_id );
+			$product_id = $controller->validate_product_id( $product_id );
 
 			// Return error response if product ID is not found.
 			if ( is_wp_error( $product_id ) ) {
