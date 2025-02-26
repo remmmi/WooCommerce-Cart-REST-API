@@ -1,6 +1,6 @@
 # Changelog for CoCart Core
 
-## v4.3.22 - 23rd February, 2025
+## v4.3.22 - 26th February, 2025
 
 * REST API: Schema corrections for cart endpoint.
 * REST API: Schema corrections for items endpoint to match cart schema.
