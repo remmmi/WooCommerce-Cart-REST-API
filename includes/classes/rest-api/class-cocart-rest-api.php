@@ -153,6 +153,7 @@ class CoCart_REST_API {
 	protected function register_all_routes() {
 		$this->register_routes( 'v1' );
 		$this->register_routes( 'v2' );
+		$this->register_routes( 'batch' );
 
 		$this->register_rest_routes(); // Old method. Registers remaining routes with no specific version.
 	} // END register_all_routes();
