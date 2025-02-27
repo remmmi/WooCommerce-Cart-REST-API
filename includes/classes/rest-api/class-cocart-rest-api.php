@@ -166,49 +166,46 @@ class CoCart_REST_API {
 	 * @param string $version API Version being registered. Default is the current supported API Version.
 	 */
 	protected function register_routes( $version = 'v2' ) {
-		$route_namespace = $this->get_api_namespace() . '/' . $version;
-
 		// If no routes for the version exist return nothing.
-		if ( ! isset( $this->routes[ $route_namespace ] ) ) {
+		if ( ! isset( $this->routes[ 'cocart/' . $version ] ) ) {
 			return;
 		}
 
-		$route_identifiers = array_values( $this->routes[ $route_namespace ] );
+		// Set the route namespace outside the controller.
+		$route_namespace = $this->get_api_namespace() . '/' . $version;
 
-		foreach ( $route_identifiers as $route ) {
+		$routes = $this->routes[ 'cocart/' . $version ];
+
+		foreach ( $routes as $route_identifier => $route_class ) {
 			$skip_route = false;
 
-			// Check the route exists.
-			if ( class_exists( $route ) ) {
+			$route = $this->routes[ 'cocart/' . $version ][ $route_identifier ] ?? false;
+
+			if ( ! $route ) {
+				error_log( esc_html( "{$route_class} route does not exist" ) );
+				$skip_route = true;
+			}
+
+			if ( ! method_exists( $route_class, 'get_path_regex' ) ) {
+				error_log( esc_html( "{$route_class} route does not have a get_path_regex method" ) );
+				$skip_route = true;
+			}
+
+			$path = '';
+			if ( ! $skip_route ) {
 				$route_instance = new $route();
+				$path           = $route_instance->get_path_regex();
+			}
 
-				$version_check = method_exists( $route_instance, 'get_version' ) ? $route_instance->get_version() : '';
-				$path          = method_exists( $route_instance, 'get_path' ) ? $route_instance->get_path() : '';
+			if ( ! $skip_route && ! isset( $this->registered_routes[ $route_class ] ) && array_search( $path, $this->registered_routes ) === false ) {
+				register_rest_route(
+					$route_namespace,
+					$path,
+					method_exists( $route_class, 'get_args' ) ? $route_instance->get_args() : array()
+				);
 
-				// If version of route does not match then continue.
-				if ( empty( $version_check ) || $version !== $version_check ) {
-					error_log( $route . ' is missing the version for the endpoint.' );
-					$skip_route = true;
-				}
-
-				// If the path does not exist then continue.
-				if ( empty( $path ) ) {
-					error_log( $route . ' is missing the path for the endpoint.' );
-					$skip_route = true;
-				}
-
-				if ( ! $skip_route && ! isset( $this->registered_routes[ $route ] ) && array_search( $path, $this->registered_routes ) === false ) {
-					register_rest_route(
-						$route_namespace,
-						$path,
-						method_exists( $route_instance, 'get_args' ) ? $route_instance->get_args() : array()
-					);
-					$this->registered_routes[ $route ] = $path;
-				}
-
-				if ( ! isset( $this->registered_routes[ $route ] ) ) {
-					error_log( $route . ' did not register!' );
-				}
+				// Set route as registered so the old method skips from trying to register again.
+				$this->registered_routes[ $route_class ] = $path;
 			}
 		}
 	} // END register_routes()
@@ -222,25 +219,28 @@ class CoCart_REST_API {
 	 */
 	public function register_rest_routes() {
 		foreach ( $this->routes as $version => $controllers ) {
-			foreach ( $controllers as $controller_name => $controller_class ) {
+			foreach ( $controllers as $controller_name => $route_class ) {
 				$skip_route = false;
 
 				// If already registered then skip to the next one.
-				if ( isset( $this->registered_routes[ $controller_class ] ) ) {
+				if ( isset( $this->registered_routes[ $route_class ] ) ) {
 					$skip_route = true;
 				}
 
-				if ( ! $skip_route && class_exists( $controller_class ) ) {
-					$route_instance = new $controller_class();
+				$route = $this->routes[ $version ][ $controller_name ] ?? false;
 
-					$version_check = $this->method_exists_in_class( $route_instance, 'get_version' ) ? $route_instance->get_version() : '';
+				if ( ! $route ) {
+					error_log( esc_html( "{$route_class} {$version} route does not exist" ) );
+					$skip_route = true;
+				}
 
-					// Register only if there is no version specified.
-					if ( ! $version_check ) {
-						error_log( $controller_class . ' needs to be updated for version CoCart v5.' );
-						$route_instance->register_routes();
-						$this->registered_routes[ $controller_class ] = true;
+				if ( ! $skip_route ) {
+					if ( ! method_exists( $route_class, 'get_path_regex' ) ) {
+						error_log( esc_html( "{$route} possibly needs to be updated for version CoCart v5." ) );
 					}
+
+					$route_instance = new $route();
+					$route_instance->register_routes();
 				}
 			}
 		}
