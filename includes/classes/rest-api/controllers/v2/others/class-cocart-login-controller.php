@@ -26,18 +26,65 @@ class_alias( 'CoCart_REST_Login_V2_Controller', 'CoCart_Login_V2_Controller' );
 class CoCart_REST_Login_V2_Controller {
 
 	/**
-	 * Endpoint namespace.
+	 * Route namespace. - Remove once new route registry is completed.
 	 *
 	 * @var string
 	 */
 	protected $namespace = 'cocart/v2';
 
 	/**
-	 * Route base.
+	 * Route base. - Replaced with `get_path()`
 	 *
 	 * @var string
 	 */
 	protected $rest_base = 'login';
+
+	/**
+	 * Version of route.
+	 */
+	protected $version = 'v2';
+
+	/**
+	 * Get version of route. - Remove once route abstract is created to extend from.
+	 */
+	public function get_version() {
+		return $this->version;
+	}
+
+	/**
+	 * Get the path of this REST route.
+	 *
+	 * @return string
+	 */
+	public function get_path() {
+		return self::get_path_regex();
+	}
+
+	/**
+	 * Get the path of this rest route.
+	 *
+	 * @return string
+	 */
+	public static function get_path_regex() {
+		return '/login';
+	}
+
+	/**
+	 * Get method arguments for this REST route.
+	 *
+	 * @return array An array of endpoints.
+	 */
+	public function get_args() {
+		return array(
+			array(
+				'methods'             => WP_REST_Server::CREATABLE,
+				'callback'            => array( $this, 'login' ),
+				'permission_callback' => array( $this, 'get_permission_callback' ),
+				'args'                => $this->get_collection_params(),
+			),
+			'schema' => array( $this, 'get_public_item_schema' ),
+		);
+	} // END get_args()
 
 	/**
 	 * Register routes.
@@ -51,19 +98,13 @@ class CoCart_REST_Login_V2_Controller {
 	 * @ignore Function ignored when parsed into Code Reference.
 	 */
 	public function register_routes() {
+		cocart_deprecated_function( __FUNCTION__, '5.0.0' );
+
 		// Login user - cocart/v2/login (POST).
 		register_rest_route(
 			$this->namespace,
-			'/' . $this->rest_base,
-			array(
-				array(
-					'methods'             => WP_REST_Server::CREATABLE,
-					'callback'            => array( $this, 'login' ),
-					'permission_callback' => array( $this, 'get_permission_callback' ),
-					'args'                => $this->get_collection_params(),
-				),
-				'schema' => array( $this, 'get_public_item_schema' ),
-			)
+			$this->get_path(),
+			$this->get_args()
 		);
 	} // END register_routes()
 
@@ -120,8 +161,8 @@ class CoCart_REST_Login_V2_Controller {
 			 *
 			 * @since 3.8.1 Introduced.
 			 *
-			 * @param array $extra_information The extra information.
-			 * @param object $current_user The current user.
+			 * @param array  $extra_information The extra information.
+			 * @param object $current_user      The current user.
 			 */
 			'extras'       => apply_filters( 'cocart_login_extras', array(), $current_user ),
 			'dev_note'     => __( "Don't forget to store the users login information in order to authenticate all other routes with CoCart.", 'cocart-core' ),

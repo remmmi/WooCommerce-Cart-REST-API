@@ -5,7 +5,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\API\Cart\v2
  * @since   3.0.0 Introduced.
- * @version 4.2.0
+ * @version 5.0.0
  * @license GPL-3.0
  */
 
@@ -28,11 +28,37 @@ class_alias( 'CoCart_REST_Item_V2_Controller', 'CoCart_Item_V2_Controller' );
 class CoCart_REST_Item_V2_Controller extends CoCart_REST_Cart_V2_Controller {
 
 	/**
-	 * Route base.
+	 * Route base. - Replaced with `get_path()`
 	 *
 	 * @var string
 	 */
-	protected $rest_base = 'cart/item';
+	protected $rest_base = 'cart/item/(?P<item_key>[\w]+)';
+
+	/**
+	 * Get the path of this rest route.
+	 *
+	 * @return string
+	 */
+	protected function get_path_regex() {
+		return '/cart/item/(?P<item_key>[\w]+)';
+	}
+
+	/**
+	 * Get method arguments for this REST route.
+	 *
+	 * @return array An array of endpoints.
+	 */
+	public function get_args() {
+		return array(
+			array(
+				'methods'             => WP_REST_Server::READABLE,
+				'callback'            => array( $this, 'view_item' ),
+				'permission_callback' => '__return_true',
+				'args'                => $this->get_collection_params(),
+			),
+			'schema' => array( $this, 'get_public_item_schema' ),
+		);
+	} // END get_args()
 
 	/**
 	 * Register routes.
@@ -42,19 +68,13 @@ class CoCart_REST_Item_V2_Controller extends CoCart_REST_Cart_V2_Controller {
 	 * @ignore Function ignored when parsed into Code Reference.
 	 */
 	public function register_routes() {
+		cocart_deprecated_function( __FUNCTION__, '5.0.0' );
+
 		// Get Item - cocart/v2/cart/item/6364d3f0f495b6ab9dcf8d3b5c6e0b01 (GET).
 		register_rest_route(
 			$this->namespace,
-			'/' . $this->rest_base . '/(?P<item_key>[\w]+)',
-			array(
-				array(
-					'methods'             => WP_REST_Server::READABLE,
-					'callback'            => array( $this, 'view_item' ),
-					'permission_callback' => '__return_true',
-					'args'                => $this->get_collection_params(),
-				),
-				'schema' => array( $this, 'get_public_item_schema' ),
-			)
+			$this->get_path(),
+			$this->get_args()
 		);
 	} // END register_routes()
 

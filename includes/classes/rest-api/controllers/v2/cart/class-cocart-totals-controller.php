@@ -5,7 +5,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\API\v2
  * @since   3.0.0 Introduced.
- * @version 4.0.0
+ * @version 5.0.0
  * @license GPL-3.0
  */
 
@@ -28,11 +28,36 @@ class_alias( 'CoCart_REST_Totals_V2_Controller', 'CoCart_Totals_V2_Controller' )
 class CoCart_REST_Totals_V2_Controller extends CoCart_REST_Cart_V2_Controller {
 
 	/**
-	 * Route base.
+	 * Route base. - Replaced with `get_path()`
 	 *
 	 * @var string
 	 */
 	protected $rest_base = 'cart/totals';
+
+	/**
+	 * Get the path of this rest route.
+	 *
+	 * @return string
+	 */
+	protected function get_path_regex() {
+		return '/cart/totals';
+	}
+
+	/**
+	 * Get method arguments for this REST route.
+	 *
+	 * @return array An array of endpoints.
+	 */
+	public function get_args() {
+		return array(
+			array(
+				'methods'             => WP_REST_Server::READABLE,
+				'callback'            => array( $this, 'get_totals' ),
+				'permission_callback' => '__return_true',
+				'args'                => $this->get_collection_params(),
+			),
+		);
+	} // END get_args()
 
 	/**
 	 * Register routes.
@@ -42,16 +67,13 @@ class CoCart_REST_Totals_V2_Controller extends CoCart_REST_Cart_V2_Controller {
 	 * @ignore Function ignored when parsed into Code Reference.
 	 */
 	public function register_routes() {
+		cocart_deprecated_function( __FUNCTION__, '5.0.0' );
+
 		// Get Cart Totals - cocart/v2/cart/totals (GET).
 		register_rest_route(
 			$this->namespace,
-			'/' . $this->rest_base,
-			array(
-				'methods'             => WP_REST_Server::READABLE,
-				'callback'            => array( $this, 'get_totals' ),
-				'permission_callback' => '__return_true',
-				'args'                => $this->get_collection_params(),
-			)
+			$this->get_path(),
+			$this->get_args()
 		);
 	} // END register_routes()
 

@@ -30,14 +30,19 @@ class CoCart_REST_API {
 	 *
 	 * @var array
 	 */
-	protected $namespaces = array();
+	protected $routes = array();
 
 	/**
-	 * Controllers registered.
-	 *
-	 * @var array
+	 * This stores routes registered to prevent them from registering again by mistake.
 	 */
-	protected $controllers = array();
+	protected $registered_routes = array();
+
+	/**
+	 * Namespace for the API.
+	 *
+	 * @var string
+	 */
+	private $api_namespace = 'cocart';
 
 	/**
 	 * Setup class.
@@ -54,15 +59,16 @@ class CoCart_REST_API {
 			return;
 		}
 
-		// Register API namespaces.
+		// Register API routes.
 		$this->rest_api_includes();
-		$this->namespaces = $this->get_rest_namespaces();
+		$this->set_api_namespace();
+		$this->routes = $this->get_rest_namespaces();
 
 		// Initialize cart.
 		$this->maybe_load_cart();
 
 		// Register REST routes.
-		$this->register_rest_routes();
+		$this->register_all_routes();
 
 		// Prevents certain routes from being cached with WP REST API Cache plugin (https://wordpress.org/plugins/wp-rest-api-cache/).
 		add_filter( 'rest_cache_skip', array( $this, 'prevent_cache' ), 10, 2 );
@@ -72,23 +78,49 @@ class CoCart_REST_API {
 	} // END __construct()
 
 	/**
-	 * Register REST API routes.
+	 * Get the API namespace.
 	 *
 	 * @access public
+	 *
+	 * @since 5.0.0 Introduced.
+	 *
+	 * @return string
 	 */
-	public function register_rest_routes() {
-		foreach ( $this->namespaces as $namespace => $controllers ) {
-			foreach ( $controllers as $controller_name => $controller_class ) {
-				if ( class_exists( $controller_class ) ) {
-					$this->controllers[ $namespace ][ $controller_name ] = new $controller_class();
-					$this->controllers[ $namespace ][ $controller_name ]->register_routes();
-				}
-			}
-		}
-	} // END register_rest_routes()
+	public function get_api_namespace() {
+		return $this->api_namespace;
+	}
 
 	/**
-	 * Get API namespaces - new namespaces should be registered here.
+	 * Set the API namespace.
+	 *
+	 * @access protected
+	 *
+	 * @since 5.0.0 Introduced.
+	 */
+	protected function set_api_namespace() {
+		$this->api_namespace = wp_cache_get( 'cocart_api_namespace', CoCart_Utilities_Cache_Helpers::get_cache_prefix( 'api_namespace' ) );
+
+		if ( false === $this->api_namespace ) {
+			/**
+			 * This filter allows CoCart to be white labeled.
+			 *
+			 * @todo This filter maybe only a placeholder for now and may change in the future.
+			 *
+			 * @since 5.0.0 Introduced.
+			 */
+			$this->api_namespace = apply_filters( 'cocart_set_api_namespace', 'cocart' );
+
+			wp_cache_add( 'cocart_api_namespace', $this->api_namespace, CoCart_Utilities_Cache_Helpers::get_cache_prefix( 'api_namespace' ), time() + DAY_IN_SECONDS );
+		}
+
+		// Revert back if white label add-on is not active.
+		if ( 'cocart' !== $this->api_namespace ) {
+			$this->api_namespace = 'cocart';
+		}
+	} // END set_api_namespace();
+
+	/**
+	 * Get API namespaces - Namespaces should be registered here.
 	 *
 	 * @access protected
 	 *
@@ -121,7 +153,110 @@ class CoCart_REST_API {
 	} // END get_rest_namespaces()
 
 	/**
-	 * List of controllers in the cocart/v1 namespace.
+	 * Register all CoCart API routes.
+	 *
+	 * @access protected
+	 */
+	protected function register_all_routes() {
+		// By default, API v1 will no longer be enabled unless it is enabled in your wp-config.php file.
+		if ( defined( 'COCART_API_V1_ENABLED' ) && COCART_API_V1_ENABLED ) {
+			$this->register_routes( 'v1' );
+		}
+		$this->register_routes( 'v2' );
+
+		$this->register_rest_routes(); // Old method. Registers remaining routes with no specific version.
+	} // END register_all_routes();
+
+	/**
+	 * Register defined list of routes with WordPress.
+	 *
+	 * @access protected
+	 *
+	 * @param string $version API Version being registered. Default is the current supported API Version.
+	 */
+	protected function register_routes( $version = 'v2' ) {
+		$route_namespace = $this->get_api_namespace() . '/' . $version;
+
+		// If no routes for the version exist return nothing.
+		if ( ! isset( $this->routes[ $route_namespace ] ) ) {
+			return;
+		}
+
+		$route_identifiers = array_values( $this->routes[ $route_namespace ] );
+
+		foreach ( $route_identifiers as $route ) {
+			$skip_route = false;
+
+			// Check the route exists.
+			if ( class_exists( $route ) ) {
+				$route_instance = new $route();
+
+				$version_check = method_exists( $route_instance, 'get_version' ) ? $route_instance->get_version() : '';
+				$path          = method_exists( $route_instance, 'get_path' ) ? $route_instance->get_path() : '';
+
+				// If version of route does not match then continue.
+				if ( empty( $version_check ) || $version !== $version_check ) {
+					error_log( $route . ' is missing the version for the endpoint.' );
+					$skip_route = true;
+				}
+
+				// If the path does not exist then continue.
+				if ( empty( $path ) ) {
+					error_log( $route . ' is missing the path for the endpoint.' );
+					$skip_route = true;
+				}
+
+				if ( ! $skip_route && ! isset( $this->registered_routes[ $route ] ) && array_search( $path, $this->registered_routes ) === false ) {
+					register_rest_route(
+						$route_namespace,
+						$path,
+						method_exists( $route_instance, 'get_args' ) ? $route_instance->get_args() : array()
+					);
+					$this->registered_routes[ $route ] = $path;
+				}
+
+				if ( ! isset( $this->registered_routes[ $route ] ) ) {
+					error_log( $route . ' did not register!' );
+				}
+			}
+		}
+	} // END register_routes()
+
+	/**
+	 * Register REST API routes.
+	 *
+	 * This registers remaining routes that are not version specific.
+	 *
+	 * @access public
+	 */
+	public function register_rest_routes() {
+		foreach ( $this->routes as $version => $controllers ) {
+			foreach ( $controllers as $controller_name => $controller_class ) {
+				$skip_route = false;
+
+				// If already registered then skip to the next one.
+				if ( isset( $this->registered_routes[ $controller_class ] ) ) {
+					$skip_route = true;
+				}
+
+				if ( ! $skip_route && class_exists( $controller_class ) ) {
+					$route_instance = new $controller_class();
+
+					$version_check = $this->method_exists_in_class( $route_instance, 'get_version' ) ? $route_instance->get_version() : '';
+
+					// Register only if there is no version specified.
+					if ( ! $version_check ) {
+						error_log( $controller_class . ' needs to be updated for version CoCart v5.' );
+						$route_instance->register_routes();
+						$this->registered_routes[ $controller_class ] = true;
+					}
+				}
+			}
+		}
+	} // END register_rest_routes()
+
+	/**
+	 * List of controllers for version 1.
 	 *
 	 * @access protected
 	 *
@@ -148,7 +283,7 @@ class CoCart_REST_API {
 	} // END get_v1_controllers()
 
 	/**
-	 * List of controllers in the cocart/v2 namespace.
+	 * List of controllers for version 2.
 	 *
 	 * @access protected
 	 *
@@ -572,7 +707,7 @@ class CoCart_REST_API {
 	 * @since 2.1.2 Introduced.
 	 * @since 4.1.0 Check against allowed routes to determine if we should cache.
 	 *
-	 * @param bool   $skip ( default: WP_DEBUG ).
+	 * @param bool   $skip        Default: WP_DEBUG.
 	 * @param string $request_uri Requested REST API.
 	 *
 	 * @return bool $skip Results to WP_DEBUG or true if CoCart requested.
@@ -596,6 +731,7 @@ class CoCart_REST_API {
 	 *
 	 * @since 3.1.0 Introduced.
 	 * @since 4.1.0 Check against allowed routes to determine if we should cache.
+	 * @since 5.0.0 Allow for set API namespace to be used for control patterns.
 	 *
 	 * @param bool             $served  Whether the request has already been served. Default false.
 	 * @param WP_HTTP_Response $result  Result to send to the client. Usually a WP_REST_Response.
@@ -609,18 +745,21 @@ class CoCart_REST_API {
 		 * Filter allows you set a path to which will prevent from being added to browser cache.
 		 *
 		 * @since 3.6.0 Introduced.
+		 * @since 5.0.0 Added API Namespace as new parameter.
 		 *
-		 * @param array $cache_control_patterns Cache control patterns.
+		 * @param array  $cache_control_patterns Cache control patterns.
+		 * @param string $api_namespace          API Namespace
 		 */
 		$regex_path_patterns = apply_filters(
 			'cocart_send_cache_control_patterns',
 			array(
-				'/^cocart\/v2\/cart/',
-				'/^cocart\/v2\/logout/',
-				'/^cocart\/v2\/store/',
-				'/^cocart\/v1\/get-cart/',
-				'/^cocart\/v1\/logout/',
-			)
+				'/^' . $this->get_api_namespace() . '\/v2\/cart/',
+				'/^' . $this->get_api_namespace() . '\/v2\/logout/',
+				'/^' . $this->get_api_namespace() . '\/v2\/store/',
+				'/^' . $this->get_api_namespace() . '\/v1\/get-cart/',
+				'/^' . $this->get_api_namespace() . '\/v1\/logout/',
+			),
+			$this->get_api_namespace()
 		);
 
 		$cache_control = ( function_exists( 'is_user_logged_in' ) && is_user_logged_in() )
@@ -691,6 +830,7 @@ class CoCart_REST_API {
 	 * @access protected
 	 *
 	 * @since 3.1.0 Introduced.
+	 * @since 5.0.0 Allow for set API namespace to be used for control patterns.
 	 *
 	 * @return bool Returns true if route matches.
 	 */
@@ -699,12 +839,12 @@ class CoCart_REST_API {
 		$request_uri = esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated
 
 		$routes = array(
-			'cocart/v2/login',
-			'cocart/v2/logout',
-			'cocart/v1/products',
-			'cocart/v2/products',
-			'cocart/v2/sessions',
-			'cocart/v2/store',
+			$this->get_api_namespace() . '/v2/login',
+			$this->get_api_namespace() . '/v2/logout',
+			$this->get_api_namespace() . '/v1/products',
+			$this->get_api_namespace() . '/v2/products',
+			$this->get_api_namespace() . '/v2/sessions',
+			$this->get_api_namespace() . '/v2/store',
 		);
 
 		foreach ( $routes as $route ) {
@@ -722,13 +862,14 @@ class CoCart_REST_API {
 	 * @access protected
 	 *
 	 * @since 4.1.0 Introduced.
+	 * @since 5.0.0 Allow for set API namespace to be used for control patterns.
 	 *
-	 * @return array $routes Routes that can be cached.
+	 * @return array Routes that can be cached.
 	 */
 	protected function get_cacheable_route_patterns() {
 		return array(
-			'/^cocart\/v2\/products/',
-			'/^cocart\/v1\/products/',
+			'/^' . $this->get_api_namespace() . '\/v2\/products/',
+			'/^' . $this->get_api_namespace() . '\/v1\/products/',
 		);
 	} // END get_cacheable_route_patterns()
 
@@ -783,19 +924,21 @@ class CoCart_REST_API {
 	} // END has_user_switched()
 
 	/**
-	 * Allows something to happen if a user has switched.
+	 * Checks if a method exists in the class instance and not in the parent class.
 	 *
-	 * @access public
+	 * @access protected
 	 *
-	 * @since 2.1.0 Introduced.
+	 * @since 5.0.0 Introduced. - May remove. Still testing with.
 	 *
-	 * @deprecated 4.1.0 No replacement.
+	 * @param object $object The class instance.
+	 * @param string $method The method name.
+	 *
+	 * @return bool True if the method exists in the class instance, false otherwise.
 	 */
-	public function user_switched() {
-		cocart_deprecated_function( 'CoCart_REST_API::user_switched', __( 'User switching is now deprecated.', 'cocart-core' ), '4.1.0' );
-
-		cocart_do_deprecated_action( 'cocart_user_switched', '4.1.0', null );
-	} // END user_switched()
+	protected function method_exists_in_class( $object, $method ) {
+		$class = get_class( $object );
+		return method_exists( $object, $method ) && ( new ReflectionMethod( $class, $method ) )->getDeclaringClass()->getName() === $class;
+	}
 } // END class
 
 return new CoCart_REST_API();

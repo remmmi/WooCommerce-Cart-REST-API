@@ -5,7 +5,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\API\Sessions\v2
  * @since   3.0.0 Introduced.
- * @version 4.0.0
+ * @version 5.0.0
  * @license GPL-3.0
  */
 
@@ -21,12 +21,12 @@ class_alias( 'CoCart_REST_Sessions_V2_Controller', 'CoCart_Sessions_V2_Controlle
  * This REST API controller handles the request to get sessions
  * via "cocart/v2/sessions" endpoint.
  *
- * @package CoCart REST API/API
+ * @since 4.0.0 Introduced.
  */
 class CoCart_REST_Sessions_V2_Controller {
 
 	/**
-	 * Endpoint namespace.
+	 * Route namespace. - Remove once new route registry is completed.
 	 *
 	 * @access protected
 	 *
@@ -35,13 +35,59 @@ class CoCart_REST_Sessions_V2_Controller {
 	protected $namespace = 'cocart/v2';
 
 	/**
-	 * Route base.
+	 * Route base. - Replaced with `get_path()`
 	 *
 	 * @access protected
 	 *
 	 * @var string
 	 */
 	protected $rest_base = 'sessions';
+
+	/**
+	 * Version of route.
+	 */
+	protected $version = 'v2';
+
+	/**
+	 * Get version of route. - Remove once route abstract is created to extend from.
+	 */
+	public function get_version() {
+		return $this->version;
+	}
+
+	/**
+	 * Get the path of this REST route.
+	 *
+	 * @return string
+	 */
+	public function get_path() {
+		return self::get_path_regex();
+	}
+
+	/**
+	 * Get the path of this rest route.
+	 *
+	 * @return string
+	 */
+	public static function get_path_regex() {
+		return '/sessions';
+	}
+
+	/**
+	 * Get method arguments for this REST route.
+	 *
+	 * @return array An array of endpoints.
+	 */
+	public function get_args() {
+		return array(
+			array(
+				'methods'             => WP_REST_Server::READABLE,
+				'callback'            => array( $this, 'get_carts_in_session' ),
+				'permission_callback' => array( $this, 'get_items_permissions_check' ),
+			),
+			'schema' => array( $this, 'get_public_object_schema' ),
+		);
+	} // END get_args()
 
 	/**
 	 * Register the routes for index.
@@ -52,18 +98,13 @@ class CoCart_REST_Sessions_V2_Controller {
 	 * @since 3.1.0 Added schema information.
 	 */
 	public function register_routes() {
+		cocart_deprecated_function( __FUNCTION__, '5.0.0' );
+
 		// Get Sessions - cocart/v2/sessions (GET).
 		register_rest_route(
 			$this->namespace,
-			'/' . $this->rest_base,
-			array(
-				array(
-					'methods'             => WP_REST_Server::READABLE,
-					'callback'            => array( $this, 'get_carts_in_session' ),
-					'permission_callback' => array( $this, 'get_items_permissions_check' ),
-				),
-				'schema' => array( $this, 'get_public_object_schema' ),
-			)
+			$this->get_path(),
+			$this->get_args()
 		);
 	} // END register_routes()
 

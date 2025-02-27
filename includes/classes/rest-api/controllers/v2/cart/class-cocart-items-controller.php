@@ -28,11 +28,37 @@ class_alias( 'CoCart_REST_Items_V2_Controller', 'CoCart_Items_V2_Controller' );
 class CoCart_REST_Items_V2_Controller extends CoCart_REST_Cart_V2_Controller {
 
 	/**
-	 * Route base.
+	 * Route base. - Replaced with `get_path()`
 	 *
 	 * @var string
 	 */
 	protected $rest_base = 'cart/items';
+
+	/**
+	 * Get the path of this rest route.
+	 *
+	 * @return string
+	 */
+	protected function get_path_regex() {
+		return '/cart/items';
+	}
+
+	/**
+	 * Get method arguments for this REST route.
+	 *
+	 * @return array An array of endpoints.
+	 */
+	public function get_args() {
+		return array(
+			array(
+				'methods'             => WP_REST_Server::READABLE,
+				'callback'            => array( $this, 'view_items' ),
+				'permission_callback' => '__return_true',
+				'args'                => $this->get_collection_params(),
+			),
+			'schema' => array( $this, 'get_public_items_schema' ),
+		);
+	} // END get_args()
 
 	/**
 	 * Register routes.
@@ -42,19 +68,13 @@ class CoCart_REST_Items_V2_Controller extends CoCart_REST_Cart_V2_Controller {
 	 * @ignore Function ignored when parsed into Code Reference.
 	 */
 	public function register_routes() {
+		cocart_deprecated_function( __FUNCTION__, '5.0.0' );
+
 		// Get Items - cocart/v2/cart/items (GET).
 		register_rest_route(
 			$this->namespace,
-			'/' . $this->rest_base,
-			array(
-				array(
-					'methods'             => WP_REST_Server::READABLE,
-					'callback'            => array( $this, 'view_items' ),
-					'permission_callback' => '__return_true',
-					'args'                => $this->get_collection_params(),
-				),
-				'schema' => array( $this, 'get_public_items_schema' ),
-			)
+			$this->get_path(),
+			$this->get_args()
 		);
 	} // END register_routes()
 

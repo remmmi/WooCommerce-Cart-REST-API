@@ -30,14 +30,14 @@ class_alias( 'CoCart_REST_Cart_V2_Controller', 'CoCart_Cart_V2_Controller' );
 class CoCart_REST_Cart_V2_Controller extends CoCart_REST_Cart_Controller {
 
 	/**
-	 * Endpoint namespace.
+	 * Route namespace. - Remove once new route registry is completed.
 	 *
 	 * @var string
 	 */
 	protected $namespace = 'cocart/v2';
 
 	/**
-	 * Route base.
+	 * Route base. - Replaced with `get_path()`
 	 *
 	 * @var string
 	 */
@@ -51,6 +51,35 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_REST_Cart_Controller {
 	protected $schema = array();
 
 	/**
+	 * Version of route.
+	 */
+	protected $version = 'v2';
+
+	/**
+	 * Get version of route. - Remove once route abstract is created to extend from.
+	 */
+	public function get_version() {
+		return $this->version;
+	}
+
+	/**
+	 * Get method arguments for this REST route.
+	 *
+	 * @return array An array of endpoints.
+	 */
+	public function get_args() {
+		return array(
+			array(
+				'methods'             => WP_REST_Server::READABLE,
+				'callback'            => array( $this, 'get_cart' ),
+				'permission_callback' => array( $this, 'check_cart_instance' ),
+				'args'                => $this->get_collection_params(),
+			),
+			'schema' => array( $this, 'get_public_item_schema' ),
+		);
+	} // END get_args()
+
+	/**
 	 * Register the routes for cart.
 	 *
 	 * @access public
@@ -58,19 +87,13 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_REST_Cart_Controller {
 	 * @ignore Function ignored when parsed into Code Reference.
 	 */
 	public function register_routes() {
+		cocart_deprecated_function( __FUNCTION__, '5.0.0' );
+
 		// Get Cart - cocart/v2/cart (GET).
 		register_rest_route(
 			$this->namespace,
-			'/' . $this->rest_base,
-			array(
-				array(
-					'methods'             => WP_REST_Server::READABLE,
-					'callback'            => array( $this, 'get_cart' ),
-					'permission_callback' => '__return_true',
-					'args'                => $this->get_collection_params(),
-				),
-				'schema' => array( $this, 'get_public_item_schema' ),
-			)
+			$this->get_path(),
+			$this->get_args()
 		);
 	} // END register_routes()
 
