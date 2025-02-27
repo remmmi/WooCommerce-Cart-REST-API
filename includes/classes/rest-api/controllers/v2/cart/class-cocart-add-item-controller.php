@@ -138,25 +138,32 @@ class CoCart_REST_Add_Item_V2_Controller extends CoCart_REST_Cart_V2_Controller 
 			 */
 			$product_type = apply_filters( 'cocart_add_to_cart_handler', $product_data->get_type(), $product_data );
 
-			if ( 'variable' === $product_type || 'variation' === $product_type ) {
-				$item_added_to_cart = $this->add_to_cart_handler_variable( $product_id, $quantity, null, $variation, $item_data, $request );
-			} elseif ( has_filter( 'cocart_add_to_cart_handler_' . $product_type ) ) {
-				/**
-				 * Filter allows to use a custom add to cart handler.
-				 *
-				 * Allows you to specify the handlers validation method for
-				 * adding item to the cart.
-				 *
-				 * Example use for filter: 'cocart_add_to_cart_handler_subscription'.
-				 *
-				 * @since 2.1.0 Introduced.
-				 *
-				 * @param WC_Product      $product_data The product object.
-				 * @param WP_REST_Request $request      The request object.
-				 */
-				$item_added_to_cart = apply_filters( 'cocart_add_to_cart_handler_' . $product_type, $product_data, $request ); // Custom handler.
-			} else {
-				$item_added_to_cart = $this->add_to_cart_handler_simple( $product_id, $quantity, $item_data, $request );
+			switch ( $product_type ) {
+				case 'simple':
+					$item_added_to_cart = $this->add_to_cart_handler_simple( $product_id, $quantity, $item_data, $request );
+					break;
+				case 'variable':
+				case 'variation':
+					$item_added_to_cart = $this->add_to_cart_handler_variable( $product_id, $quantity, null, $variation, $item_data, $request );
+					break;
+				default:
+					if ( has_filter( 'cocart_add_to_cart_handler_' . $product_type ) ) {
+						/**
+						 * Filter allows to use a custom add to cart handler.
+						 *
+						 * Allows you to specify the handlers validation method for
+						 * adding item to the cart.
+						 *
+						 * Example use for filter: 'cocart_add_to_cart_handler_subscription'.
+						 *
+						 * @since 2.1.0 Introduced.
+						 *
+						 * @param WC_Product      $product_data The product object.
+						 * @param WP_REST_Request $request      The request object.
+						 */
+						$item_added_to_cart = apply_filters( 'cocart_add_to_cart_handler_' . $product_type, $product_data, $request ); // Custom handler.
+					}
+					break;
 			}
 
 			if ( ! is_wp_error( $item_added_to_cart ) ) {
