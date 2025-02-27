@@ -142,13 +142,6 @@ class CoCart_REST_API {
 			)
 		);
 
-		// Check if we should load the requested namespace.
-		foreach ( $namespaces as $namespace => $controller ) {
-			if ( ! cocart_rest_should_load_namespace( $namespace ) ) {
-				unset( $namespaces[ $namespace ] );
-			}
-		}
-
 		return $namespaces;
 	} // END get_rest_namespaces()
 
