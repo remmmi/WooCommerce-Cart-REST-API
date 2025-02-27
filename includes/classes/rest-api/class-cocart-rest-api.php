@@ -137,8 +137,8 @@ class CoCart_REST_API {
 		$namespaces = apply_filters(
 			'cocart_rest_api_get_rest_namespaces',
 			array(
-				'cocart/v1' => $this->get_v1_controllers(),
-				'cocart/v2' => $this->get_v2_controllers(),
+				'cocart/v1' => cocart_rest_should_load_namespace( 'cocart/v1' ) ? $this->get_v1_controllers() : array(),
+				'cocart/v2' => cocart_rest_should_load_namespace( 'cocart/v2' ) ? $this->get_v2_controllers() : array(),
 			)
 		);
 
