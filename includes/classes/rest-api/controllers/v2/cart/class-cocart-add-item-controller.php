@@ -136,11 +136,11 @@ class CoCart_REST_Add_Item_V2_Controller extends CoCart_REST_Cart_V2_Controller 
 			 * @param string     $product_type The product type to identify handler.
 			 * @param WC_Product $product_data The product object.
 			 */
-			$add_to_cart_handler = apply_filters( 'cocart_add_to_cart_handler', $product_data->get_type(), $product_data );
+			$product_type = apply_filters( 'cocart_add_to_cart_handler', $product_data->get_type(), $product_data );
 
-			if ( 'variable' === $add_to_cart_handler || 'variation' === $add_to_cart_handler ) {
+			if ( 'variable' === $product_type || 'variation' === $product_type ) {
 				$item_added_to_cart = $this->add_to_cart_handler_variable( $product_id, $quantity, null, $variation, $item_data, $request );
-			} elseif ( has_filter( 'cocart_add_to_cart_handler_' . $add_to_cart_handler ) ) {
+			} elseif ( has_filter( 'cocart_add_to_cart_handler_' . $product_type ) ) {
 				/**
 				 * Filter allows to use a custom add to cart handler.
 				 *
@@ -154,7 +154,7 @@ class CoCart_REST_Add_Item_V2_Controller extends CoCart_REST_Cart_V2_Controller 
 				 * @param WC_Product      $product_data The product object.
 				 * @param WP_REST_Request $request      The request object.
 				 */
-				$item_added_to_cart = apply_filters( 'cocart_add_to_cart_handler_' . $add_to_cart_handler, $product_data, $request ); // Custom handler.
+				$item_added_to_cart = apply_filters( 'cocart_add_to_cart_handler_' . $product_type, $product_data, $request ); // Custom handler.
 			} else {
 				$item_added_to_cart = $this->add_to_cart_handler_simple( $product_id, $quantity, $item_data, $request );
 			}
@@ -196,12 +196,12 @@ class CoCart_REST_Add_Item_V2_Controller extends CoCart_REST_Cart_V2_Controller 
 				 * @hooked: set_new_price - 1
 				 * @hooked: add_customer_billing_details - 10
 				 *
-				 * @param WC_Product      $item_added_to_cart  The product added to cart.
-				 * @param WP_REST_Request $request             The request object.
-				 * @param string          $add_to_cart_handler The product type added to cart.
-				 * @param object          $controller          The cart controller.
+				 * @param WC_Product      $item_added_to_cart The product added to cart.
+				 * @param WP_REST_Request $request            The request object.
+				 * @param string          $product_type       The product type added to cart.
+				 * @param object          $controller         The cart controller.
 				 */
-				do_action( 'cocart_after_item_added_to_cart', $item_added_to_cart, $request, $add_to_cart_handler, $this );
+				do_action( 'cocart_after_item_added_to_cart', $item_added_to_cart, $request, $product_type, $this );
 
 				// Was it requested to return the item details after being added?
 				if ( isset( $request['return_item'] ) && is_bool( $request['return_item'] ) && $request['return_item'] ) {
