@@ -425,7 +425,18 @@ class CoCart_REST_API {
 					continue;
 				}
 
-				// Check if the item should be removed from the cart.
+				/**
+				 * Allow 3rd parties to validate this item before it's added to cart and add their own notices.
+				 *
+				 * @since 3.6.0 Introduced in WooCommerce.
+				 *
+				 * @ignore Hook ignored when parsed into Code Reference.
+				 *
+				 * @param bool       $remove_cart_item_from_session If true, the item will not be added to the cart. Default: false.
+				 * @param string     $key                           Cart item key.
+				 * @param array      $values                        Cart item values e.g. quantity and product_id.
+				 * @param WC_Product $product                       The product being added to the cart.
+				 */
 				if ( apply_filters( 'woocommerce_pre_remove_cart_item_from_session', false, $key, $values, $product ) ) { // phpcs:ignore: WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
 					$update_cart_session = true;
 
@@ -442,7 +453,18 @@ class CoCart_REST_API {
 					continue;
 				}
 
-				// Check if the product is purchasable.
+				/**
+				 * Allow 3rd parties to override this item's is_purchasable() result with cart item data.
+				 *
+				 * @since 7.0.0 Introduced in WooCommerce.
+				 *
+				 * @ignore Hook ignored when parsed into Code Reference.
+				 *
+				 * @param bool       $is_purchasable If false, the item will not be added to the cart. Default: product's is_purchasable() status.
+				 * @param string     $key            Cart item key.
+				 * @param array      $values         Cart item values e.g. quantity and product_id.
+				 * @param WC_Product $product        The product being added to the cart.
+				 */
 				if ( ! apply_filters( 'woocommerce_cart_item_is_purchasable', $product->is_purchasable(), $key, $values, $product ) ) { // phpcs:ignore: WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
 					$update_cart_session = true;
 
