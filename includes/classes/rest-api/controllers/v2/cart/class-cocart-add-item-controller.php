@@ -558,7 +558,7 @@ class CoCart_REST_Add_Item_V2_Controller extends CoCart_REST_Cart_V2_Controller 
 				'validate_callback' => 'rest_validate_request_arg',
 			),
 			'price'       => array(
-				'description'       => __( 'Overrides the general or sale price with a custom price for the item if set.', 'cocart-core' ),
+				'description'       => __( 'Set a custom price for the item. Overrides the general or sale price.', 'cocart-core' ),
 				'type'              => 'string',
 				'required'          => false,
 				'sanitize_callback' => 'sanitize_text_field',
