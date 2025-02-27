@@ -30,7 +30,11 @@ class CoCart_Security {
 	 * @ignore Function ignored when parsed into Code Reference.
 	 */
 	public function __construct() {
+		// Hide CoCart from WordPress REST API Index.
 		add_filter( 'rest_index', array( $this, 'hide_from_rest_index' ) );
+
+		// Hides CoCart named routes from index.
+		add_filter( 'rest_namespace_index', array( $this, 'hide_routes_from_index' ), 0, 2 );
 	} // END __construct()
 
 	/**
@@ -65,6 +69,32 @@ class CoCart_Security {
 
 		return $response;
 	} // END hide_from_rest_index()
+
+	/**
+	 * This prevents the index of CoCart to expose all routes available.
+	 *
+	 * Returns an error message to confuse outsides.
+	 *
+	 * @access public
+	 *
+	 * @since 5.0.0 Introduced.
+	 *
+	 * @param WP_REST_Response $response Response data.
+	 * @param WP_REST_Request  $request  The request object.
+	 *
+	 * @return WP_Error
+	 */
+	public function hide_routes_from_index( $response, $request ) {
+		$namespace = $request['namespace'];
+
+		if ( preg_match( '/^' . $this->get_api_namespace() . '$/', $namespace ) ) {
+			return new WP_Error(
+				'rest_invalid_namespace',
+				__( 'The specified namespace could not be found.', 'cocart-core' ),
+				array( 'status' => 404 )
+			);
+		}
+	} // END hide_routes_from_index()
 
 	/**
 	 * Removes meta data that a plugin should NOT be outputting with Products API.
