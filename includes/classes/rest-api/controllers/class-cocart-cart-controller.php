@@ -40,7 +40,7 @@ abstract class CoCart_REST_Cart_Controller extends WP_REST_Controller {
 	 *
 	 * @return string
 	 */
-	protected function get_path_regex() {
+	public function get_path_regex() {
 		return '/cart';
 	}
 
