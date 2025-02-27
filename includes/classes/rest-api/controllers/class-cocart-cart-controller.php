@@ -669,4 +669,24 @@ abstract class CoCart_REST_Cart_Controller extends WP_REST_Controller {
 
 		return $params;
 	} // END get_collection_params()
+
+	/**
+	 * Extends the query parameters for the cart.
+	 *
+	 * @access public
+	 *
+	 * @since 5.0.0 Introduced.
+	 */
+	public function add_additional_params_to_cart( $params ) {
+		/**
+		 * This filter allows you to extend the query parameters without removing any default parameters.
+		 *
+		 * @since 3.1.0 Introduced.
+		 *
+		 * @return array $params The query params.
+		 */
+		$params += apply_filters( 'cocart_cart_query_parameters', array() );
+
+		return $params;
+	} // END add_additional_params_to_cart()
 }
