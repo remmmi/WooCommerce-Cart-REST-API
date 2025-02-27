@@ -7,7 +7,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\Functions
  * @since   3.0.0
- * @version 4.2.0
+ * @version 5.0.0
  * @license GPL-3.0
  */
 
@@ -714,6 +714,25 @@ function cocart_get_permalink( string $url, array $settings = array() ) {
 
 	return str_replace( home_url(), $frontend_url, $url );
 } // END cocart_get_permalink()
+
+if ( ! function_exists( 'rest_sanitize_quantity_arg' ) ) {
+	/**
+	 * Sanitize the quantity parameter.
+	 *
+	 * @since 5.0.0 Introduced.
+	 *
+	 * @param mixed $quantity The quantity parameter.
+	 *
+	 * @return mixed Sanitized quantity.
+	 */
+	function rest_sanitize_quantity_arg( $quantity ) {
+		if ( is_array( $quantity ) ) {
+			return array_map( 'wc_clean', $quantity );
+		}
+
+		return wc_clean( wp_unslash( $quantity ) );
+	} // END rest_sanitize_quantity_arg()
+}
 
 if ( ! function_exists( 'rest_validate_quantity_arg' ) ) {
 	/**
