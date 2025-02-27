@@ -20,47 +20,26 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * @since 5.0.0 Introduced.
  *
- * @see CoCart_REST_Cart_V2_Controller
+ * @see CoCart_REST_Cart_Controller
  */
-class CoCart_REST_Create_Cart_V2_Controller extends CoCart_REST_Cart_V2_Controller {
+class CoCart_REST_Create_Cart_V2_Controller extends CoCart_REST_Cart_Controller {
 
 	/**
-	 * Endpoint namespace.
+	 * Get method arguments for this REST route.
 	 *
-	 * @var string
+	 * @return array An array of endpoints.
 	 */
-	protected $namespace = 'cocart/v2';
-
-	/**
-	 * Route base.
-	 *
-	 * @var string
-	 */
-	protected $rest_base = 'cart';
-
-	/**
-	 * Register routes.
-	 *
-	 * @access public
-	 *
-	 * @ignore Function ignored when parsed into Code Reference.
-	 */
-	public function register_routes() {
-		// Create Cart - cocart/v2/cart (POST).
-		register_rest_route(
-			$this->namespace,
-			'/' . $this->rest_base,
+	public function get_args() {
+		return array(
 			array(
-				array(
-					'methods'             => WP_REST_Server::CREATABLE,
-					'callback'            => array( $this, 'create_cart' ),
-					'permission_callback' => array( $this, 'get_permission_callback' ),
-					'args'                => array(),
-				),
-				'allow_batch' => array( 'v1' => true ),
-			)
+				'methods'             => WP_REST_Server::CREATABLE,
+				'callback'            => array( $this, 'create_cart' ),
+				'permission_callback' => array( $this, 'get_permission_callback' ),
+				'args'                => array(),
+			),
+			'allow_batch' => array( 'v1' => true ),
 		);
-	} // END register_routes()
+	} // END get_args()
 
 	/**
 	 * Check if request has permission to create a cart.
@@ -104,7 +83,7 @@ class CoCart_REST_Create_Cart_V2_Controller extends CoCart_REST_Cart_V2_Controll
 			WC()->session->update_cart( $cart_key );
 
 			$response = array(
-				'message'  => __( 'Here is your cart key. Either use it as a global parameter or set the CoCart cart key header for all future Cart API requests. See "Cart Key" section in the documentation to learn more.', 'cocart-core' ),
+				'message'  => __( 'Here is your cart key. Either use it as a global parameter or set the cart key via the header for all future Cart API requests. See "Cart Key" section in the documentation to learn more.', 'cocart-core' ),
 				'cart_key' => $cart_key,
 			);
 
