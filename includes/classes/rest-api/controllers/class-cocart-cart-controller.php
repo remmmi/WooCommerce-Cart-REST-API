@@ -646,4 +646,27 @@ abstract class CoCart_REST_Cart_Controller extends WP_REST_Controller {
 			return CoCart_Response::get_error_response( $e->getErrorCode(), $e->getMessage(), $e->getCode(), $e->getAdditionalData() );
 		}
 	} // END add_cart_item()
+
+	/**
+	 * Get the query params for the cart.
+	 *
+	 * @access public
+	 *
+	 * @since 2.1.0 Introduced.
+	 *
+	 * @return array $params The query params.
+	 */
+	public function get_collection_params() {
+		$params = array(
+			'cart_key' => array(
+				'description'       => __( 'Unique identifier for the cart.', 'cocart-core' ),
+				'type'              => 'string',
+				'required'          => false,
+				'sanitize_callback' => 'sanitize_key',
+				'validate_callback' => 'rest_validate_request_arg',
+			),
+		);
+
+		return $params;
+	} // END get_collection_params()
 }
