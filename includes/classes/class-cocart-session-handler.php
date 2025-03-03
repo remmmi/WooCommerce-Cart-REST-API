@@ -273,8 +273,15 @@ class CoCart_Session_Handler extends WC_Session_Handler {
 	public function generate_key() {
 		require_once ABSPATH . 'wp-includes/class-phpass.php';
 
-		$hasher        = new \PasswordHash( 8, false );
-		$generated_key = apply_filters( 'cocart_generate_key', substr( md5( $hasher->get_random_bytes( 32 ) ), 2 ) );
+		$hasher = new \PasswordHash( 8, false );
+		/**
+		 * Filter allows you to change the generated key.
+		 *
+		 * @since 4.2.0 Introduced.
+		 *
+		 * @param PasswordHash $hasher PHPass object.
+		 */
+		$generated_key = 't_' . apply_filters( 'cocart_generate_key', substr( md5( $hasher->get_random_bytes( 32 ) ), 2 ), $hasher );
 
 		return $generated_key;
 	} // END generate_key()
