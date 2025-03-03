@@ -5,7 +5,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\Classes
  * @since   1.2.0 Introduced.
- * @version 4.0.0
+ * @version 4.3.23
  */
 
 // Exit if accessed directly.
@@ -28,6 +28,10 @@ class CoCart_Install {
 		'3.0.0' => array(
 			'cocart_update_300_db_structure',
 			'cocart_update_300_db_version',
+		),
+		'4.3.23' => array(
+			'cocart_update_4323_db_structure',
+			'cocart_update_4323_db_version',
 		),
 	);
 
@@ -567,11 +571,11 @@ class CoCart_Install {
 		$collate = $wpdb->has_cap( 'collation' ) ? $wpdb->get_charset_collate() : '';
 
 		$table = "CREATE TABLE {$wpdb->prefix}cocart_carts (
-cart_id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+cart_id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
 cart_key char(42) NOT NULL,
 cart_value longtext NOT NULL,
-cart_created BIGINT UNSIGNED NOT NULL,
-cart_expiry BIGINT UNSIGNED NOT NULL,
+cart_created bigint(20) unsigned NOT NULL,
+cart_expiry bigint(20) unsigned NOT NULL,
 cart_source varchar(200) NOT NULL,
 cart_hash varchar(200) NOT NULL,
 PRIMARY KEY  (cart_id),

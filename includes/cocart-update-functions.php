@@ -16,9 +16,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Update CoCart session database structure.
+ * Update CoCart session database structure to version 3.0.0.
  *
- * @global $wpdb
+ * @global wpdb $wpdb WordPress database abstraction object.
+ *
  * @return void
  */
 function cocart_update_300_db_structure() {
@@ -34,8 +35,30 @@ function cocart_update_300_db_structure() {
 }
 
 /**
+ * Update CoCart session database structure to version 4.3.23.
+ *
+ * @global wpdb $wpdb WordPress database abstraction object.
+ *
+ * @return void
+ */
+function cocart_update_4323_db_structure() {
+	global $wpdb;
+
+	$wpdb->query( "ALTER TABLE {$wpdb->prefix}cocart_carts MODIFY cart_id bigint(20) unsigned NOT NULL AUTO_INCREMENT" ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange
+	$wpdb->query( "ALTER TABLE {$wpdb->prefix}cocart_carts MODIFY cart_created bigint(20) unsigned NOT NULL" ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange
+	$wpdb->query( "ALTER TABLE {$wpdb->prefix}cocart_carts MODIFY cart_expiry bigint(20) unsigned NOT NULL" ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange
+}
+
+/**
  * Update database version to 3.0.0
  */
 function cocart_update_300_db_version() {
 	CoCart_Install::update_db_version( '3.0.0' );
+}
+
+/**
+ * Update database version to 4.1.0
+ */
+function cocart_update_4323_db_version() {
+	CoCart_Install::update_db_version( '4.3.23' );
 }
