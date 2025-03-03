@@ -51,7 +51,6 @@ class CoCart_CLI_Update_Command {
 
 		$wpdb->hide_errors();
 
-		include_once COCART_ABSPATH . 'includes/class-cocart-install.php';
 		include_once COCART_ABSPATH . 'includes/cocart-update-functions.php';
 
 		$current_db_version = get_option( 'cocart_db_version' );
