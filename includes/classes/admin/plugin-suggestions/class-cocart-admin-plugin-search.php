@@ -6,7 +6,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\Admin
  * @since   3.0.0
- * @version 3.10.8
+ * @version 4.3.24
  * @license GPL-2.0+
  */
 
@@ -20,26 +20,19 @@ if ( ! class_exists( 'CoCart_Admin_Plugin_Search' ) ) {
 	class CoCart_Admin_Plugin_Search {
 
 		/**
-		 * Singleton constructor.
-		 *
-		 * @return CoCart_Admin_Plugin_Search
-		 */
-		public static function init() {
-			static $instance = null;
-
-			if ( ! $instance ) {
-				$instance = new CoCart_Admin_Plugin_Search();
-			}
-
-			return $instance;
-		}
-
-		/**
 		 * Constructor.
 		 *
 		 * @access public
 		 */
 		public function __construct() {
+			/**
+			 * If "cocart_show_plugin_search" filter is set to false,
+			 * the plugin search suggestions will not show on the plugin install page.
+			 */
+			if ( ! CoCart_Helpers::is_cocart_ps_active() ) {
+				return;
+			}
+
 			add_action( 'current_screen', array( $this, 'start' ) );
 			add_action( 'admin_init', array( $this, 'get_suggestions_api_data' ) );
 		} // END __construct()
@@ -87,67 +80,29 @@ if ( ! class_exists( 'CoCart_Admin_Plugin_Search' ) ) {
 		} // END plugins_tab()
 
 		/**
-		 * Set CoCart tab args.
+		 * Set the CoCart tab to force plugin results we author only.
 		 *
-		 * This is so we can trigger "plugins_api_result"
-		 * action hook to return our results.
+		 * This is triggered by "plugins_api_result" action hook.
 		 *
 		 * @access public
 		 *
 		 * @param object $args Default arguments.
 		 *
+		 * @hooked: install_plugins_table_api_args_{$tab}
+		 *
 		 * @return object $args
 		 */
 		public function plugin_list_args( $args ) {
-			$installed_plugins = self::get_installed_plugins();
-
-			$per_page = 30;
-
 			$cocart_args = array(
-				'page'              => isset( $_GET['paged'] ) ? max( 0, intval( $_GET['paged'] - 1 ) * $per_page ) : 0, // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-				'per_page'          => $per_page,
-				'author'            => 'cocartforwc',
-				'installed_plugins' => array_keys( $installed_plugins ),
-				// Send the locale to the API so it can provide context-sensitive results.
-				'locale'            => get_user_locale(),
+				'page'     => isset( $_GET['paged'] ) ? max( 0, intval( $_GET['paged'] - 1 ) * $per_page ) : 0, // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+				'per_page' => 36,
+				'author'   => 'cocartforwc',
 			);
 
 			$args = wp_parse_args( $cocart_args, $args );
 
 			return $args;
 		} // END plugin_list_args()
-
-		/**
-		 * Return the list of known plugins.
-		 *
-		 * Uses the transient data from the updates API to determine the known
-		 * installed plugins.
-		 *
-		 * @access protected
-		 *
-		 * @return array
-		 */
-		protected function get_installed_plugins() {
-			$plugins = array();
-
-			$plugin_info = get_site_transient( 'update_plugins' );
-
-			if ( isset( $plugin_info->no_update ) ) {
-				foreach ( $plugin_info->no_update as $plugin ) {
-					$plugin->upgrade          = false;
-					$plugins[ $plugin->slug ] = $plugin;
-				}
-			}
-
-			if ( isset( $plugin_info->response ) ) {
-				foreach ( $plugin_info->response as $plugin ) {
-					$plugin->upgrade          = true;
-					$plugins[ $plugin->slug ] = $plugin;
-				}
-			}
-
-			return $plugins;
-		} // END get_installed_plugins()
 
 		/**
 		 * Displays our own plugin dashboard on the plugin install page.
@@ -919,12 +874,6 @@ if ( ! class_exists( 'CoCart_Admin_Plugin_Search' ) ) {
 		} // END get_suggestions_api_data()
 	} // END class
 
-} // END if class exists
+	return new CoCart_Admin_Plugin_Search();
 
-/**
- * If "cocart_show_plugin_search" filter is set to false,
- * the plugin search suggestions will not show on the plugin install page.
- */
-if ( is_admin() && CoCart_Helpers::is_cocart_ps_active() ) {
-	CoCart_Admin_Plugin_Search::init();
-}
+} // END if class exists
