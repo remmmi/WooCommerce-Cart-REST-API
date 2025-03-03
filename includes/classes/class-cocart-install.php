@@ -5,7 +5,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\Classes
  * @since   1.2.0 Introduced.
- * @version 4.3.23
+ * @version 4.3.24
  */
 
 // Exit if accessed directly.
@@ -25,7 +25,7 @@ class CoCart_Install {
 	 * @var array
 	 */
 	private static $db_updates = array(
-		'3.0.0' => array(
+		'3.0.0'  => array(
 			'cocart_update_300_db_structure',
 			'cocart_update_300_db_version',
 		),
@@ -123,7 +123,7 @@ class CoCart_Install {
 	 * @param string $callback Callback name.
 	 */
 	public static function run_update_callback( $callback ) {
-		include_once __DIR__ . '/cocart-update-functions.php';
+		include_once COCART_ABSPATH . 'includes/cocart-update-functions.php';
 
 		if ( is_callable( $callback ) ) {
 			self::run_update_callback_start( $callback );
