@@ -319,6 +319,7 @@ We’d love to hear what you have to say. [Share your experience](https://testim
 
 ## Bug Fix
 
+* Authentication: Changed access for setting an authentication error from protected to public. Allowing other authenticators to not fail when an error does occur.
 * WP-CLI: When updating the plugin, we don't need to include the install class again.
 
 ### Compatibility
