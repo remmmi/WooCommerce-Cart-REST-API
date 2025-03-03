@@ -28,7 +28,7 @@ final class CoCart {
 	 *
 	 * @var string
 	 */
-	public static $version = '4.3.22';
+	public static $version = '4.3.23';
 
 	/**
 	 * CoCart Database Schema version.
@@ -41,7 +41,7 @@ final class CoCart {
 	 *
 	 * @var string
 	 */
-	public static $db_version = '3.0.0';
+	public static $db_version = '4.3.23';
 
 	/**
 	 * Required WordPress Version

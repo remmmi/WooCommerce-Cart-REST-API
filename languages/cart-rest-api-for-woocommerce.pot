@@ -3,9 +3,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CoCart API - Decoupling Made Easy for WooCommerce "
-"4.3.22\n"
+"4.3.23\n"
 "Report-Msgid-Bugs-To: https://github.com/co-cart/co-cart/issues\n"
-"POT-Creation-Date: 2025-02-23 17:56:53+00:00\n"
+"POT-Creation-Date: 2025-03-03 18:22:01+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1279,7 +1279,7 @@ msgstr ""
 msgid "The minimum PHP version required for %1$s is %2$s. You are running %3$s."
 msgstr ""
 
-#: includes/classes/class-cocart-install.php:630
+#: includes/classes/class-cocart-install.php:634
 #. translators: %2$s table name, %3$s database user, %4$s database name.
 msgid ""
 "%1$s %2$s table creation failed. Does the %3$s user have CREATE privileges "
@@ -1291,8 +1291,8 @@ msgstr ""
 msgid "====%1$s Version: %2$s===="
 msgstr ""
 
-#: includes/classes/class-cocart-session-handler.php:323
-#: includes/classes/class-cocart-session-handler.php:687
+#: includes/classes/class-cocart-session-handler.php:330
+#: includes/classes/class-cocart-session-handler.php:694
 #. translators: %s: Filter name
 msgid "%s is no longer used."
 msgstr ""
@@ -1352,21 +1352,21 @@ msgstr ""
 msgid "Updates the CoCart database."
 msgstr ""
 
-#: includes/classes/cli/class-cocart-cli-update-command.php:77
+#: includes/classes/cli/class-cocart-cli-update-command.php:76
 #. translators: %s Database version number
 msgid "No updates required. Database version is %s"
 msgstr ""
 
-#: includes/classes/cli/class-cocart-cli-update-command.php:88
+#: includes/classes/cli/class-cocart-cli-update-command.php:87
 #. translators: 1: Number of database updates 2: List of update callbacks
 msgid "Found %1$d updates (%2$s)"
 msgstr ""
 
-#: includes/classes/cli/class-cocart-cli-update-command.php:95
+#: includes/classes/cli/class-cocart-cli-update-command.php:94
 msgid "Updating database"
 msgstr ""
 
-#: includes/classes/cli/class-cocart-cli-update-command.php:117
+#: includes/classes/cli/class-cocart-cli-update-command.php:116
 #. translators: 1: Number of database updates performed 2: Database version
 #. number
 msgid "%1$d update functions completed. Database version is %2$s"
