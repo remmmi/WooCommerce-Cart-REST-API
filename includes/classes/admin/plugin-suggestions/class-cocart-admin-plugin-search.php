@@ -395,7 +395,7 @@ if ( ! class_exists( 'CoCart_Admin_Plugin_Search' ) ) {
 						}
 
 						// Override plugin slug to identify suggestion.
-						$inject_data['slug'] = 'cocart-plugin-search';
+						$inject_data['slug'] = 'cocart-suggestion';
 
 						// Override card title and icon.
 						$inject_data['name'] = '<h3>' . $inject_data['name'] . '</h3><strong>' . sprintf(
@@ -553,7 +553,7 @@ if ( ! class_exists( 'CoCart_Admin_Plugin_Search' ) ) {
 		public function insert_related_links( $links, $plugin ) {
 			if ( isset( $_GET['tab'] ) && 'cocart' === $_GET['tab'] ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 				$links = self::get_related_links( $plugin, $links );
-			} elseif ( 'cocart-plugin-search' === $plugin['slug'] ) {
+			} elseif ( 'cocart-suggestion' === $plugin['slug'] ) {
 				$links = self::get_suggestion_links( $plugin );
 			} else {
 				return $links;
@@ -562,7 +562,7 @@ if ( ! class_exists( 'CoCart_Admin_Plugin_Search' ) ) {
 			// Add link pointing to a relevant page.
 			if ( ! empty( $plugin['learn_more'] ) ) {
 				$links['cocart-learn-more'] = '<a
-					class="cocart-plugin-search__learn-more button"
+					class="cocart-suggestion__learn-more button"
 					href="' . esc_url( $plugin['learn_more'] ) . '"
 					target="_blank"
 					rel="noopener noreferrer"

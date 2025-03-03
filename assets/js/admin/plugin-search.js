@@ -9,22 +9,21 @@ var CoCartPS = {};
 ( function ( $ ) {
 	CoCartPS = {
 		$pluginFilter: $( '#plugin-filter' ),
-		$addOns: $( 'body.cocart-plugin-install #plugin-filter' ),
 
 		/**
 		 * Get parent search hint element.
 		 * @returns {Element | null}
 		 */
 		getSuggestion: function () {
-			return document.querySelector( '.plugin-card-cocart-plugin-search' );
+			return document.querySelector( '.plugin-card-cocart-suggestion' );
 		},
 
 		/**
 		 * Get plugin result element.
-		 * @returns {Element | null}
+		 * @returns {NodeList | null}
 		 */
 		getCard: function () {
-			return document.querySelectorAll( 'body.cocart-plugin-install .plugin-card:not(.plugin-card-cocart-plugin-search)' );
+			return document.querySelectorAll( '.plugin-card' );
 		},
 
 		/**
@@ -44,13 +43,15 @@ var CoCartPS = {};
 
 			if ( 'object' === typeof card && null !== card ) {
 				card.forEach( function( element, index ) {
-					var title  = element.querySelector( '.column-name h3' );
-					var author = element.querySelector( 'p.authors' );
+					if ( element.className.includes( 'plugin-card-cocart' ) ) {
+						var title  = element.querySelector( '.column-name h3' );
+						var author = element.querySelector( 'p.authors' );
 
-					if ( $(author).length > 0 ) {
-						$(title).after( '<strong>' + $(author).text() + '</strong>' );
+						if ( $(author).length > 0 ) {
+							$(title).after( '<strong>' + $(author).text() + '</strong>' );
+						}
+						$(author).remove();
 					}
-					$(author).remove();
 				} );
 			}
 		},
@@ -70,9 +71,11 @@ var CoCartPS = {};
 
 			if ( 'object' === typeof card && null !== card ) {
 				card.forEach( function( element, index ) {
-					var title = element.querySelector( '.column-name h3 a' );
+					if ( element.className.includes( 'plugin-card-cocart' ) ) {
+						var title = element.querySelector( '.column-name h3 a' );
 
-					$(title).outerHTML = $(title).replaceWith( $(title).html() );
+						$(title).outerHTML = $(title).replaceWith( $(title).html() );
+					}
 				} );
 			}
 		},
@@ -107,10 +110,10 @@ var CoCartPS = {};
 
 			if ( 'object' === typeof hint && null !== hint ) {
 				hint.querySelector( '.plugin-card-bottom' ).outerHTML =
-					'<div class="cocart-plugin-search__bottom">' +
-					'<p class="cocart-plugin-search__text">' +
+					'<div class="cocart-suggestion__bottom">' +
+					'<p class="cocart-suggestion__text">' +
 					CoCartPluginSearch.legend +
-					' <a class="cocart-plugin-search__support_link" href="' +
+					' <a class="cocart-suggestion__support_link" href="' +
 					CoCartPluginSearch.supportLink +
 					'" target="_blank" rel="noopener noreferrer" data-track="support_link" >' +
 					CoCartPluginSearch.supportText +
@@ -121,20 +124,22 @@ var CoCartPS = {};
 
 			if ( 'object' === typeof card && null !== card ) {
 				card.forEach( function( element, index ) {
-					var bottomCard  = element.querySelector( '.plugin-card-bottom' );
-					var review      = element.querySelector( '.column-rating' );
-					var downloads   = element.querySelector( '.column-downloaded' );
-					var lastUpdated = element.querySelector( '.column-updated' );
-					var require     = element.querySelector( '.plugin-requirement' );
+					if ( element.className.includes( 'plugin-card-cocart' ) ) {
+						var bottomCard  = element.querySelector( '.plugin-card-bottom' );
+						var review      = element.querySelector( '.column-rating' );
+						var downloads   = element.querySelector( '.column-downloaded' );
+						var lastUpdated = element.querySelector( '.column-updated' );
+						var require     = element.querySelector( '.plugin-requirement' );
 
-					// Remove elements.
-					review.remove();
-					downloads.remove();
-					lastUpdated.remove();
+						// Remove elements if they exist.
+						if (review) review.remove();
+						if (downloads) downloads.remove();
+						if (lastUpdated) lastUpdated.remove();
 
-					// Move plugin requimrent if it exists.
-					if ( $(require).length > 0 ) {
-						bottomCard.append(require);
+						// Move plugin requirement if it exists.
+						if ( $(require).length > 0 ) {
+							bottomCard.append(require);
+						}
 					}
 				} );
 			}
@@ -173,15 +178,17 @@ var CoCartPS = {};
 		 */
 		replaceOnNewResults: function ( mutationsList ) {
 			mutationsList.forEach( function ( mutation ) {
-				if (
-					'childList' === mutation.type &&
-					1 === document.querySelectorAll( '.plugin-card-cocart-plugin-search' ).length
-				) {
-					CoCartPS.reset();
-					CoCartPS.unlinkCardTitle();
-					CoCartPS.updateCardTitle();
-					CoCartPS.moveActionLinks();
-					CoCartPS.replaceCardBottom();
+				if ( 'childList' === mutation.type ) {
+					var card = CoCartPS.getCard();
+					card.forEach( function ( element ) {
+						if ( element.className.includes( 'plugin-card-cocart' ) ) {
+							element.classList.add('cocart-plugin');
+							CoCartPS.unlinkCardTitle();
+							CoCartPS.updateCardTitle();
+							CoCartPS.moveActionLinks();
+							CoCartPS.replaceCardBottom();
+						}
+					} );
 				}
 			} );
 		},
@@ -194,6 +201,14 @@ var CoCartPS = {};
 				return;
 			}
 
+			// Highlight only CoCart plugins.
+			var card = CoCartPS.getCard();
+			card.forEach( function ( element ) {
+				if ( element.className.includes( 'plugin-card-cocart' ) ) {
+					element.classList.add('cocart-plugin');
+				}
+			} );
+
 			// Removes plugin information link from title.
 			CoCartPS.unlinkCardTitle();
 
@@ -203,10 +218,10 @@ var CoCartPS = {};
 			// Update the description and action links.
 			CoCartPS.moveActionLinks();
 
-			// Replace PSH bottom row on page load
+			// Replace PSH bottom row on page load.
 			CoCartPS.replaceCardBottom();
 
-			// Hide core card.
+			// Hide CoCart core card.
 			CoCartPS.hideCoreCard();
 
 			// Listen for changes in plugin search results
