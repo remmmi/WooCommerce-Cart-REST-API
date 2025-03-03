@@ -320,13 +320,13 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 		/**
 		 * Set authentication error.
 		 *
-		 * @access protected
+		 * @access public
 		 *
 		 * @since 3.0.0 Introduced.
 		 *
 		 * @param WP_Error $error Authentication error data.
 		 */
-		protected function set_error( $error ) {
+		public function set_error( $error ) {
 			// Reset user.
 			$this->user = null;
 
