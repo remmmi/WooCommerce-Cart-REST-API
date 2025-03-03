@@ -486,6 +486,11 @@ if ( ! class_exists( 'CoCart_Admin_Plugin_Search' ) ) {
 				return $result;
 			}
 
+			// Should WordPress.ORG fail in returning results successfully.
+			if ( is_wp_error( $result ) ) {
+				return $result;
+			}
+
 			// Get results previously stored if any.
 			$saved_results = get_transient( 'cocart_plugin_data' );
 
