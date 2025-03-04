@@ -90,6 +90,9 @@ class CoCart_CLI_Update_Command {
 			)
 		);
 
+		// Ask for confirmation before proceeding.
+		WP_CLI::confirm( __( 'Do you want to proceed with the database updates?', 'cart-rest-api-for-woocommerce' ) );
+
 		$progress = \WP_CLI\Utils\make_progress_bar(
 			__( 'Updating database', 'cart-rest-api-for-woocommerce' ),
 			count( $callbacks_to_run )
