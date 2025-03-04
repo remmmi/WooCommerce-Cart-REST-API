@@ -43,7 +43,7 @@ var CoCartPS = {};
 
 			if ( 'object' === typeof card && null !== card ) {
 				card.forEach( function( element, index ) {
-					if ( element.className.includes( 'plugin-card-cocart' ) ) {
+					if ( element.className.includes( 'plugin-card-cocart' ) || document.querySelector( 'body.cocart-plugin-install' ) ) {
 						var title  = element.querySelector( '.column-name h3' );
 						var author = element.querySelector( 'p.authors' );
 
@@ -71,7 +71,7 @@ var CoCartPS = {};
 
 			if ( 'object' === typeof card && null !== card ) {
 				card.forEach( function( element, index ) {
-					if ( element.className.includes( 'plugin-card-cocart' ) ) {
+					if ( element.className.includes( 'plugin-card-cocart' ) || document.querySelector( 'body.cocart-plugin-install' ) ) {
 						var title = element.querySelector( '.column-name h3 a' );
 
 						$(title).outerHTML = $(title).replaceWith( $(title).html() );
@@ -124,13 +124,13 @@ var CoCartPS = {};
 
 			if ( 'object' === typeof card && null !== card ) {
 				card.forEach( function( element, index ) {
-					if ( element.className.includes( 'plugin-card-cocart' ) ) {
-						var bottomCard  = element.querySelector( '.plugin-card-bottom' );
-						var review      = element.querySelector( '.column-rating' );
-						var downloads   = element.querySelector( '.column-downloaded' );
-						var lastUpdated = element.querySelector( '.column-updated' );
-						var require     = element.querySelector( '.plugin-requirement' );
+					var bottomCard  = element.querySelector( '.plugin-card-bottom' );
+					var review      = element.querySelector( '.column-rating' );
+					var downloads   = element.querySelector( '.column-downloaded' );
+					var lastUpdated = element.querySelector( '.column-updated' );
+					var require     = element.querySelector( '.plugin-requirement' );
 
+					if ( element.className.includes( 'plugin-card-cocart' ) ) {
 						// Remove elements if they exist.
 						if (review) review.remove();
 						if (downloads) downloads.remove();
@@ -140,6 +140,13 @@ var CoCartPS = {};
 						if ( $(require).length > 0 ) {
 							bottomCard.append(require);
 						}
+					}
+
+					if ( document.querySelector( 'body.cocart-plugin-install' ) ) {
+						// Remove elements if they exist.
+						if (review) review.remove();
+						if (downloads) downloads.remove();
+						if (lastUpdated) lastUpdated.remove();
 					}
 				} );
 			}
