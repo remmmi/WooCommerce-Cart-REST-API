@@ -194,41 +194,6 @@ if ( ! class_exists( 'CoCart_Admin_Plugin_Search' ) ) {
 		} // END load_plugins_search_script()
 
 		/**
-		 * Get the plugin repo's data for CoCart to populate the fields with.
-		 *
-		 * @access public
-		 *
-		 * @static
-		 *
-		 * @return array|mixed|object|WP_Error
-		 */
-		public static function get_cocart_plugin_data() {
-			$data = get_transient( 'cocart_plugin_data' );
-
-			if ( false === $data || is_wp_error( $data ) ) {
-				$query_args = array(
-					'slug'   => 'cart-rest-api-for-woocommerce',
-					'is_ssl' => is_ssl(),
-					'fields' => array(
-						'short_description' => false,
-						'sections'          => false,
-						'versions'          => false,
-						'reviews'           => true,
-						'banners'           => false,
-						'icons'             => true,
-						'active_installs'   => true,
-					),
-				);
-
-				$data = plugins_api( 'plugin_information', $query_args );
-
-				set_transient( 'cocart_plugin_data', $data, DAY_IN_SECONDS );
-			}
-
-			return $data;
-		} // END get_cocart_plugin_data()
-
-		/**
 		 * Get the plugin data from WP.org to populate fields with.
 		 *
 		 * @access public
