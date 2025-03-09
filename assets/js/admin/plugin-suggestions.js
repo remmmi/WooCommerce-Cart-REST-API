@@ -1,9 +1,4 @@
-/**
- * Replaces the bottom row of the card with customized content.
- */
-
 /* global CoCartPluginSearch */
-
 var CoCartPS = {};
 
 ( function ( $ ) {

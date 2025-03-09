@@ -167,9 +167,9 @@ if ( ! class_exists( 'CoCart_Admin_Plugin_Search' ) ) {
 		public function load_plugins_search_script() {
 			$suffix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
 
-			wp_enqueue_script( COCART_SLUG . '-plugin-search', COCART_URL_PATH . '/assets/js/admin/plugin-search' . $suffix . '.js', array( 'jquery' ), COCART_VERSION, true );
+			wp_enqueue_script( COCART_SLUG . '-plugin-suggestions', COCART_URL_PATH . '/assets/js/admin/plugin-suggestions' . $suffix . '.js', array( 'jquery' ), COCART_VERSION, true );
 			wp_localize_script(
-				COCART_SLUG . '-plugin-search',
+				COCART_SLUG . '-plugin-suggestions',
 				'CoCartPluginSearch',
 				array(
 					'legend'      => sprintf(
@@ -185,11 +185,11 @@ if ( ! class_exists( 'CoCart_Admin_Plugin_Search' ) ) {
 				)
 			);
 
-			wp_register_style( COCART_SLUG . '-plugin-search', COCART_URL_PATH . '/assets/css/admin/plugin-search' . $suffix . '.css', array(), COCART_VERSION );
-			wp_enqueue_style( COCART_SLUG . '-plugin-search' );
-			wp_style_add_data( COCART_SLUG . '-plugin-search', 'rtl', 'replace' );
+			wp_register_style( COCART_SLUG . '-plugin-suggestions', COCART_URL_PATH . '/assets/css/admin/plugin-suggestions' . $suffix . '.css', array(), COCART_VERSION );
+			wp_enqueue_style( COCART_SLUG . '-plugin-suggestions' );
+			wp_style_add_data( COCART_SLUG . '-plugin-suggestions', 'rtl', 'replace' );
 			if ( $suffix ) {
-				wp_style_add_data( COCART_SLUG . '-plugin-search', 'suffix', '.min' );
+				wp_style_add_data( COCART_SLUG . '-plugin-suggestions', 'suffix', '.min' );
 			}
 		} // END load_plugins_search_script()
 

@@ -2,6 +2,10 @@
 @import '../variables';
 
 .plugin-card {
+	.column-description > p {
+		width: 70%;
+	}
+
 	.plugin-card-bottom {
 		.plugin-requirement {
 			float: right;
@@ -17,6 +21,10 @@
 	&.cocart-plugin {
 		h3 {
 			margin: 0 0 4px;
+		}
+
+		.desc > p {
+			width: 70%;
 		}
 
 		.plugin-card-top {
@@ -37,12 +45,15 @@
 		.column-description {
 			margin-right: 20px;
 		}
-	
+
 		.action-links {
 			overflow: auto;
-			position: static;
+			position: relative;
+			top: 0;
+			right: 0;
+			margin-left: 9rem;
 		}
-	
+
 		.plugin-action-buttons {
 			margin: 0;
 			width: 100%;
