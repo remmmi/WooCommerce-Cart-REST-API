@@ -308,19 +308,30 @@ We’d love to hear what you have to say. [Share your experience](https://testim
 
 📢 Only bug and security updates will be provided here on WordPress dot ORG. Any new major updates starting with v5.0 will be provided [directly from us](https://cocartapi.com?utm_medium=website&utm_source=wpplugindirectory&utm_campaign=readme&utm_content=readmelink).
 
+= v4.3.24 - ?? March, 2025 =
+
+### Bug Fix
+
+* Fixed a few typo's in the session handler.
+
+### Improvements
+
+* WordPress Dashboard: Plugin suggestions now only alters plugins from our results leaving others alone.
+* WP-CLI: Update command now asks for confirmation before proceeding.
+
 = v4.3.23 - 3rd March, 2025 =
+
+### Bug Fixes
+
+* Authentication: Changed access for setting an authentication error from protected to public. Allowing other authenticators to not fail when an error does occur.
+* WP-CLI: When updating the plugin, we don't need to include the install class again.
 
 ### Improvements
 
 * Database: Simply modified the structure for columns that were `BIGINT UNSIGNED` to `bigint(20) unsigned`.
 * Session handler: Guest carts will now have a prefix `t_` before the cart key provided. This matches with WooCommerce session handler where it maybe used by 3rd party plugins or web host configurations to identify if the session is for a guest user.
 
-> Developer note: This affects only new guest sessions.
-
-### Bug Fixes
-
-* Authentication: Changed access for setting an authentication error from protected to public. Allowing other authenticators to not fail when an error does occur.
-* WP-CLI: When updating the plugin, we don't need to include the install class again.
+> Dev note: This affects only new guest sessions.
 
 ### Compatibility
 
