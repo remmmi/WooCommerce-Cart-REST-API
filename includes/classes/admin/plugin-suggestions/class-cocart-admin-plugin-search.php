@@ -240,21 +240,27 @@ if ( ! class_exists( 'CoCart_Admin_Plugin_Search' ) ) {
 		 * @return array|mixed|object|WP_Error
 		 */
 		public static function get_wporg_plugin_data( $slug = '' ) {
-			$query_args = array(
-				'slug'   => $slug,
-				'is_ssl' => is_ssl(),
-				'fields' => array(
-					'short_description' => false,
-					'sections'          => false,
-					'versions'          => false,
-					'reviews'           => true,
-					'banners'           => false,
-					'icons'             => true,
-					'active_installs'   => true,
-				),
-			);
+			$data = get_transient( 'cocart_plugin_data_' . $slug );
 
-			$data = plugins_api( 'plugin_information', $query_args );
+			if ( false === $data || is_wp_error( $data ) ) {
+				$query_args = array(
+					'slug'   => $slug,
+					'is_ssl' => is_ssl(),
+					'fields' => array(
+						'short_description' => false,
+						'sections'          => false,
+						'versions'          => false,
+						'reviews'           => true,
+						'banners'           => false,
+						'icons'             => true,
+						'active_installs'   => true,
+					),
+				);
+
+				$data = plugins_api( 'plugin_information', $query_args );
+
+				set_transient( 'cocart_plugin_data_' . $slug, $data, DAY_IN_SECONDS );
+			}
 
 			return $data;
 		} // END get_wporg_plugin_data()
