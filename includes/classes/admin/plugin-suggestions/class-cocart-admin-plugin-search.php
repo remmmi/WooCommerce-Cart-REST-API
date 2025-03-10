@@ -509,72 +509,45 @@ if ( ! class_exists( 'CoCart_Admin_Plugin_Search' ) ) {
 		} // END plugins_allowedtags()
 
 		/**
-		 * Put some more appropriate links on our custom result cards.
+		 * Appropriate action links for our custom result cards.
 		 *
 		 * @access public
 		 *
 		 * @since   3.0.0 Introduced.
 		 * @version 3.1.0
 		 *
-		 * @param array $links Related links.
-		 * @param array $plugin Plugin result information.
+		 * @param string[] $links  An array of plugin action links. Defaults are links to Details and Install Now.
+		 * @param array    $plugin An array of plugin data.
 		 *
 		 * @return array $links Returns our related links or falls back to default.
 		 */
 		public function insert_related_links( $links, $plugin ) {
-			if ( isset( $_GET['tab'] ) && 'cocart' === $_GET['tab'] ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-				$links = self::get_related_links( $plugin, $links );
-			} elseif ( 'cocart-suggestion' === $plugin['slug'] ) {
-				$links = self::get_suggestion_links( $plugin );
-			} else {
-				return $links;
-			}
+			// Alter action links if not hosted on WordPress dot ORG.
+			if ( empty( $plugin['wporg'] ) ) {
+				if ( isset( $_GET['tab'] ) && 'cocart' === $_GET['tab'] ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+					$links = self::get_action_links( $plugin, $links );
+				} elseif ( 'cocart-suggestion' === $plugin['slug'] ) {
+					$links = self::get_suggestion_links( $plugin );
+				}
 
-			// Add link pointing to a relevant page.
-			if ( ! empty( $plugin['learn_more'] ) ) {
-				$links['cocart-learn-more'] = '<a
-					class="cocart-suggestion__learn-more button"
-					href="' . esc_url( $plugin['learn_more'] ) . '"
-					target="_blank"
-					rel="noopener noreferrer"
-					data-addon="' . esc_attr( $plugin['slug'] ) . '"
-					data-track="learn_more"
-					>' . esc_html__( 'Learn more', 'cart-rest-api-for-woocommerce' ) . ' <span class="dashicons dashicons-external"></span></a>';
-			}
+				// Add link pointing to a relevant page.
+				if ( ! empty( $plugin['learn_more'] ) ) {
+					$links['1'] = '<a
+						class="cocart-suggestion__learn-more button"
+						href="' . esc_url( $plugin['learn_more'] ) . '"
+						target="_blank"
+						rel="noopener noreferrer"
+						data-addon="' . esc_attr( $plugin['slug'] ) . '"
+						data-track="learn_more"
+						>' . esc_html__( 'Learn more', 'cart-rest-api-for-woocommerce' ) . ' <span class="dashicons dashicons-external"></span></a>';
 
-			foreach ( self::get_suggestions() as $key => $cocart_plugin ) {
-				// Add plugin requirement.
-				if ( $key === $plugin['slug'] && ! empty( $plugin['requirement'] ) ) {
-					$links['cocart-requirement'] = '<div class="plugin-requirement">' . sprintf(
-						/* translators: %4$s: plugin does, %3$s: requirement */
-						esc_html__( '%1$sPlugin %4$s %2$s%3$s', 'cart-rest-api-for-woocommerce' ),
-						'<strong>',
-						'</strong>',
-						esc_html( $plugin['requirement'] ),
-						$plugin['plugin_does']
-					) . '</div>';
+					// Remove main button as it will be disabled.
+					unset( $links['0'] );
 				}
 			}
 
 			return $links;
 		} // END insert_related_links()
-
-		/**
-		 * Returns related links for each CoCart plugin.
-		 *
-		 * @access public
-		 *
-		 * @since   3.0.0 Introduced.
-		 * @version 3.1.0
-		 *
-		 * @param array $plugin Plugin details.
-		 * @param array $links  Related links before change.
-		 *
-		 * @return array $links Related links after change.
-		 */
-		public function get_related_links( $plugin, $links ) {
-			return self::get_action_links( $plugin, $links );
-		} // END get_related_links()
 
 		/**
 		 * Returns related links for suggested plugin.
@@ -584,11 +557,12 @@ if ( ! class_exists( 'CoCart_Admin_Plugin_Search' ) ) {
 		 * @since   3.0.0 Introduced.
 		 * @version 3.1.0
 		 *
-		 * @param array $plugin Plugin details.
+		 * @param array $plugin An array of plugin data.
 		 *
 		 * @return array $links Related links after change.
 		 */
 		public function get_suggestion_links( $plugin ) {
+			// Resets the links.
 			$links = array();
 
 			return self::get_action_links( $plugin, $links );
@@ -602,7 +576,7 @@ if ( ! class_exists( 'CoCart_Admin_Plugin_Search' ) ) {
 		 * @since   3.0.0 Introduced.
 		 * @version 3.1.0
 		 *
-		 * @param array $plugin Plugin details.
+		 * @param array $plugin An array of plugin data.
 		 * @param array $links  Related links before change.
 		 *
 		 * @return array $links Related links after change.
@@ -610,149 +584,67 @@ if ( ! class_exists( 'CoCart_Admin_Plugin_Search' ) ) {
 		public function get_action_links( $plugin, $links = array() ) {
 			$plugins_allowed_tags = self::plugins_allowedtags();
 
-			foreach ( self::get_suggestions() as $key => $cocart_plugin ) {
-				if ( $key === $plugin['slug'] ) {
-					$links = array(); // Reset links if plugin is not from WP.org.
+			if ( in_array( $plugin['slug'], self::get_suggestions() ) ) {
+				$title          = wp_kses( $plugin['name'], $plugins_allowed_tags );
+				$version        = wp_kses( $plugin['version'], $plugins_allowed_tags );
+				$name           = wp_strip_all_tags( $title . ' ' . $version );
+				$requires_php   = isset( $plugin['requires_php'] ) ? $plugin['requires_php'] : null;
+				$requires_wp    = isset( $plugin['requires'] ) ? $plugin['requires'] : null;
+				$compatible_php = is_php_version_compatible( $requires_php );
+				$compatible_wp  = is_wp_version_compatible( $requires_wp );
+				$tested_wp      = ( empty( $plugin['tested'] ) || version_compare( get_bloginfo( 'version' ), $plugin['tested'], '<=' ) );
 
-					$title          = wp_kses( $plugin['name'], $plugins_allowed_tags );
-					$version        = wp_kses( $plugin['version'], $plugins_allowed_tags );
-					$name           = wp_strip_all_tags( $title . ' ' . $version );
-					$requires_php   = isset( $plugin['requires_php'] ) ? $plugin['requires_php'] : null;
-					$requires_wp    = isset( $plugin['requires'] ) ? $plugin['requires'] : null;
-					$compatible_php = is_php_version_compatible( $requires_php );
-					$compatible_wp  = is_wp_version_compatible( $requires_wp );
-					$tested_wp      = ( empty( $plugin['tested'] ) || version_compare( get_bloginfo( 'version' ), $plugin['tested'], '<=' ) );
+				if ( current_user_can( 'install_plugins' ) || current_user_can( 'update_plugins' ) ) {
+					$status = install_plugin_install_status( $plugin );
 
-					if ( current_user_can( 'install_plugins' ) || current_user_can( 'update_plugins' ) ) {
-						$status = install_plugin_install_status( $plugin );
-
-						switch ( $status['status'] ) {
-							case 'install':
-								if ( $status['url'] ) {
-									if ( $compatible_php && $compatible_wp ) {
-										$nonce = wp_create_nonce( 'install-cocart-plugin_' . $plugin['slug'] );
-										$url   = self_admin_url( 'update.php?action=install-cocart-plugin&plugin=' . $plugin['slug'] . '&_wpnonce=' . $nonce );
-
-										if ( ! empty( $plugin['purchase'] ) ) {
-											$links['cocart-purchase'] = sprintf(
-												'<a class="cocart-plugin-primary button" data-slug="%s" href="%s" target="_blank" rel="noopener noreferrer" aria-label="%s" data-name="%s">%s</a>',
-												esc_attr( $plugin['slug'] ),
-												esc_url( $plugin['purchase'] ),
-												esc_attr(
-													sprintf(
-														/* translators: %s: Plugin name */
-														__( 'Purchase %s now', 'cart-rest-api-for-woocommerce' ),
-														$name
-													)
-												),
-												esc_attr( $name ),
-												__( 'Purchase Now', 'cart-rest-api-for-woocommerce' )
-											);
-										}
-
-										if ( ! empty( $plugin['wporg'] ) ) {
-											$links['cocart-install'] = sprintf(
-												'<a class="install-now button" data-slug="%s" href="%s" aria-label="%s" data-name="%s">%s</a>',
-												esc_attr( $plugin['slug'] ),
-												esc_url( $url ),
-												esc_attr(
-													sprintf(
-														/* translators: %s: Plugin name and version. */
-														__( 'Install %s now', 'cart-rest-api-for-woocommerce' ),
-														$name
-													)
-												),
-												esc_attr( $name ),
-												__( 'Install Now', 'cart-rest-api-for-woocommerce' )
-											);
-										}
-									} else {
-										$links['cocart-not-compatible'] = sprintf(
-											'<button type="button" class="button button-disabled" disabled="disabled">%s</button>',
-											__( 'Not Compatible', 'cart-rest-api-for-woocommerce' )
-										);
-									}
-								}
-
-								break;
-
-							case 'update_available':
-								if ( $status['url'] ) {
-									if ( $compatible_php && $compatible_wp ) {
-										$links['cocart-update-now'] = sprintf(
-											'<a class="update-now button aria-button-if-js" data-plugin="%s" data-slug="%s" href="%s" aria-label="%s" data-name="%s">%s</a>',
-											esc_attr( $status['file'] ),
+					switch ( $status['status'] ) {
+						case 'install':
+							if ( $status['url'] ) {
+								if ( $compatible_php && $compatible_wp ) {
+									// $nonce = wp_create_nonce( 'install-cocart-plugin_' . $plugin['slug'] );
+									// $url   = self_admin_url( 'update.php?action=install-cocart-plugin&plugin=' . $plugin['slug'] . '&_wpnonce=' . $nonce );
+									if ( ! empty( $plugin['purchase'] ) ) { // @TODO: Add check if CoCart license is active to download and install if source available.
+										$links['cocart-purchase'] = sprintf(
+											'<a class="cocart-plugin-primary button" data-slug="%s" href="%s" target="_blank" rel="noopener noreferrer" aria-label="%s" data-name="%s">%s</a>',
 											esc_attr( $plugin['slug'] ),
-											esc_url( $status['url'] ),
-											/* translators: %s: Plugin name */
-											esc_attr( sprintf( __( 'Update %s now', 'cart-rest-api-for-woocommerce' ), $name ) ),
-											esc_attr( $name ),
-											__( 'Update Now', 'cart-rest-api-for-woocommerce' )
-										);
-									} else {
-										$links['cocart-cannot-update'] = sprintf(
-											'<button type="button" class="button button-disabled" disabled="disabled">%s</button>',
-											__( 'Cannot Update', 'cart-rest-api-for-woocommerce' )
-										);
-									}
-								}
-
-								break;
-
-							case 'latest_installed':
-							case 'newer_installed':
-								if ( is_plugin_active( $status['file'] ) ) {
-									$links['cocart-active'] = sprintf(
-										'<button type="button" class="button button-disabled" disabled="disabled">%s</button>',
-										__( 'Installed & Active', 'cart-rest-api-for-woocommerce' )
-									);
-								} elseif ( current_user_can( 'activate_plugin', $status['file'] ) ) {
-									if ( $compatible_php && $compatible_wp ) {
-										$button_text = __( 'Activate', 'cart-rest-api-for-woocommerce' );
-										/* translators: %s: Plugin name. */
-										$button_label = __( 'Activate %s', 'cart-rest-api-for-woocommerce' );
-										$activate_url = add_query_arg(
-											array(
-												'_wpnonce' => wp_create_nonce( 'activate-plugin_' . $status['file'] ),
-												'action'   => 'activate',
-												'plugin'   => $status['file'],
+											esc_url( $plugin['purchase'] ),
+											esc_attr(
+												sprintf(
+													/* translators: %s: Plugin name */
+													__( 'Purchase %s now', 'cart-rest-api-for-woocommerce' ),
+													$name
+												)
 											),
-											network_admin_url( 'plugins.php' )
-										);
-
-										if ( is_network_admin() ) {
-											$button_text = __( 'Network Activate', 'cart-rest-api-for-woocommerce' );
-											/* translators: %s: Plugin name. */
-											$button_label = __( 'Network Activate %s', 'cart-rest-api-for-woocommerce' );
-											$activate_url = add_query_arg( array( 'networkwide' => 1 ), $activate_url );
-										}
-
-										$links['cocart-activate'] = sprintf(
-											'<a href="%1$s" class="button activate-now button-primary" aria-label="%2$s">%3$s</a>',
-											esc_url( $activate_url ),
-											esc_attr( sprintf( $button_label, $plugin['name'] ) ),
-											$button_text
-										);
-									} else {
-										$links['cocart-not-compatible'] = sprintf(
-											'<button type="button" class="button button-disabled" disabled="disabled">%s</button>',
-											__( 'Not Compatible', 'cart-rest-api-for-woocommerce' )
+											esc_attr( $name ),
+											__( 'Purchase Now', 'cart-rest-api-for-woocommerce' )
 										);
 									}
 								} else {
-									$links['cocart-installed'] = sprintf(
+									$links['cocart-not-compatible'] = sprintf(
 										'<button type="button" class="button button-disabled" disabled="disabled">%s</button>',
-										__( 'Installed', 'cart-rest-api-for-woocommerce' )
+										__( 'Not Compatible', 'cart-rest-api-for-woocommerce' )
 									);
 								}
+							}
 
-								break;
-						} // END switch
+							break;
 
-						$links = apply_filters( 'cocart_plugin_search_action_links', $links, $status, $plugin, $name );
-					} // END if user can install or update plugins.
-				} // END if plugin matches.
-			} // END foreach cocart plugin.
+							break;
+					} // END switch
+
+					/**
+					 * Filters the action links for plugin suggestions.
+					 *
+					 * @since 3.1.0 Introduced.
+					 *
+					 * @param string[] $links  An array of plugin action links.
+					 * @param array    $status Data about the plugin retrieved from the API.
+					 * @param array    $plugin An array of plugin data.
+					 * @param string   $name   Plugin title and version
+					 */
+					$links = apply_filters( 'cocart_plugin_search_action_links', $links, $status, $plugin, $name );
+				} // END if user can install or update plugins.
+			} // END if plugin matches.
 
 			return $links;
 		} // END get_action_links()

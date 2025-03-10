@@ -2,10 +2,6 @@
 @import '../variables';
 
 .plugin-card {
-	.column-description > p {
-		width: 70%;
-	}
-
 	.plugin-card-bottom {
 		.plugin-requirement {
 			float: right;
@@ -16,17 +12,13 @@
 	&.plugin-card-cocart-suggestion,
 	&.cocart-plugin {
 		border: 2px solid $cocart;
-	}
 
-	&.cocart-plugin {
 		h3 {
 			margin: 0 0 4px;
 		}
+	}
 
-		.desc > p {
-			width: 70%;
-		}
-
+	&.cocart-plugin {
 		.plugin-card-top {
 			min-height: 150px;
 		}
@@ -37,10 +29,10 @@
 	}
 
 	&.plugin-card-cocart-suggestion {
-		h3 {
-			margin: 0 0 4px;
+		.desc > p {
+			width: 70%;
 		}
-	
+
 		.column-name,
 		.column-description {
 			margin-right: 20px;
@@ -60,12 +52,18 @@
 			text-align: left;
 			white-space: nowrap;
 		}
+
+		.plugin-card-bottom {
+			display: none;
+		}
 	}
 }
 
 @media screen and (max-width: 1100px) and (min-width: 782px), (max-width: 480px) {
-	.plugin-card-cocart-suggestion .action-links {
-		margin-left: 0;
+	.plugin-card-cocart-suggestion {
+		.action-links {
+			margin-left: 0;
+		}
 	}
 }
 
@@ -92,10 +90,6 @@
 	}
 }
 
-.plugin-card-cocart-suggestion .plugin-card-bottom {
-	display: none;
-}
-
 .cocart-suggestion__bottom {
 	display: flex;
 	-webkit-box-align: center;
@@ -115,11 +109,13 @@
 }
 
 @media screen and (max-width: 1100px) and (min-width: 782px), (max-width: 480px) {
-	.plugin-card-cocart-suggestion .plugin-action-buttons li {
-		display: block;
-	}
+	.plugin-card-cocart-suggestion {
+		.plugin-action-buttons li {
+			display: block;
 
-	.plugin-card-cocart-suggestion .plugin-action-buttons li button {
-		margin-right: 0;
+			button {
+				margin-right: 0;
+			}
+		}
 	}
 }
