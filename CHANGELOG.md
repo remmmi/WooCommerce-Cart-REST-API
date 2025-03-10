@@ -1,6 +1,6 @@
 # Changelog for CoCart Core
 
-## v4.3.24 - ?? March, 2025
+## v4.3.24 - 10th March, 2025
 
 ### Bug Fix
 
@@ -8,7 +8,7 @@
 
 ### Improvements
 
-* WordPress Dashboard: Plugin suggestions now only alters plugins from our results leaving others alone.
+* WordPress Dashboard: Improved detection of a suggested plugin hosted on WordPress dot ORG and from a third party.
 * WP-CLI: Update command now asks for confirmation before proceeding.
 
 ## v4.3.23 - 3rd March, 2025

@@ -4,7 +4,7 @@ Tags: woocommerce, rest-api, decoupled, headless, cart
 Requires at least: 5.6
 Requires PHP: 7.4
 Tested up to: 6.7
-Stable tag: 4.3.23
+Stable tag: 4.3.24
 WC requires at least: 7.0
 WC tested up to: 9.7
 License: GPLv3
@@ -308,7 +308,7 @@ We’d love to hear what you have to say. [Share your experience](https://testim
 
 📢 Only bug and security updates will be provided here on WordPress dot ORG. Any new major updates starting with v5.0 will be provided [directly from us](https://cocartapi.com?utm_medium=website&utm_source=wpplugindirectory&utm_campaign=readme&utm_content=readmelink).
 
-= v4.3.24 - ?? March, 2025 =
+= v4.3.24 - 10th March, 2025 =
 
 ### Bug Fix
 
@@ -316,7 +316,7 @@ We’d love to hear what you have to say. [Share your experience](https://testim
 
 ### Improvements
 
-* WordPress Dashboard: Plugin suggestions now only alters plugins from our results leaving others alone.
+* WordPress Dashboard: Improved detection of a suggested plugin hosted on WordPress dot ORG and from a third party.
 * WP-CLI: Update command now asks for confirmation before proceeding.
 
 = v4.3.23 - 3rd March, 2025 =
