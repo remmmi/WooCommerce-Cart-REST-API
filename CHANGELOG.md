@@ -1,5 +1,12 @@
 # Changelog for CoCart Core
 
+## v4.3.25 - 17th March, 2025
+
+### Bug Fixes
+
+* Plugin: Failed to activate fully when network activated due to how admin notices where set. - [Bug Report](https://wordpress.org/support/topic/critical-error-upon-activate/)
+* WordPress Dashboard: Plugin suggestions was not letting you press the "Install Now" button.
+
 ## v4.3.24 - 10th March, 2025
 
 ### Bug Fix

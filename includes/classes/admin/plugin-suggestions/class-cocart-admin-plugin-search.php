@@ -6,7 +6,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\Admin
  * @since   3.0.0
- * @version 4.3.24
+ * @version 4.3.25
  * @license GPL-2.0+
  */
 
@@ -263,7 +263,7 @@ if ( ! class_exists( 'CoCart_Admin_Plugin_Search' ) ) {
 		 * @access public
 		 *
 		 * @since   3.0.0 Introduced.
-		 * @version 3.1.0
+		 * @version 4.3.25
 		 *
 		 * @param array $inject Plugin information from WordPress.org.
 		 * @param array $data   Plugin information from CoCart.
@@ -290,7 +290,7 @@ if ( ! class_exists( 'CoCart_Admin_Plugin_Search' ) ) {
 				'num_ratings'       => ! empty( $inject['num_ratings'] ) ? $inject['num_ratings'] : $data['num_ratings'],
 				'active_installs'   => ! empty( $inject['active_installs'] ) ? $inject['active_installs'] : $data['active_installs'],
 				'last_updated'      => ! empty( $inject['last_updated'] ) ? $inject['last_updated'] : $data['last_updated'],
-				'download_link'     => '',
+				'download_link'     => ! empty( $inject['download_link'] ) ? $inject['download_link'] : ( isset( $data['download_link'] ) ? $data['download_link'] : '' ),
 				'icons'             => isset( $inject['icons'] ) ? $inject['icons'] : $data['logo'],
 				'logo'              => array(
 					'1x'  => esc_url( $data['logo'] ),
