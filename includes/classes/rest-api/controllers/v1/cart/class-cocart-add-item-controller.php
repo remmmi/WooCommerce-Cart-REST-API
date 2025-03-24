@@ -365,37 +365,105 @@ class CoCart_Add_Item_Controller extends CoCart_API_Controller {
 			'title'      => 'CoCart - ' . __( 'Add Item', 'cart-rest-api-for-woocommerce' ),
 			'type'       => 'object',
 			'properties' => array(
-				'product_id'     => array(
-					'required'    => true,
-					'description' => __( 'Unique identifier for the product.', 'cart-rest-api-for-woocommerce' ),
+				'key'               => array(
+					'description' => __( 'Unique identifier for the item within the cart.', 'cart-rest-api-for-woocommerce' ),
 					'type'        => 'string',
+					'context'     => array( 'view' ),
+					'readonly'    => true,
 				),
-				'quantity'       => array(
-					'required'    => true,
-					'default'     => 1,
-					'description' => __( 'Quantity amount.', 'cart-rest-api-for-woocommerce' ),
-					'type'        => 'float',
+				'product_id'        => array(
+					'description' => __( 'Unique identifier for the product.', 'cart-rest-api-for-woocommerce' ),
+					'type'        => 'integer',
+					'context'     => array( 'view' ),
+					'readonly'    => true,
 				),
-				'variation_id'   => array(
-					'required'    => false,
+				'variation_id'      => array(
 					'description' => __( 'Unique identifier for the variation.', 'cart-rest-api-for-woocommerce' ),
 					'type'        => 'integer',
+					'context'     => array( 'view' ),
+					'readonly'    => true,
 				),
-				'variation'      => array(
-					'required'    => false,
-					'description' => __( 'Variation attributes that identity the variation of the item.', 'cart-rest-api-for-woocommerce' ),
+				'variation'         => array(
+					'description' => __( 'Chosen attributes (for variations).', 'cart-rest-api-for-woocommerce' ),
+					'type'        => array( 'object', 'array' ),
+					'context'     => array( 'view' ),
+					'readonly'    => true,
+				),
+				'quantity'          => array(
+					'description' => __( 'Quantity of this item in the cart.', 'cart-rest-api-for-woocommerce' ),
+					'type'        => 'integer',
+					'context'     => array( 'view' ),
+					'readonly'    => true,
+				),
+				'data_hash'         => array(
+					'description' => __( 'Hash of cart item data.', 'cart-rest-api-for-woocommerce' ),
+					'type'        => 'string',
+					'context'     => array( 'view' ),
+					'readonly'    => true,
+				),
+				'line_tax_data'     => array(
+					'description' => __( 'Line tax data.', 'cart-rest-api-for-woocommerce' ),
 					'type'        => 'object',
+					'properties'  => array(
+						'subtotal' => array(
+							'description' => __( 'Line subtotal tax data.', 'cart-rest-api-for-woocommerce' ),
+							'type'        => 'array',
+							'items'       => array(
+								'type' => 'number',
+							),
+						),
+						'total'    => array(
+							'description' => __( 'Line total tax data.', 'cart-rest-api-for-woocommerce' ),
+							'type'        => 'array',
+							'items'       => array(
+								'type' => 'number',
+							),
+						),
+					),
+					'context'     => array( 'view' ),
+					'readonly'    => true,
 				),
-				'cart_item_data' => array(
-					'required'    => false,
-					'description' => __( 'Additional item data to make the item unique.', 'cart-rest-api-for-woocommerce' ),
-					'type'        => 'object',
+				'line_subtotal'     => array(
+					'description' => __( 'Line subtotal (the price of the product before coupon discounts have been applied).', 'cart-rest-api-for-woocommerce' ),
+					'type'        => 'number',
+					'context'     => array( 'view' ),
+					'readonly'    => true,
 				),
-				'return_cart'    => array(
-					'required'    => false,
-					'default'     => false,
-					'description' => __( 'Returns the cart.', 'cart-rest-api-for-woocommerce' ),
-					'type'        => 'boolean',
+				'line_subtotal_tax' => array(
+					'description' => __( 'Line subtotal tax.', 'cart-rest-api-for-woocommerce' ),
+					'type'        => 'number',
+					'context'     => array( 'view' ),
+					'readonly'    => true,
+				),
+				'line_total'        => array(
+					'description' => __( 'Line total (the price of the product after coupon discounts have been applied).', 'cart-rest-api-for-woocommerce' ),
+					'type'        => 'number',
+					'context'     => array( 'view' ),
+					'readonly'    => true,
+				),
+				'line_tax'          => array(
+					'description' => __( 'Line total tax.', 'cart-rest-api-for-woocommerce' ),
+					'type'        => 'number',
+					'context'     => array( 'view' ),
+					'readonly'    => true,
+				),
+				'product_name'      => array(
+					'description' => __( 'Product name.', 'cart-rest-api-for-woocommerce' ),
+					'type'        => 'string',
+					'context'     => array( 'view' ),
+					'readonly'    => true,
+				),
+				'product_title'     => array(
+					'description' => __( 'Product title.', 'cart-rest-api-for-woocommerce' ),
+					'type'        => 'string',
+					'context'     => array( 'view' ),
+					'readonly'    => true,
+				),
+				'product_price'     => array(
+					'description' => __( 'Current product price.', 'cart-rest-api-for-woocommerce' ),
+					'type'        => 'string',
+					'context'     => array( 'view' ),
+					'readonly'    => true,
 				),
 			),
 		);
