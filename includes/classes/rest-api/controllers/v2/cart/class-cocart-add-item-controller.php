@@ -239,7 +239,7 @@ class CoCart_REST_Add_Item_V2_Controller extends CoCart_Add_Item_Controller {
 
 				// Was it requested to return the item details after being added?
 				if ( isset( $request['return_item'] ) && is_bool( $request['return_item'] ) && $request['return_item'] ) {
-					$response = $controller->get_item( $item_added_to_cart['data'], $item_added_to_cart, $request );
+					$response = $controller->get_item( $item_added_to_cart['data'], $item_added_to_cart, $item_added_to_cart['key'] );
 				} else {
 					$response = $controller->get_cart_contents( $request );
 				}
