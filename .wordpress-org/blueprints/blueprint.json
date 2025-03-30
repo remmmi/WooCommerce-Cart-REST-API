@@ -14,7 +14,7 @@
         "networking": true
     },
     "siteOptions": {
-        "blogname": "CoCart API WP Playground"
+        "blogname": "CoCart API Playground"
     },
     "login": true,
     "steps": [
@@ -26,6 +26,11 @@
             "step": "writeFile",
             "path": "/wordpress/wp-content/mu-plugins/rewrite.php",
             "data": "<?php /* Use pretty permalinks */ add_action( 'after_setup_theme', function() { global $wp_rewrite; $wp_rewrite->set_permalink_structure('/%postname%/'); $wp_rewrite->flush_rules(); } );"
+        },
+        {
+            "step": "writeFile",
+            "path": "/wordpress/wp-content/mu-plugins/playground-notice.php",
+            "data": "<?php add_action( 'admin_notices', function() { echo '<div class=\"notice notice-info is-dismissible\"><p>You are now using a WooCommerce store demo with <strong>CoCart</strong>, powered by <a href=\"https://wordpress.org/playground/\" target=\"_blank\">WordPress Playground</a>.</p></div>'; } );"
         },
         {
             "step": "installPlugin",
@@ -57,8 +62,8 @@
         {
             "step": "installPlugin",
             "pluginData": {
-                "resource": "url",
-                "url": "https://github-proxy.com/proxy/?repo=co-cart/co-cart&release=v4.3.25&asset=cart-rest-api-for-woocommerce-v4.3.25.zip"
+                "resource": "wordpress.org/plugins",
+                "slug": "cart-rest-api-for-woocommerce"
             },
             "options": {
                 "activate": true
