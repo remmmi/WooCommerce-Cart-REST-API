@@ -1,0 +1,156 @@
+{
+    "$schema": "https://playground.wordpress.net/blueprint-schema.json",
+    "landingPage": "/wp-admin/admin.php?page=cocart-setup&step=ready",
+    "meta": {
+        "title": "CoCart API Playground",
+        "description": "Lets you setup a WooCommerce store demo with CoCart to play around with the core features.",
+        "author": "seb86"
+    },
+    "preferredVersions": {
+        "php": "8.2",
+        "wp": "latest"
+    },
+    "features": {
+        "networking": true
+    },
+    "siteOptions": {
+        "blogname": "CoCart API WP Playground"
+    },
+    "login": true,
+    "steps": [
+        {
+            "step": "login",
+            "username": "admin"
+        },
+        {
+            "step": "writeFile",
+            "path": "/wordpress/wp-content/mu-plugins/rewrite.php",
+            "data": "<?php /* Use pretty permalinks */ add_action( 'after_setup_theme', function() { global $wp_rewrite; $wp_rewrite->set_permalink_structure('/%postname%/'); $wp_rewrite->flush_rules(); } );"
+        },
+        {
+            "step": "installPlugin",
+            "pluginData": {
+                "resource": "wordpress.org/plugins",
+                "slug": "woocommerce"
+            },
+            "options": {
+                "activate": true
+            }
+        },
+        {
+            "step": "installPlugin",
+            "pluginData": {
+                "resource": "wordpress.org/plugins",
+                "slug": "wordpress-importer"
+            },
+            "options": {
+                "activate": true
+            }
+        },
+        {
+            "step": "importWxr",
+            "file": {
+                "resource": "url",
+                "url": "https://raw.githubusercontent.com/woocommerce/woocommerce/refs/heads/trunk/plugins/woocommerce/sample-data/sample_products.xml"
+            }
+        },
+        {
+            "step": "installPlugin",
+            "pluginData": {
+                "resource": "url",
+                "url": "https://github-proxy.com/proxy/?repo=co-cart/co-cart&release=v4.3.25&asset=cart-rest-api-for-woocommerce-v4.3.25.zip"
+            },
+            "options": {
+                "activate": true
+            }
+        },
+        {
+            "step": "installPlugin",
+            "pluginData": {
+                "resource": "wordpress.org/plugins",
+                "slug": "cocart-jwt-authentication"
+            },
+            "options": {
+                "activate": true
+            }
+        },
+        {
+            "step": "installPlugin",
+            "pluginData": {
+                "resource": "wordpress.org/plugins",
+                "slug": "cocart-cors"
+            },
+            "options": {
+                "activate": true
+            }
+        },
+        {
+            "step": "installPlugin",
+            "pluginData":
+            {
+                "resource": "wordpress.org/plugins",
+                "slug": "leira-letter-avatar"
+            },
+            "options": {
+                "activate": true
+            }
+        },
+        {
+            "step": "installPlugin",
+            "pluginData":
+            {
+                "resource": "wordpress.org/plugins",
+                "slug": "safe-svg"
+            },
+            "options": {
+                "activate": true
+            }
+        },
+        {
+            "step": "wp-cli",
+            "command": "wp user create john.wick baba.yaga@example.org --role=customer --user_pass=password --display_name=\"John Wick\" --description=\"Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam.\" --send-email=false"
+        },
+        {
+            "step": "setSiteOptions",
+            "options": {
+                "blog_public": 0,
+                "avatar_default": "leira_letter_avatar",
+                "woocommerce_store_city": "Los Angeles",
+                "woocommerce_store_address": "123 Main St",
+                "woocommerce_store_postcode": "90038",
+                "woocommerce_default_country": "US:CA",
+                "woocommerce_onboarding_profile": {
+                    "skipped": true
+                },
+                "woocommerce_currency": "USD",
+                "woocommerce_weight_unit": "lbs",
+                "woocommerce_dimension_unit": "in",
+                "woocommerce_allow_tracking": "no",
+                "woocommerce_cheque_settings": {
+                    "enabled": "yes"
+                },
+                "woocommerce_newly_installed": "no",
+                "woocommerce_custom_orders_table_enabled": "yes",
+                "woocommerce_hpos_fts_index_enabled": "yes",
+                "woocommerce_show_marketplace_suggestions": "no"
+            }
+        },
+        {
+            "step": "updateUserMeta",
+            "meta": {
+                "dismissed_cocart_setup_wizard_notice": true
+            },
+            "userId": 1
+        },
+        {
+            "step": "installTheme",
+            "themeData": {
+                "resource": "wordpress.org/themes",
+                "slug": "storefront"
+            },
+            "options": {
+                "activate": true
+            }
+        }
+    ]
+}
