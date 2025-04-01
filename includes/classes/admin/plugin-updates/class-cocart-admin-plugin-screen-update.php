@@ -54,14 +54,14 @@ class CoCart_Admin_Plugin_Screen_Update extends CoCart_Admin_Plugin_Updates {
 	public function in_plugin_update_message( $args, $response ) {
 		$this->new_version            = $response->new_version;
 		$this->upgrade_notice         = $this->get_upgrade_notice( $response->new_version );
-		$this->major_untested_plugins = $this->get_untested_plugins( $response->new_version, 'minor' );
+		$this->major_untested_plugins = $this->get_untested_plugins( $response->new_version, 'major' );
 
 		$current_version_parts = explode( '.', COCART_VERSION );
 		$new_version_parts     = explode( '.', $this->new_version );
 
 		// If user has already moved to the minor version, we don't need to flag up anything.
 		if ( version_compare( $current_version_parts[0] . '.' . $current_version_parts[1], $new_version_parts[0] . '.' . $new_version_parts[1], '=' ) ) {
-			// return; // @todo Uncomment when we no longer make file changes that are not backwards compatible.
+			return;
 		}
 
 		if ( ! empty( $this->major_untested_plugins ) ) {

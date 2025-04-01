@@ -60,19 +60,20 @@ class CoCart_Admin_Updates_Screen_Updates extends CoCart_Admin_Plugin_Updates {
 		<script>
 			( function( $ ) {
 				var modal_dismissed = false;
+				var pluginPath = '<?php echo esc_js( COCART_SLUG . '/' . COCART_SLUG . '.php' ); ?>';
 
 				// Show the modal if the CoCart upgrade checkbox is checked.
 				var show_modal_if_checked = function() {
 					if ( modal_dismissed ) {
 						return;
 					}
-					var $checkbox = $( 'input[value="cart-rest-api-for-woocommerce/cart-rest-api-for-woocommerce.php"]' );
+					var $checkbox = $( 'input[value="' + pluginPath + '"]' );
 					if ( $checkbox.prop( 'checked' ) ) {
 						$( '#cocart-upgrade-warning' ).trigger( 'click' );
 					}
 				}
 
-				$( '#plugins-select-all, input[value="cart-rest-api-for-woocommerce/cart-rest-api-for-woocommerce.php"]' ).on( 'change', function() {
+				$( '#plugins-select-all, input[value="' + pluginPath + '"]' ).on( 'change', function() {
 					show_modal_if_checked();
 				} );
 
@@ -89,7 +90,7 @@ class CoCart_Admin_Updates_Screen_Updates extends CoCart_Admin_Plugin_Updates {
 				// Uncheck the CoCart update checkbox if the modal is canceled.
 				$( '#cocart_untested_extensions_modal .cancel' ).on( 'click', function( evt ) {
 					evt.preventDefault();
-					$( 'input[value="cart-rest-api-for-woocommerce/cart-rest-api-for-woocommerce.php"]' ).prop( 'checked', false );
+					$( 'input[value="' + pluginPath + '"]' ).prop( 'checked', false );
 					tb_remove();
 				});
 			})( jQuery );
