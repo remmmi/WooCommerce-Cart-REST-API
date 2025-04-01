@@ -1,7 +1,7 @@
 === Headless WooCommerce Made Easy with CoCart ===
 Contributors: cocartforwc, sebd86
 Tags: woocommerce, rest-api, decoupled, headless, cart
-Requires at least: 5.6
+Requires at least: 6.3
 Requires PHP: 7.4
 Tested up to: 6.7
 Stable tag: 4.3.25

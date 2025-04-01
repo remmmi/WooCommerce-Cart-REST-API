@@ -8,7 +8,7 @@
  * Version:     4.3.25
  * Text Domain: cart-rest-api-for-woocommerce
  * Domain Path: /languages/
- * Requires at least: 5.6
+ * Requires at least: 6.3
  * Tested up to: 6.7
  * Requires PHP: 7.4
  * Requires Plugins: woocommerce
