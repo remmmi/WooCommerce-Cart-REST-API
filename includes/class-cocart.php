@@ -573,18 +573,17 @@ final class CoCart {
 	/**
 	 * Returns true if we are making a REST API request for CoCart.
 	 *
-	 * @todo: replace this function once core WP function is available: https://core.trac.wordpress.org/ticket/42061.
-	 *
 	 * @access public
 	 *
 	 * @static
 	 *
 	 * @since 2.1.0 Introduced.
+	 * @since 5.0.0 Check we are not running WP CLI.
 	 *
 	 * @return bool
 	 */
 	public static function is_rest_api_request() {
-		if ( empty( $_SERVER['REQUEST_URI'] ) ) {
+		if ( empty( $_SERVER['REQUEST_URI'] ) && ! defined( 'WP_CLI' ) ) {
 			return false;
 		}
 
