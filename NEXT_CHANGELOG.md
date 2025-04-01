@@ -2,16 +2,24 @@
 
 📢 This changelog is **NOT** final so take it with a grain of salt. Feedback from users while in beta will also help determine the final changelog of the release.
 
+> Documentation for breaking changes and new features can be found at https://docs.cocartapi.com - once loaded, select "core-v5" from the top left dropdown menu.
+
 ## What's new?
 
-* REST API: Products now return the global unique id. (API v2 Only)
 * REST API: Products can now be filtered to include `include_types` or exclude `exclude_types` by multiple types simultaneously using the new parameters. Note: `include_types` takes precedence over `type` parameter should both be used.
 * REST API: Products can now be filtered to return virtual products by the boolean `virtual` parameter.
+* REST API: Products can now be filtered to return only products by brand names using the `brand` parameter.
+* REST API: Products now returns any applicable brands. (API v2 Only)
+* REST API: Products now returns the global unique id. (API v2 Only)
+* REST API: New endpoint `cocart/v2/products/brands` to get product brands like categories.
+* REST API: New endpoint `cocart/v2/products/reviews/mine` to return product reviews only by the current user. Requires authentication.
+* REST API: Product variations in cart can now be updated using the same update item endpoint `cocart/v2/cart/item/{item_key}`.
 * REST API: New POST method for the cart to create an empty cart for guest customers.
 
-> Developer note: Cart creation is normally done the moment the first item is added to the cart as it has something to save to session. But some users are confused with creating a cart for guest customers. This route can help create an empty cart, storing just the cart key and return it in the response. This guides the developer to check the documentation for more information on how to use the cart key for a guest customer. It is not a requirement to use this route first.
+> Developer note: Cart creation is normally done the moment the first item is added to the cart as it has something to save to session. But some users are confused with creating a cart for guest customers. This route can help create an empty cart, storing just the cart key and return it in the response. See the quick start guide in the documentation for more information on how to use the cart key for a guest customer.
 
 * Plugin: New WP-CLI command `wp cocart status` shows the status of carts in session.
+* Plugin: New WP-CLI command `wp cocart sessions` shows the details of each session and allows you to check if they exist.
 * Plugin: Updates are provided from us for all supported CoCart plugins.
 * Plugin: Will deactivate legacy core version if one found installed and active. If you try to activate legacy version while the new core version is active it will deactivate. Recommend deleting.
 
@@ -26,9 +34,14 @@
 
 * REST API: Avatars only return if requested now when using the login endpoint.
 * REST API: Store API now returns array of CoCart versions installed not just the core version.
-* Plugin: Text domain a.k.a the plugin slug, has changed from `cart-rest-api-for-woocommerce` to `cocart-core`. This affects any translations including custom. If you did a custom translation you will need to rename the text domain to match.
-* Product meta will not return by default. To improve security and prevent PII from exposure, meta must now be whitelisted instead using the new filter `cocart_products_allowed_meta_keys`.
+* REST API: Product meta will not return by default. To improve security and prevent PII from exposure, meta must now be whitelisted instead using the new filter `cocart_products_allowed_meta_keys`.
+* REST API: The quantity parameter when adding an item now accepts both a `numeric` or an `array` value allowing to extend support for other product types that are a container of other grouped products.
+* REST API: When updating an item in cart, the quantity parameter is no longer required. Allowing to change just the variation of a variable product to keep the current quantity already requested.
+* REST API: Product Categories changed `image_src` from a single thumbnail to return all image sizes available. Schema updated to match.
 * REST API: Product reviews was updated to support better query parameters. Affects both API versions. Schema updated to match.
+* REST API: The response class `CoCart_Response` is deprecated. New utility response classes have been created for better utilization.
+* Feature: Load Cart from Session rewritten. See details below.
+* Plugin: Text domain a.k.a the plugin slug, has changed from `cart-rest-api-for-woocommerce` to `cocart-core`. This affects any translations including custom. If you did a custom translation you will need to rename the text domain to match.
 
 ## Changes
 
@@ -36,12 +49,18 @@
 
 > Developer note: This allows to better extend the cart API rather than the whole cart controller.
 
+* REST API: The following endpoints for Cart API v2: `cart/add-item`, `cart/add-items`, `cart/calculate` now extend `CoCart_REST_Cart_V2_Controller` instead of the Cart API v1 controller.
+
+> Developer note: This allows us to deprecate API v1 in the future. Still working on disconnecting Products API v2 from v1.
+
 * REST API: New product reviews posted are set to status `hold` by default.
 * WordPress Dashboard: Style adjustments.
 
 ## Improvements
 
 * REST API: Only registers CoCart endpoints if requesting it. Helps performance in backend such as when using Gutenberg/Block editor as it loads many API's in the background.
+* REST API: Now hides routes from the index of controllers and returns as an error for added security.
+* REST API: Registering the endpoints have been improved and also allows the namespace to register with your own brand (so long as you have the whitelabel add-on installed).
 * REST API: Moved more functions and filters to utility class to help improve the complexity of the cart controller so we get better performance.
 * REST API: Prevent having to check cart validity, stock and coupons on most cart endpoints other than when getting the cart to help with performance.
 * REST API: Optimized how many times we calculate the totals when adding items to the cart to help with performance.
@@ -82,6 +101,8 @@ Simply provide these two parameters with the data point values on any page and t
 * Introduced new filter `cocart_cross_sell_item_thumbnail_src` that allows you to change the thumbnail source for a cross sell item.
 * Introduced new filter `cocart_http_allowed_safe_ports` that allows you to control the list of ports considered safe for accessing the API.
 * Introduced new filter `cocart_allowed_http_origins` that allows you to change the origin types allowed for HTTP requests.
+* Introduced new filter `cocart_set_api_namespace` allows CoCart to be white labeled.
+* Introduced new filter `cocart_rest_response` to be used as a final straw for changing the response based on the request made.
 * Introduced new filter `cocart_wp_frontend_url` that allows you to control where to redirect users when visiting your WordPress site if you have disabled access to it.
 * Introduced new filter `cocart_wp_disable_access` to disable access to WordPress.
 * Introduced new filter `cocart_wp_accessible_page_ids` to allow you to set the page ID's that are still accessible when you disable access to WordPress.
@@ -102,9 +123,6 @@ Simply provide these two parameters with the data point values on any page and t
 
 ##### New Functions
 
-* Introduced new function `cocart_get_requested_namespace()` to get the requested CoCart namespace.
-* Introduced new function `cocart_get_requested_namespace_version()` to get the requested CoCart namespace version.
-* Introduced new function `cocart_get_requested_api()` to get the requested CoCart API.
 * Introduced new function `cocart_get_frontend_url()` to get the frontend URL.
 * Introduced new function `cocart_is_wp_disabled_access()` to check if WordPress has been disabled access.
 * Introduced new function `cocart_get_permalink()` to return the permalink for a page/post/product where the frontend URL maybe replaced.
@@ -122,3 +140,5 @@ The following filters are no longer used:
 * `cocart_use_cookie_monster`
 * `cocart_filter_request_data`
 * `cocart_products_ignore_private_meta_keys`
+* `cocart_return_default_response`
+* `cocart_{$endpoint}_response`
