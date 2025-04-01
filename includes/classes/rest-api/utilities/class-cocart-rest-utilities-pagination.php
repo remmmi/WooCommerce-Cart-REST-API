@@ -23,8 +23,8 @@ class CoCart_REST_Utilities_Pagination {
 	 *
 	 * @access public
 	 *
-	 * @param WP_REST_Response $response Reference to the response object.
-	 * @param WP_REST_Request  $request The request object.
+	 * @param WP_REST_Response $response    Reference to the response object.
+	 * @param WP_REST_Request  $request     The request object.
 	 * @param int              $total_items Total items found.
 	 * @param int              $total_pages Total pages found.
 	 *
@@ -83,12 +83,17 @@ class CoCart_REST_Utilities_Pagination {
 	 *
 	 * @access protected
 	 *
-	 * @param WP_REST_Response $response Reference to the response object.
-	 * @param string           $name Page link name. e.g. prev.
-	 * @param int              $page Page number.
+	 * @param WP_REST_Response $response  Reference to the response object.
+	 * @param string           $name      Page link name. e.g. prev.
+	 * @param int              $page      Page number.
 	 * @param string           $link_base Base URL.
 	 */
-	protected function add_page_link( &$response, $name, $page, $link_base ) {
+	protected function add_page_link( $response, $name, $page, $link_base ) {
+		$response->add_links(
+			array(
+				$name => array( 'href' => add_query_arg( 'page', $page, $link_base ) ),
+			)
+		);
 		$response->link_header( $name, add_query_arg( 'page', $page, $link_base ) );
 	} // END add_page_link()
 } // END class.
