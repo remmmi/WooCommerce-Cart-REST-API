@@ -142,13 +142,13 @@ Founder of [CoCart Headless, LLC](https://twitter.com/cocartheadless).
 
 = Minimum Requirements =
 
-* WordPress v5.6
+* WordPress v6.3
 * WooCommerce v7.0
 * PHP v7.4
 
 = Recommended Requirements =
 
-* WordPress v6.0 or higher.
+* WordPress v6.3 or higher.
 * WooCommerce v9.0 or higher.
 * PHP v8.0 or higher.
 
@@ -307,6 +307,21 @@ We’d love to hear what you have to say. [Share your experience](https://testim
 == Changelog ==
 
 📢 Only bug and security updates will be provided here on WordPress dot ORG. Any new major updates starting with v5.0 will be provided [directly from us](https://cocartapi.com?utm_medium=website&utm_source=wpplugindirectory&utm_campaign=readme&utm_content=readmelink).
+
+= v4.3.26 - 1st April, 2025 =
+
+### Bug Fix
+
+* REST API: Fixed critical error when adding an item and asking to return the item details. [Solves issue #509](https://github.com/co-cart/co-cart/issues/509)
+
+### Improvements
+
+* REST API: Corrected and added missing schema information for Cart API v1.
+* WordPress Dashboard: Tweaked plugin screen modal for listing untested plugins.
+
+### Requirement change
+
+* WordPress 6.3 is the new minimum version required.
 
 = v4.3.25 - 17th March, 2025 =
 
@@ -823,6 +838,10 @@ Hope you enjoy this release.
 [View the full changelog here](https://github.com/co-cart/co-cart/blob/trunk/CHANGELOG.md).
 
 == Upgrade Notice ==
+
+= 4.3.26 =
+
+Fixed critical error when adding an item and asking to return the item details.
 
 = 4.3.23 =
 

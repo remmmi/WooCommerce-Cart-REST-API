@@ -1,5 +1,20 @@
 # Changelog for CoCart Core
 
+## v4.3.26 - 1st April, 2025
+
+### Bug Fix
+
+* REST API: Fixed critical error when adding an item and asking to return the item details. [Solves issue #509](https://github.com/co-cart/co-cart/issues/509)
+
+### Improvements
+
+* REST API: Corrected and added missing schema information for Cart API v1.
+* WordPress Dashboard: Tweaked plugin screen modal for listing untested plugins.
+
+### Requirement change
+
+* WordPress 6.3 is the new minimum version required.
+
 ## v4.3.25 - 17th March, 2025
 
 ### Bug Fixes
