@@ -109,6 +109,8 @@ Simply provide these two parameters with the data point values on any page and t
 * Introduced new filter `cocart_rest_should_load_namespace` to determine whether a namespace should be loaded.
 * Introduced new filter `cocart_products_allowed_meta_keys` allows you to specify the allowed meta keys for the product.
 * Introduced new filter `cocart_product_insert_review_status` allows you to change the status to `approved`. Other values set via filter will automatically reset to `hold`.
+* Introduced new filter `cocart_ip_headers` allows you to filter additional IP headers for common proxy setups.
+* Introduced new filter `cocart_ip_default_address` allows you to set the default IP address if none found.
 
 > Note: List other filters that have been changed here.
 

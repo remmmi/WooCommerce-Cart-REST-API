@@ -932,35 +932,38 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 		 * @static
 		 *
 		 * @since 4.2.0 Introduced.
+		 * @since 5.0.0 Added filterable headers and default IP address.
 		 *
 		 * @param boolean $proxy_support Enables/disables proxy support.
 		 *
 		 * @return string
 		 */
 		public static function get_ip_address( bool $proxy_support = false ) { // phpcs:ignore PHPCompatibility.FunctionDeclarations.NewParamTypeDeclarations.boolFound
+			$ip = '';
+
+			// Proxy force check.
 			if ( ! $proxy_support ) {
-				return self::validate_ip( sanitize_text_field( wp_unslash( $_SERVER['REMOTE_ADDR'] ?? 'unresolved_ip' ) ) ); // phpcs:ignore PHPCompatibility.Operators.NewOperators.t_coalesceFound
+				return self::validate_ip( sanitize_text_field( wp_unslash( $_SERVER['REMOTE_ADDR'] ) ) ); // phpcs:ignore PHPCompatibility.Operators.NewOperators.t_coalesceFound
 			}
 
-			// Check Cloudflare's connecting IP header.
-			if ( array_key_exists( 'HTTP_CF_CONNECTING_IP', $_SERVER ) ) {
-				return self::validate_ip( sanitize_text_field( wp_unslash( $_SERVER['HTTP_CF_CONNECTING_IP'] ) ) );
+			// Check if we're behind a proxy.
+			if ( isset( $_SERVER['HTTP_X_FORWARDED_FOR'] ) ) {
+				// HTTP_X_FORWARDED_FOR can contain a chain of comma-separated addresses
+				$ip = trim( explode( ',', sanitize_text_field( wp_unslash( $_SERVER['HTTP_X_FORWARDED_FOR'] ) ) )[0] );
+			} elseif ( isset( $_SERVER['REMOTE_ADDR'] ) ) {
+				$ip = sanitize_text_field( wp_unslash( $_SERVER['REMOTE_ADDR'] ) );
 			}
 
-			if ( array_key_exists( 'HTTP_X_REAL_IP', $_SERVER ) ) {
-				return self::validate_ip( sanitize_text_field( wp_unslash( $_SERVER['HTTP_X_REAL_IP'] ) ) );
-			}
-
-			if ( array_key_exists( 'HTTP_CLIENT_IP', $_SERVER ) ) {
-				return self::validate_ip( sanitize_text_field( wp_unslash( $_SERVER['HTTP_CLIENT_IP'] ) ) );
-			}
-
-			if ( array_key_exists( 'HTTP_X_FORWARDED_FOR', $_SERVER ) ) {
-				$ips = explode( ',', sanitize_text_field( wp_unslash( $_SERVER['HTTP_X_FORWARDED_FOR'] ) ) );
-				if ( is_array( $ips ) && ! empty( $ips ) ) {
-					return self::validate_ip( trim( $ips[0] ) );
-				}
-			}
+			/**
+			 * Additional IP headers for common proxy setups.
+			 *
+			 * @since 5.0.0 Introduced.
+			 */
+			$additional_headers = apply_filters( 'cocart_ip_headers', array(
+				'HTTP_CF_CONNECTING_IP', // Cloudflare.
+				'HTTP_X_REAL_IP',        // Nginx proxy.
+				'HTTP_CLIENT_IP',        // Client IP.
+			) );
 
 			if ( array_key_exists( 'HTTP_FORWARDED', $_SERVER ) ) {
 				// Using regex instead of explode() for a smaller code footprint.
@@ -980,17 +983,37 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 				}
 
 				if ( ! empty( $matches ) ) {
-					return self::validate_ip( trim( $matches[0] ) );
+					$ip = trim( $matches[0] );
 				}
 			}
 
-			return '0.0.0.0';
+			// Only check additional headers if we haven't found an IP yet.
+			if ( empty( $ip ) ) {
+				foreach ( $additional_headers as $header ) {
+					if ( ! empty( $_SERVER[ $header ] ) ) {
+						$ip = sanitize_text_field( wp_unslash( $_SERVER[ $header ] ) );
+						break;
+					}
+				}
+			}
+
+			// Validate the IP.
+			if ( ! empty( $ip ) ) {
+				return self::validate_ip( $ip );
+			}
+
+			/**
+			 * Default IP address if none found.
+			 *
+			 * @since 5.0.0 Introduced.
+			 */
+			return apply_filter( 'cocart_ip_default_address', '0.0.0.0' );
 		} // END get_ip_address()
 
 		/**
 		 * Uses filter_var() to validate and return ipv4 and ipv6 addresses.
 		 *
-		 * Will return 0.0.0.0 if the ip is not valid. This is done to group and still rate limit invalid ips.
+		 * This is done to group and still rate limit invalid ips.
 		 *
 		 * @access public
 		 *
@@ -1003,13 +1026,11 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 		 * @return string
 		 */
 		public static function validate_ip( $ip ) {
-			$ip = filter_var(
+			return filter_var(
 				$ip,
 				FILTER_VALIDATE_IP,
 				array( FILTER_FLAG_NO_RES_RANGE, FILTER_FLAG_IPV6 )
 			);
-
-			return $ip ?: '0.0.0.0';
 		} // END validate_ip()
 	} // END class.
 } // END if class exists.
