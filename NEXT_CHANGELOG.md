@@ -14,6 +14,7 @@
 * REST API: New endpoint `cocart/v2/products/brands` to get product brands like categories.
 * REST API: New endpoint `cocart/v2/products/reviews/mine` to return product reviews only by the current user. Requires authentication.
 * REST API: Product variations in cart can now be updated using the same update item endpoint `cocart/v2/cart/item/{item_key}`.
+* REST API: New header returns for Cart API `Cart-Hash`. This can help your applications identify if anything has changed in the cart before using the data in the response.
 * REST API: New POST method for the cart to create an empty cart for guest customers.
 
 > Developer note: Cart creation is normally done the moment the first item is added to the cart as it has something to save to session. But some users are confused with creating a cart for guest customers. This route can help create an empty cart, storing just the cart key and return it in the response. See the quick start guide in the documentation for more information on how to use the cart key for a guest customer.

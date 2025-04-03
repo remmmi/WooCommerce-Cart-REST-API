@@ -87,6 +87,7 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 			'X-WP-TotalPages',
 			'Link',
 			'Cart-Key',
+			'Cart-Hash',
 			'Cart-Expiring',
 			'Cart-Expiration',
 		);

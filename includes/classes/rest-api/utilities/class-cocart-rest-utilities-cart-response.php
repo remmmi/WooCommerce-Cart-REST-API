@@ -48,6 +48,7 @@ class CoCart_REST_Utilities_Cart_Response {
 			$response->header( 'Cart-Key', $cart_key );
 		}
 
+		$response->header( 'Cart-Hash', WC()->session->get_cart_hash() );
 		$response->header( 'Cart-Expiring', $cart_expiring );
 		$response->header( 'Cart-Expiration', $cart_expiration );
 
