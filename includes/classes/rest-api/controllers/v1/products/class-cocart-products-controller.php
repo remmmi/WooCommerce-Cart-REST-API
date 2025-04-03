@@ -2417,9 +2417,9 @@ class CoCart_Products_Controller extends WP_REST_Controller {
 			'validate_callback' => 'rest_validate_request_arg',
 		);
 		$params['category']           = array(
-			'description'       => __( 'Limit result set to products assigned a specific category ID or slug.', 'cocart-core' ),
+			'description'       => __( 'Limit result set to products assigned a set of category IDs or slugs, separated by commas.', 'cocart-core' ),
 			'type'              => 'string',
-			'sanitize_callback' => 'sanitize_text_field',
+			'sanitize_callback' => 'wp_parse_list',
 			'validate_callback' => 'rest_validate_request_arg',
 		);
 		$params['category_operator']  = array(
@@ -2431,15 +2431,29 @@ class CoCart_Products_Controller extends WP_REST_Controller {
 			'validate_callback' => 'rest_validate_request_arg',
 		);
 		$params['tag']                = array(
-			'description'       => __( 'Limit result set to products assigned a specific tag ID or slug.', 'cocart-core' ),
+			'description'       => __( 'Limit result set to products assigned a set of tag IDs or slugs, separated by commas.', 'cocart-core' ),
 			'type'              => 'string',
-			'sanitize_callback' => 'sanitize_text_field',
+			'sanitize_callback' => 'wp_parse_list',
 			'validate_callback' => 'rest_validate_request_arg',
 		);
 		$params['tag_operator']       = array(
 			'description'       => __( 'Operator to compare product tags.', 'cocart-core' ),
 			'type'              => 'string',
 			'enum'              => array( 'in', 'not in', 'and' ),
+			'default'           => 'in',
+			'sanitize_callback' => 'sanitize_key',
+			'validate_callback' => 'rest_validate_request_arg',
+		);
+		$params['brand']              = array(
+			'description'       => __( 'Limit result set to products assigned a set of brand IDs or slugs, separated by commas.', 'cocart-core' ),
+			'type'              => 'string',
+			'sanitize_callback' => 'wp_parse_list',
+			'validate_callback' => 'rest_validate_request_arg',
+		);
+		$params['brand_operator']     = array(
+			'description'       => __( 'Operator to compare product brand terms.', 'cocart-core' ),
+			'type'              => 'string',
+			'enum'              => array( 'in', 'not_in', 'and' ),
 			'default'           => 'in',
 			'sanitize_callback' => 'sanitize_key',
 			'validate_callback' => 'rest_validate_request_arg',
