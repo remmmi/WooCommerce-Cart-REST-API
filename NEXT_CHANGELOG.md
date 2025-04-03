@@ -94,6 +94,10 @@ Simply provide these two parameters with the data point values on any page and t
 
 #### Developers
 
+##### New Actions
+
+* Introduced new hook `cocart_set_requested_cart` that fires before the session is finally set.
+
 ##### New Filters
 
 * Introduced new filter `cocart_load_cart_from_session` allows you to decide if the cart should load user meta when initialized.
