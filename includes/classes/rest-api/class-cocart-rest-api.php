@@ -75,6 +75,9 @@ class CoCart_REST_API {
 
 		// Set Cache Headers.
 		add_filter( 'rest_pre_serve_request', array( $this, 'set_cache_control_headers' ), 2, 4 );
+
+		// Enhanced error handling and allows for final modifications to the response before returning.
+		add_filter( 'rest_request_after_callbacks', array( $this, 'handle_rest_response' ), 10, 3 );
 	} // END __construct()
 
 	/**
@@ -887,6 +890,71 @@ class CoCart_REST_API {
 			'/^' . self::get_api_namespace() . '\/v1\/products/',
 		);
 	} // END get_cacheable_route_patterns()
+
+	/**
+	 * Handle REST API errors with enhanced debugging information and
+	 * allows for final modifications to the response before returning.
+	 *
+	 * @access public
+	 *
+	 * @since 5.0.0 Introduced.
+	 *
+	 * @param WP_REST_Response|WP_Error $response Result to send to the client.
+	 * @param array                     $handler  Route handler used for the request.
+	 * @param WP_REST_Request           $request  Request used to generate the response.
+	 *
+	 * @return WP_REST_Response|WP_Error Enhanced error response if applicable.
+	 */
+	public function handle_rest_response( $response, $handler, $request ) {
+		if ( is_wp_error( $response ) && defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+			$error_data = array(
+				'error_data' => array(
+					'status'  => $response->get_error_code(),
+					'details' => $response->get_error_data(),
+					'trace'   => array_map(
+						function ( $item ) {
+							return array(
+								'file'     => isset( $item['file'] ) ? $item['file'] : '',
+								'line'     => isset( $item['line'] ) ? $item['line'] : '',
+								'function' => isset( $item['function'] ) ? $item['function'] : '',
+								'class'    => isset( $item['class'] ) ? $item['class'] : '',
+							);
+						},
+						debug_backtrace( DEBUG_BACKTRACE_IGNORE_ARGS, 5 )
+					),
+				),
+			);
+
+			return new \WP_Error(
+				$response->get_error_code(),
+				$response->get_error_message(),
+				$error_data
+			);
+		}
+
+		/**
+		 * Filter is to be used as a final straw for changing the response based on the request made.
+		 *
+		 * @since 5.0.0 Introduced.
+		 *
+		 * @param WP_REST_Response $response Result to send to the client.
+		 * @param WP_REST_Request  $request  The request object.
+		 */
+		$response = apply_filters( 'cocart_rest_response', $response, $request ); // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
+
+		if ( empty( $response ) || ! $response instanceof WP_REST_Response ) {
+			return new CoCart_Data_Exception(
+				'cocart_response_returned_empty',
+				sprintf(
+					/* translators: %s: REST API URL */
+					__( 'Request returned nothing for "%s"!', 'cocart-core' ),
+					rest_url( $request->get_route() )
+				)
+			);
+		}
+
+		return $response;
+	} // END handle_rest_response()
 
 	/*** Deprecated functions ***/
 
