@@ -1,5 +1,11 @@
 # Changelog for CoCart Core
 
+## v4.3.27 - 3rd April, 2025
+
+### Bug Fix
+
+* REST API: Undone a change to fix any WooCommerce cookies from setting with the Cart API. Related to fixing persistent cart back in November last year.
+
 ## v4.3.26 - 1st April, 2025
 
 ### Bug Fix
