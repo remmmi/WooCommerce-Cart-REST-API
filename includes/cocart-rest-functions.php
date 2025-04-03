@@ -73,11 +73,11 @@ function cocart_allowed_image_mime_types() {
  */
 function cocart_upload_dir( $pathdata ) {
 	if ( empty( $pathdata['subdir'] ) ) {
-		$pathdata['path']   = $pathdata['path'] . '/cocart_uploads/' . md5( WC()->session->get_customer_id() );
-		$pathdata['url']    = $pathdata['url'] . '/cocart_uploads/' . md5( WC()->session->get_customer_id() );
-		$pathdata['subdir'] = '/cocart_uploads/' . md5( WC()->session->get_customer_id() );
+		$pathdata['path']   = $pathdata['path'] . '/cocart_uploads/' . md5( WC()->session->get_cart_key() );
+		$pathdata['url']    = $pathdata['url'] . '/cocart_uploads/' . md5( WC()->session->get_cart_key() );
+		$pathdata['subdir'] = '/cocart_uploads/' . md5( WC()->session->get_cart_key() );
 	} else {
-		$subdir             = '/cocart_uploads/' . md5( WC()->session->get_customer_id() );
+		$subdir             = '/cocart_uploads/' . md5( WC()->session->get_cart_key() );
 		$pathdata['path']   = str_replace( $pathdata['subdir'], $subdir, $pathdata['path'] );
 		$pathdata['url']    = str_replace( $pathdata['subdir'], $subdir, $pathdata['url'] );
 		$pathdata['subdir'] = str_replace( $pathdata['subdir'], $subdir, $pathdata['subdir'] );
