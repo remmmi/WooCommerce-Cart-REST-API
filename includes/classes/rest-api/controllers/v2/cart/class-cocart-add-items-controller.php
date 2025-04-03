@@ -186,7 +186,7 @@ class CoCart_REST_Add_Items_V2_Controller extends CoCart_REST_Add_Item_V2_Contro
 
 			return $response;
 		} catch ( CoCart_Data_Exception $e ) {
-			return CoCart_Response::get_error_response( $e->getErrorCode(), $e->getMessage(), $e->getCode(), $e->getAdditionalData() );
+			return new \WP_Error( $e->getErrorCode(), $e->getMessage(), $e->getCode(), $e->getAdditionalData() );
 		}
 	} // END add_items_to_cart()
 

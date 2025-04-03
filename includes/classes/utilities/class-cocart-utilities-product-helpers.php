@@ -484,7 +484,7 @@ class CoCart_Utilities_Product_Helpers {
 
 			return $variation_id;
 		} catch ( CoCart_Data_Exception $e ) {
-			return CoCart_Response::get_error_response( $e->getErrorCode(), $e->getMessage(), $e->getCode(), $e->getAdditionalData() );
+			return new \WP_Error( $e->getErrorCode(), $e->getMessage(), $e->getCode(), $e->getAdditionalData() );
 		}
 	} // END get_variation_id_from_variation_data()
 } // END class

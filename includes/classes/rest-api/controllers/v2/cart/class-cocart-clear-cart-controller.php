@@ -189,7 +189,7 @@ class CoCart_REST_Clear_Cart_V2_Controller extends CoCart_REST_Cart_V2_Controlle
 				throw new CoCart_Data_Exception( 'cocart_clear_cart_failed', $message, 406 );
 			}
 		} catch ( CoCart_Data_Exception $e ) {
-			return CoCart_Response::get_error_response( $e->getErrorCode(), $e->getMessage(), $e->getCode(), $e->getAdditionalData() );
+			return new \WP_Error( $e->getErrorCode(), $e->getMessage(), $e->getCode(), $e->getAdditionalData() );
 		}
 	} // END clear_cart()
 

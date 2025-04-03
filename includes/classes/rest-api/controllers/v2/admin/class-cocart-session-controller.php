@@ -149,7 +149,7 @@ class CoCart_REST_Session_V2_Controller extends CoCart_REST_Cart_V2_Controller {
 
 			return CoCart_Response::get_response( $this->return_session_data( $request, maybe_unserialize( $cart ) ), $this->namespace, $this->rest_base );
 		} catch ( \CoCart_Data_Exception $e ) {
-			return CoCart_Response::get_error_response( $e->getErrorCode(), $e->getMessage(), $e->getCode(), $e->getAdditionalData() );
+			return new \WP_Error( $e->getErrorCode(), $e->getMessage(), $e->getCode(), $e->getAdditionalData() );
 		}
 	} // END get_cart_in_session()
 

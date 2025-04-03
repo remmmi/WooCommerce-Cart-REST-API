@@ -131,7 +131,7 @@ class CoCart_REST_Count_Items_V2_Controller extends CoCart_REST_Cart_V2_Controll
 
 			return $response;
 		} catch ( CoCart_Data_Exception $e ) {
-			return CoCart_Response::get_error_response( $e->getErrorCode(), $e->getMessage(), $e->getCode(), $e->getAdditionalData() );
+			return new \WP_Error( $e->getErrorCode(), $e->getMessage(), $e->getCode(), $e->getAdditionalData() );
 		}
 	} // END get_cart_contents_count()
 

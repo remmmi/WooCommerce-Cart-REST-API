@@ -88,7 +88,7 @@ abstract class CoCart_REST_Cart_Controller extends WP_REST_Controller {
 
 			return $cart;
 		} catch ( CoCart_Data_Exception $e ) {
-			return CoCart_Response::get_error_response( $e->getErrorCode(), $e->getMessage(), $e->getCode(), $e->getAdditionalData() );
+			return new \WP_Error( $e->getErrorCode(), $e->getMessage(), $e->getCode(), $e->getAdditionalData() );
 		}
 	} // END get_cart_instance()
 
@@ -343,7 +343,7 @@ abstract class CoCart_REST_Cart_Controller extends WP_REST_Controller {
 				}
 			}
 		} catch ( CoCart_Data_Exception $e ) {
-			return CoCart_Response::get_error_response( $e->getErrorCode(), $e->getMessage(), $e->getCode(), $e->getAdditionalData() );
+			return new \WP_Error( $e->getErrorCode(), $e->getMessage(), $e->getCode(), $e->getAdditionalData() );
 		}
 	} // END validate_add_to_cart()
 
@@ -494,7 +494,7 @@ abstract class CoCart_REST_Cart_Controller extends WP_REST_Controller {
 				'request'      => $request,
 			);
 		} catch ( CoCart_Data_Exception $e ) {
-			return CoCart_Response::get_error_response( $e->getErrorCode(), $e->getMessage(), $e->getCode(), $e->getAdditionalData() );
+			return new \WP_Error( $e->getErrorCode(), $e->getMessage(), $e->getCode(), $e->getAdditionalData() );
 		}
 	} // END validate_product()
 
@@ -579,7 +579,7 @@ abstract class CoCart_REST_Cart_Controller extends WP_REST_Controller {
 
 			return $quantity;
 		} catch ( CoCart_Data_Exception $e ) {
-			return CoCart_Response::get_error_response( $e->getErrorCode(), $e->getMessage(), $e->getCode(), $e->getAdditionalData() );
+			return new \WP_Error( $e->getErrorCode(), $e->getMessage(), $e->getCode(), $e->getAdditionalData() );
 		}
 	} // END is_product_sold_individually()
 
@@ -643,7 +643,7 @@ abstract class CoCart_REST_Cart_Controller extends WP_REST_Controller {
 
 			return $item_key;
 		} catch ( CoCart_Data_Exception $e ) {
-			return CoCart_Response::get_error_response( $e->getErrorCode(), $e->getMessage(), $e->getCode(), $e->getAdditionalData() );
+			return new \WP_Error( $e->getErrorCode(), $e->getMessage(), $e->getCode(), $e->getAdditionalData() );
 		}
 	} // END add_cart_item()
 
