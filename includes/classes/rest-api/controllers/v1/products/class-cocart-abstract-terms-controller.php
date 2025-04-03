@@ -98,7 +98,7 @@ if ( ! class_exists( 'CoCart_REST_Terms_Controller' ) ) {
 			}
 
 			if ( ! $permissions ) {
-				return new WP_Error( 'cocart_cannot_list_resources', __( 'Sorry, you cannot list resources.', 'cocart-core' ), array( 'status' => rest_authorization_required_code() ) );
+				return new \WP_Error( 'cocart_cannot_list_resources', __( 'Sorry, you cannot list resources.', 'cocart-core' ), array( 'status' => rest_authorization_required_code() ) );
 			}
 
 			return true;
@@ -121,7 +121,7 @@ if ( ! class_exists( 'CoCart_REST_Terms_Controller' ) ) {
 			}
 
 			if ( ! $permissions ) {
-				return new WP_Error( 'cocart_cannot_view_resource', __( 'Sorry, you cannot view this resource.', 'cocart-core' ), array( 'status' => rest_authorization_required_code() ) );
+				return new \WP_Error( 'cocart_cannot_view_resource', __( 'Sorry, you cannot view this resource.', 'cocart-core' ), array( 'status' => rest_authorization_required_code() ) );
 			}
 
 			return true;
@@ -141,7 +141,7 @@ if ( ! class_exists( 'CoCart_REST_Terms_Controller' ) ) {
 			$taxonomy = $this->get_taxonomy( $request );
 
 			if ( ! $taxonomy || ! taxonomy_exists( $taxonomy ) ) {
-				return new WP_Error( 'cocart_taxonomy_invalid', __( 'Taxonomy does not exist.', 'cocart-core' ), array( 'status' => 404 ) );
+				return new \WP_Error( 'cocart_taxonomy_invalid', __( 'Taxonomy does not exist.', 'cocart-core' ), array( 'status' => 404 ) );
 			}
 
 			// Check permissions for a single term.
@@ -151,7 +151,7 @@ if ( ! class_exists( 'CoCart_REST_Terms_Controller' ) ) {
 				$term = get_term( $id, $taxonomy );
 
 				if ( is_wp_error( $term ) || ! $term || $term->taxonomy !== $taxonomy ) {
-					return new WP_Error( 'cocart_term_invalid', __( 'Term does not exist.', 'cocart-core' ), array( 'status' => 404 ) );
+					return new \WP_Error( 'cocart_term_invalid', __( 'Term does not exist.', 'cocart-core' ), array( 'status' => 404 ) );
 				}
 
 				return true;

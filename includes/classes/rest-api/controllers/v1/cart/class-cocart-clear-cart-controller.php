@@ -150,7 +150,7 @@ class CoCart_Clear_Cart_Controller extends CoCart_API_Controller {
 			 */
 			$message = apply_filters( 'cocart_clear_cart_failed_message', $message );
 
-			return new WP_Error( 'cocart_clear_cart_failed', $message, array( 'status' => 406 ) );
+			return new \WP_Error( 'cocart_clear_cart_failed', $message, array( 'status' => 406 ) );
 		}
 	} // END clear_cart()
 } // END class

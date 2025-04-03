@@ -100,7 +100,7 @@ class CoCart_Add_Item_Controller extends CoCart_API_Controller {
 
 			CoCart_Logger::log( $message, 'error' );
 
-			return new WP_Error( 'cocart_product_does_not_exist', $message, array( 'status' => 404 ) );
+			return new \WP_Error( 'cocart_product_does_not_exist', $message, array( 'status' => 404 ) );
 		}
 
 		/**
@@ -298,7 +298,7 @@ class CoCart_Add_Item_Controller extends CoCart_API_Controller {
 				 */
 				$message = apply_filters( 'cocart_product_cannot_add_to_cart_message', $message, $product_data );
 
-				return new WP_Error( 'cocart_cannot_add_to_cart', $message, array( 'status' => 403 ) );
+				return new \WP_Error( 'cocart_cannot_add_to_cart', $message, array( 'status' => 403 ) );
 			}
 		}
 

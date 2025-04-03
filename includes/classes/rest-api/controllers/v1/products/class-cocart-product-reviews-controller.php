@@ -123,14 +123,14 @@ class CoCart_Product_Reviews_Controller extends WC_REST_Controller {
 
 		// If the review does not exist then it's not a review.
 		if ( ! $review ) {
-			return new WP_Error( 'cocart_cannot_view_review', __( 'Sorry, this product review does not exist.', 'cocart-core' ), array( 'status' => 404 ) );
+			return new \WP_Error( 'cocart_cannot_view_review', __( 'Sorry, this product review does not exist.', 'cocart-core' ), array( 'status' => 404 ) );
 		}
 
 		$product = wc_get_product( $review->comment_post_ID );
 
 		// If the comment is not assigned to a product then it's not a review.
 		if ( ! $product ) {
-			return new WP_Error( 'cocart_cannot_view_review', __( 'Sorry, this product review does not exist.', 'cocart-core' ), array( 'status' => 404 ) );
+			return new \WP_Error( 'cocart_cannot_view_review', __( 'Sorry, this product review does not exist.', 'cocart-core' ), array( 'status' => 404 ) );
 		}
 
 		return true;
@@ -155,7 +155,7 @@ class CoCart_Product_Reviews_Controller extends WC_REST_Controller {
 		}
 
 		if ( ! $verified ) {
-			return new WP_Error( 'cocart_cannot_create', __( 'Sorry, you are not allowed to create a review for this product.', 'cocart-core' ), array( 'status' => 403 ) );
+			return new \WP_Error( 'cocart_cannot_create', __( 'Sorry, you are not allowed to create a review for this product.', 'cocart-core' ), array( 'status' => 403 ) );
 		}
 
 		return true;
@@ -341,13 +341,13 @@ class CoCart_Product_Reviews_Controller extends WC_REST_Controller {
 	 */
 	public function create_item( $request ) {
 		if ( ! empty( $request['id'] ) ) {
-			return new WP_Error( 'cocart_review_exists', __( 'Cannot create existing product review.', 'cocart-core' ), array( 'status' => 400 ) );
+			return new \WP_Error( 'cocart_review_exists', __( 'Cannot create existing product review.', 'cocart-core' ), array( 'status' => 400 ) );
 		}
 
 		$product_id = (int) $request['product_id'];
 
 		if ( 'product' !== get_post_type( $product_id ) ) {
-			return new WP_Error( 'cocart_product_invalid_id', __( 'Invalid product ID.', 'cocart-core' ), array( 'status' => 404 ) );
+			return new \WP_Error( 'cocart_product_invalid_id', __( 'Invalid product ID.', 'cocart-core' ), array( 'status' => 404 ) );
 		}
 
 		$prepared_review = $this->prepare_item_for_database( $request );
@@ -361,7 +361,7 @@ class CoCart_Product_Reviews_Controller extends WC_REST_Controller {
 		 * Do not allow a comment to be created with missing or empty comment_content. See wp_handle_comment_submission().
 		 */
 		if ( empty( $prepared_review['comment_content'] ) ) {
-			return new WP_Error( 'cocart_review_content_invalid', __( 'Invalid review content.', 'cocart-core' ), array( 'status' => 400 ) );
+			return new \WP_Error( 'cocart_review_content_invalid', __( 'Invalid review content.', 'cocart-core' ), array( 'status' => 400 ) );
 		}
 
 		// Setting remaining values before wp_insert_comment so we can use wp_allow_comment().
@@ -386,7 +386,7 @@ class CoCart_Product_Reviews_Controller extends WC_REST_Controller {
 		$check_comment_lengths = wp_check_comment_data_max_lengths( $prepared_review );
 		if ( is_wp_error( $check_comment_lengths ) ) {
 			$error_code = str_replace( array( 'comment_author', 'comment_content' ), array( 'reviewer', 'review_content' ), $check_comment_lengths->get_error_code() );
-			return new WP_Error( 'cocart_' . $error_code, __( 'Product review field exceeds maximum length allowed.', 'cocart-core' ), array( 'status' => 400 ) );
+			return new \WP_Error( 'cocart_' . $error_code, __( 'Product review field exceeds maximum length allowed.', 'cocart-core' ), array( 'status' => 400 ) );
 		}
 
 		$prepared_review['comment_parent']     = 0;
@@ -398,11 +398,11 @@ class CoCart_Product_Reviews_Controller extends WC_REST_Controller {
 			$error_message = $prepared_review['comment_approved']->get_error_message();
 
 			if ( 'comment_duplicate' === $error_code ) {
-				return new WP_Error( 'cocart_' . $error_code, $error_message, array( 'status' => 409 ) );
+				return new \WP_Error( 'cocart_' . $error_code, $error_message, array( 'status' => 409 ) );
 			}
 
 			if ( 'comment_flood' === $error_code ) {
-				return new WP_Error( 'cocart_' . $error_code, $error_message, array( 'status' => 400 ) );
+				return new \WP_Error( 'cocart_' . $error_code, $error_message, array( 'status' => 400 ) );
 			}
 
 			return $prepared_review['comment_approved'];
@@ -427,7 +427,7 @@ class CoCart_Product_Reviews_Controller extends WC_REST_Controller {
 		$review_id = wp_insert_comment( wp_filter_comment( wp_slash( (array) $prepared_review ) ) );
 
 		if ( ! $review_id ) {
-			return new WP_Error( 'cocart_review_failed_create', __( 'Creating product review failed.', 'cocart-core' ), array( 'status' => 500 ) );
+			return new \WP_Error( 'cocart_review_failed_create', __( 'Creating product review failed.', 'cocart-core' ), array( 'status' => 500 ) );
 		}
 
 		/**
@@ -896,7 +896,7 @@ class CoCart_Product_Reviews_Controller extends WC_REST_Controller {
 			$post = get_post( (int) $review->comment_post_ID );
 
 			if ( 'product' !== get_post_type( (int) $review->comment_post_ID ) ) {
-				return new WP_Error( 'cocart_product_invalid_id', __( 'Invalid product ID.', 'cocart-core' ), array( 'status' => 404 ) );
+				return new \WP_Error( 'cocart_product_invalid_id', __( 'Invalid product ID.', 'cocart-core' ), array( 'status' => 404 ) );
 			}
 		}
 

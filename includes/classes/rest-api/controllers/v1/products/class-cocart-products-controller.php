@@ -143,7 +143,7 @@ class CoCart_Products_Controller extends WP_REST_Controller {
 		$max_pages = (int) ceil( $total_posts / (int) $query->query_vars['posts_per_page'] );
 
 		if ( $page > $max_pages && $total_posts > 0 ) {
-			return new WP_Error(
+			return new \WP_Error(
 				'cocart_products_invalid_page_number',
 				__( 'The page number requested is larger than the number of products available.', 'cocart-core' ),
 				array( 'status' => 400 )
@@ -347,7 +347,7 @@ class CoCart_Products_Controller extends WP_REST_Controller {
 		$object = $this->get_object( (int) $request['id'] );
 
 		if ( ! $object || 0 === $object->get_id() || 'publish' !== $object->get_status() ) {
-			return new WP_Error( 'cocart_' . $this->post_type . '_invalid_id', __( 'Invalid ID.', 'cocart-core' ), array( 'status' => 404 ) );
+			return new \WP_Error( 'cocart_' . $this->post_type . '_invalid_id', __( 'Invalid ID.', 'cocart-core' ), array( 'status' => 404 ) );
 		}
 
 		$data     = $this->prepare_object_for_response( $object, $request );

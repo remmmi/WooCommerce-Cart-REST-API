@@ -100,7 +100,7 @@ class CoCart_API_Controller {
 	 */
 	public function get_permission_check() {
 		if ( ! current_user_can( 'administrator' ) ) { // phpcs:ignore WordPress.WP.Capabilities.RoleFound
-			return new WP_Error( 'cocart_cannot_read_cart', __( 'Cannot read cart!', 'cocart-core' ), array( 'status' => 401 ) );
+			return new \WP_Error( 'cocart_cannot_read_cart', __( 'Cannot read cart!', 'cocart-core' ), array( 'status' => 401 ) );
 		}
 
 		return true;
@@ -155,7 +155,7 @@ class CoCart_API_Controller {
 	 */
 	public function get_cart_customer( $request = array() ) {
 		if ( empty( $request['id'] ) ) {
-			return new WP_Error( 'cocart_customer_missing', __( 'Customer ID is required!', 'cocart-core' ), array( 'status' => 404 ) );
+			return new \WP_Error( 'cocart_customer_missing', __( 'Customer ID is required!', 'cocart-core' ), array( 'status' => 404 ) );
 		}
 
 		$saved_cart = $this->get_saved_cart( $request );
@@ -410,7 +410,7 @@ class CoCart_API_Controller {
 		$cart_key = ! empty( $request['id'] ) ? $request['id'] : ''; // The cart key is a required variable.
 
 		if ( empty( $cart_key ) ) {
-			return new WP_Error( 'cocart_cart_key_missing', __( 'Cart Key is required!', 'cocart-core' ), array( 'status' => 404 ) );
+			return new \WP_Error( 'cocart_cart_key_missing', __( 'Cart Key is required!', 'cocart-core' ), array( 'status' => 404 ) );
 		}
 
 		// Get the cart in the database.
@@ -418,7 +418,7 @@ class CoCart_API_Controller {
 
 		// If no cart is saved with the ID specified return error.
 		if ( empty( $cart ) ) {
-			return new WP_Error( 'cocart_cart_in_session_not_valid', __( 'Cart in session is not valid!', 'cocart-core' ), array( 'status' => 404 ) );
+			return new \WP_Error( 'cocart_cart_in_session_not_valid', __( 'Cart in session is not valid!', 'cocart-core' ), array( 'status' => 404 ) );
 		}
 
 		return $this->return_cart_contents( $request, maybe_unserialize( $cart['cart'] ), '', true );
@@ -452,13 +452,13 @@ class CoCart_API_Controller {
 		if ( empty( $product_id ) ) {
 			$message = __( 'Product ID number is required!', 'cocart-core' );
 			CoCart_Logger::log( $message, 'error' );
-			return new WP_Error( 'cocart_product_id_required', $message, array( 'status' => 404 ) );
+			return new \WP_Error( 'cocart_product_id_required', $message, array( 'status' => 404 ) );
 		}
 
 		if ( ! is_numeric( $product_id ) ) {
 			$message = __( 'Product ID must be numeric!', 'cocart-core' );
 			CoCart_Logger::log( $message, 'error' );
-			return new WP_Error( 'cocart_product_id_not_numeric', $message, array( 'status' => 405 ) );
+			return new \WP_Error( 'cocart_product_id_not_numeric', $message, array( 'status' => 405 ) );
 		}
 
 		return $product_id;
@@ -478,7 +478,7 @@ class CoCart_API_Controller {
 	 */
 	protected function validate_quantity( $quantity ) {
 		if ( ! is_numeric( $quantity ) ) {
-			return new WP_Error( 'cocart_quantity_not_numeric', __( 'Quantity must be numeric!', 'cocart-core' ), array( 'status' => 405 ) );
+			return new \WP_Error( 'cocart_quantity_not_numeric', __( 'Quantity must be numeric!', 'cocart-core' ), array( 'status' => 405 ) );
 		}
 
 		return $quantity;
@@ -550,7 +550,7 @@ class CoCart_API_Controller {
 				 */
 				$message = apply_filters( 'cocart_invalid_variation_data_message', $message, $attribute_label, $attribute->get_slugs() );
 
-				return new WP_Error( 'cocart_invalid_variation_data', $message, array( 'status' => 400 ) );
+				return new \WP_Error( 'cocart_invalid_variation_data', $message, array( 'status' => 400 ) );
 			}
 
 			// If no attribute was posted, only error if the variation has an 'any' attribute which requires a value.
@@ -577,7 +577,7 @@ class CoCart_API_Controller {
 			 */
 			$message = apply_filters( 'cocart_missing_variation_data_message', $message, count( $missing_attributes ), wc_format_list_of_items( $missing_attributes ) );
 
-			return new WP_Error( 'cocart_missing_variation_data', $message, array( 'status' => 400 ) );
+			return new \WP_Error( 'cocart_missing_variation_data', $message, array( 'status' => 400 ) );
 		}
 
 		return $variation;
@@ -604,7 +604,7 @@ class CoCart_API_Controller {
 
 			CoCart_Logger::log( $message, 'error' );
 
-			return new WP_Error( 'cocart_no_variation_found', $message, array( 'status' => 400 ) );
+			return new \WP_Error( 'cocart_no_variation_found', $message, array( 'status' => 400 ) );
 		}
 
 		return $variation_id;
@@ -631,7 +631,7 @@ class CoCart_API_Controller {
 
 			CoCart_Logger::log( $message, 'error' );
 
-			return new WP_Error( 'cocart_cart_invalid_parent_product', $message, array( 'status' => 403 ) );
+			return new \WP_Error( 'cocart_cart_invalid_parent_product', $message, array( 'status' => 403 ) );
 		}
 
 		return $product->get_attributes();
@@ -693,7 +693,7 @@ class CoCart_API_Controller {
 			 */
 			$message = apply_filters( 'cocart_product_does_not_exist_message', $message, $product );
 
-			return new WP_Error( 'cocart_product_does_not_exist', $message, array( 'status' => 404 ) );
+			return new \WP_Error( 'cocart_product_does_not_exist', $message, array( 'status' => 404 ) );
 		}
 
 		// Look up the product type if not passed.
@@ -745,7 +745,7 @@ class CoCart_API_Controller {
 			 */
 			$message = apply_filters( 'cocart_product_failed_validation_message', $message, $product );
 
-			return new WP_Error( 'cocart_product_failed_validation', $message, array( 'status' => 404 ) );
+			return new \WP_Error( 'cocart_product_failed_validation', $message, array( 'status' => 404 ) );
 		}
 
 		// The quantity of item added to the cart.
@@ -785,7 +785,7 @@ class CoCart_API_Controller {
 				 */
 				$message = apply_filters( 'cocart_product_can_not_add_another_message', $message, $product );
 
-				return new WP_Error( 'cocart_product_sold_individually', $message, array( 'status' => 403 ) );
+				return new \WP_Error( 'cocart_product_sold_individually', $message, array( 'status' => 403 ) );
 			}
 		}
 
@@ -803,7 +803,7 @@ class CoCart_API_Controller {
 			 */
 			$message = apply_filters( 'cocart_product_cannot_be_purchased_message', $message, $product );
 
-			return new WP_Error( 'cocart_cannot_be_purchased', $message, array( 'status' => 403 ) );
+			return new \WP_Error( 'cocart_cannot_be_purchased', $message, array( 'status' => 403 ) );
 		}
 
 		// Stock check - only check if we're managing stock and backorders are not allowed.
@@ -824,7 +824,7 @@ class CoCart_API_Controller {
 			 */
 			$message = apply_filters( 'cocart_product_is_out_of_stock_message', $message, $product );
 
-			return new WP_Error( 'cocart_product_out_of_stock', $message, array( 'status' => 404 ) );
+			return new \WP_Error( 'cocart_product_out_of_stock', $message, array( 'status' => 404 ) );
 		}
 
 		if ( ! $product->has_enough_stock( $quantity ) ) {
@@ -838,7 +838,7 @@ class CoCart_API_Controller {
 
 			CoCart_Logger::log( $message, 'error' );
 
-			return new WP_Error( 'cocart_not_enough_in_stock', $message, array( 'status' => 403 ) );
+			return new \WP_Error( 'cocart_not_enough_in_stock', $message, array( 'status' => 403 ) );
 		}
 
 		// Stock check - this time accounting for whats already in-cart.
@@ -855,7 +855,7 @@ class CoCart_API_Controller {
 
 				CoCart_Logger::log( $message, 'error' );
 
-				return new WP_Error( 'cocart_not_enough_stock_remaining', $message, array( 'status' => 403 ) );
+				return new \WP_Error( 'cocart_not_enough_stock_remaining', $message, array( 'status' => 403 ) );
 			}
 		}
 
@@ -868,7 +868,7 @@ class CoCart_API_Controller {
 
 			CoCart_Logger::log( $error_msg, 'error' );
 
-			return new WP_Error( 'cocart_not_ok_to_add_item', $error_msg, array( 'status' => 403 ) );
+			return new \WP_Error( 'cocart_not_ok_to_add_item', $error_msg, array( 'status' => 403 ) );
 		}
 
 		// Returns all valid data.
@@ -936,7 +936,7 @@ class CoCart_API_Controller {
 
 			CoCart_Logger::log( $message, 'error' );
 
-			return new WP_Error( 'cocart_not_enough_in_stock', $message, array( 'status' => 403 ) );
+			return new \WP_Error( 'cocart_not_enough_in_stock', $message, array( 'status' => 403 ) );
 		}
 
 		return true;
