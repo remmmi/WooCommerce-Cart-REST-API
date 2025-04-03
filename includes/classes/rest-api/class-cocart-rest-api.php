@@ -244,8 +244,11 @@ class CoCart_REST_API {
 						error_log( esc_html( "{$route} possibly needs to be updated for version CoCart v5." ) );
 					}
 
-					$route_instance = new $route();
-					$route_instance->register_routes();
+					// Registers if class exists to prevent fatal error from happening.
+					if ( class_exists( $route ) ) {
+						$route_instance = new $route();
+						$route_instance->register_routes();
+					}
 				}
 			}
 		}
