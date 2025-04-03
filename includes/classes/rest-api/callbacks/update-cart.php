@@ -128,7 +128,7 @@ class CoCart_Cart_Update_Callback extends CoCart_Cart_Extension_Callback {
 
 			return true;
 		} catch ( CoCart_Data_Exception $e ) {
-			return CoCart_Response::get_error_response( $e->getErrorCode(), $e->getMessage(), $e->getCode(), $e->getAdditionalData() );
+			return new \WP_Error( $e->getErrorCode(), $e->getMessage(), $e->getCode(), $e->getAdditionalData() );
 		}
 	} // END callback()
 } // END class
