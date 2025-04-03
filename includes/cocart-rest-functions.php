@@ -122,7 +122,7 @@ function cocart_upload_image_from_url( $image_url ) {
 
 	// Check parsed URL.
 	if ( ! $parsed_url || ! is_array( $parsed_url ) ) {
-		return new WP_Error(
+		return new \WP_Error(
 			'cocart_invalid_image_url',
 			sprintf(
 				/* translators: %s: image URL */
@@ -149,7 +149,7 @@ function cocart_upload_image_from_url( $image_url ) {
 
 	// If error storing temporarily, return the error.
 	if ( is_wp_error( $file_array['tmp_name'] ) ) {
-		return new WP_Error(
+		return new \WP_Error(
 			'cocart_invalid_remote_image_url',
 			sprintf(
 				/* translators: %s: image URL */
@@ -182,7 +182,7 @@ function cocart_upload_image_from_url( $image_url ) {
 	if ( isset( $file['error'] ) ) {
 		@unlink( $file_array['tmp_name'] ); // @codingStandardsIgnoreLine.
 
-		return new WP_Error(
+		return new \WP_Error(
 			'cocart_invalid_image',
 			sprintf(
 				/* translators: %s: error message */

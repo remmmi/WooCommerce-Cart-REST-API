@@ -50,7 +50,7 @@ class CoCart_REST_Create_Cart_V2_Controller extends CoCart_REST_Cart_Controller 
 	 */
 	public function get_permission_callback() {
 		if ( strval( get_current_user_id() ) > 0 ) {
-			return new WP_Error( 'cocart_rest_cart_creation_not_allowed', __( 'You are already logged in so a cart is already created for you.', 'cocart-core' ), array( 'status' => 403 ) );
+			return new \WP_Error( 'cocart_rest_cart_creation_not_allowed', __( 'You are already logged in so a cart is already created for you.', 'cocart-core' ), array( 'status' => 403 ) );
 		}
 
 		return true;

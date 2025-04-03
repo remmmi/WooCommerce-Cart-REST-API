@@ -117,7 +117,7 @@ class CoCart_REST_Login_V2_Controller {
 	 */
 	public function get_permission_callback() {
 		if ( strval( get_current_user_id() ) <= 0 ) {
-			return new WP_Error( 'cocart_rest_not_authorized', __( 'Sorry, you are not authorized.', 'cocart-core' ), array( 'status' => rest_authorization_required_code() ) );
+			return new \WP_Error( 'cocart_rest_not_authorized', __( 'Sorry, you are not authorized.', 'cocart-core' ), array( 'status' => rest_authorization_required_code() ) );
 		}
 
 		return true;
