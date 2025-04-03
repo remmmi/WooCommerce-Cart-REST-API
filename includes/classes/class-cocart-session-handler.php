@@ -25,6 +25,15 @@ if ( ! defined( 'ABSPATH' ) ) {
 class CoCart_Session_Handler extends WC_Session_Handler {
 
 	/**
+	 * Stores cart in use.
+	 *
+	 * @access protected
+	 *
+	 * @var string Cart key identifier.
+	 */
+	protected $cart_key = '';
+
+	/**
 	 * Stores cart expiry.
 	 *
 	 * @access protected
@@ -103,7 +112,7 @@ class CoCart_Session_Handler extends WC_Session_Handler {
 	/**
 	 * Get requested cart.
 	 *
-	 * Returns the cart key requested from parameters or via header.
+	 * Returns the cart key requested from parameters, via header, or WP-CLI command.
 	 *
 	 * @access public
 	 *
@@ -112,29 +121,30 @@ class CoCart_Session_Handler extends WC_Session_Handler {
 	 * @return string Cart key.
 	 */
 	public function get_requested_cart() {
-		$cart_key = '';
-
 		// Are we requesting via url parameter?
 		if ( isset( $_REQUEST['cart_key'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-			$cart_key = (string) trim( sanitize_key( wp_unslash( $_REQUEST['cart_key'] ) ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+			$this->cart_key = (string) trim( sanitize_key( wp_unslash( $_REQUEST['cart_key'] ) ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		}
 
-		// Are we requesting via custom header?
+		// Are we requesting via custom header? - Old method
 		if ( ! empty( $_SERVER['HTTP_COCART_API_CART_KEY'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-			$cart_key = (string) trim( sanitize_key( wp_unslash( $_SERVER['HTTP_COCART_API_CART_KEY'] ) ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+			$this->cart_key = (string) trim( sanitize_key( wp_unslash( $_SERVER['HTTP_COCART_API_CART_KEY'] ) ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		}
 		}
 
 		/**
 		 * Filter allows the cart key to be overridden.
 		 *
 		 * Developer Note: Really only here so I don't have to create
-		 * a new session handler to inject a customer ID with the POS Support Add-on.
+		 * a new session handler to control the cart requested.
 		 *
 		 * @since 4.2.0 Introduced.
 		 *
 		 * @ignore Function ignored when parsed into Code Reference.
 		 */
-		return apply_filters( 'cocart_requested_cart_key', $cart_key );
+		$this->cart_key = apply_filters( 'cocart_requested_cart_key', $this->cart_key );
+
+		return $this->cart_key;
 	} // END get_requested_cart()
 
 	/**
@@ -158,30 +168,30 @@ class CoCart_Session_Handler extends WC_Session_Handler {
 			$current_user_id = strval( get_current_user_id() );
 		}
 
-		$this->_customer_id = $this->get_requested_cart();
+		$this->cart_key = $this->get_requested_cart();
 
 		// Get cart session requested.
-		if ( ! empty( $this->_customer_id ) ) {
+		if ( ! empty( $this->cart_key ) ) {
 			// Get cart.
 			$this->_data = $this->get_session_data();
 
 			// If the user logs in, and there is a requested cart that is not a customer then update session configuration.
-			if ( is_user_logged_in() && ! empty( $this->_customer_id ) && ! $this->is_user_customer( $this->_customer_id ) && $current_user_id !== $this->_customer_id ) {
-				$guest_session_id   = $this->_customer_id;
-				$this->_customer_id = $current_user_id;
+			if ( is_user_logged_in() && ! empty( $this->_customer_id ) && ! $this->is_user_customer( $this->cart_key ) && $current_user_id !== $this->cart_key ) {
+				$guest_session_id = $this->cart_key;
+				$this->cart_key   = $current_user_id;
 				$this->save_data( $guest_session_id );
 			}
 
 			// Update cart if its close to expiring.
 			if ( time() > $this->cart_expiring || empty( $this->cart_expiring ) ) {
 				$this->set_cart_expiration();
-				$this->update_cart_timestamp( $this->_customer_id, $this->cart_expiration );
+				$this->update_cart_timestamp( $this->cart_key, $this->cart_expiration );
 			}
 		} else {
 			// New cart session created or authenticated user.
 			$this->set_cart_expiration();
-			$this->_customer_id = 0 === $current_user_id ? $this->generate_key() : $current_user_id;
-			$this->_data        = $this->get_session_data();
+			$this->cart_key = 0 === $current_user_id ? $this->generate_key() : $current_user_id;
+			$this->_data    = $this->get_session_data();
 		}
 	} // END init_session_cocart()
 
@@ -223,7 +233,7 @@ class CoCart_Session_Handler extends WC_Session_Handler {
 	 */
 	public function has_session() {
 		// If we are loading a session via REST API then identify cart key.
-		if ( ! empty( $this->_customer_id ) && CoCart::is_rest_api_request() ) {
+		if ( ! empty( $this->cart_key ) && CoCart::is_rest_api_request() ) {
 			return true;
 		}
 
@@ -279,6 +289,15 @@ class CoCart_Session_Handler extends WC_Session_Handler {
 
 		return $generated_key;
 	} // END generate_key()
+
+	/**
+	 * Get session data.
+	 *
+	 * @return array
+	 */
+	public function get_session_data() {
+		return $this->has_session() ? (array) $this->get_session( $this->cart_key, array() ) : array();
+	}
 
 	/**
 	 * Gets a cache prefix.
@@ -350,7 +369,7 @@ class CoCart_Session_Handler extends WC_Session_Handler {
 				$wpdb->prepare(
 					"INSERT INTO {$wpdb->prefix}cocart_carts (`cart_key`, `cart_value`, `cart_created`, `cart_expiry`, `cart_source`, `cart_hash`) VALUES (%s, %s, %d, %d, %s, %s)
  					ON DUPLICATE KEY UPDATE `cart_value` = VALUES(`cart_value`), `cart_expiry` = VALUES(`cart_expiry`), `cart_hash` = VALUES(`cart_hash`)",
-					$this->_customer_id,
+					$this->cart_key,
 					maybe_serialize( $this->_data ),
 					time(),
 					$cart_expiration,
@@ -359,19 +378,19 @@ class CoCart_Session_Handler extends WC_Session_Handler {
 				)
 			);
 
-			wp_cache_set( $this->get_cache_prefix() . $this->_customer_id, $this->_data, COCART_CART_CACHE_GROUP, $cart_expiration - time() );
+			wp_cache_set( $this->get_cache_prefix() . $this->cart_key, $this->_data, COCART_CART_CACHE_GROUP, $cart_expiration - time() );
 
 			/**
 			 * Hook: Fires after session data is saved.
 			 *
 			 * @since 4.2.0 Introduced.
 			 *
-			 * @param int    $customer_id     Customer ID.
+			 * @param int    $cart_key        Cart key identifier.
 			 * @param array  $data            Cart data.
 			 * @param int    $cart_expiration Cart expiration.
 			 * @param string $cart_source     Cart source.
 			 */
-			do_action( 'cocart_after_session_saved_data', $this->_customer_id, $this->_data, $cart_expiration, $cart_source );
+			do_action( 'cocart_after_session_saved_data', $this->cart_key, $this->_data, $cart_expiration, $cart_source );
 
 			$this->_dirty = false;
 
@@ -388,7 +407,7 @@ class CoCart_Session_Handler extends WC_Session_Handler {
 	 * @access public
 	 */
 	public function destroy_cart() {
-		$this->delete_cart( $this->_customer_id );
+		$this->delete_cart( $this->cart_key );
 		$this->forget_session();
 	} // END destroy_cart()
 
@@ -573,9 +592,9 @@ class CoCart_Session_Handler extends WC_Session_Handler {
 	 *
 	 * @return string
 	 */
-	public function get_customer_id() {
-		return $this->_customer_id;
-	} // END get_customer_id()
+	public function get_cart_key() {
+		return $this->cart_key;
+	} // END get_cart_key()
 
 	/**
 	 * Set customer ID.
@@ -584,11 +603,11 @@ class CoCart_Session_Handler extends WC_Session_Handler {
 	 *
 	 * @since 3.0.0 Introduced.
 	 *
-	 * @param string $customer_id Customer ID.
+	 * @param string $cart_key Customer ID.
 	 */
-	public function set_customer_id( $customer_id ) {
-		$this->_customer_id = $customer_id;
-	} // END set_customer_id()
+	public function set_cart_key( $cart_key ) {
+		$this->cart_key = $cart_key;
+	} // END set_cart_key()
 
 	/**
 	 * Get cart hash

@@ -36,11 +36,11 @@ class CoCart_Utilities_Cart_Helpers {
 	 * @return string Cart key.
 	 */
 	public static function get_cart_key() {
-		if ( ! method_exists( WC()->session, 'get_customer_id' ) ) {
+		if ( ! method_exists( WC()->session, 'get_cart_key' ) ) {
 			return '';
 		}
 
-		return (string) WC()->session->get_customer_id();
+		return (string) WC()->session->get_cart_key();
 	} // END get_cart_key()
 
 	/**

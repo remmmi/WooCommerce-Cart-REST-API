@@ -79,8 +79,8 @@ class CoCart_Load_Cart {
 
 			if ( $is_cart_loaded ) {
 				// Destroy guest cart if one already existed.
-				if ( ! is_user_logged_in() && WC()->session->get_customer_id() !== $cart_key ) {
-					WC()->session->delete_cart( WC()->session->get_customer_id() );
+				if ( ! is_user_logged_in() && WC()->session->get_cart_key() !== $cart_key ) {
+					WC()->session->delete_cart( WC()->session->get_cart_key() );
 				}
 
 				// Sets the php session data for the loaded cart.
@@ -104,7 +104,7 @@ class CoCart_Load_Cart {
 				}
 
 				// Setup cart session.
-				WC()->session->set_customer_id( $cart_key );
+				WC()->session->set_cart_key( $cart_key );
 				WC()->session->set_cart_hash();
 				WC()->session->set_session_expiration();
 				WC()->session->set_customer_session_cookie( true );
