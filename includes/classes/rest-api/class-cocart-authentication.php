@@ -86,9 +86,9 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 			'X-WP-Total',
 			'X-WP-TotalPages',
 			'Link',
-			'CoCart-API-Cart-Key',
-			'CoCart-API-Cart-Expiring',
-			'CoCart-API-Cart-Expiration',
+			'Cart-Key',
+			'Cart-Expiring',
+			'Cart-Expiration',
 		);
 
 		/**

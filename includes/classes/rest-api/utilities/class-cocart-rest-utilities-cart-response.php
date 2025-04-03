@@ -30,7 +30,7 @@ class CoCart_REST_Utilities_Cart_Response {
 	 */
 	public function add_headers( $response, $request ) {
 		// Add timestamp of response.
-		$response->header( 'CoCart-Timestamp', time() );
+		$response->header( 'Timestamp', time() );
 
 		// Add version of CoCart.
 		if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
@@ -45,11 +45,11 @@ class CoCart_REST_Utilities_Cart_Response {
 
 		// Send cart key in the header if it's not empty or ZERO.
 		if ( ! empty( $cart_key ) && '0' !== $cart_key ) {
-			$response->header( 'CoCart-API-Cart-Key', $cart_key );
+			$response->header( 'Cart-Key', $cart_key );
 		}
 
-		$response->header( 'CoCart-API-Cart-Expiring', $cart_expiring );
-		$response->header( 'CoCart-API-Cart-Expiration', $cart_expiration );
+		$response->header( 'Cart-Expiring', $cart_expiring );
+		$response->header( 'Cart-Expiration', $cart_expiration );
 
 		return $response;
 	} // END add_headers()

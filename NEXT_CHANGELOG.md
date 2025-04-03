@@ -43,6 +43,15 @@
 * Feature: Load Cart from Session rewritten. See details below.
 * Plugin: Text domain a.k.a the plugin slug, has changed from `cart-rest-api-for-woocommerce` to `cocart-core`. This affects any translations including custom. If you did a custom translation you will need to rename the text domain to match.
 
+The following returned headers have also been renamed. Better for security reasons.
+
+| Previous Header            | New Header           |
+| -------------------------- | -------------------- |
+| CoCart-API-Cart-Key        | Cart-Key             |
+| CoCart-Timestamp           | Timestamp            |
+| CoCart-API-Cart-Expiring   | Cart-Expiring        |
+| CoCart-API-Cart-Expiration | Cart-Expiration      |
+
 ## Changes
 
 * REST API: The main cart controller `CoCart_REST_Cart_V2_Controller` for API v2 now extends a new abstract controller `CoCart_REST_Cart_Controller` for the cart which also extends the core `WP_REST_Controller` of WordPress.
