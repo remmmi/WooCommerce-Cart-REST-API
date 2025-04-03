@@ -211,7 +211,10 @@ class CoCart_REST_Remove_Item_V2_Controller extends CoCart_REST_Cart_V2_Controll
 					$response = $message;
 				}
 
-				return CoCart_Response::get_response( $response, $this->namespace, $this->rest_base );
+				$response = rest_ensure_response( $response );
+				$response = ( new CoCart_REST_Utilities_Cart_Response() )->add_headers( $response, $request );
+
+				return $response;
 			} else {
 				$message = __( 'Unable to remove item from cart.', 'cocart-core' );
 

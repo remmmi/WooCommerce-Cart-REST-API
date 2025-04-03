@@ -134,7 +134,10 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_REST_Cart_Controller {
 
 		$cart_contents = $this->return_cart_contents( $request, $cart_contents );
 
-		return CoCart_Response::get_response( $cart_contents, $this->namespace, $this->rest_base );
+		$response = rest_ensure_response( $cart_contents );
+		$response = ( new CoCart_REST_Utilities_Cart_Response() )->add_headers( $response, $request );
+
+		return $response;
 	} // END get_cart()
 
 	/**

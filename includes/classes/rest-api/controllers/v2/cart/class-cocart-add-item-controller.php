@@ -166,71 +166,82 @@ class CoCart_REST_Add_Item_V2_Controller extends CoCart_REST_Cart_V2_Controller 
 					break;
 			}
 
-			if ( ! is_wp_error( $item_added_to_cart ) ) {
-				cocart_add_to_cart_message( array( $item_added_to_cart['product_id'] => $item_added_to_cart['quantity'] ) );
-
-				/**
-				 * Filter overrides the cart item for anything extra.
-				 *
-				 * DEVELOPER WARNING: THIS FILTER CAN CAUSE HAVOC SO BE CAREFUL WHEN USING IT!
-				 *
-				 * @since 3.1.0 Introduced.
-				 *
-				 * @deprecated 4.1.0 Use hook `cocart_after_item_added_to_cart` instead.
-				 *
-				 * @param WC_Product      $item_added_to_cart The product added to cart.
-				 * @param WP_REST_Request $request            The request object.
-				 */
-				cocart_do_deprecated_filter(
-					'cocart_override_cart_item',
-					'4.1',
-					null,
-					sprintf(
-						/* translators: %s: action hook name */
-						__( 'This filter is no longer used. Recommend using action hook "%s" instead.', 'cocart-core' ),
-						'cocart_after_item_added_to_cart'
-					),
-					array( $item_added_to_cart, $request )
-				);
-
-				/**
-				 * Hook: Fires after an item has been added to cart.
-				 *
-				 * Allows for additional requested data to be processed such as modifying the price of the item.
-				 *
-				 * @since 4.1.0 Introduced.
-				 *
-				 * @hooked: set_new_price - 1
-				 * @hooked: add_customer_billing_details - 10
-				 *
-				 * @param WC_Product      $item_added_to_cart The product added to cart.
-				 * @param WP_REST_Request $request            The request object.
-				 * @param string          $product_type       The product type added to cart.
-				 * @param object          $controller         The cart controller.
-				 */
-				do_action( 'cocart_after_item_added_to_cart', $item_added_to_cart, $request, $product_type, $this );
-
-				// Was it requested to return the item details after being added?
-				if ( isset( $request['return_item'] ) && is_bool( $request['return_item'] ) && $request['return_item'] ) {
-					/**
-					 * Calculate the totals.
-					 *
-					 * Updates the totals once the item is added including any modifications to the item after.
-					 *
-					 * @since 3.1.0 Introduced.
-					 */
-					$this->calculate_totals();
-
-					$response = $this->get_item( $item_added_to_cart['data'], $item_added_to_cart, $request );
-				} else {
-					$request['dont_calculate'] = true;
-					$response                  = $this->get_cart( $request );
-				}
-
-				return CoCart_Response::get_response( $response, $this->namespace, $this->rest_base );
+			if ( is_wp_error( $item_added_to_cart ) ) {
+				return $item_added_to_cart;
 			}
 
-			return $item_added_to_cart;
+			cocart_add_to_cart_message( array( $item_added_to_cart['product_id'] => $item_added_to_cart['quantity'] ) );
+
+			/**
+			 * Filter overrides the cart item for anything extra.
+			 *
+			 * DEVELOPER WARNING: THIS FILTER CAN CAUSE HAVOC SO BE CAREFUL WHEN USING IT!
+			 *
+			 * @since 3.1.0 Introduced.
+			 *
+			 * @deprecated 4.1.0 Use hook `cocart_after_item_added_to_cart` instead.
+			 *
+			 * @param WC_Product      $item_added_to_cart The product added to cart.
+			 * @param WP_REST_Request $request            The request object.
+			 */
+			cocart_do_deprecated_filter(
+				'cocart_override_cart_item',
+				'4.1',
+				null,
+				sprintf(
+					/* translators: %s: action hook name */
+					__( 'This filter is no longer used. Recommend using action hook "%s" instead.', 'cocart-core' ),
+					'cocart_after_item_added_to_cart'
+				),
+				array( $item_added_to_cart, $request )
+			);
+
+			/**
+			 * Hook: Fires after an item has been added to cart.
+			 *
+			 * Allows for additional requested data to be processed such as modifying the price of the item.
+			 *
+			 * @since 4.1.0 Introduced.
+			 *
+			 * @hooked: set_new_price - 1
+			 * @hooked: add_customer_billing_details - 10
+			 *
+			 * @param WC_Product      $item_added_to_cart The product added to cart.
+			 * @param WP_REST_Request $request            The request object.
+			 * @param string          $product_type       The product type added to cart.
+			 * @param object          $controller         The cart controller.
+			 */
+			do_action( 'cocart_after_item_added_to_cart', $item_added_to_cart, $request, $product_type, $this );
+
+			// Was it requested to return the item details after being added?
+			if ( isset( $request['return_item'] ) && is_bool( $request['return_item'] ) && $request['return_item'] ) {
+				/**
+				 * Calculate the totals.
+				 *
+				 * Updates the totals once the item is added including any modifications to the item after.
+				 *
+				 * @since 3.1.0 Introduced.
+				 */
+				$this->calculate_totals();
+
+				if ( is_array( $item_added_to_cart ) ) {
+					$response = array();
+
+					foreach ( $item_added_to_cart as $id => $item ) {
+						$response[] = $this->get_item( $item['data'], $item, $request );
+					}
+				} else {
+					$response = $this->get_item( $item_added_to_cart['data'], $item_added_to_cart, $request );
+				}
+			} else {
+				$request['dont_calculate'] = true;
+				$response                  = $this->get_cart( $request );
+			}
+
+			$response = rest_ensure_response( $response );
+			$response = ( new CoCart_REST_Utilities_Cart_Response() )->add_headers( $response, $request );
+
+			return $response;
 		} catch ( CoCart_Data_Exception $e ) {
 			return CoCart_Response::get_error_response( $e->getErrorCode(), $e->getMessage(), $e->getCode(), $e->getAdditionalData() );
 		}

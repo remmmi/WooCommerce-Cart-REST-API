@@ -107,12 +107,16 @@ class CoCart_REST_Calculate_V2_Controller extends CoCart_REST_Cart_V2_Controller
 			$request['dont_check'] = true;
 			$response              = $this->get_cart( $request );
 
+			$response = rest_ensure_response( $response );
+
 			// Return the totals without the parent.
 			if ( isset( $request['return_totals'] ) && is_bool( $request['return_totals'] ) && $request['return_totals'] ) {
 				$response = isset( $response->data['totals'] ) ? $response->data['totals'] : array();
 			}
 
-			return CoCart_Response::get_response( $response, $this->namespace, $this->rest_base );
+			$response = ( new CoCart_REST_Utilities_Cart_Response() )->add_headers( $response, $request );
+
+			return $response;
 		} catch ( CoCart_Data_Exception $e ) {
 			return CoCart_Response::get_error_response( $e->getErrorCode(), $e->getMessage(), $e->getCode(), $e->getAdditionalData() );
 		}

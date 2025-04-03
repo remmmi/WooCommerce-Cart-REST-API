@@ -174,7 +174,10 @@ class CoCart_REST_Update_Cart_V2_Controller extends CoCart_REST_Cart_V2_Controll
 			// Returns updated cart if callback was successful.
 			$cart = $this->get_cart( $request );
 
-			return CoCart_Response::get_response( $cart, $this->namespace, $this->rest_base );
+			$response = rest_ensure_response( $cart );
+			$response = ( new CoCart_REST_Utilities_Cart_Response() )->add_headers( $response, $request );
+
+			return $response;
 		} catch ( CoCart_Data_Exception $e ) {
 			return CoCart_Response::get_error_response( $e->getErrorCode(), $e->getMessage(), $e->getCode(), $e->getAdditionalData() );
 		}

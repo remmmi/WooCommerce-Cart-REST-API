@@ -148,40 +148,43 @@ class CoCart_REST_Add_Items_V2_Controller extends CoCart_REST_Add_Item_V2_Contro
 				$items_added_to_cart = $this->add_to_cart_handler_grouped( $product_id, $items, $request );
 			}
 
-			if ( ! is_wp_error( $items_added_to_cart ) ) {
-				/**
-				 * Hook: Fires once items have been added to cart.
-				 *
-				 * Allows for additional requested data to be processed such as modifying the price of the item.
-				 *
-				 * @since 4.1.0 Introduced.
-				 *
-				 * @hooked: set_new_price - 1
-				 * @hooked: add_customer_billing_details - 10
-				 *
-				 * @param bool|array      $items_added_to_cart       The product added to cart.
-				 * @param WP_REST_Request $request                   The request object.
-				 * @param string          $add_items_to_cart_handler The product type added to cart.
-				 * @param object          $controller                The controller.
-				 */
-				do_action( 'cocart_after_items_added_to_cart', $items_added_to_cart, $request, $add_items_to_cart_handler, $this );
-
-				// Was it requested to return the items details after being added?
-				if ( isset( $request['return_items'] ) && is_bool( $request['return_items'] ) && $request['return_items'] ) {
-					$response = array();
-
-					foreach ( $items_added_to_cart as $id => $item ) {
-						$response[] = $this->get_item( $item['data'], $item, $request );
-					}
-				} else {
-					$request['dont_calculate'] = true;
-					$response                  = $this->get_cart( $request );
-				}
-
-				return CoCart_Response::get_response( $response, $this->namespace, $this->rest_base );
+			if ( is_wp_error( $items_added_to_cart ) ) {
+				return $items_added_to_cart;
 			}
 
-			return $items_added_to_cart;
+			/**
+			 * Hook: Fires once items have been added to cart.
+			 *
+			 * Allows for additional requested data to be processed such as modifying the price of the item.
+			 *
+			 * @since 4.1.0 Introduced.
+			 *
+			 * @hooked: set_new_price - 1
+			 * @hooked: add_customer_billing_details - 10
+			 *
+			 * @param bool|array      $items_added_to_cart       The product added to cart.
+			 * @param WP_REST_Request $request                   The request object.
+			 * @param string          $add_items_to_cart_handler The product type added to cart.
+			 * @param object          $controller                The controller.
+			 */
+			do_action( 'cocart_after_items_added_to_cart', $items_added_to_cart, $request, $add_items_to_cart_handler, $this );
+
+			// Was it requested to return the items details after being added?
+			if ( isset( $request['return_items'] ) && is_bool( $request['return_items'] ) && $request['return_items'] ) {
+				$response = array();
+
+				foreach ( $items_added_to_cart as $id => $item ) {
+					$response[] = $this->get_item( $item['data'], $item, $request );
+				}
+			} else {
+				$request['dont_calculate'] = true;
+				$response                  = $this->get_cart( $request );
+			}
+
+			$response = rest_ensure_response( $response );
+			$response = ( new CoCart_REST_Utilities_Cart_Response() )->add_headers( $response, $request );
+
+			return $response;
 		} catch ( CoCart_Data_Exception $e ) {
 			return CoCart_Response::get_error_response( $e->getErrorCode(), $e->getMessage(), $e->getCode(), $e->getAdditionalData() );
 		}
