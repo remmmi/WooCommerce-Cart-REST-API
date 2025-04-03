@@ -139,7 +139,7 @@ class CoCart_REST_Store_V2_Controller {
 			$store = array_merge( $debug, $store );
 		}
 
-		$response = new WP_REST_Response( $store );
+		$response = rest_ensure_response( $store );
 
 		// Add link to documentation.
 		if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
@@ -153,7 +153,7 @@ class CoCart_REST_Store_V2_Controller {
 		 * about the store, routes available on the API, and a small amount
 		 * of data about the site.
 		 *
-		 * @param WP_REST_Response $response Response data.
+		 * @param WP_REST_Response $response The response object.
 		 */
 		return apply_filters( 'cocart_store_index', $response );
 	} // END get_store()

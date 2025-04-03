@@ -138,7 +138,7 @@ class CoCart_Utilities_Cart_Helpers {
 
 			return $product->get_attributes();
 		} catch ( CoCart_Data_Exception $e ) {
-			return CoCart_Response::get_error_response( $e->getErrorCode(), $e->getMessage(), $e->getCode(), $e->getAdditionalData() );
+			return new \WP_Error( $e->getErrorCode(), $e->getMessage(), $e->getCode(), $e->getAdditionalData() );
 		}
 	} // END get_variable_product_attributes()
 
@@ -1093,10 +1093,10 @@ class CoCart_Utilities_Cart_Helpers {
 	 *
 	 * @return int|float|\WP_Error
 	 */
-	public static function validate_quantity( $quantity, WC_Product $product = null ) {
+	public static function validate_quantity( $quantity, WC_Product $product ) {
 		try {
 			if ( ! is_numeric( $quantity ) ) {
-				throw new CoCart_Data_Exception( 'cocart_quantity_not_numeric', __( 'Quantity must be integer or a float value!', 'cocart-core' ), 405 );
+				throw new CoCart_Data_Exception( 'cocart_quantity_not_numeric', __( 'Quantity must be numeric value!', 'cocart-core' ), 405 );
 			}
 
 			// Minimum quantity to validate with.

@@ -87,8 +87,8 @@ class CoCart_Security {
 	public function hide_routes_from_index( $response, $request ) {
 		$namespace = $request['namespace'];
 
-		if ( preg_match( '/^' . $this->get_api_namespace() . '$/', $namespace ) ) {
-			return new WP_Error(
+		if ( preg_match( '/^' . CoCart_REST_API::get_api_namespace() . '$/', $namespace ) ) {
+			return new \WP_Error(
 				'rest_invalid_namespace',
 				__( 'The specified namespace could not be found.', 'cocart-core' ),
 				array( 'status' => 404 )

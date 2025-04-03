@@ -179,7 +179,7 @@ class CoCart_REST_Restore_Item_V2_Controller extends CoCart_REST_Cart_V2_Control
 
 				$restored_message = sprintf(
 					/* translators: %s: product name */
-					__( '%s has been added back to your cart.', 'cocart-core' ),
+					__( '%s has been added back to the cart.', 'cocart-core' ),
 					$item_restored_title
 				);
 
@@ -192,12 +192,18 @@ class CoCart_REST_Restore_Item_V2_Controller extends CoCart_REST_Cart_V2_Control
 				 */
 				$restored_message = apply_filters( 'cocart_cart_item_restored_message', $restored_message );
 
-				// Add notice.
-				wc_add_notice( $restored_message, 'success' );
-
 				// Get cart contents.
 				$request['dont_check'] = true;
 				$response              = $this->get_cart( $request );
+
+				// Was it requested to return status once item restored?
+				if ( $request['return_status'] ) {
+					/* translators: %s: Item name. */
+					$response = $restored_message;
+				} else {
+					// Add notice.
+					wc_add_notice( $restored_message, 'success' );
+				}
 
 				// Was it requested to return just the restored item?
 				if ( $request['return_item'] ) {

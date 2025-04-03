@@ -37,7 +37,7 @@ class CoCart_REST_Session_V2_Controller extends CoCart_REST_Cart_V2_Controller {
 	 *
 	 * @return string
 	 */
-	protected function get_path_regex() {
+	public function get_path_regex() {
 		return '/session';
 	}
 

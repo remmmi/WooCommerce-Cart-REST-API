@@ -54,6 +54,7 @@ class CoCart_Totals_Controller extends CoCart_API_Controller {
 						'default'           => false,
 						'description'       => __( 'Returns the totals pre-formatted.', 'cocart-core' ),
 						'type'              => 'boolean',
+						'sanitize_callback' => 'rest_sanitize_boolean',
 						'validate_callback' => 'rest_validate_request_arg',
 					),
 				),
