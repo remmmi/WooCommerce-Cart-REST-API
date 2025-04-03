@@ -547,8 +547,9 @@ class CoCart_Products_Controller extends WP_REST_Controller {
 
 		// Map between taxonomy name and arg key.
 		$default_taxonomies = array(
-			'product_cat' => 'category',
-			'product_tag' => 'tag',
+			'product_cat'   => 'category',
+			'product_tag'   => 'tag',
+			'product_brand' => 'brand',
 		);
 
 		$taxonomies = array_merge( $all_product_taxonomies, $default_taxonomies );
@@ -556,10 +557,11 @@ class CoCart_Products_Controller extends WP_REST_Controller {
 		// Set tax_query for each passed arg.
 		foreach ( $taxonomies as $taxonomy => $key ) {
 			if ( ! empty( $request[ $key ] ) ) {
+				$type        = is_numeric( $request[ $key ][0] ) ? 'term_id' : 'slug';
 				$operator    = $request[ $key . '_operator' ] && isset( $operator_mapping[ $request[ $key . '_operator' ] ] ) ? $operator_mapping[ $request[ $key . '_operator' ] ] : 'IN';
 				$tax_query[] = array(
 					'taxonomy' => $taxonomy,
-					'field'    => is_numeric( $request[ $key ] ) ? 'term_id' : 'slug',
+					'field'    => $type,
 					'terms'    => $request[ $key ],
 					'operator' => $operator,
 				);
