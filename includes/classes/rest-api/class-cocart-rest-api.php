@@ -42,7 +42,7 @@ class CoCart_REST_API {
 	 *
 	 * @var string
 	 */
-	private $api_namespace = 'cocart';
+	private static $api_namespace = 'cocart';
 
 	/**
 	 * Setup class.
@@ -82,12 +82,14 @@ class CoCart_REST_API {
 	 *
 	 * @access public
 	 *
+	 * @static
+	 *
 	 * @since 5.0.0 Introduced.
 	 *
 	 * @return string
 	 */
-	public function get_api_namespace() {
-		return $this->api_namespace;
+	public static function get_api_namespace() {
+		return self::$api_namespace;
 	}
 
 	/**
@@ -98,9 +100,9 @@ class CoCart_REST_API {
 	 * @since 5.0.0 Introduced.
 	 */
 	protected function set_api_namespace() {
-		$this->api_namespace = wp_cache_get( 'cocart_api_namespace', CoCart_Utilities_Cache_Helpers::get_cache_prefix( 'api_namespace' ) );
+		self::$api_namespace = wp_cache_get( 'cocart_api_namespace', CoCart_Utilities_Cache_Helpers::get_cache_prefix( 'api_namespace' ) );
 
-		if ( false === $this->api_namespace ) {
+		if ( false === self::$api_namespace ) {
 			/**
 			 * This filter allows CoCart to be white labeled.
 			 *
@@ -108,14 +110,14 @@ class CoCart_REST_API {
 			 *
 			 * @since 5.0.0 Introduced.
 			 */
-			$this->api_namespace = apply_filters( 'cocart_set_api_namespace', 'cocart' );
+			self::$api_namespace = apply_filters( 'cocart_set_api_namespace', 'cocart' );
 
-			wp_cache_add( 'cocart_api_namespace', $this->api_namespace, CoCart_Utilities_Cache_Helpers::get_cache_prefix( 'api_namespace' ), time() + DAY_IN_SECONDS );
+			wp_cache_add( 'cocart_api_namespace', self::$api_namespace, CoCart_Utilities_Cache_Helpers::get_cache_prefix( 'api_namespace' ), time() + DAY_IN_SECONDS );
 		}
 
 		// Revert back if white label add-on is not active.
-		if ( 'cocart' !== $this->api_namespace ) {
-			$this->api_namespace = 'cocart';
+		if ( 'cocart' !== self::$api_namespace ) {
+			self::$api_namespace = 'cocart';
 		}
 	} // END set_api_namespace();
 
@@ -172,7 +174,7 @@ class CoCart_REST_API {
 		}
 
 		// Set the route namespace outside the controller.
-		$route_namespace = $this->get_api_namespace() . '/' . $version;
+		$route_namespace = self::get_api_namespace() . '/' . $version;
 
 		$routes = $this->routes[ 'cocart/' . $version ];
 
@@ -766,13 +768,13 @@ class CoCart_REST_API {
 		$regex_path_patterns = apply_filters(
 			'cocart_send_cache_control_patterns',
 			array(
-				'/^' . $this->get_api_namespace() . '\/v2\/cart/',
-				'/^' . $this->get_api_namespace() . '\/v2\/logout/',
-				'/^' . $this->get_api_namespace() . '\/v2\/store/',
-				'/^' . $this->get_api_namespace() . '\/v1\/get-cart/',
-				'/^' . $this->get_api_namespace() . '\/v1\/logout/',
+				'/^' . self::get_api_namespace() . '\/v2\/cart/',
+				'/^' . self::get_api_namespace() . '\/v2\/logout/',
+				'/^' . self::get_api_namespace() . '\/v2\/store/',
+				'/^' . self::get_api_namespace() . '\/v1\/get-cart/',
+				'/^' . self::get_api_namespace() . '\/v1\/logout/',
 			),
-			$this->get_api_namespace()
+			self::get_api_namespace()
 		);
 
 		$cache_control = ( function_exists( 'is_user_logged_in' ) && is_user_logged_in() )
@@ -852,12 +854,12 @@ class CoCart_REST_API {
 		$request_uri = esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated
 
 		$routes = array(
-			$this->get_api_namespace() . '/v2/login',
-			$this->get_api_namespace() . '/v2/logout',
-			$this->get_api_namespace() . '/v1/products',
-			$this->get_api_namespace() . '/v2/products',
-			$this->get_api_namespace() . '/v2/sessions',
-			$this->get_api_namespace() . '/v2/store',
+			self::get_api_namespace() . '/v2/login',
+			self::get_api_namespace() . '/v2/logout',
+			self::get_api_namespace() . '/v1/products',
+			self::get_api_namespace() . '/v2/products',
+			self::get_api_namespace() . '/v2/sessions',
+			self::get_api_namespace() . '/v2/store',
 		);
 
 		foreach ( $routes as $route ) {
@@ -881,8 +883,8 @@ class CoCart_REST_API {
 	 */
 	protected function get_cacheable_route_patterns() {
 		return array(
-			'/^' . $this->get_api_namespace() . '\/v2\/products/',
-			'/^' . $this->get_api_namespace() . '\/v1\/products/',
+			'/^' . self::get_api_namespace() . '\/v2\/products/',
+			'/^' . self::get_api_namespace() . '\/v1\/products/',
 		);
 	} // END get_cacheable_route_patterns()
 
