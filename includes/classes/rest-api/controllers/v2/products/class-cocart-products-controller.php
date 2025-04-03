@@ -513,6 +513,7 @@ class CoCart_REST_Products_V2_Controller extends CoCart_Products_Controller {
 			'images'             => CoCart_Utilities_Product_Helpers::get_images( $product ),
 			'categories'         => $this->get_taxonomy_terms( $product ),
 			'tags'               => $this->get_taxonomy_terms( $product, 'tag' ),
+			'brands'             => $this->get_taxonomy_terms( $product, 'brand' ),
 			'attributes'         => $this->get_attributes( $product ),
 			'default_attributes' => $this->get_default_attributes( $product ),
 			'variations'         => array(),
@@ -1429,6 +1430,42 @@ class CoCart_REST_Products_V2_Controller extends CoCart_Products_Controller {
 						),
 						'rest_url' => array(
 							'description' => __( 'The REST URL for viewing this product tag.', 'cocart-core' ),
+							'type'        => 'string',
+							'context'     => array( 'view' ),
+							'format'      => 'uri',
+							'readonly'    => true,
+						),
+					),
+				),
+				'readonly'    => true,
+			),
+			'brands'             => array(
+				'description' => __( 'List of brands, if applicable.', 'cocart-core' ),
+				'type'        => 'array',
+				'context'     => array( 'view' ),
+				'items'       => array(
+					'type'       => 'object',
+					'properties' => array(
+						'id'       => array(
+							'description' => __( 'Brand ID.', 'cocart-core' ),
+							'type'        => 'integer',
+							'context'     => array( 'view' ),
+							'readonly'    => true,
+						),
+						'name'     => array(
+							'description' => __( 'Brand name.', 'cocart-core' ),
+							'type'        => 'string',
+							'context'     => array( 'view' ),
+							'readonly'    => true,
+						),
+						'slug'     => array(
+							'description' => __( 'Brand slug.', 'cocart-core' ),
+							'type'        => 'string',
+							'context'     => array( 'view' ),
+							'readonly'    => true,
+						),
+						'rest_url' => array(
+							'description' => __( 'The REST URL for viewing this product brand.', 'cocart-core' ),
 							'type'        => 'string',
 							'context'     => array( 'view' ),
 							'format'      => 'uri',
