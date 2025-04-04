@@ -56,6 +56,7 @@ class CoCart_REST_Totals_V2_Controller extends CoCart_REST_Cart_V2_Controller {
 				'permission_callback' => '__return_true',
 				'args'                => $this->get_collection_params(),
 			),
+			'allow_batch' => array( 'v1' => true ),
 		);
 	} // END get_args()
 

@@ -56,7 +56,8 @@ class CoCart_REST_Count_Items_V2_Controller extends CoCart_REST_Cart_V2_Controll
 				'permission_callback' => '__return_true',
 				'args'                => $this->get_collection_params(),
 			),
-			'schema' => array( $this, 'get_public_item_schema' ),
+			'allow_batch' => array( 'v1' => true ),
+			'schema'      => array( $this, 'get_public_item_schema' ),
 		);
 	} // END get_args()
 

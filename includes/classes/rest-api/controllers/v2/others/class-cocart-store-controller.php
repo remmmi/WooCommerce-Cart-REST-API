@@ -81,7 +81,8 @@ class CoCart_REST_Store_V2_Controller {
 				'callback'            => array( $this, 'get_store' ),
 				'permission_callback' => '__return_true',
 			),
-			'schema' => array( $this, 'get_public_item_schema' ),
+			'allow_batch' => array( 'v1' => true ),
+			'schema'      => array( $this, 'get_public_item_schema' ),
 		);
 	} // END get_args()
 

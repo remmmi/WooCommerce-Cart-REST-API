@@ -85,7 +85,8 @@ class CoCart_REST_Sessions_V2_Controller {
 				'callback'            => array( $this, 'get_carts_in_session' ),
 				'permission_callback' => array( $this, 'get_items_permissions_check' ),
 			),
-			'schema' => array( $this, 'get_public_object_schema' ),
+			'allow_batch' => array( 'v1' => true ),
+			'schema'      => array( $this, 'get_public_object_schema' ),
 		);
 	} // END get_args()
 
