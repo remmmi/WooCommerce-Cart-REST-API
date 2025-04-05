@@ -184,8 +184,6 @@ class CoCart_REST_Add_Item_V2_Controller extends CoCart_REST_Cart_V2_Controller 
 				return $item_added_to_cart;
 			}
 
-			cocart_add_to_cart_message( array( $item_added_to_cart['product_id'] => $item_added_to_cart['quantity'] ) );
-
 			/**
 			 * Filter overrides the cart item for anything extra.
 			 *
@@ -287,6 +285,8 @@ class CoCart_REST_Add_Item_V2_Controller extends CoCart_REST_Cart_V2_Controller 
 		// Add item to cart once validation is passed.
 		$item_added = $this->add_item_to_cart( $product_to_add );
 
+		cocart_add_to_cart_message( array( $product_id => $quantity ) );
+
 		return $item_added;
 	} // END add_to_cart_handler_simple()
 
@@ -317,6 +317,8 @@ class CoCart_REST_Add_Item_V2_Controller extends CoCart_REST_Cart_V2_Controller 
 
 		// Add item to cart once validation is passed.
 		$item_added = $this->add_item_to_cart( $product_to_add );
+
+		cocart_add_to_cart_message( array( $product_id => $quantity ) );
 
 		return $item_added;
 	} // END add_to_cart_handler_variable()
