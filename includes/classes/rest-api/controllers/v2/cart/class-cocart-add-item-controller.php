@@ -97,9 +97,16 @@ class CoCart_REST_Add_Item_V2_Controller extends CoCart_REST_Cart_V2_Controller 
 	public function add_to_cart( $request = array() ) {
 		try {
 			$product_id = ! isset( $request['id'] ) ? 0 : wc_clean( wp_unslash( $request['id'] ) );
-			$quantity   = ! isset( $request['quantity'] ) ? 1 : wc_clean( wp_unslash( $request['quantity'] ) );
+			$quantity   = ! isset( $request['quantity'] ) ? 1 : rest_sanitize_quantity_arg( $request['quantity'] );
 			$variation  = ! isset( $request['variation'] ) ? array() : $request['variation'];
 			$item_data  = ! isset( $request['item_data'] ) ? array() : $request['item_data'];
+
+			$container_item = false; // By default an item is individual not a container of many.
+
+			// If the quantity parameter is an array then we assume they are a list of items bundled together.
+			if ( is_array( $quantity ) ) {
+				$container_item = true;
+			}
 
 			// Validate product ID before continuing and return correct product ID if different.
 			$product_id = CoCart_Utilities_Cart_Helpers::validate_product_id( $product_id );
@@ -118,11 +125,13 @@ class CoCart_REST_Add_Item_V2_Controller extends CoCart_REST_Cart_V2_Controller 
 				return $product_data;
 			}
 
-			// Validate quantity before continuing and return formatted.
-			$quantity = CoCart_Utilities_Cart_Helpers::validate_quantity( $quantity, $product_data );
+			if ( ! $container_item ) {
+				// Validate quantity before continuing if item is singular and return formatted.
+				$quantity = CoCart_Utilities_Cart_Helpers::validate_quantity( $quantity, $product_data );
 
-			if ( is_wp_error( $quantity ) ) {
-				return $quantity;
+				if ( is_wp_error( $quantity ) ) {
+					return $quantity;
+				}
 			}
 
 			/**
@@ -145,6 +154,9 @@ class CoCart_REST_Add_Item_V2_Controller extends CoCart_REST_Cart_V2_Controller 
 				case 'variable':
 				case 'variation':
 					$item_added_to_cart = $this->add_to_cart_handler_variable( $product_id, $quantity, null, $variation, $item_data, $request );
+					break;
+				case 'grouped':
+					$item_added_to_cart = $this->add_to_cart_handler_grouped( $product_id, $quantity, $request );
 					break;
 				default:
 					if ( has_filter( 'cocart_add_to_cart_handler_' . $product_type ) ) {
@@ -527,8 +539,8 @@ class CoCart_REST_Add_Item_V2_Controller extends CoCart_REST_Cart_V2_Controller 
 				'validate_callback' => 'rest_validate_request_arg',
 			),
 			'quantity'    => array(
-				'description'       => __( 'Quantity of this item to add to the cart.', 'cocart-core' ),
-				'type'              => 'string',
+				'description'       => __( 'Quantity of this item to add to the cart. Can be a number or an array.', 'cocart-core' ),
+				'type'              => array( 'string', 'array' ),
 				'default'           => '1',
 				'required'          => true,
 				'sanitize_callback' => 'rest_sanitize_quantity_arg',
