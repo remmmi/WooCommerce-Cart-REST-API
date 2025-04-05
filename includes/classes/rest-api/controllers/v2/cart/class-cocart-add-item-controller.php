@@ -283,7 +283,7 @@ class CoCart_REST_Add_Item_V2_Controller extends CoCart_REST_Cart_V2_Controller 
 		}
 
 		// Add item to cart once validation is passed.
-		$item_added = $this->add_item_to_cart( $product_to_add );
+		$item_added = $this->add_item_to_cart( $product_to_add, $request );
 
 		cocart_add_to_cart_message( array( $product_id => $quantity ) );
 
@@ -316,7 +316,7 @@ class CoCart_REST_Add_Item_V2_Controller extends CoCart_REST_Cart_V2_Controller 
 		}
 
 		// Add item to cart once validation is passed.
-		$item_added = $this->add_item_to_cart( $product_to_add );
+		$item_added = $this->add_item_to_cart( $product_to_add, $request );
 
 		cocart_add_to_cart_message( array( $product_id => $quantity ) );
 
@@ -368,7 +368,7 @@ class CoCart_REST_Add_Item_V2_Controller extends CoCart_REST_Cart_V2_Controller 
 					remove_action( 'woocommerce_add_to_cart', array( WC()->cart, 'calculate_totals' ), 20, 0 );
 
 					// Add item to cart once validation is passed.
-					$item_added = $this->add_item_to_cart( $product_to_add );
+					$item_added = $this->add_item_to_cart( $product_to_add, $request );
 
 					if ( false !== $item_added ) {
 						$was_added_to_cart      = true;
@@ -405,14 +405,15 @@ class CoCart_REST_Add_Item_V2_Controller extends CoCart_REST_Cart_V2_Controller 
 	 *
 	 * @access public
 	 *
-	 * @since   2.1.0 Introduced.
-	 * @version 3.1.0
+	 * @since 2.1.0 Introduced.
+	 * @since 5.0.0 Added $request as parameter.
 	 *
-	 * @param array $product_to_add Passes details of the item ready to add to the cart.
+	 * @param array           $product_to_add Passes details of the item ready to add to the cart.
+	 * @param WP_REST_Request $request        The request object.
 	 *
 	 * @return array $item_added Returns details of the added item in the cart.
 	 */
-	public function add_item_to_cart( $product_to_add = array() ) {
+	public function add_item_to_cart( $product_to_add = array(), $request = array() ) {
 		$product_id   = $product_to_add['product_id'];
 		$quantity     = $product_to_add['quantity'];
 		$variation_id = $product_to_add['variation_id'];
@@ -420,7 +421,6 @@ class CoCart_REST_Add_Item_V2_Controller extends CoCart_REST_Cart_V2_Controller 
 		$item_data    = $product_to_add['item_data'];
 		$item_key     = $product_to_add['item_key'];
 		$product_data = $product_to_add['product_data'];
-		$request      = $product_to_add['request'];
 
 		try {
 			// If item_key is set, then the item is already in the cart so just update the quantity.
@@ -433,7 +433,7 @@ class CoCart_REST_Add_Item_V2_Controller extends CoCart_REST_Cart_V2_Controller 
 				 */
 				if ( ! in_array( $item_key, $cart_contents ) ) {
 					$product_to_add['item_key'] = ''; // Clear previous item key.
-					return $this->add_item_to_cart( $product_to_add );
+					return $this->add_item_to_cart( $product_to_add, $request );
 				}
 
 				$new_quantity = $quantity + $cart_contents[ $item_key ]['quantity'];
