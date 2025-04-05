@@ -196,49 +196,24 @@ class CoCart_REST_Add_Items_V2_Controller extends CoCart_REST_Add_Item_V2_Contro
 	 * @access public
 	 *
 	 * @since 3.0.0 Introduced.
-	 * @since 3.1.0 Added email parameter.
-	 * @since 4.1.0 Added phone number parameter.
 	 *
 	 * @return array $params Query parameters for the endpoint.
 	 */
 	public function get_collection_params() {
-		// Cart query parameters.
+		// Get main cart query parameters.
 		$params = parent::get_collection_params();
 
-		// Add to cart query parameters.
-		$params += array(
-			'id'           => array(
-				'description'       => __( 'Unique identifier for the container product ID.', 'cocart-core' ),
-				'type'              => 'string',
-				'sanitize_callback' => 'sanitize_text_field',
-				'validate_callback' => 'rest_validate_request_arg',
-			),
-			'quantity'     => array(
-				'required'          => true,
-				'description'       => __( 'List of items and quantity to add to the cart.', 'cocart-core' ),
-				'type'              => 'object',
-				'validate_callback' => 'rest_validate_request_arg',
-			),
-			'email'        => array(
-				'required'          => false,
-				'description'       => __( 'Set the customers billing email address.', 'cocart-core' ),
-				'type'              => 'string',
-				'sanitize_callback' => 'sanitize_email',
-				'validate_callback' => 'rest_validate_request_arg',
-			),
-			'phone'        => array(
-				'description'       => __( 'Set the customers billing phone number.', 'cocart-core' ),
-				'type'              => 'string',
-				'required'          => false,
-				'sanitize_callback' => 'sanitize_text_field',
-				'validate_callback' => 'rest_validate_request_arg',
-			),
-			'return_items' => array(
-				'description' => __( 'Returns the items details once added.', 'cocart-core' ),
-				'default'     => false,
-				'type'        => 'boolean',
-			),
+		// Override parameters for this route.
+		$params['quantity'] = array(
+			'required'          => true,
+			'description'       => __( 'List of items and quantity to add to the cart.', 'cocart-core' ),
+			'type'              => 'array',
+			'sanitize_callback' => 'rest_sanitize_quantity_arg',
+			'validate_callback' => 'rest_validate_request_arg',
 		);
+
+		$params['return_items'] = $params['return_item'];
+		unset( $params['return_item'] );
 
 		/**
 		 * Extends the query parameters.
