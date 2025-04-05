@@ -174,6 +174,8 @@ class CoCart_REST_Add_Item_V2_Controller extends CoCart_REST_Cart_V2_Controller 
 						 * @param WP_REST_Request $request      The request object.
 						 */
 						$item_added_to_cart = apply_filters( 'cocart_add_to_cart_handler_' . $product_type, $product_data, $request ); // Custom handler.
+					} else {
+						return new \WP_Error( 'cocart_invalid_product_type', __( 'Invalid product type.', 'cocart-core' ), array( 'status' => 400 ) );
 					}
 					break;
 			}
