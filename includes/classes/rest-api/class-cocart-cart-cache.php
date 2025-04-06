@@ -67,12 +67,14 @@ class CoCart_Cart_Cache {
 		/**
 		 * Check if the requested product allows the price to be changed.
 		 *
+		 * If the item does not have a key, then it is not a single item or at least not a container of items.
+		 *
 		 * @since 4.1.0 Introduced.
 		 *
 		 * @param array           $cart_item The cart item data.
 		 * @param WP_REST_Request $request   The request object.
 		 */
-		if ( ! $this->does_product_allow_price_change( $cart_item, $request ) ) {
+		if ( ! isset( $cart_item['key'] ) || ! $this->does_product_allow_price_change( $cart_item, $request ) ) {
 			return $cart_item;
 		}
 
