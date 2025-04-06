@@ -120,19 +120,19 @@ class CoCart_REST_API {
 	 */
 	protected function register_routes( $version = 'v2' ) {
 		// If no routes for the version exist return nothing.
-		if ( ! isset( $this->routes[ 'cocart/' . $version ] ) ) {
+		if ( ! isset( $this->routes[ CoCart::get_api_namespace() . $version ] ) ) {
 			return;
 		}
 
 		// Set the route namespace outside the controller.
-		$route_namespace = self::get_api_namespace() . '/' . $version;
+		$route_namespace = CoCart::get_api_namespace() . '/' . $version;
 
-		$routes = $this->routes[ 'cocart/' . $version ];
+		$routes = $this->routes[ CoCart::get_api_namespace() . $version ];
 
 		foreach ( $routes as $route_identifier => $route_class ) {
 			$skip_route = false;
 
-			$route = $this->routes[ 'cocart/' . $version ][ $route_identifier ] ?? false;
+			$route = $this->routes[ CoCart::get_api_namespace() . $version ][ $route_identifier ] ?? false;
 
 			if ( ! $route ) {
 				error_log( esc_html( "{$route_class} route does not exist" ) );
