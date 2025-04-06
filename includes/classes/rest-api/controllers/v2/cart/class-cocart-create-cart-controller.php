@@ -67,7 +67,7 @@ class CoCart_REST_Create_Cart_V2_Controller extends CoCart_REST_Cart_Controller 
 	 *
 	 * @return WP_REST_Response The returned response.
 	 */
-	public function create_cart( $request = array() ) {
+	public function create_cart( $request ) {
 		try {
 			// Get a cart key.
 			$cart_key = WC()->session->get_customer_unique_id();

@@ -94,7 +94,7 @@ class CoCart_REST_Count_Items_V2_Controller extends CoCart_REST_Cart_V2_Controll
 	 *
 	 * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
 	 */
-	public function get_cart_contents_count( $request = array(), $cart_contents = array() ) {
+	public function get_cart_contents_count( $request, $cart_contents = array() ) {
 		try {
 			$return        = ! empty( $request['return'] ) ? $request['return'] : '';
 			$removed_items = isset( $request['removed_items'] ) ? $request['removed_items'] : false;
@@ -152,10 +152,12 @@ class CoCart_REST_Count_Items_V2_Controller extends CoCart_REST_Cart_V2_Controll
 			'type'       => 'object',
 			'properties' => array(
 				'removed_items' => array(
-					'required'    => false,
-					'default'     => false,
-					'description' => __( 'Returns count for removed items from the cart.', 'cocart-core' ),
-					'type'        => 'boolean',
+					'required'          => false,
+					'default'           => false,
+					'description'       => __( 'Returns count for removed items from the cart.', 'cocart-core' ),
+					'type'              => 'boolean',
+					'sanitize_callback' => 'rest_sanitize_boolean',
+					'validate_callback' => 'rest_validate_request_arg',
 				),
 			),
 		);

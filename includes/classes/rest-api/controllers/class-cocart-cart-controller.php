@@ -109,7 +109,7 @@ abstract class CoCart_REST_Cart_Controller extends WP_REST_Controller {
 	 *
 	 * @return array $cart_contents The cart contents.
 	 */
-	public function get_cart_contents( $request = array(), $cart_item_key = '' ) {
+	public function get_cart_contents( $request, $cart_item_key = '' ) {
 		$show_raw       = ! empty( $request['raw'] ) ? $request['raw'] : false; // Internal parameter request.
 		$dont_check     = ! empty( $request['dont_check'] ) ? $request['dont_check'] : false; // Internal parameter request.
 		$dont_calculate = ! empty( $request['dont_calculate'] ) ? $request['dont_calculate'] : false; // Internal parameter request.
@@ -198,9 +198,9 @@ abstract class CoCart_REST_Cart_Controller extends WP_REST_Controller {
 	 *
 	 * @return array $items Returns all cart items.
 	 */
-	public function get_cart_items( $callback = null ) {
+	public function get_all_cart_items( $callback = null ) {
 		return $callback ? array_filter( $this->get_cart_instance()->get_cart(), $callback ) : array_filter( $this->get_cart_instance()->get_cart() );
-	} // END get_cart_items()
+	} // END get_all_cart_items()
 
 	/**
 	 * Returns true if the cart is completely empty.
@@ -368,7 +368,7 @@ abstract class CoCart_REST_Cart_Controller extends WP_REST_Controller {
 	 *
 	 * @param int             $product_id   The product ID.
 	 * @param int|float       $quantity     The item quantity.
-	 * @param null            $variation_id The variation ID.
+	 * @param int             $variation_id The variation ID.
 	 * @param array           $variation    The variation attributes.
 	 * @param array           $item_data    The cart item data
 	 * @param string          $product_type The product type.
@@ -376,7 +376,7 @@ abstract class CoCart_REST_Cart_Controller extends WP_REST_Controller {
 	 *
 	 * @return array Item data.
 	 */
-	protected function validate_product( $product_id = null, $quantity = 1, $variation_id = null, $variation = array(), $item_data = array(), $product_type = '', $request = array() ) {
+	protected function validate_product( $request, int $product_id, $quantity = 1, int $variation_id = 0, array $variation = array(), array $item_data = array(), string $product_type = '' ) {
 		try {
 			// Get product and validate product for the cart.
 			$product = wc_get_product( $product_id );
@@ -491,7 +491,6 @@ abstract class CoCart_REST_Cart_Controller extends WP_REST_Controller {
 				'item_data'    => $item_data,
 				'item_key'     => $item_key,
 				'product_data' => $product,
-				'request'      => $request,
 			);
 		} catch ( CoCart_Data_Exception $e ) {
 			return new \WP_Error( $e->getErrorCode(), $e->getMessage(), $e->getCode(), $e->getAdditionalData() );
@@ -546,7 +545,7 @@ abstract class CoCart_REST_Cart_Controller extends WP_REST_Controller {
 	 *
 	 * @return float $quantity The quantity returned.
 	 */
-	public function is_product_sold_individually( $product, $quantity, $product_id, $variation_id, $item_data, $item_key, $request = array() ) {
+	public function is_product_sold_individually( $product, $quantity, $product_id, $variation_id, $item_data, $item_key, $request ) {
 		try {
 			// Force quantity to 1 if sold individually and check for existing item in cart.
 			if ( $product->is_sold_individually() ) {

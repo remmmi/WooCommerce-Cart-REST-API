@@ -105,17 +105,14 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_REST_Cart_Controller {
 	 *
 	 * @since 3.0.0 Introduced.
 	 *
-	 * @deprecated 3.0.0 No longer use `$cart_item_key` parameter. Left for declaration compatibility.
-	 *
-	 * @see CoCart_REST_Cart_V2_Controller::get_cart_contents()
+	 * @see CoCart_REST_Cart_Controller::get_cart_contents()
 	 * @see CoCart_REST_Cart_V2_Controller::return_cart_contents()
 	 *
-	 * @param WP_REST_Request $request       The request object.
-	 * @param string          $cart_item_key Originally the cart item key.
+	 * @param WP_REST_Request $request The request object.
 	 *
 	 * @return WP_REST_Response The returned response.
 	 */
-	public function get_cart( $request = array(), $cart_item_key = null ) {
+	public function get_cart( $request ) {
 		$show_raw      = ! empty( $request['raw'] ) ? $request['raw'] : false; // Internal parameter request.
 		$cart_contents = $this->get_cart_contents( $request );
 
@@ -148,21 +145,17 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_REST_Cart_Controller {
 	 *
 	 * @since 2.0.0 Introduced.
 	 *
-	 * @deprecated 3.0.0 No longer use `$cart_item_key` and `$from_session` parameters. Left for declaration compatibility.
-	 *
+	 * @see CoCart_REST_Cart_Controller::get_cart_instance()
 	 * @see CoCart_REST_Cart_V2_Controller::get_cart_template()
-	 * @see CoCart_REST_Cart_V2_Controller::get_cart_instance()
-	 * @see CoCart_REST_Cart_V2_Controller::get_items()
+	 * @see CoCart_REST_Cart_V2_Controller::get_cart_items()
 	 * @see CoCart_Utilities_Cart_Helpers::get_taxes()
 	 *
 	 * @param WP_REST_Request $request       The request object.
 	 * @param array           $cart_contents The cart contents.
-	 * @param array           $cart_item_key Originally the cart item key.
-	 * @param bool            $from_session  Identifies if the cart is called from a session.
 	 *
 	 * @return array $cart Returns cart contents.
 	 */
-	public function return_cart_contents( $request = array(), $cart_contents = array(), $cart_item_key = null, $from_session = false ) {
+	public function return_cart_contents( $request, $cart_contents = array() ) {
 		$show_thumb = ! empty( $request['thumb'] ) ? $request['thumb'] : false;
 
 		/**
@@ -235,7 +228,7 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_REST_Cart_Controller {
 	 *
 	 * @return array $items Returns all items in the cart.
 	 */
-	public function get_items( $cart_contents = array(), $show_thumb = true ) {
+	public function get_cart_items( array $cart_contents, $show_thumb = true ) {
 		$items = array();
 
 		foreach ( $cart_contents as $item_key => $cart_item ) {
@@ -273,7 +266,7 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_REST_Cart_Controller {
 		}
 
 		return $items;
-	} // END get_items()
+	} // END get_cart_items()
 
 	/**
 	 * Gets the cart removed items.
@@ -289,7 +282,7 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_REST_Cart_Controller {
 	 *
 	 * @return array $items Returns all removed items in the cart.
 	 */
-	public function get_removed_items( $removed_items = array(), $show_thumb = true ) {
+	public function get_removed_items( array $removed_items, $show_thumb = true ) {
 		$items = array();
 
 		foreach ( $removed_items as $item_key => $cart_item ) {
@@ -343,7 +336,7 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_REST_Cart_Controller {
 	 *
 	 * @return array Returns the default cart response.
 	 */
-	protected function get_cart_template( $request = array() ) {
+	protected function get_cart_template( $request ) {
 		$fields = ! empty( $request['fields'] ) ? $request['fields'] : '';
 
 		if ( ! empty( $fields ) ) {
@@ -403,7 +396,7 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_REST_Cart_Controller {
 	 *
 	 * @return array $template Returns requested cart response.
 	 */
-	protected function get_cart_template_limited( $request = array() ) {
+	protected function get_cart_template_limited( $request ) {
 		$fields     = ! empty( $request['fields'] ) ? explode( ',', $request['fields'] ) : '';
 		$show_thumb = ! empty( $request['thumb'] ) ? $request['thumb'] : false;
 
@@ -1090,12 +1083,14 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_REST_Cart_Controller {
 	 * @since 3.0.0 Introduced.
 	 * @since 3.1.0 Prices now return as monetary values.
 	 *
+	 * @param WP_REST_Request $request The request object.
+	 *
 	 * @see cocart_format_money()
 	 * @see CoCart_Utilities_Product_Helpers::get_product_slug()
 	 *
 	 * @return array $cross_sells Returns cross sells.
 	 */
-	public function get_cross_sells() {
+	public function get_cross_sells( $request ) {
 		// Get visible cross sells then sort them at random.
 		$get_cross_sells = array_filter( array_map( 'wc_get_product', $this->get_cart_instance()->get_cross_sells() ), 'wc_products_array_filter_visible' );
 
@@ -1343,7 +1338,7 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_REST_Cart_Controller {
 	 *
 	 * @return int|float|\WP_Error
 	 */
-	protected function validate_quantity( $quantity, WC_Product $product = null ) {
+	protected function validate_quantity( $quantity, WC_Product $product ) {
 		cocart_deprecated_function( 'CoCart_REST_Cart_V2_Controller::validate_quantity', '5.0.0', 'CoCart_Utilities_Cart_Helpers::validate_quantity' );
 
 		return CoCart_Utilities_Cart_Helpers::validate_quantity( $quantity, $product );

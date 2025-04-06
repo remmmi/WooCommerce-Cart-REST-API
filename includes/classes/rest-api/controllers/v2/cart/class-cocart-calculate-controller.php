@@ -94,7 +94,7 @@ class CoCart_REST_Calculate_V2_Controller extends CoCart_REST_Cart_V2_Controller
 	 *
 	 * @return WP_REST_Response The returned response.
 	 */
-	public function calculate_cart_totals( $request = array() ) {
+	public function calculate_cart_totals( $request ) {
 		try {
 			parent::calculate_totals();
 

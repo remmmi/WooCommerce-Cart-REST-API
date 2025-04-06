@@ -342,18 +342,26 @@ class CoCart_REST_API {
 		add_filter( 'woocommerce_cart_session_initialize', function ( $must_initialize, $session ) {
 			do_action( 'woocommerce_load_cart_from_session' ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
 
+			// Use ReflectionClass to access the protected property.
+			$reflection = new ReflectionClass( $session );
+			$property   = $reflection->getProperty( 'cart' );
+			$property->setAccessible( true ); // Make the property accessible.
+
+			// Get the value of the protected property.
+			$cart_from_session = $property->getValue( $session );
+
 			// Set cart-related data from session.
-			// $session->cart->set_totals( WC()->session->get( 'cart_totals', null ) );
-			// $session->cart->set_applied_coupons( WC()->session->get( 'applied_coupons', array() ) );
-			// $session->cart->set_coupon_discount_totals( WC()->session->get( 'coupon_discount_totals', array() ) );
-			// $session->cart->set_coupon_discount_tax_totals( WC()->session->get( 'coupon_discount_tax_totals', array() ) );
-			// $session->cart->set_removed_cart_contents( WC()->session->get( 'removed_cart_contents', array() ) );
+			$cart_from_session->set_totals( WC()->session->get( 'cart_totals', null ) );
+			$cart_from_session->set_applied_coupons( WC()->session->get( 'applied_coupons', array() ) );
+			$cart_from_session->set_coupon_discount_totals( WC()->session->get( 'coupon_discount_totals', array() ) );
+			$cart_from_session->set_coupon_discount_tax_totals( WC()->session->get( 'coupon_discount_tax_totals', array() ) );
+			$cart_from_session->set_removed_cart_contents( WC()->session->get( 'removed_cart_contents', array() ) );
 
 			$update_cart_session = false;
-			$customer_id         = WC()->session->get_customer_id();
+			$cart_key            = WC()->session->get_cart_key();
 			$user_id             = get_current_user_id();
-			$session             = WC()->session->get_session( $customer_id );
-			$cart                = maybe_unserialize( $session['cart'] );
+			$cart_session        = WC()->session->get_session( $cart_key );
+			$cart                = maybe_unserialize( $cart_session['cart'] );
 
 			/**
 			 * Filter allows you to decide if the cart should load user meta when initialized.
@@ -361,10 +369,10 @@ class CoCart_REST_API {
 			 *
 			 * @since 5.0.0 Introduced.
 			 *
-			 * @param int    $user_id     User ID when authenticated. Zero if not authenticated.
-			 * @param string $customer_id Customer ID requested when authenticated or a cart key for guests.
+			 * @param int    $user_id  User ID when authenticated. Zero if not authenticated.
+			 * @param string $cart_key Cart requested.
 			 */
-			$merge_saved_cart = (bool) get_user_meta( $user_id, '_woocommerce_load_saved_cart_after_login', true ) && apply_filters( 'cocart_load_cart_from_session', true, $user_id, $customer_id );
+			$merge_saved_cart = (bool) get_user_meta( $user_id, '_woocommerce_load_saved_cart_after_login', true ) && apply_filters( 'cocart_load_cart_from_session', true, $user_id, $cart_key );
 
 			$cart_contents = array();
 
@@ -529,11 +537,11 @@ class CoCart_REST_API {
 
 			// Update cart contents if not empty.
 			if ( ! empty( $cart_contents ) ) {
-				WC()->cart->set_cart_contents( apply_filters( 'woocommerce_cart_contents_changed', $cart_contents ) );
+				$cart_from_session->set_cart_contents( apply_filters( 'woocommerce_cart_contents_changed', $cart_contents ) );
 			}
 
 			// Trigger actions after cart loaded.
-			do_action( 'woocommerce_cart_loaded_from_session', $cart );
+			do_action( 'woocommerce_cart_loaded_from_session', $cart_from_session );
 
 			// Update cart session if needed.
 			if ( $update_cart_session || is_null( WC()->session->get( 'cart_totals', null ) ) ) {

@@ -92,7 +92,7 @@ class CoCart_REST_Totals_V2_Controller extends CoCart_REST_Cart_V2_Controller {
 	 *
 	 * @return WP_REST_Response The returned response.
 	 */
-	public function get_totals( $request = array() ) {
+	public function get_totals( $request ) {
 		try {
 			$pre_formatted = isset( $request['html'] ) ? $request['html'] : false;
 

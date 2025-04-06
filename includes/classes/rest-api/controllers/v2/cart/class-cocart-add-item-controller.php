@@ -94,7 +94,7 @@ class CoCart_REST_Add_Item_V2_Controller extends CoCart_REST_Cart_V2_Controller 
 	 *
 	 * @return WP_REST_Response The returned response.
 	 */
-	public function add_to_cart( $request = array() ) {
+	public function add_to_cart( $request ) {
 		try {
 			$product_id = ! isset( $request['id'] ) ? 0 : wc_clean( wp_unslash( $request['id'] ) );
 			$quantity   = ! isset( $request['quantity'] ) ? 1 : rest_sanitize_quantity_arg( $request['quantity'] );
@@ -274,8 +274,8 @@ class CoCart_REST_Add_Item_V2_Controller extends CoCart_REST_Cart_V2_Controller 
 	 *
 	 * @return bool success or not
 	 */
-	public function add_to_cart_handler_simple( $product_id, $quantity, $item_data, $request = array() ) {
-		$product_to_add = $this->validate_product( $product_id, $quantity, 0, array(), $item_data, 'simple', $request );
+	public function add_to_cart_handler_simple( $product_id, $quantity, $item_data, $request ) {
+		$product_to_add = $this->validate_product( $request, $product_id, $quantity, 0, array(), $item_data, 'simple' );
 
 		// If validation failed then return error response.
 		if ( is_wp_error( $product_to_add ) ) {
@@ -307,8 +307,8 @@ class CoCart_REST_Add_Item_V2_Controller extends CoCart_REST_Cart_V2_Controller 
 	 *
 	 * @return bool success or not
 	 */
-	public function add_to_cart_handler_variable( $product_id, $quantity, $variation_id, $variation, $item_data, $request = array() ) {
-		$product_to_add = $this->validate_product( $product_id, $quantity, $variation_id, $variation, $item_data, 'variable', $request );
+	public function add_to_cart_handler_variable( $product_id, $quantity, $variation_id, $variation, $item_data, $request ) {
+		$product_to_add = $this->validate_product( $request, $product_id, $quantity, $variation_id, $variation, $item_data, 'variable' );
 
 		// If validation failed then return error response.
 		if ( is_wp_error( $product_to_add ) ) {
@@ -357,7 +357,7 @@ class CoCart_REST_Add_Item_V2_Controller extends CoCart_REST_Cart_V2_Controller 
 					$quantity_set = true;
 
 					// Product validation.
-					$product_to_add = $this->validate_product( $item, $quantity, 0, array(), array(), 'grouped', $request );
+					$product_to_add = $this->validate_product( $request, $item, $quantity, 0, array(), array(), 'grouped' );
 
 					// If validation failed then return error response.
 					if ( is_wp_error( $product_to_add ) ) {
@@ -413,7 +413,7 @@ class CoCart_REST_Add_Item_V2_Controller extends CoCart_REST_Cart_V2_Controller 
 	 *
 	 * @return array $item_added Returns details of the added item in the cart.
 	 */
-	public function add_item_to_cart( $product_to_add = array(), $request = array() ) {
+	public function add_item_to_cart( array $product_to_add, $request ) {
 		$product_id   = $product_to_add['product_id'];
 		$quantity     = $product_to_add['quantity'];
 		$variation_id = $product_to_add['variation_id'];

@@ -94,7 +94,7 @@ class CoCart_REST_Clear_Cart_V2_Controller extends CoCart_REST_Cart_V2_Controlle
 	 *
 	 * @return WP_REST_Response The returned response.
 	 */
-	public function clear_cart( $request = array() ) {
+	public function clear_cart( $request ) {
 		try {
 			// We need the cart key to force a session save later.
 			$cart_key = WC()->session->get_customer_unique_id();

@@ -94,7 +94,7 @@ class CoCart_REST_Add_Items_V2_Controller extends CoCart_REST_Add_Item_V2_Contro
 	 *
 	 * @return WP_REST_Response|WP_Error
 	 */
-	public function add_items_to_cart( $request = array() ) {
+	public function add_items_to_cart( $request ) {
 		try {
 			$product_id = ! isset( $request['id'] ) ? 0 : wc_clean( wp_unslash( $request['id'] ) );
 			$items      = isset( $request['quantity'] ) && is_array( $request['quantity'] ) ? wp_unslash( $request['quantity'] ) : array();

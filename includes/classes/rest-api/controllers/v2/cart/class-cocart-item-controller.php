@@ -93,7 +93,7 @@ class CoCart_REST_Item_V2_Controller extends CoCart_REST_Cart_V2_Controller {
 	 *
 	 * @return WP_REST_Response The returned response.
 	 */
-	public function view_item( $request = array() ) {
+	public function view_item( $request ) {
 		try {
 			$item_key = ! isset( $request['item_key'] ) ? 0 : wc_clean( sanitize_text_field( wp_unslash( $request['item_key'] ) ) );
 
