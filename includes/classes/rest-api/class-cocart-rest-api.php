@@ -287,6 +287,11 @@ class CoCart_REST_API {
 	 * @since 5.0.0 Get the cart data from session and validate cart contents.
 	 */
 	private function initialize_cart_session() {
+		// Return nothing if accessing the index route only.
+		if ( ! isset( $GLOBALS['wp']->query_vars['rest_route'] ) || preg_match( '#^/' . CoCart::get_api_namespace() . '/v[12]$#', $GLOBALS['wp']->query_vars['rest_route'] ) ) {
+			return;
+		}
+
 		add_filter( 'woocommerce_cart_session_initialize', function ( $must_initialize, $session ) {
 			do_action( 'woocommerce_load_cart_from_session' ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
 
