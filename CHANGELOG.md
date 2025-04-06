@@ -1,5 +1,11 @@
 # Changelog for CoCart Core
 
+## v4.3.28 - 6th April, 2025
+
+### Bug Fix
+
+* REST API: Fixed unidentified item key when adding grouped products.
+
 ## v4.3.27 - 3rd April, 2025
 
 ### Bug Fix

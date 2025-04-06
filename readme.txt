@@ -4,7 +4,7 @@ Tags: woocommerce, rest-api, decoupled, headless, cart
 Requires at least: 6.3
 Requires PHP: 7.4
 Tested up to: 6.7
-Stable tag: 4.3.27
+Stable tag: 4.3.28
 WC requires at least: 7.0
 WC tested up to: 9.7
 License: GPLv3
@@ -307,6 +307,12 @@ We’d love to hear what you have to say. [Share your experience](https://testim
 == Changelog ==
 
 📢 Only bug and security updates will be provided here on WordPress dot ORG. Any new major updates starting with v5.0 will be provided [directly from us](https://cocartapi.com?utm_medium=website&utm_source=wpplugindirectory&utm_campaign=readme&utm_content=readmelink).
+
+= v4.3.28 - 6th April, 2025 =
+
+### Bug Fix
+
+* REST API: Fixed unidentified item key when adding grouped products.
 
 = v4.3.27 - 3rd April, 2025 =
 
@@ -844,6 +850,10 @@ Hope you enjoy this release.
 [View the full changelog here](https://github.com/co-cart/co-cart/blob/trunk/CHANGELOG.md).
 
 == Upgrade Notice ==
+
+= 4.3.28 =
+
+REST API: Fixed unidentified item key when adding grouped products.
 
 = 4.3.27 =
 
