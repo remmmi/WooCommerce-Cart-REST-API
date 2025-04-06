@@ -121,15 +121,6 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_REST_Cart_Controller {
 			return $cart_contents;
 		}
 
-		/**
-		 * Deprecated action hook `cocart_get_cart`.
-		 *
-		 * @deprecated 3.0.0 Use `cocart_cart` action instead.
-		 *
-		 * @see cocart_cart
-		 */
-		cocart_do_deprecated_action( 'cocart_get_cart', '3.0.0', 'cocart_cart', null );
-
 		$cart_contents = $this->return_cart_contents( $request, $cart_contents );
 
 		$response = rest_ensure_response( $cart_contents );
