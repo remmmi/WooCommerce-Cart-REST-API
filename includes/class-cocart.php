@@ -117,30 +117,11 @@ final class CoCart {
 	} // END __wakeup()
 
 	/**
-	 * Requested CoCart Namespace.
-	 *
-	 * @access public
-	 *
-	 * @static
-	 *
-	 * @since 5.0.0 Introduced.
+	 * Namespace for the API.
 	 *
 	 * @var string
 	 */
-	public static $cocart_namespace = '';
-
-	/**
-	 * Requested CoCart Namespace version.
-	 *
-	 * @access public
-	 *
-	 * @static
-	 *
-	 * @since 5.0.0 Introduced.
-	 *
-	 * @var string
-	 */
-	public static $cocart_namespace_version = '';
+	private static $api_namespace = 'cocart';
 
 	/**
 	 * Initiate CoCart.
@@ -156,6 +137,7 @@ final class CoCart {
 		self::includes();
 		self::include_extension_compatibility();
 		self::include_third_party();
+		self::set_api_namespace();
 
 		// Install CoCart upon activation.
 		register_activation_hook( COCART_FILE, array( __CLASS__, 'install_cocart' ) );
@@ -305,6 +287,50 @@ final class CoCart {
 
 		return $version ? $version : self::$version;
 	} // END get_file_version()
+
+	/**
+	 * Get the API namespace.
+	 *
+	 * @access public
+	 *
+	 * @static
+	 *
+	 * @since 5.0.0 Introduced.
+	 *
+	 * @return string
+	 */
+	public static function get_api_namespace() {
+		return self::$api_namespace;
+	}
+
+	/**
+	 * Set the API namespace.
+	 *
+	 * @access protected
+	 *
+	 * @static
+	 *
+	 * @since 5.0.0 Introduced.
+	 */
+	protected static function set_api_namespace() {
+		self::$api_namespace = wp_cache_get( 'cocart_api_namespace', CoCart_Utilities_Cache_Helpers::get_cache_prefix( 'api_namespace' ) );
+
+		if ( false === self::$api_namespace ) {
+			/**
+			 * CoCart can be white labeled by configuring the "COCART_API_NAMESPACE" constant in your `wp-config.php` file.
+			 *
+			 * @since 5.0.0 Introduced.
+			 */
+			self::$api_namespace = defined( 'COCART_API_NAMESPACE' ) ? COCART_API_NAMESPACE : 'cocart';
+
+			wp_cache_add( 'cocart_api_namespace', self::$api_namespace, CoCart_Utilities_Cache_Helpers::get_cache_prefix( 'api_namespace' ), time() + DAY_IN_SECONDS );
+		}
+
+		// Revert back if white label add-on is not active. @todo Add detection of white label plugin.
+		if ( 'cocart' !== self::$api_namespace ) {
+			self::$api_namespace = 'cocart';
+		}
+	} // END set_api_namespace();
 
 	/**
 	 * Includes required core files.
@@ -589,7 +615,7 @@ final class CoCart {
 
 		$rest_prefix         = trailingslashit( rest_get_url_prefix() );
 		$request_uri         = esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ) );
-		$is_rest_api_request = ( false !== strpos( $request_uri, $rest_prefix . 'cocart/' ) ); // phpcs:disable WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+		$is_rest_api_request = ( false !== strpos( $request_uri, $rest_prefix . self::get_api_namespace() . '/' ) ); // phpcs:disable WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 
 		/**
 		 * Filters the REST API requested.
