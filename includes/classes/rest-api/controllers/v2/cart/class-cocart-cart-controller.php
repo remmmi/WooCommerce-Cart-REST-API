@@ -1736,11 +1736,10 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 		}
 
 		$packages      = array();
-		$package_key   = 1;
 		$chosen_method = ''; // Leave blank until a method has been selected.
 
-		foreach ( $available_packages as $i => $package ) {
-			$chosen_method = isset( WC()->session->chosen_shipping_methods[ $i ] ) ? WC()->session->chosen_shipping_methods[ $i ] : '';
+		foreach ( $get_packages as $package_id => $package ) {
+			$chosen_method = isset( WC()->session->chosen_shipping_methods[ $package_id ] ) ? WC()->session->chosen_shipping_methods[ $package_id ] : '';
 			$product_names = array();
 
 			foreach ( $package['contents'] as $item_id => $values ) {
@@ -1759,37 +1758,35 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 
 			// Check that there are rates available for the package.
 			if ( count( (array) $package['rates'] ) > 0 ) {
-				$shipping_name = ( ( $i + 1 ) > 1 ) ? sprintf(
+				$shipping_name = ( ( $package_id + 1 ) > 1 ) ? sprintf(
 					/* translators: %d: shipping package number */
 					_x( 'Shipping #%d', 'shipping packages', 'cart-rest-api-for-woocommerce' ),
-					( $i + 1 )
+					( $package_id + 1 )
 				) : _x( 'Shipping', 'shipping packages', 'cart-rest-api-for-woocommerce' );
 
-				$packages[ $package_key ] = array(
+				$packages[ $package_id ] = array(
 					/**
 					 * Filters the package name for the shipping method.
 					 *
 					 * @since 3.0.0 Introduced.
 					 *
 					 * @param string $shipping_name Shipping name.
-					 * @param int    $i
+					 * @param int    $package_id
 					 * @param array  $package
 					 */
-					'package_name'          => apply_filters( 'cocart_shipping_package_name', $shipping_name, $i, $package ),
+					'package_name'          => isset( $package['package_name'] ) ? $package['package_name'] : apply_filters( 'cocart_shipping_package_name', $shipping_name, $package_id, $package ),
 					'rates'                 => array(),
 					'package_details'       => implode( ', ', $product_names ),
-					'index'                 => $i, // Shipping package number.
+					'index'                 => isset( $package['package_id'] ) ? $package['package_id'] : $package_id, // Shipping package ID.
 					'chosen_method'         => $chosen_method,
 					'formatted_destination' => WC()->countries->get_formatted_address( $package['destination'], ', ' ),
 				);
-
-				$rates = array();
 
 				// Return each rate.
 				foreach ( $package['rates'] as $key => $method ) {
 					$meta_data = $this->clean_meta_data( $method, 'shipping' );
 
-					$rates[ $key ] = array(
+					$packages[ $package_id ]['rates'][ $key ] = array(
 						'key'           => $key,
 						'method_id'     => $method->get_method_id(),
 						'instance_id'   => $method->instance_id,
@@ -1802,14 +1799,16 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 					);
 
 					foreach ( $method->taxes as $shipping_cost => $tax_cost ) {
-						$rates[ $key ]['taxes'] = cocart_prepare_money_response( $tax_cost, wc_get_price_decimals() );
+						$packages[ $package_id ]['rates'][ $key ]['taxes'] = cocart_prepare_money_response( $tax_cost, wc_get_price_decimals() );
 					}
 				}
-
-				$packages[ $package_key ]['rates'] = $rates;
 			}
 
-			++$package_key; // Update package key for next inline if any.
+			// Identify the first package as the default package. This helps identify from other packages like recurring packages.
+			if ( 0 === $package_id ) {
+				$packages['default'] = $packages[0];
+				unset( $packages[0] );
+			}
 		}
 
 		/**
@@ -1821,7 +1820,7 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 		 * @param array   $chosen_method Chosen shipping method.
 		 * @param WC_Cart                The cart object.
 		 */
-		$details['packages'] = apply_filters( 'cocart_available_shipping_packages', $packages, $chosen_method, $this->get_cart_instance() );
+		$details['packages'] = apply_filters( 'cocart_available_shipping_packages', $packages, $chosen_method, $cart );
 
 		return $details;
 	} // END get_shipping_details()
