@@ -1,5 +1,22 @@
 # Changelog for CoCart Core
 
+## v4.3.29 - 10th April, 2025
+
+### Bug Fix
+
+* REST API: Package details would not return but showed fine in shipping meta.
+
+### Improvements
+
+* REST API: Optimized fetching the cart in all Cart API endpoints.
+* REST API: Shipping now fully respects the shipping settings.
+
+> Dev note: Meaning if you have requested that the customer provides the shipping address first before shipping is calculated, then no shipping methods will return until it's provided.
+
+### Compatibility
+
+* Tested with WooCommerce v9.8
+
 ## v4.3.28 - 6th April, 2025
 
 ### Bug Fix

@@ -4,9 +4,9 @@ Tags: woocommerce, rest-api, decoupled, headless, cart
 Requires at least: 6.3
 Requires PHP: 7.4
 Tested up to: 6.7
-Stable tag: 4.3.28
+Stable tag: 4.3.29
 WC requires at least: 7.0
-WC tested up to: 9.7
+WC tested up to: 9.8
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -307,6 +307,23 @@ We’d love to hear what you have to say. [Share your experience](https://testim
 == Changelog ==
 
 📢 Only bug and security updates will be provided here on WordPress dot ORG. Any new major updates starting with v5.0 will be provided [directly from us](https://cocartapi.com?utm_medium=website&utm_source=wpplugindirectory&utm_campaign=readme&utm_content=readmelink).
+
+= v4.3.29 - 10th April, 2025 =
+
+### Bug Fix
+
+* REST API: Package details would not return but showed fine in shipping meta.
+
+### Improvements
+
+* REST API: Optimized fetching the cart in all Cart API endpoints.
+* REST API: Shipping now fully respects the shipping settings.
+
+> Dev note: Meaning if you have requested that the customer provides the shipping address first before shipping is calculated, then no shipping methods will return until it's provided.
+
+### Compatibility
+
+* Tested with WooCommerce v9.8
 
 = v4.3.28 - 6th April, 2025 =
 
