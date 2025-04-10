@@ -1707,14 +1707,33 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 		}
 
 		// Get shipping packages.
-		$available_packages = WC()->shipping->get_packages();
+		$get_packages = WC()->shipping->get_packages();
+
+		// Return early if invalid object supplied by the filter or no packages.
+		if ( ! is_array( $get_packages ) || empty( $get_packages ) ) {
+			return array();
+		}
+
+		$cart = $this->get_cart_instance();
+
+		// Has customer provided enough information to return shipping details. This tracks if shipping has actually been
+		// calculated so we can avoid returning costs and rates prematurely.
+		$has_calculated_shipping = $cart->show_shipping();
+
+		// Get cart shipping packages.
+		$get_shipping_packages = $has_calculated_shipping ? $cart->get_shipping_packages() : array();
 
 		$details = array(
-			'total_packages'          => count( (array) $available_packages ),
-			'show_package_details'    => count( (array) $available_packages ) > 1,
-			'has_calculated_shipping' => WC()->customer->has_calculated_shipping(),
+			'total_packages'          => ! empty( $get_shipping_packages ) ? count( (array) $get_shipping_packages[0]['contents'] ) : 0,
+			'show_package_details'    => ! empty( $get_shipping_packages ) ? count( (array) $get_shipping_packages[0]['contents'] ) > 1 : false,
+			'has_calculated_shipping' => $has_calculated_shipping,
 			'packages'                => array(),
 		);
+
+		// If customer has not provided enough shipping information then don't continue preparing packages.
+		if ( ! $has_calculated_shipping ) {
+			return $details;
+		}
 
 		$packages      = array();
 		$package_key   = 1;
