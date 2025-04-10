@@ -868,6 +868,10 @@ Hope you enjoy this release.
 
 == Upgrade Notice ==
 
+= 4.3.29 =
+
+REST API: Shipping now fully respects the shipping settings.
+
 = 4.3.28 =
 
 REST API: Fixed unidentified item key when adding grouped products.
