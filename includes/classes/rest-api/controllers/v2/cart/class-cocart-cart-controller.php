@@ -1724,25 +1724,19 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 			$chosen_method = isset( WC()->session->chosen_shipping_methods[ $i ] ) ? WC()->session->chosen_shipping_methods[ $i ] : '';
 			$product_names = array();
 
-			if ( count( (array) $packages ) > 1 ) {
-				foreach ( $package['contents'] as $item_id => $values ) {
-					$product_names[ $item_id ] = $values['data']->get_name() . ' x' . $values['quantity'];
-				}
-
-				/**
-				 * Filter allows you to change the package details.
-				 *
-				 * @since 3.0.0 Introduced.
-				 *
-				 * @param array $product_names Product names.
-				 * @param array $package       Package details.
-				 */
-				$product_names = apply_filters( 'cocart_shipping_package_details_array', $product_names, $package );
+			foreach ( $package['contents'] as $item_id => $values ) {
+				$product_names[ $item_id ] = $values['data']->get_name() . ' x' . $values['quantity'];
 			}
 
-			if ( 0 === $i ) {
-				$package_key = 'default'; // Identifies the default package.
-			}
+			/**
+			 * Filter allows you to change the package details.
+			 *
+			 * @since 3.0.0 Introduced.
+			 *
+			 * @param array $product_names Product names.
+			 * @param array $package       Package details.
+			 */
+			$product_names = apply_filters( 'cocart_shipping_package_details_array', $product_names, $package );
 
 			// Check that there are rates available for the package.
 			if ( count( (array) $package['rates'] ) > 0 ) {
