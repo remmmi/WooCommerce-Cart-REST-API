@@ -80,8 +80,10 @@ class CoCart_REST_Update_Item_V2_Controller extends CoCart_REST_Cart_V2_Controll
 
 			$item_key = CoCart_Utilities_Cart_Helpers::throw_missing_item_key( $item_key, 'update' );
 
+			$cart = $this->get_cart_instance();
+
 			// Ensure we have calculated before we handle any data.
-			$this->get_cart_instance()->calculate_totals();
+			$cart->calculate_totals();
 
 			// Allows removing of items if quantity is zero should for example the item was with a product bundle.
 			if ( 0 === $quantity ) {
@@ -178,7 +180,7 @@ class CoCart_REST_Update_Item_V2_Controller extends CoCart_REST_Cart_V2_Controll
 					$variation_id = ! isset( $new_data['variation_id'] ) ? 0 : absint( wp_unslash( $new_data['variation_id'] ) );
 					$product      = wc_get_product( $variation_id ? $variation_id : $product_id );
 
-					if ( $this->get_cart_instance()->set_quantity( $item_key, $quantity ) ) {
+					if ( $cart->set_quantity( $item_key, $quantity ) ) {
 						/**
 						 * Hook: cocart_item_quantity_changed
 						 *

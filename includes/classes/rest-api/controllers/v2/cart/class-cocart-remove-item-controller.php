@@ -80,11 +80,13 @@ class CoCart_REST_Remove_Item_V2_Controller extends CoCart_REST_Cart_V2_Controll
 
 			$item_key = CoCart_Utilities_Cart_Helpers::throw_missing_item_key( $item_key, 'remove' );
 
+			$cart = $this->get_cart_instance();
+
 			// Ensure we have calculated before we handle any data.
-			$this->get_cart_instance()->calculate_totals();
+			$cart->calculate_totals();
 
 			// Checks to see if the cart contains item before attempting to remove it.
-			if ( $this->get_cart_instance()->get_cart_contents_count() <= 0 && count( $this->get_cart_instance()->get_removed_cart_contents() ) <= 0 ) {
+			if ( $cart->get_cart_contents_count() <= 0 && count( $cart->get_removed_cart_contents() ) <= 0 ) {
 				$message = __( 'No items in cart.', 'cart-rest-api-for-woocommerce' );
 
 				/**
@@ -113,7 +115,7 @@ class CoCart_REST_Remove_Item_V2_Controller extends CoCart_REST_Cart_V2_Controll
 
 			// If item does not exist in cart return response.
 			if ( empty( $current_data ) ) {
-				$removed_contents = $this->get_cart_instance()->get_removed_cart_contents();
+				$removed_contents = $cart->get_removed_cart_contents();
 
 				// Check if the item has already been removed.
 				if ( isset( $removed_contents[ $item_key ] ) ) {
@@ -148,7 +150,7 @@ class CoCart_REST_Remove_Item_V2_Controller extends CoCart_REST_Cart_V2_Controll
 				throw new CoCart_Data_Exception( 'cocart_item_not_in_cart', $message, 404 );
 			}
 
-			if ( $this->get_cart_instance()->remove_cart_item( $item_key ) ) {
+			if ( $cart->remove_cart_item( $item_key ) ) {
 				/**
 				 * Hook: cocart_item_removed
 				 *
@@ -163,7 +165,7 @@ class CoCart_REST_Remove_Item_V2_Controller extends CoCart_REST_Cart_V2_Controll
 				 *
 				 * @since 2.1.0 Introduced.
 				 */
-				$this->get_cart_instance()->calculate_totals();
+				$cart->calculate_totals();
 
 				$message = sprintf(
 					/* translators: %s: Item name. */

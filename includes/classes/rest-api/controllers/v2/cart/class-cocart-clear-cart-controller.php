@@ -85,8 +85,10 @@ class CoCart_REST_Clear_Cart_V2_Controller extends CoCart_REST_Cart_V2_Controlle
 			// We need the cart key to force a session save later.
 			$cart_key = WC()->session->get_customer_unique_id();
 
+			$cart = $this->get_cart_instance();
+
 			// Ensure we have calculated before we handle data.
-			$this->get_cart_instance()->calculate_totals();
+			$cart->calculate_totals();
 
 			/**
 			 * Hook: Triggers before the cart emptied.
@@ -99,16 +101,16 @@ class CoCart_REST_Clear_Cart_V2_Controller extends CoCart_REST_Cart_V2_Controlle
 			WC()->session->set( 'cart_fees', array() );
 
 			// Cache removed content should requested to keep it.
-			$removed_contents = $this->get_cart_instance()->get_removed_cart_contents();
+			$removed_contents = $cart->get_removed_cart_contents();
 
 			// Clear cart.
-			$this->get_cart_instance()->empty_cart();
+			$cart->empty_cart();
 
 			// Clear removed items if not kept.
 			if ( ! $request['keep_removed_items'] ) {
-				$this->get_cart_instance()->set_removed_cart_contents( array() );
+				$cart->set_removed_cart_contents( array() );
 			} else {
-				$this->get_cart_instance()->set_removed_cart_contents( $removed_contents );
+				$cart->set_removed_cart_contents( $removed_contents );
 			}
 
 			/**
@@ -119,7 +121,7 @@ class CoCart_REST_Clear_Cart_V2_Controller extends CoCart_REST_Cart_V2_Controlle
 			do_action( 'cocart_cart_emptied' );
 
 			// Ensure we have calculated to update the cart.
-			$this->get_cart_instance()->calculate_totals();
+			$cart->calculate_totals();
 
 			/**
 			 * We force the session to update in the database as we
@@ -128,7 +130,7 @@ class CoCart_REST_Clear_Cart_V2_Controller extends CoCart_REST_Cart_V2_Controlle
 			 */
 			WC()->session->update_cart( $cart_key );
 
-			if ( $this->get_cart_instance()->is_empty() ) {
+			if ( $cart->is_empty() ) {
 				/**
 				 * Hook: Triggers once the cart is cleared.
 				 *

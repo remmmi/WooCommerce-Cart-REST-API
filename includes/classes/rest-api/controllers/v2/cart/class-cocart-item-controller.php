@@ -77,10 +77,12 @@ class CoCart_REST_Item_V2_Controller extends CoCart_REST_Cart_V2_Controller {
 
 			$item_key = CoCart_Utilities_Cart_Helpers::throw_missing_item_key( $item_key, 'get' );
 
-			// Ensure we have calculated before we handle any data.
-			$this->get_cart_instance()->calculate_totals();
+			$cart = $this->get_cart_instance();
 
-			$cart_contents = ! $this->get_cart_instance()->is_empty() ? array_filter( $this->get_cart_instance()->get_cart() ) : array();
+			// Ensure we have calculated before we handle any data.
+			$cart->calculate_totals();
+
+			$cart_contents = ! $cart->is_empty() ? array_filter( $cart->get_cart() ) : array();
 
 			$item = $this->get_items( $cart_contents );
 

@@ -70,7 +70,8 @@ class CoCart_REST_Items_V2_Controller extends CoCart_REST_Cart_V2_Controller {
 	 */
 	public function view_items() {
 		try {
-			$cart_contents = ! $this->get_cart_instance()->is_empty() ? array_filter( $this->get_cart_instance()->get_cart() ) : array();
+			$cart          = $this->get_cart_instance();
+			$cart_contents = ! $cart->is_empty() ? array_filter( $cart->get_cart() ) : array();
 
 			$items = $this->get_items( $cart_contents );
 
