@@ -769,32 +769,6 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_REST_Cart_Controller {
 	} // END validate_item_quantity()
 
 	/**
-	 * Filters additional requested data.
-	 *
-	 * @access public
-	 *
-	 * @since 3.0.0 Introduced.
-	 *
-	 * @deprecated 5.0.0 No longer used.
-	 *
-	 * @param WP_REST_Request $request The request object.
-	 *
-	 * @return $request
-	 */
-	public function filter_request_data( $request ) {
-		cocart_deprecated_function( 'CoCart_REST_Cart_V2_Controller::filter_request_data', '5.0.0' );
-
-		/**
-		 * Filters additional requested data.
-		 *
-		 * @since 3.0.0 Introduced.
-		 *
-		 * @deprecated 5.0.0 No longer used.
-		 */
-		cocart_do_deprecated_filter( 'cocart_filter_request_data', '5.0.0', null, __( 'No longer use.', 'cocart-core' ), array( $request ) );
-	} // END filter_request_data()
-
-	/**
 	 * Get the main product slug even if the product type is a variation.
 	 *
 	 * @access public
