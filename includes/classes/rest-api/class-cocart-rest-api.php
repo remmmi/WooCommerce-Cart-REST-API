@@ -193,7 +193,7 @@ class CoCart_REST_API {
 					}
 
 					// Registers if class exists to prevent fatal error from happening.
-					if ( class_exists( $route ) ) {
+					if ( class_exists( $route ) && method_exists( $route_class, 'register_routes' ) ) {
 						$route_instance = new $route();
 						$route_instance->register_routes();
 					}
