@@ -86,8 +86,8 @@ class CoCart_REST_Count_Items_V2_Controller extends CoCart_REST_Cart_V2_Controll
 	 *
 	 * @access public
 	 *
-	 * @since   1.0.0 Introduced.
-	 * @version 4.0.0
+	 * @since 1.0.0 Introduced.
+	 * @since 5.0.0 Return parameter now returns numeric as default not empty.
 	 *
 	 * @param WP_REST_Request $request       The request object.
 	 * @param array           $cart_contents Cart contents to count items.
@@ -96,7 +96,7 @@ class CoCart_REST_Count_Items_V2_Controller extends CoCart_REST_Cart_V2_Controll
 	 */
 	public function get_cart_contents_count( $request, $cart_contents = array() ) {
 		try {
-			$return        = ! empty( $request['return'] ) ? $request['return'] : '';
+			$return        = ! empty( $request['return'] ) ? $request['return'] : 'numeric';
 			$removed_items = isset( $request['removed_items'] ) ? $request['removed_items'] : false;
 
 			if ( empty( $cart_contents ) ) {
@@ -178,8 +178,8 @@ class CoCart_REST_Count_Items_V2_Controller extends CoCart_REST_Cart_V2_Controll
 	 *
 	 * @access public
 	 *
-	 * @since   3.0.0 Introduced.
-	 * @version 3.1.0
+	 * @since 3.0.0 Introduced.
+	 * @since 5.0.0 Return parameter is internal and returns if debug is enabled.
 	 *
 	 * @return array $params
 	 */
@@ -188,22 +188,29 @@ class CoCart_REST_Count_Items_V2_Controller extends CoCart_REST_Cart_V2_Controll
 		$params = parent::get_collection_params();
 
 		// Count Items parameters.
-		$params += array(
-			'removed_items' => array(
-				'description' => __( 'Set as true to count items removed from the cart.', 'cocart-core' ),
-				'type'        => 'boolean',
-				'required'    => false,
-				'default'     => false,
-			),
-			'return'        => array(
+		$params['removed_items'] = array(
+			'description'       => __( 'Set as true to count items removed from the cart.', 'cocart-core' ),
+			'required'          => false,
+			'default'           => false,
+			'type'              => 'boolean',
+			'sanitize_callback' => 'rest_sanitize_boolean',
+			'validate_callback' => 'rest_validate_request_arg',
+		);
+
+		if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+			$params['return'] = array(
 				'description'       => __( 'Internal parameter. No description.', 'cocart-core' ),
 				'required'          => false,
 				'default'           => 'numeric',
+				'enum'              => array(
+					'numeric',
+					'string',
+				),
 				'type'              => 'string',
 				'sanitize_callback' => 'sanitize_text_field',
 				'validate_callback' => 'rest_validate_request_arg',
-			),
-		);
+			);
+		}
 
 		return $params;
 	} // END get_collection_params()
