@@ -627,6 +627,7 @@ class CoCart_REST_API {
 	 * @since 5.0.0 Added create cart route, brands and pagination utility.
 	 */
 	public function rest_api_includes() {
+		require_once __DIR__ . '/utilities/class-cocart-rest-utilities-cart-response.php';
 		require_once __DIR__ . '/utilities/class-cocart-rest-utilities-pagination.php';
 
 		// CoCart REST API v1 controllers.
