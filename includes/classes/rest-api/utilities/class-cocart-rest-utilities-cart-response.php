@@ -37,6 +37,7 @@ class CoCart_REST_Utilities_Cart_Response {
 			$response->header( 'CoCart-Version', COCART_VERSION );
 		}
 
+		$cart_hash       = WC()->session->get_cart_hash();
 		$cart_expiring   = WC()->session->get_cart_is_expiring();
 		$cart_expiration = WC()->session->get_carts_expiration();
 
@@ -48,7 +49,10 @@ class CoCart_REST_Utilities_Cart_Response {
 			$response->header( 'Cart-Key', $cart_key );
 		}
 
-		$response->header( 'Cart-Hash', WC()->session->get_cart_hash() );
+		// Send cart hash in the header if it's not empty.
+		if ( ! empty( $cart_hash ) ) {
+			$response->header( 'Cart-Hash', $cart_hash );
+		}
 		$response->header( 'Cart-Expiring', $cart_expiring );
 		$response->header( 'Cart-Expiration', $cart_expiration );
 
