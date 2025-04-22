@@ -359,10 +359,10 @@ abstract class CoCart_REST_Cart_Controller extends WP_REST_Controller {
 	 *
 	 * @access protected
 	 *
-	 * @since   1.0.0 Introduced.
-	 * @version 3.1.0
+	 * @since 1.0.0 Introduced.
 	 *
 	 * @deprecated 3.0.0 `$variation_id` parameter is no longer used.
+	 * @deprecated 5.0.0 No longer used.
 	 *
 	 * @see CoCart_Utilities_Cart_Helpers::validate_product_for_cart()
 	 * @see CoCart_Utilities_Cart_Helpers::validate_variable_product()
@@ -382,6 +382,8 @@ abstract class CoCart_REST_Cart_Controller extends WP_REST_Controller {
 	 * @return array Item data.
 	 */
 	protected function validate_product( $request, int $product_id, $quantity = 1, int $variation_id = 0, array $variation = array(), array $item_data = array(), string $product_type = '' ) {
+		cocart_deprecated_function( 'CoCart_REST_Cart_Controller::validate_product', '5.0.0' );
+
 		try {
 			// Get product and validate product for the cart.
 			$product = wc_get_product( $product_id );

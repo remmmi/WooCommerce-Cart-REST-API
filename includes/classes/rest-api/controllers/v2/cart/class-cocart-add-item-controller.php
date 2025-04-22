@@ -267,6 +267,8 @@ class CoCart_REST_Add_Item_V2_Controller extends CoCart_REST_Cart_V2_Controller 
 	 * @since   2.1.0 Introduced.
 	 * @version 3.0.0
 	 *
+	 * @deprecated 5.0.0 No longer use.
+	 *
 	 * @param string          $product_id The product ID.
 	 * @param float           $quantity   The item quantity.
 	 * @param array           $item_data  Contains extra cart item data we want to pass into the item.
@@ -275,6 +277,8 @@ class CoCart_REST_Add_Item_V2_Controller extends CoCart_REST_Cart_V2_Controller 
 	 * @return bool success or not
 	 */
 	public function add_to_cart_handler_simple( $product_id, $quantity, $item_data, $request ) {
+		cocart_deprecated_function( 'CoCart_REST_Add_Item_V2_Controller::add_to_cart_handler_simple', '5.0.0' );
+
 		$product_to_add = $this->validate_product( $request, $product_id, $quantity, 0, array(), $item_data, 'simple' );
 
 		// If validation failed then return error response.
@@ -295,8 +299,9 @@ class CoCart_REST_Add_Item_V2_Controller extends CoCart_REST_Cart_V2_Controller 
 	 *
 	 * @access public
 	 *
-	 * @since   2.1.0 Introduced.
-	 * @version 3.1.0
+	 * @since 2.1.0 Introduced.
+	 *
+	 * @deprecated 5.0.0 No longer use.
 	 *
 	 * @param string          $product_id   The product ID.
 	 * @param float           $quantity     The item quantity.
@@ -308,6 +313,8 @@ class CoCart_REST_Add_Item_V2_Controller extends CoCart_REST_Cart_V2_Controller 
 	 * @return bool success or not
 	 */
 	public function add_to_cart_handler_variable( $product_id, $quantity, $variation_id, $variation, $item_data, $request ) {
+		cocart_deprecated_function( 'CoCart_REST_Add_Item_V2_Controller::add_to_cart_handler_variable', '5.0.0' );
+
 		$product_to_add = $this->validate_product( $request, $product_id, $quantity, $variation_id, $variation, $item_data, 'variable' );
 
 		// If validation failed then return error response.
@@ -406,7 +413,8 @@ class CoCart_REST_Add_Item_V2_Controller extends CoCart_REST_Cart_V2_Controller 
 	 * @access public
 	 *
 	 * @since 2.1.0 Introduced.
-	 * @since 5.0.0 Added $request as parameter.
+	 *
+	 * @deprecated 5.0.0 No longer use.
 	 *
 	 * @param array           $product_to_add Passes details of the item ready to add to the cart.
 	 * @param WP_REST_Request $request        The request object.
@@ -414,6 +422,8 @@ class CoCart_REST_Add_Item_V2_Controller extends CoCart_REST_Cart_V2_Controller 
 	 * @return array $item_added Returns details of the added item in the cart.
 	 */
 	public function add_item_to_cart( array $product_to_add, $request ) {
+		cocart_deprecated_function( 'CoCart_REST_Add_Item_V2_Controller::add_item_to_cart', '5.0.0' );
+
 		$product_id   = $product_to_add['product_id'];
 		$quantity     = $product_to_add['quantity'];
 		$variation_id = $product_to_add['variation_id'];
