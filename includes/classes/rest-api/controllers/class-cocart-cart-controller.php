@@ -320,6 +320,78 @@ abstract class CoCart_REST_Cart_Controller extends WP_REST_Controller {
 	} // END validate_add_to_cart()
 
 	/**
+	 * Filter data for add to cart requests.
+	 *
+	 * @access protected
+	 *
+	 * @since 5.0.0 Introduced.
+	 *
+	 * @param array $request Add to cart request params.
+	 *
+	 * @return array Updated request array.
+	 */
+	protected function filter_request_data( $request ) {
+		$request['quantity']       = rest_sanitize_quantity_arg( $request['quantity'] );
+		$request['variation_id']   = 0;
+		$request['container_item'] = false; // By default an item is individual not a container of many.
+
+		$product = wc_get_product( $request['id'] );
+
+		if ( $product->is_type( 'variation' ) ) {
+			$request['id']           = $product->get_parent_id();
+			$request['variation_id'] = $product->get_id();
+		}
+
+		// Set cart item data - maybe added by other plugins.
+		$request['item_data'] = CoCart_Utilities_Cart_Helpers::set_cart_item_data( $request );
+
+		// Validates if item is sold individually.
+		if ( $product->is_sold_individually() ) {
+			$request['quantity'] = CoCart_Utilities_Cart_Helpers::set_cart_item_quantity_sold_individually( $request );
+		}
+
+		// If the quantity parameter is an array then we assume they are a list of items bundled together.
+		if ( is_array( $request['quantity'] ) ) {
+			$request['container_item'] = true;
+		}
+
+		return $request;
+	} // END filter_request_data()
+
+	/**
+	 * If variations are set, validate and format the values ready to add to the cart.
+	 *
+	 * @throws CoCart_Data_Exception Exception if invalid data is detected.
+	 *
+	 * @access protected
+	 *
+	 * @since 5.0.0 Introduced.
+	 *
+	 * @param array $request Add to cart request params.
+	 *
+	 * @return array Updated request array.
+	 */
+	protected function parse_variation_data( $request, $product ) {
+		// Remove variation request if not needed.
+		if ( ! $product->is_type( array( 'variation', 'variable' ) ) ) {
+			$request['variation'] = array();
+			return $request;
+		}
+
+		// If we have a parent product, find the variation ID.
+		if ( $product->is_type( 'variable' ) ) {
+			$request['variation_id'] = CoCart_Utilities_Product_Helpers::get_variation_id_from_variation_data( $request, $product );
+		}
+
+		// Flatten data and format posted values.
+		$variable_product_attributes = CoCart_Utilities_Cart_Helpers::get_variable_product_attributes( $product );
+
+		$request['variation'] = CoCart_Utilities_Cart_Helpers::validate_variable_product( $request['id'], $request['variation'], $product );
+
+		return $request;
+	} // END parse_variation_data()
+
+	/**
 	 * Validate product before it is added to the cart, updated or removed.
 	 *
 	 * @throws CoCart_Data_Exception Exception if invalid data is detected.
@@ -509,48 +581,38 @@ abstract class CoCart_REST_Cart_Controller extends WP_REST_Controller {
 	 *
 	 * @see CoCart_REST_Cart_V2_Controller::get_cart_contents()
 	 *
-	 * @param WC_Product      $product      The product object.
-	 * @param int|float       $quantity     The quantity to validate.
-	 * @param int             $product_id   The product ID.
-	 * @param int             $variation_id The variation ID.
-	 * @param array           $item_data    The cart item data.
-	 * @param string          $item_key     Generated ID based on the product information when added to the cart.
-	 * @param WP_REST_Request $request      The request object.
+	 * @param WP_REST_Request $request The request object.
+	 * @param WC_Product      $product The product object.
 	 *
 	 * @return float $quantity The quantity returned.
 	 */
-	public function is_product_sold_individually( $product, $quantity, $product_id, $variation_id, $item_data, $item_key, $request ) {
+	public function is_product_sold_individually( $request, $product ) {
 		try {
-			// Force quantity to 1 if sold individually and check for existing item in cart.
-			if ( $product->is_sold_individually() ) {
-				$quantity = CoCart_Utilities_Cart_Helpers::set_cart_item_quantity_sold_individually( $quantity, $product_id, $variation_id, $item_data, $request );
+			$cart_contents = $this->get_cart_contents( array( 'raw' => true ) );
 
-				$cart_contents = $this->get_cart_contents( array( 'raw' => true ) );
+			$found_in_cart = apply_filters( 'cocart_add_to_cart_sold_individually_found_in_cart', $item_key && $cart_contents[ $item_key ]['quantity'] > 0, $request['id'], $request['variation_id'], $request['item_data'], $item_key );
 
-				$found_in_cart = apply_filters( 'cocart_add_to_cart_sold_individually_found_in_cart', $item_key && $cart_contents[ $item_key ]['quantity'] > 0, $product_id, $variation_id, $item_data, $item_key );
+			if ( $found_in_cart ) {
+				$message = sprintf(
+					/* translators: %s: Product Name */
+					__( "You cannot add another '%s' to your cart.", 'cocart-core' ),
+					$product->get_name()
+				);
 
-				if ( $found_in_cart ) {
-					$message = sprintf(
-						/* translators: %s: Product Name */
-						__( "You cannot add another '%s' to your cart.", 'cocart-core' ),
-						$product->get_name()
-					);
+				/**
+				 * Filters message about product not being allowed to add another.
+				 *
+				 * @since 3.0.0 Introduced.
+				 *
+				 * @param string     $message Message.
+				 * @param WC_Product $product The product object.
+				 */
+				$message = apply_filters( 'cocart_product_can_not_add_another_message', $message, $product );
 
-					/**
-					 * Filters message about product not being allowed to add another.
-					 *
-					 * @since 3.0.0 Introduced.
-					 *
-					 * @param string     $message Message.
-					 * @param WC_Product $product The product object.
-					 */
-					$message = apply_filters( 'cocart_product_can_not_add_another_message', $message, $product );
-
-					throw new CoCart_Data_Exception( 'cocart_product_sold_individually', $message, 403 );
-				}
+				throw new CoCart_Data_Exception( 'cocart_product_sold_individually', $message, 403 );
 			}
 
-			return $quantity;
+			return $request['quantity'];
 		} catch ( CoCart_Data_Exception $e ) {
 			return new \WP_Error( $e->getErrorCode(), $e->getMessage(), $e->getCode(), $e->getAdditionalData() );
 		}

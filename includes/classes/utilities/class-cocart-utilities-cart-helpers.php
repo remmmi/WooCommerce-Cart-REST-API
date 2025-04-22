@@ -909,16 +909,11 @@ class CoCart_Utilities_Cart_Helpers {
 	 *
 	 * @since 5.0.0 Introduced.
 	 *
-	 * @param int|float       $quantity     The original quantity of the item.
-	 * @param int             $product_id   The product ID.
-	 * @param int             $variation_id The variation ID.
-	 * @param array           $variation    The variation data.
-	 * @param array           $item_data    The cart item data.
-	 * @param WP_REST_Request $request      The request object.
+	 * @param WP_REST_Request $request The request object.
 	 *
 	 * @return int|float $quantity The cart item quantity.
 	 */
-	public static function set_cart_item_quantity( $quantity = 1, $product_id = 0, $variation_id = 0, $variation = array(), $item_data = array(), $request = array() ) {
+	public static function set_cart_item_quantity( $request ) {
 		/**
 		 * Filters the quantity for specified products.
 		 *
@@ -932,7 +927,7 @@ class CoCart_Utilities_Cart_Helpers {
 		 * @param array           $item_data    The cart item data.
 		 * @param WP_REST_Request $request      The request object.
 		 */
-		$quantity = apply_filters( 'cocart_add_to_cart_quantity', $quantity, $product_id, $variation_id, $variation, $item_data, $request );
+		$quantity = apply_filters( 'cocart_add_to_cart_quantity', $request['quantity'], $request['id'], $request['variation_id'], $request['variation'], $request['item_data'], $request );
 
 		return $quantity;
 	} // END set_cart_item_quantity()
@@ -946,20 +941,16 @@ class CoCart_Utilities_Cart_Helpers {
 	 *
 	 * @since 5.0.0 Introduced.
 	 *
-	 * @param int|float       $quantity     The quantity to validate.
-	 * @param int             $product_id   The product ID.
-	 * @param int             $variation_id The variation ID.
-	 * @param array           $item_data    The cart item data.
-	 * @param WP_REST_Request $request      The request object.
+	 * @param WP_REST_Request $request The request object.
 	 *
-	 * @return int|float $quantity The quantity.
+	 * @return WP_REST_Request $request The request object.
 	 */
-	public static function set_cart_item_quantity_sold_individually( $quantity = 1, $product_id = 0, $variation_id = 0, $item_data = array(), $request = array() ) {
+	public static function set_cart_item_quantity_sold_individually( $request ) {
 		/**
 		 * Filters the quantity for sold individual products.
 		 *
 		 * @since 2.0.13 Introduced.
-		 * @since 5.0.0 Added parameters: `$quantity`, `$product_id`, `$variation_id`, `$item_data` and `$request`
+		 * @since 5.0.0 Added parameters: `$quantity`, `$product_id`, `$variation_id`, `$item_data`
 		 *
 		 * @param int             $sold_individual_quantity Sold individual quantity.
 		 * @param int|float       $quantity                 The quantity to validate.
@@ -968,9 +959,9 @@ class CoCart_Utilities_Cart_Helpers {
 		 * @param array           $item_data                The cart item data.
 		 * @param WP_REST_Request $request                  The request object.
 		 */
-		$quantity = apply_filters( 'cocart_add_to_cart_sold_individually_quantity', 1, $quantity, $product_id, $variation_id, $item_data, $request );
+		$request['quantity'] = apply_filters( 'cocart_add_to_cart_sold_individually_quantity', 1, $request['quantity'], $request['id'], $request['variation_id'], $request['item_data'] );
 
-		return $quantity;
+		return $request;
 	} // END set_cart_item_quantity_sold_individually()
 
 	/**
@@ -982,16 +973,11 @@ class CoCart_Utilities_Cart_Helpers {
 	 *
 	 * @since 5.0.0 Introduced.
 	 *
-	 * @param array           $item_data    The cart item data.
-	 * @param int             $product_id   The product ID.
-	 * @param int             $variation_id The variation ID.
-	 * @param int|float       $quantity     The item quantity.
-	 * @param string          $product_type The product type.
-	 * @param WP_REST_Request $request      The request object.
+	 * @param WP_REST_Request $request The request object.
 	 *
 	 * @return array $item_data The cart item data.
 	 */
-	public static function set_cart_item_data( $item_data = array(), $product_id = 0, $variation_id = 0, $quantity = 1, $product_type = 'simple', $request = array() ) {
+	public static function set_cart_item_data( $request ) {
 		/**
 		 * Filter allows other plugins to add their own cart item data.
 		 *
@@ -1005,7 +991,7 @@ class CoCart_Utilities_Cart_Helpers {
 		 * @param string          $product_type The product type.
 		 * @param WP_REST_Request $request      The request object.
 		 */
-		$item_data = (array) apply_filters( 'cocart_add_cart_item_data', $item_data, $product_id, $variation_id, $quantity, $product_type, $request );
+		$item_data = (array) apply_filters( 'cocart_add_cart_item_data', $request['item_data'], $request['id'], $request['variation_id'], $request['quantity'], $request['product_type'], $request );
 
 		return $item_data;
 	} // END set_cart_item_data()
