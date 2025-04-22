@@ -28,7 +28,7 @@ class_alias( 'CoCart_REST_Products_V2_Controller', 'CoCart_Products_V2_Controlle
 class CoCart_REST_Products_V2_Controller extends CoCart_Products_Controller {
 
 	/**
-	 * Endpoint namespace.
+	 * Route namespace. - Remove once new route registry is completed.
 	 *
 	 * @var string
 	 */
@@ -42,54 +42,68 @@ class CoCart_REST_Products_V2_Controller extends CoCart_Products_Controller {
 	protected $schema = array();
 
 	/**
+	 * Version of route.
+	 */
+	protected $version = 'v2';
+
+	/**
+	 * Get version of route. - Remove once route abstract is created to extend from.
+	 */
+	public function get_version() {
+		return $this->version;
+	}
+
+	/**
+	 * Get the path of this REST route.
+	 *
+	 * @return string
+	 */
+	public function get_path() {
+		return self::get_path_regex();
+	}
+
+	/**
+	 * Get the path of this rest route.
+	 *
+	 * @return string
+	 */
+	public static function get_path_regex() {
+		return '/products';
+	}
+
+	/**
+	 * Get method arguments for this REST route.
+	 *
+	 * @return array An array of endpoints.
+	 */
+	public function get_args() {
+		return array(
+			array(
+				'methods'             => WP_REST_Server::READABLE,
+				'callback'            => array( $this, 'get_items' ),
+				'args'                => $this->get_collection_params(),
+				'permission_callback' => '__return_true',
+			),
+			'allow_batch' => array( 'v1' => true ),
+			'schema'      => array( $this, 'get_public_items_schema' ),
+		);
+	} // END get_args()
+
+	/**
 	 * Register routes.
 	 *
 	 * @access public
 	 */
 	public function register_routes() {
+		cocart_deprecated_function( __FUNCTION__, '5.0.0' );
+
 		// Get Products - cocart/v2/products (GET).
 		register_rest_route(
 			$this->namespace,
-			'/' . $this->rest_base,
-			array(
-				array(
-					'methods'             => WP_REST_Server::READABLE,
-					'callback'            => array( $this, 'get_items' ),
-					'args'                => $this->get_collection_params(),
-					'permission_callback' => '__return_true',
-				),
-				'schema' => array( $this, 'get_public_items_schema' ),
-			)
+			$this->get_path(),
+			$this->get_args()
 		);
-
-		// Get a single product by ID - cocart/v2/products/32 (GET).
-		// Get a single product by SKU - cocart/v2/products/woo-vneck-tee (GET).
-		register_rest_route(
-			$this->namespace,
-			'/' . $this->rest_base . '/(?P<id>[\w-]+)',
-			array(
-				'args'   => array(
-					'id' => array(
-						'description' => __( 'Unique identifier for the product.', 'cocart-core' ),
-						'type'        => 'string',
-					),
-				),
-				array(
-					'methods'             => WP_REST_Server::READABLE,
-					'callback'            => array( $this, 'get_item' ),
-					'args'                => array(
-						'context' => $this->get_context_param(
-							array(
-								'default' => 'view',
-							)
-						),
-					),
-					'permission_callback' => '__return_true',
-				),
-				'schema' => array( $this, 'get_public_item_schema' ),
-			)
-		);
-	}
+	} // END register_routes()
 
 	/**
 	 * Get a collection of products.
@@ -118,15 +132,17 @@ class CoCart_REST_Products_V2_Controller extends CoCart_Products_Controller {
 			$objects[] = $this->prepare_response_for_collection( $data );
 		}
 
-		$page      = (int) $query_args['paged'];
-		$max_pages = $query_results['pages'];
+		$page        = (int) $query_args['paged'];
+		$total_items = $query_results['total'];
+		$max_pages   = $query_results['pages'];
 
-		$results  = array(
+		$results = array(
 			'products'       => $objects,
 			'page'           => $page,
 			'total_pages'    => (int) $max_pages,
 			'total_products' => $query_results['total'],
 		);
+
 		$response = rest_ensure_response( $results );
 		$response->header( 'X-WP-Total', $query_results['total'] );
 		$response->header( 'X-WP-TotalPages', (int) $max_pages );
@@ -364,45 +380,6 @@ class CoCart_REST_Products_V2_Controller extends CoCart_Products_Controller {
 
 		return $variations;
 	} // END get_variations()
-
-	/**
-	 * Get a single item.
-	 *
-	 * @throws CoCart_Data_Exception Exception if invalid data is detected.
-	 *
-	 * @access public
-	 *
-	 * @since 3.1.0 Introduced.
-	 *
-	 * @param WP_REST_Request $request The request object.
-	 *
-	 * @return WP_REST_Response
-	 */
-	public function get_item( $request ) {
-		try {
-			$product_id = ! isset( $request['id'] ) ? 0 : wc_clean( wp_unslash( $request['id'] ) );
-
-			$product_id = CoCart_Utilities_Cart_Helpers::validate_product_id( $product_id );
-
-			// Return failed product ID validation if any.
-			if ( is_wp_error( $product_id ) ) {
-				return $product_id;
-			}
-
-			$product = wc_get_product( $product_id );
-
-			if ( ! $product || 0 === $product->get_id() || 'publish' !== $product->get_status() ) {
-				throw new CoCart_Data_Exception( 'cocart_' . $this->post_type . '_invalid_id', __( 'Invalid ID.', 'cocart-core' ), 404 );
-			}
-
-			$data     = $this->prepare_object_for_response( $product, $request );
-			$response = rest_ensure_response( $data );
-
-			return $response;
-		} catch ( CoCart_Data_Exception $e ) {
-			return CoCart_Response::get_error_response( $e->getErrorCode(), $e->getMessage(), $e->getCode(), $e->getAdditionalData() );
-		}
-	} // END get_item()
 
 	/**
 	 * Get the images for a product or product variation.
