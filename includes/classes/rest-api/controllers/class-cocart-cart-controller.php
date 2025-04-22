@@ -557,14 +557,16 @@ abstract class CoCart_REST_Cart_Controller extends WP_REST_Controller {
 	} // END is_product_sold_individually()
 
 	/**
-	 * Adds item to cart internally rather than WC.
+	 * Adds item to cart.
+	 *
+	 * Uses internal WooCommerce filters and hooks.
 	 *
 	 * @throws CoCart_Data_Exception Exception if invalid data is detected.
 	 *
 	 * @access public
 	 *
-	 * @since   3.0.0 Introduced.
-	 * @version 3.1.0
+	 * @since 3.0.0 Introduced.
+	 * @since 5.0.0 Rewritten to support WooCommerce better.
 	 *
 	 * @param int        $product_id     The product ID.
 	 * @param int        $quantity       The item quantity.
@@ -575,35 +577,90 @@ abstract class CoCart_REST_Cart_Controller extends WP_REST_Controller {
 	 *
 	 * @return string|boolean $item_key Cart item key or false if error.
 	 */
-	public function add_cart_item( int $product_id, int $quantity, $variation_id, array $variation, array $cart_item_data, WC_Product $product_data ) {
+	public function add_cart_item( $request, WC_Product $product, WC_Cart $cart ) {
 		try {
 			// Generate a ID based on product ID, variation ID, variation data, and other cart item data.
-			$item_key = $this->get_cart_instance()->generate_cart_id( $product_id, $variation_id, $variation, $cart_item_data );
+			$item_key = $cart->generate_cart_id( $request['id'], $request['variation_id'], $request['variation'], $request['item_data'] );
 
 			// Add item after merging with $cart_item_data - hook to allow plugins to modify cart item.
-			$this->get_cart_instance()->cart_contents[ $item_key ] = apply_filters(
-				'cocart_add_cart_item',
+			/**
+			 * Filters the item being added to the cart.
+			 *
+			 * @since 2.5.0
+			 *
+			 * @internal Matches filter name in WooCommerce core.
+			 *
+			 * @param array  $item_data Array of cart item data being added to the cart.
+			 * @param string $item_key  Id of the item in the cart.
+			 *
+			 * @return array Updated cart item data.
+			 */
+			$cart->cart_contents[ $item_key ] = apply_filters(
+				'woocommerce_add_cart_item',
 				array_merge(
-					$cart_item_data,
+					$request['item_data'],
 					array(
 						'key'          => $item_key,
-						'product_id'   => $product_id,
-						'variation_id' => $variation_id,
-						'variation'    => $variation,
-						'quantity'     => $quantity,
-						'data'         => $product_data,
-						'data_hash'    => wc_get_cart_item_data_hash( $product_data ),
+						'product_id'   => $request['id'],
+						'variation_id' => $request['variation_id'],
+						'variation'    => $request['variation'],
+						'quantity'     => $request['quantity'],
+						'data'         => $product,
+						'data_hash'    => wc_get_cart_item_data_hash( $product ),
 					)
 				),
 				$item_key
 			);
 
-			$this->get_cart_instance()->cart_contents = apply_filters( 'cocart_cart_contents_changed', $this->get_cart_instance()->cart_contents );
+			/**
+			 * Filters the entire cart contents when the cart changes.
+			 *
+			 * @since 2.5.0
+			 *
+			 * @internal Matches filter name in WooCommerce core.
+			 *
+			 * @param array $cart_contents Array of all cart items.
+			 *
+			 * @return array Updated array of all cart items.
+			 */
+			$cart->cart_contents = apply_filters( 'woocommerce_cart_contents_changed', $cart->cart_contents );
+
+			cocart_do_deprecated_filter( 'cocart_cart_contents_changed', '5.0.0', 'woocommerce_cart_contents_changed', __( 'Use WooCommerce core filter instead.', 'cocart-core' ), $cart->cart_contents );
+
+			/**
+			 * Fires when an item is added to the cart.
+			 *
+			 * This hook fires when an item is added to the cart. WooCommerce core add to cart events trigger the same hook.
+			 *
+			 * @since 2.5.0 Introduced into WooCommerce core
+			 *
+			 * @internal Matches action name in WooCommerce core.
+			 *
+			 * @param string  $item_key       ID of the item in the cart.
+			 * @param integer $id             ID of the product added to the cart.
+			 * @param integer $quantity       Quantity of the item added to the cart.
+			 * @param integer $variation_id   Variation ID of the product added to the cart.
+			 * @param array   $variation      Array of variation data.
+			 * @param array   $cart_item_data Array of other cart item data.
+			 */
+			do_action(
+				'woocommerce_add_to_cart',
+				$item_key,
+				$request['id'],
+				$request['quantity'],
+				$request['variation_id'],
+				$request['variation'],
+				$request['item_data']
+			);
 
 			/**
 			 * Fires after item has been added to cart.
 			 *
 			 * @since 3.0.0 Introduced.
+			 *
+			 * @deprecated 5.0.0 Replaced with internal WooCommerce core hook.
+			 *
+			 * @see woocommerce_add_to_cart
 			 *
 			 * @param string $item_key       Generated ID based on the product information provided.
 			 * @param int    $product_id     The product ID.
@@ -612,7 +669,7 @@ abstract class CoCart_REST_Cart_Controller extends WP_REST_Controller {
 			 * @param array  $variation      The variation attributes.
 			 * @param array  $cart_item_data The cart item data
 			 */
-			do_action( 'cocart_add_to_cart', $item_key, $product_id, $quantity, $variation_id, $variation, $cart_item_data );
+			cocart_do_deprecated_action( 'cocart_add_to_cart', '5.0.0', 'woocommerce_add_to_cart', '', array( $item_key, $request['id'], $request['quantity'], $request['variation_id'], $request['variation'], $request['item_data'] ) );
 
 			return $item_key;
 		} catch ( CoCart_Data_Exception $e ) {
