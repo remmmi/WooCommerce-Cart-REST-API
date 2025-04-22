@@ -112,19 +112,27 @@ class CoCart_REST_Count_Items_V2_Controller extends CoCart_REST_Cart_V2_Controll
 				$count = array_sum( wp_list_pluck( $cart_contents, 'quantity' ) );
 			}
 
-			if ( 'numeric' !== $return && $count <= 0 ) {
-				$message = __( 'No items in the cart.', 'cocart-core' );
+			if ( 'numeric' !== $return ) {
+				if ( $count <= 0 ) {
+					$message = __( 'No items in the cart.', 'cocart-core' );
 
-				/**
-				 * Filters message about no items in the cart.
-				 *
-				 * @since 2.1.0 Introduced.
-				 *
-				 * @param string $message Message.
-				 */
-				$message = apply_filters( 'cocart_no_items_in_cart_message', $message );
+					/**
+					 * Filters message about no items in the cart.
+					 *
+					 * @since 2.1.0 Introduced.
+					 *
+					 * @param string $message Message.
+					 */
+					$message = apply_filters( 'cocart_no_items_in_cart_message', $message );
 
-				throw new CoCart_Data_Exception( 'cocart_no_items_in_cart', $message, 404 );
+					throw new CoCart_Data_Exception( 'cocart_no_items_in_cart', $message, 404 );
+				} else {
+					$count = sprintf(
+						/* Translators: %d = Number of items. */
+						__( 'There are %d items in the cart.', 'cocart-core' ),
+						$count
+					);
+				}
 			}
 
 			$response = rest_ensure_response( $count );
