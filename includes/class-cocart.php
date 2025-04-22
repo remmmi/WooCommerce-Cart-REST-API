@@ -375,7 +375,6 @@ final class CoCart {
 
 		// REST API functions.
 		include_once __DIR__ . '/cocart-rest-functions.php';
-		require_once __DIR__ . '/classes/rest-api/class-cocart-authentication.php';
 
 		// WP-CLI.
 		if ( defined( 'WP_CLI' ) && WP_CLI ) {
@@ -574,6 +573,7 @@ final class CoCart {
 		}
 
 		require_once __DIR__ . '/classes/class-cocart-data-exception.php';
+		require_once __DIR__ . '/classes/rest-api/class-cocart-authentication.php';
 		require_once __DIR__ . '/classes/rest-api/class-cocart-cart-cache.php';
 		require_once __DIR__ . '/classes/rest-api/class-cocart-cart-callbacks.php';
 		require_once __DIR__ . '/classes/rest-api/class-cocart-cart-extension.php';
