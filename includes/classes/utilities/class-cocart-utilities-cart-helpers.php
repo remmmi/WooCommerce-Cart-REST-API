@@ -1057,13 +1057,16 @@ class CoCart_Utilities_Cart_Helpers {
 	 * @static
 	 *
 	 * @since 3.0.0 Introduced.
+	 * @since 5.0.0 Replaced the product object with the request of cart item as parameter.
 	 *
-	 * @param WC_Product $product The product object.
+	 * @param WP_REST_Request $request The request object.
 	 *
 	 * @return WC_Product $product Returns a product object if purchasable.
 	 */
-	public static function validate_product_for_cart( $product ) {
+	public static function validate_product_for_cart( $request ) {
 		try {
+			$product = wc_get_product( $request['id'] );
+
 			// Check if the product exists before continuing.
 			if ( ! $product || ! $product->exists() || 'trash' === $product->get_status() ) {
 				$message = __( 'This product cannot be added to the cart.', 'cocart-core' );
