@@ -23,11 +23,32 @@ if ( ! class_exists( 'CoCart_REST_Terms_V2_Controller' ) ) {
 	abstract class CoCart_REST_Terms_V2_Controller extends CoCart_REST_Terms_Controller {
 
 		/**
-		 * Endpoint namespace.
+		 * Route namespace. - Remove once new route registry is completed.
 		 *
 		 * @var string
 		 */
 		protected $namespace = 'cocart/v2';
+
+		/**
+		 * Version of route.
+		 */
+		protected $version = 'v2';
+
+		/**
+		 * Get version of route. - Remove once route abstract is created to extend from.
+		 */
+		public function get_version() {
+			return $this->version;
+		}
+
+		/**
+		 * Get the path of this REST route.
+		 *
+		 * @return string
+		 */
+		public function get_path() {
+			return self::get_path_regex();
+		}
 
 		/**
 		 * Register the routes for terms.
@@ -66,7 +87,8 @@ if ( ! class_exists( 'CoCart_REST_Terms_V2_Controller' ) ) {
 							'context' => $this->get_context_param( array( 'default' => 'view' ) ),
 						),
 					),
-					'schema' => array( $this, 'get_public_item_schema' ),
+					'allow_batch' => array( 'v1' => true ),
+					'schema'      => array( $this, 'get_public_item_schema' ),
 				)
 			);
 		}

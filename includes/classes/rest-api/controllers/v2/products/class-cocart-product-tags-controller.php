@@ -25,9 +25,21 @@ class_alias( 'CoCart_REST_Product_Tags_V2_Controller', 'CoCart_Product_Tags_V2_C
 class CoCart_REST_Product_Tags_V2_Controller extends CoCart_Product_Tags_Controller {
 
 	/**
-	 * Endpoint namespace.
+	 * Route namespace. - Remove once new route registry is completed.
 	 *
 	 * @var string
 	 */
 	protected $namespace = 'cocart/v2';
+
+	/**
+	 * Version of route.
+	 */
+	protected $version = 'v2';
+
+	/**
+	 * Get version of route. - Remove once route abstract is created to extend from.
+	 */
+	public function get_version() {
+		return $this->version;
+	}
 }
