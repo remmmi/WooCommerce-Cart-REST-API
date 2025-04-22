@@ -110,10 +110,12 @@ abstract class CoCart_REST_Cart_Controller extends WP_REST_Controller {
 	 * @return array $cart_contents The cart contents.
 	 */
 	public function get_cart_contents( $request, $cart_item_key = '' ) {
+		$cart = $this->get_cart_instance();
+
 		$show_raw       = ! empty( $request['raw'] ) ? $request['raw'] : false; // Internal parameter request.
 		$dont_check     = ! empty( $request['dont_check'] ) ? $request['dont_check'] : false; // Internal parameter request.
 		$dont_calculate = ! empty( $request['dont_calculate'] ) ? $request['dont_calculate'] : false; // Internal parameter request.
-		$cart_contents  = ! $this->is_completely_empty() ? $this->get_cart_instance()->cart_contents : array();
+		$cart_contents  = ! $this->is_completely_empty() ? $cart->cart_contents : array();
 
 		// Return cart contents raw if requested.
 		if ( $show_raw ) {
@@ -136,7 +138,7 @@ abstract class CoCart_REST_Cart_Controller extends WP_REST_Controller {
 			 * @param WC_Cart         $cart          The cart object.
 			 * @param WP_REST_Request $request       The request object.
 			 */
-			$cart_contents = apply_filters( 'cocart_before_get_cart', $cart_contents, $this->get_cart_instance(), $request );
+			$cart_contents = apply_filters( 'cocart_before_get_cart', $cart_contents, $cart, $request );
 		}
 
 		// Ensures the cart totals are calculated before an API response is returned.
@@ -156,7 +158,7 @@ abstract class CoCart_REST_Cart_Controller extends WP_REST_Controller {
 			 * @param WC_Cart         $cart          The cart object.
 			 * @param WP_REST_Request $request       The request object.
 			 */
-			$cart_contents = apply_filters( 'cocart_after_get_cart', $cart_contents, $this->get_cart_instance(), $request );
+			$cart_contents = apply_filters( 'cocart_after_get_cart', $cart_contents, $cart, $request );
 		}
 
 		return $cart_contents;
@@ -167,8 +169,8 @@ abstract class CoCart_REST_Cart_Controller extends WP_REST_Controller {
 	 *
 	 * @access public
 	 *
-	 * @since   2.1.0 Introduced.
-	 * @version 3.0.0
+	 * @since 2.1.0 Introduced.
+	 * @since 3.0.0 Added filter to alter details of the item based on the condition of the request.
 	 *
 	 * @param string $item_id   The item we are looking up in the cart.
 	 * @param string $condition Default is 'add', other conditions are: container, update, remove, restore.
@@ -176,7 +178,8 @@ abstract class CoCart_REST_Cart_Controller extends WP_REST_Controller {
 	 * @return array $item Returns details of the item in the cart if it exists.
 	 */
 	public function get_cart_item( $item_id, $condition = 'add' ) {
-		$item = isset( $this->get_cart_instance()->cart_contents[ $item_id ] ) ? $this->get_cart_instance()->cart_contents[ $item_id ] : array();
+		$cart = $this->get_cart_instance();
+		$item = isset( $cart->cart_contents[ $item_id ] ) ? $cart->cart_contents[ $item_id ] : array();
 
 		/**
 		 * Filters the cart item before it is returned.
@@ -199,7 +202,8 @@ abstract class CoCart_REST_Cart_Controller extends WP_REST_Controller {
 	 * @return array $items Returns all cart items.
 	 */
 	public function get_all_cart_items( $callback = null ) {
-		return $callback ? array_filter( $this->get_cart_instance()->get_cart(), $callback ) : array_filter( $this->get_cart_instance()->get_cart() );
+		$cart = $this->get_cart_instance();
+		return $callback ? array_filter( $cart->get_cart(), $callback ) : array_filter( $cart->get_cart() );
 	} // END get_all_cart_items()
 
 	/**
@@ -243,8 +247,9 @@ abstract class CoCart_REST_Cart_Controller extends WP_REST_Controller {
 	 * @since 5.0.0 Calculate shipping was removed here because it's called already by calculate_totals.
 	 */
 	public function calculate_totals() {
-		$this->get_cart_instance()->calculate_fees();
-		$this->get_cart_instance()->calculate_totals();
+		$cart = $this->get_cart_instance();
+		$cart->calculate_fees();
+		$cart->calculate_totals();
 	} // END calculate_totals()
 
 	/**
