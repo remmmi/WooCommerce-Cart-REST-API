@@ -130,6 +130,10 @@ class CoCart_Session_Handler extends WC_Session_Handler {
 		if ( ! empty( $_SERVER['HTTP_COCART_API_CART_KEY'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 			$this->cart_key = (string) trim( sanitize_key( wp_unslash( $_SERVER['HTTP_COCART_API_CART_KEY'] ) ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		}
+
+		// Are we requesting via custom header?
+		if ( ! empty( $_SERVER['HTTP_CART_KEY'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+			$this->cart_key = (string) trim( sanitize_key( wp_unslash( $_SERVER['HTTP_CART_KEY'] ) ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		}
 
 		/**
