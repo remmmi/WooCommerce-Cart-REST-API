@@ -113,15 +113,15 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_REST_Cart_Controller {
 	 * @return WP_REST_Response The returned response.
 	 */
 	public function get_cart( $request ) {
-		$show_raw      = ! empty( $request['raw'] ) ? $request['raw'] : false; // Internal parameter request.
+		$show_raw = ! empty( $request['raw'] ) ? $request['raw'] : false; // Internal parameter request.
+
+		// Returns the cart contents raw, if requested.
 		$cart_contents = $this->get_cart_contents( $request );
 
-		// Return cart contents raw if requested.
-		if ( $show_raw ) {
-			return $cart_contents;
+		if ( ! $show_raw ) {
+			// Filters the cart contents.
+			$cart_contents = $this->return_cart_contents( $request, $cart_contents );
 		}
-
-		$cart_contents = $this->return_cart_contents( $request, $cart_contents );
 
 		$response = rest_ensure_response( $cart_contents );
 		$response = ( new CoCart_REST_Utilities_Cart_Response() )->add_headers( $response, $request );
