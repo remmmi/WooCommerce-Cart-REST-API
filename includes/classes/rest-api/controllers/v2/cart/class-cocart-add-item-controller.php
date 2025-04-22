@@ -260,77 +260,6 @@ class CoCart_REST_Add_Item_V2_Controller extends CoCart_REST_Cart_V2_Controller 
 	} // END add_to_cart()
 
 	/**
-	 * Handle adding simple products to the cart.
-	 *
-	 * @access public
-	 *
-	 * @since   2.1.0 Introduced.
-	 * @version 3.0.0
-	 *
-	 * @deprecated 5.0.0 No longer use.
-	 *
-	 * @param string          $product_id The product ID.
-	 * @param float           $quantity   The item quantity.
-	 * @param array           $item_data  Contains extra cart item data we want to pass into the item.
-	 * @param WP_REST_Request $request    The request object.
-	 *
-	 * @return bool success or not
-	 */
-	public function add_to_cart_handler_simple( $product_id, $quantity, $item_data, $request ) {
-		cocart_deprecated_function( 'CoCart_REST_Add_Item_V2_Controller::add_to_cart_handler_simple', '5.0.0' );
-
-		$product_to_add = $this->validate_product( $request, $product_id, $quantity, 0, array(), $item_data, 'simple' );
-
-		// If validation failed then return error response.
-		if ( is_wp_error( $product_to_add ) ) {
-			return $product_to_add;
-		}
-
-		// Add item to cart once validation is passed.
-		$item_added = $this->add_item_to_cart( $product_to_add, $request );
-
-		cocart_add_to_cart_message( array( $product_id => $quantity ) );
-
-		return $item_added;
-	} // END add_to_cart_handler_simple()
-
-	/**
-	 * Handle adding variable products to the cart.
-	 *
-	 * @access public
-	 *
-	 * @since 2.1.0 Introduced.
-	 *
-	 * @deprecated 5.0.0 No longer use.
-	 *
-	 * @param string          $product_id   The product ID.
-	 * @param float           $quantity     The item quantity.
-	 * @param null            $variation_id The variation ID.
-	 * @param array           $variation    The variation attributes.
-	 * @param array           $item_data    Contains extra cart item data we want to pass into the item.
-	 * @param WP_REST_Request $request      The request object.
-	 *
-	 * @return bool success or not
-	 */
-	public function add_to_cart_handler_variable( $product_id, $quantity, $variation_id, $variation, $item_data, $request ) {
-		cocart_deprecated_function( 'CoCart_REST_Add_Item_V2_Controller::add_to_cart_handler_variable', '5.0.0' );
-
-		$product_to_add = $this->validate_product( $request, $product_id, $quantity, $variation_id, $variation, $item_data, 'variable' );
-
-		// If validation failed then return error response.
-		if ( is_wp_error( $product_to_add ) ) {
-			return $product_to_add;
-		}
-
-		// Add item to cart once validation is passed.
-		$item_added = $this->add_item_to_cart( $product_to_add, $request );
-
-		cocart_add_to_cart_message( array( $product_id => $quantity ) );
-
-		return $item_added;
-	} // END add_to_cart_handler_variable()
-
-	/**
 	 * Handle adding grouped product to the cart.
 	 *
 	 * @throws CoCart_Data_Exception Exception if invalid data is detected.
@@ -404,6 +333,183 @@ class CoCart_REST_Add_Item_V2_Controller extends CoCart_REST_Cart_V2_Controller 
 
 		return $response;
 	} // END add_to_cart_handler_grouped()
+
+	/**
+	 * Get the query params for adding items.
+	 *
+	 * @access public
+	 *
+	 * @since 2.1.0 Introduced.
+	 * @since 3.1.0 Added email and price parameters.
+	 * @since 4.1.0 Added phone number parameter.
+	 *
+	 * @return array $params Query parameters for the endpoint.
+	 */
+	public function get_collection_params() {
+		// Cart query parameters.
+		$params = parent::get_collection_params();
+
+		// Add to cart query parameters.
+		$params += array(
+			'id'          => array(
+				'description'       => __( 'Unique identifier for the product or variation ID.', 'cocart-core' ),
+				'type'              => 'string',
+				'required'          => true,
+				'sanitize_callback' => 'sanitize_text_field',
+				'validate_callback' => 'rest_validate_request_arg',
+			),
+			'quantity'    => array(
+				'description'       => __( 'Quantity of this item to add to the cart. Can be a number or an array.', 'cocart-core' ),
+				'type'              => array( 'string', 'array' ),
+				'default'           => '1',
+				'required'          => true,
+				'sanitize_callback' => 'rest_sanitize_quantity_arg',
+				'validate_callback' => 'rest_validate_quantity_arg',
+			),
+			'variation'   => array(
+				'description'       => __( 'Variable attributes that identify the variation of the item.', 'cocart-core' ),
+				'type'              => 'object',
+				'items'             => array(
+					'type'       => 'object',
+					'properties' => array(
+						'attribute' => array(
+							'description'       => __( 'Variation attribute name.', 'cocart-core' ),
+							'type'              => 'string',
+							'sanitize_callback' => 'sanitize_text_field',
+							'validate_callback' => 'rest_validate_request_arg',
+						),
+						'value'     => array(
+							'description'       => __( 'Variation attribute value.', 'cocart-core' ),
+							'type'              => 'string',
+							'sanitize_callback' => 'sanitize_text_field',
+							'validate_callback' => 'rest_validate_request_arg',
+						),
+					),
+				),
+				'required'          => false,
+				'validate_callback' => 'rest_validate_request_arg',
+			),
+			'item_data'   => array(
+				'description'       => __( 'Additional item data passed to make item unique.', 'cocart-core' ),
+				'type'              => 'object',
+				'required'          => false,
+				'validate_callback' => 'rest_validate_request_arg',
+			),
+			'email'       => array(
+				'description'       => __( 'Set the customers billing email address.', 'cocart-core' ),
+				'type'              => 'string',
+				'required'          => false,
+				'sanitize_callback' => 'sanitize_email',
+				'validate_callback' => 'rest_validate_request_arg',
+			),
+			'phone'       => array(
+				'description'       => __( 'Set the customers billing phone number.', 'cocart-core' ),
+				'type'              => 'string',
+				'required'          => false,
+				'sanitize_callback' => 'sanitize_text_field',
+				'validate_callback' => 'rest_validate_request_arg',
+			),
+			'price'       => array(
+				'description'       => __( 'Set a custom price for the item. Overrides the general or sale price.', 'cocart-core' ),
+				'type'              => 'string',
+				'required'          => false,
+				'sanitize_callback' => 'sanitize_text_field',
+				'validate_callback' => 'rest_validate_request_arg',
+			),
+			'return_item' => array(
+				'description'       => __( 'Returns the item details once added.', 'cocart-core' ),
+				'default'           => false,
+				'required'          => false,
+				'type'              => 'boolean',
+				'sanitize_callback' => 'rest_sanitize_boolean',
+				'validate_callback' => 'rest_validate_request_arg',
+			),
+		);
+
+		/**
+		 * Filters the query parameters for adding item to cart.
+		 *
+		 * This filter allows you to extend the query parameters without removing any default parameters.
+		 *
+		 * @since 3.1.0 Introduced.
+		 */
+		$params += apply_filters( 'cocart_add_item_query_parameters', array() );
+
+		return $params;
+	} // END get_collection_params()
+
+	// ** Deprecated functions **//
+
+	/**
+	 * Handle adding simple products to the cart.
+	 *
+	 * @access public
+	 *
+	 * @since   2.1.0 Introduced.
+	 * @version 3.0.0
+	 *
+	 * @deprecated 5.0.0 No longer use.
+	 *
+	 * @param string          $product_id The product ID.
+	 * @param float           $quantity   The item quantity.
+	 * @param array           $item_data  Contains extra cart item data we want to pass into the item.
+	 * @param WP_REST_Request $request    The request object.
+	 *
+	 * @return bool success or not
+	 */
+	public function add_to_cart_handler_simple( $product_id, $quantity, $item_data, $request ) {
+		cocart_deprecated_function( 'CoCart_REST_Add_Item_V2_Controller::add_to_cart_handler_simple', '5.0.0' );
+
+		$product_to_add = $this->validate_product( $request, $product_id, $quantity, 0, array(), $item_data, 'simple' );
+
+		// If validation failed then return error response.
+		if ( is_wp_error( $product_to_add ) ) {
+			return $product_to_add;
+		}
+
+		// Add item to cart once validation is passed.
+		$item_added = $this->add_item_to_cart( $product_to_add, $request );
+
+		cocart_add_to_cart_message( array( $product_id => $quantity ) );
+
+		return $item_added;
+	} // END add_to_cart_handler_simple()
+
+	/**
+	 * Handle adding variable products to the cart.
+	 *
+	 * @access public
+	 *
+	 * @since 2.1.0 Introduced.
+	 *
+	 * @deprecated 5.0.0 No longer use.
+	 *
+	 * @param string          $product_id   The product ID.
+	 * @param float           $quantity     The item quantity.
+	 * @param null            $variation_id The variation ID.
+	 * @param array           $variation    The variation attributes.
+	 * @param array           $item_data    Contains extra cart item data we want to pass into the item.
+	 * @param WP_REST_Request $request      The request object.
+	 *
+	 * @return bool success or not
+	 */
+	public function add_to_cart_handler_variable( $product_id, $quantity, $variation_id, $variation, $item_data, $request ) {
+		cocart_deprecated_function( 'CoCart_REST_Add_Item_V2_Controller::add_to_cart_handler_variable', '5.0.0' );
+
+		$product_to_add = $this->validate_product( $request, $product_id, $quantity, $variation_id, $variation, $item_data, 'variable' );
+
+		// If validation failed then return error response.
+		if ( is_wp_error( $product_to_add ) ) {
+			return $product_to_add;
+		}
+
+		// Add item to cart once validation is passed.
+		$item_added = $this->add_item_to_cart( $product_to_add, $request );
+
+		cocart_add_to_cart_message( array( $product_id => $quantity ) );
+
+		return $item_added;
+	} // END add_to_cart_handler_variable()
 
 	/**
 	 * Adds the item to the cart once passed validation.
@@ -528,107 +634,4 @@ class CoCart_REST_Add_Item_V2_Controller extends CoCart_REST_Cart_V2_Controller 
 		}
 	} // END add_item_to_cart()
 
-	/**
-	 * Get the query params for adding items.
-	 *
-	 * @access public
-	 *
-	 * @since 2.1.0 Introduced.
-	 * @since 3.1.0 Added email and price parameters.
-	 * @since 4.1.0 Added phone number parameter.
-	 *
-	 * @return array $params Query parameters for the endpoint.
-	 */
-	public function get_collection_params() {
-		// Cart query parameters.
-		$params = parent::get_collection_params();
-
-		// Add to cart query parameters.
-		$params += array(
-			'id'          => array(
-				'description'       => __( 'Unique identifier for the product or variation ID.', 'cocart-core' ),
-				'type'              => 'string',
-				'required'          => true,
-				'sanitize_callback' => 'sanitize_text_field',
-				'validate_callback' => 'rest_validate_request_arg',
-			),
-			'quantity'    => array(
-				'description'       => __( 'Quantity of this item to add to the cart. Can be a number or an array.', 'cocart-core' ),
-				'type'              => array( 'string', 'array' ),
-				'default'           => '1',
-				'required'          => true,
-				'sanitize_callback' => 'rest_sanitize_quantity_arg',
-				'validate_callback' => 'rest_validate_quantity_arg',
-			),
-			'variation'   => array(
-				'description'       => __( 'Variable attributes that identify the variation of the item.', 'cocart-core' ),
-				'type'              => 'object',
-				'items'             => array(
-					'type'       => 'object',
-					'properties' => array(
-						'attribute' => array(
-							'description'       => __( 'Variation attribute name.', 'cocart-core' ),
-							'type'              => 'string',
-							'sanitize_callback' => 'sanitize_text_field',
-							'validate_callback' => 'rest_validate_request_arg',
-						),
-						'value'     => array(
-							'description'       => __( 'Variation attribute value.', 'cocart-core' ),
-							'type'              => 'string',
-							'sanitize_callback' => 'sanitize_text_field',
-							'validate_callback' => 'rest_validate_request_arg',
-						),
-					),
-				),
-				'required'          => false,
-				'validate_callback' => 'rest_validate_request_arg',
-			),
-			'item_data'   => array(
-				'description'       => __( 'Additional item data passed to make item unique.', 'cocart-core' ),
-				'type'              => 'object',
-				'required'          => false,
-				'validate_callback' => 'rest_validate_request_arg',
-			),
-			'email'       => array(
-				'description'       => __( 'Set the customers billing email address.', 'cocart-core' ),
-				'type'              => 'string',
-				'required'          => false,
-				'sanitize_callback' => 'sanitize_email',
-				'validate_callback' => 'rest_validate_request_arg',
-			),
-			'phone'       => array(
-				'description'       => __( 'Set the customers billing phone number.', 'cocart-core' ),
-				'type'              => 'string',
-				'required'          => false,
-				'sanitize_callback' => 'sanitize_text_field',
-				'validate_callback' => 'rest_validate_request_arg',
-			),
-			'price'       => array(
-				'description'       => __( 'Set a custom price for the item. Overrides the general or sale price.', 'cocart-core' ),
-				'type'              => 'string',
-				'required'          => false,
-				'sanitize_callback' => 'sanitize_text_field',
-				'validate_callback' => 'rest_validate_request_arg',
-			),
-			'return_item' => array(
-				'description'       => __( 'Returns the item details once added.', 'cocart-core' ),
-				'default'           => false,
-				'required'          => false,
-				'type'              => 'boolean',
-				'sanitize_callback' => 'rest_sanitize_boolean',
-				'validate_callback' => 'rest_validate_request_arg',
-			),
-		);
-
-		/**
-		 * Filters the query parameters for adding item to cart.
-		 *
-		 * This filter allows you to extend the query parameters without removing any default parameters.
-		 *
-		 * @since 3.1.0 Introduced.
-		 */
-		$params += apply_filters( 'cocart_add_item_query_parameters', array() );
-
-		return $params;
-	} // END get_collection_params()
 } // END class
