@@ -311,7 +311,7 @@ abstract class CoCart_REST_Cart_Controller extends WP_REST_Controller {
 						wc_format_stock_quantity_for_display( $qty_in_cart, $product )
 					);
 
-					throw new CoCart_Data_Exception( 'cocart_not_enough_stock_remaining', $message, 404 );
+					throw new CoCart_Data_Exception( 'cocart_not_enough_stock_remaining', $message, 400 );
 				}
 			}
 		} catch ( CoCart_Data_Exception $e ) {
@@ -513,7 +513,9 @@ abstract class CoCart_REST_Cart_Controller extends WP_REST_Controller {
 			$quantity = CoCart_Utilities_Cart_Helpers::set_cart_item_quantity( $quantity, $product_id, $variation_id, $variation, $item_data, $request );
 
 			// Validates if item is sold individually.
-			$quantity = $this->is_product_sold_individually( $product, $quantity, $product_id, $variation_id, $item_data, $item_key, $request );
+			if ( $product->is_sold_individually() ) {
+				$quantity = $this->is_product_sold_individually( $request, $product );
+			}
 
 			// If product validation returned an error return error response.
 			if ( is_wp_error( $quantity ) ) {
