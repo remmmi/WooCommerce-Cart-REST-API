@@ -360,6 +360,11 @@ final class CoCart {
 		include_once __DIR__ . '/cocart-deprecated-functions.php';
 		include_once __DIR__ . '/cocart-formatting-functions.php';
 
+		// Utilities.
+		include_once __DIR__ . '/classes/utilities/class-cocart-utilities-cache-helpers.php';
+		include_once __DIR__ . '/classes/utilities/class-cocart-utilities-cart-helpers.php';
+		include_once __DIR__ . '/classes/utilities/class-cocart-utilities-product-helpers.php';
+
 		// Core classes.
 		require_once __DIR__ . '/classes/class-cocart-status.php';
 		require_once __DIR__ . '/classes/class-cocart-helpers.php';
@@ -371,10 +376,6 @@ final class CoCart {
 		// REST API functions.
 		include_once __DIR__ . '/cocart-rest-functions.php';
 		require_once __DIR__ . '/classes/rest-api/class-cocart-authentication.php';
-
-		// Utilities.
-		include_once __DIR__ . '/classes/utilities/class-cocart-utilities-cart-helpers.php';
-		include_once __DIR__ . '/classes/utilities/class-cocart-utilities-product-helpers.php';
 
 		// WP-CLI.
 		if ( defined( 'WP_CLI' ) && WP_CLI ) {
