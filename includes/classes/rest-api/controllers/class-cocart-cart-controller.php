@@ -253,6 +253,24 @@ abstract class CoCart_REST_Cart_Controller extends WP_REST_Controller {
 	} // END calculate_totals()
 
 	/**
+	 * Gets the quantity of a product across line items.
+	 *
+	 * @access protected
+	 *
+	 * @since 3.1.0 Introduced.
+	 *
+	 * @param WC_Product $product The product object.
+	 *
+	 * @return int Quantity of the product.
+	 */
+	protected function get_product_quantity_in_cart( $product ) {
+		$product_quantities = $this->get_cart_instance()->get_cart_item_quantities();
+		$product_id         = $product->get_stock_managed_by_id();
+
+		return isset( $product_quantities[ $product_id ] ) ? $product_quantities[ $product_id ] : 0;
+	} // END get_product_quantity_in_cart()
+
+	/**
 	 * Validates item and check for errors before added to cart.
 	 *
 	 * @throws CoCart_Data_Exception Exception if invalid data is detected.
