@@ -580,12 +580,67 @@ class CoCart_Utilities_Cart_Helpers {
 	 * @static
 	 *
 	 * @since 3.0.0 Introduced.
+	 * @since 5.0.0 Added cart instance as parameter and added additional notices for validation purposes.
+	 *
+	 * @param WC_Cart $cart Cart class instance.
 	 *
 	 * @return array $notices.
 	 */
-	public static function maybe_return_notices() {
+	public static function maybe_return_notices( $cart ) {
 		$notice_count = 0;
-		$all_notices  = WC()->session->get( 'wc_notices', array() );
+		$wc_notices   = \WC()->session->get( 'wc_notices', array() );
+
+		// Get shipping packages.
+		if ( self::is_shipping_enabled() ) {
+			$get_packages = WC()->shipping->get_packages();
+
+			if ( is_array( $get_packages ) ) {
+				$rates = array();
+
+				foreach ( $get_packages as $package_id => $package ) {
+					$rates[] = count( (array) $package['rates'] );
+				}
+
+				// If no rates found then add warning notice.
+				if ( empty( $rates ) ) {
+					$wc_notices['warning']['no_shipping'] = array(
+						'notice' => __( 'No shipping options are available for this address. Please verify the address is correct or try a different address.', 'cocart-core' ),
+						'data'   => array(),
+					);
+				}
+			}
+		}
+
+		// Check fields to validate.
+		$check_fields = array(
+			'billing'  => array(
+				'country',
+				'postcode',
+			),
+			'shipping' => array(
+				'country',
+				'postcode',
+			),
+		);
+
+		foreach ( $check_fields as $field_type => $fields ) {
+			foreach ( $fields as $field ) {
+				$function = 'is_' . $field . '_valid';
+				$valid    = self::{$function}( $cart->get_customer(), $field_type );
+
+				if ( ! empty( $valid ) ) {
+					$wc_notices['error'][ $field_type . '_' . $field ] = array(
+						'notice' => $valid,
+						'data'   => array(),
+					);
+				}
+			}
+		}
+
+		$all_notices = $wc_notices;
+
+		// Update notices.
+		WC()->session->set( 'wc_notices', $all_notices );
 
 		foreach ( $all_notices as $notices ) {
 			$notice_count += count( $notices );

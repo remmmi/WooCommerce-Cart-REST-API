@@ -334,6 +334,8 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_REST_Cart_Controller {
 			return self::get_cart_template_limited( $request );
 		}
 
+		$cart = $this->get_cart_instance();
+
 		// Other Requested conditions.
 		$show_thumb = ! empty( $request['thumb'] ) ? $request['thumb'] : false;
 
@@ -368,7 +370,7 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_REST_Cart_Controller {
 			),
 			'removed_items'  => $this->get_removed_items( $this->get_cart_instance()->get_removed_cart_contents(), $show_thumb ),
 			'cross_sells'    => $this->get_cross_sells( $request ),
-			'notices'        => CoCart_Utilities_Cart_Helpers::maybe_return_notices(),
+			'notices'        => CoCart_Utilities_Cart_Helpers::maybe_return_notices( $cart ),
 		);
 	} // END get_cart_template()
 
@@ -392,6 +394,8 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_REST_Cart_Controller {
 		$show_thumb = ! empty( $request['thumb'] ) ? $request['thumb'] : false;
 
 		$template = array();
+
+		$cart = $this->get_cart_instance();
 
 		foreach ( $fields as $field ) {
 			$field        = explode( ':', $field );
@@ -508,7 +512,7 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_REST_Cart_Controller {
 					$template['cross_sells'] = $this->get_cross_sells( $request );
 					break;
 				case 'notices':
-					$template['notices'] = CoCart_Utilities_Cart_Helpers::maybe_return_notices();
+					$template['notices'] = CoCart_Utilities_Cart_Helpers::maybe_return_notices( $cart );
 					break;
 			}
 		}
