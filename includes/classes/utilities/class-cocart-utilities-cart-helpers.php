@@ -153,7 +153,6 @@ class CoCart_Utilities_Cart_Helpers {
 	 * @since 5.0.0 Added cart class instance and recurring cart as new parameters.
 	 *
 	 * @see cocart_format_money()
-	 * @see CoCart_Utilities_Cart_Helpers::is_shipping_enabled()
 	 *
 	 * @param WC_Cart $cart           Cart class instance.
 	 * @param bool    $recurring_cart True or false if cart is recurring.
@@ -161,103 +160,83 @@ class CoCart_Utilities_Cart_Helpers {
 	 * @return array Shipping details.
 	 */
 	public static function get_shipping_details( $cart, $recurring_cart = false ) {
-		if ( ! self::is_shipping_enabled() ) {
-			return array();
-		}
-
 		// See if we need to calculate anything.
 		if ( ! $cart->needs_shipping() ) {
 			return array();
 		}
 
-		// Get shipping rates and packages.
-		$get_packages          = WC()->shipping->get_packages();
-		$get_shipping_packages = $cart->get_shipping_packages();
+		// Get shipping packages.
+		$get_packages = WC()->shipping->get_packages();
 
 		// Return early if invalid object supplied by the filter or no packages.
 		if ( ! is_array( $get_packages ) || empty( $get_packages ) ) {
 			return array();
 		}
 
+		// Has customer provided enough information to return shipping details. This tracks if shipping has actually been
+		// calculated so we can avoid returning costs and rates prematurely.
 		$has_calculated_shipping = $cart->show_shipping();
 
+		// Get cart shipping packages.
+		$get_shipping_packages = $has_calculated_shipping ? $cart->get_shipping_packages() : array();
+
 		// Return nothing if the cart has no subscriptions that require shipping.
+		/*
 		if ( $recurring_cart ) {
 			if ( ! $has_calculated_shipping && ! WC_Subscriptions_Cart::cart_contains_subscriptions_needing_shipping() ) {
 				return array();
 			}
-		}
+		}*/
 
 		$details = array(
-			'total_packages'          => count( (array) $get_shipping_packages[0]['contents'] ),
-			'show_package_details'    => $recurring_cart ? true : count( (array) $get_shipping_packages[0]['contents'] ) > 1,
+			'total_packages'          => ! empty( $get_shipping_packages ) ? count( (array) $get_shipping_packages[0]['contents'] ) : 0,
+			'show_package_details'    => ! empty( $get_shipping_packages ) ? count( (array) $get_shipping_packages[0]['contents'] ) > 1 : false,
 			'has_calculated_shipping' => $has_calculated_shipping,
 			'packages'                => array(),
 		);
 
+		// If customer has not provided enough shipping information then don't continue preparing packages.
+		if ( ! $has_calculated_shipping ) {
+			return $details;
+		}
+
 		$packages      = array();
-		$package_key   = 1;
 		$chosen_method = ''; // Leave blank until a method has been selected.
 
 		foreach ( $get_packages as $package_id => $package ) {
 			$chosen_method = isset( WC()->session->chosen_shipping_methods[ $package_id ] ) ? WC()->session->chosen_shipping_methods[ $package_id ] : '';
 			$product_names = array();
 
-			if ( count( (array) $packages ) > 1 ) {
-				foreach ( $package['contents'] as $item_id => $values ) {
-					$product_names[ $item_id ] = $values['data']->get_name() . ' x' . $values['quantity'];
-				}
-
-				/**
-				 * Filter allows you to change the package details.
-				 *
-				 * @since 3.0.0 Introduced.
-				 *
-				 * @param array $product_names Product names.
-				 * @param array $package       Package details.
-				 */
-				$product_names = apply_filters( 'cocart_shipping_package_details_array', $product_names, $package );
+			foreach ( $package['contents'] as $item_id => $values ) {
+				$product_names[ $item_id ] = $values['data']->get_name() . ' x' . $values['quantity'];
 			}
 
-			if ( 0 === $package_id ) {
-				$package_key = 'default'; // Identifies the default package.
-			}
+			/**
+			 * Filter allows you to change the package details.
+			 *
+			 * @since 3.0.0 Introduced.
+			 *
+			 * @param array $product_names Product names.
+			 * @param array $package       Package details.
+			 */
+			$product_names = apply_filters( 'cocart_shipping_package_details_array', $product_names, $package );
 
 			// Check that there are rates available for the package.
 			if ( count( (array) $package['rates'] ) > 0 ) {
-				$shipping_name = ( ( $package_id + 1 ) > 1 ) ? sprintf(
-					/* translators: %d: shipping package ID */
-					_x( 'Shipping #%d', 'shipping packages', 'cocart-core' ),
-					( $package_id + 1 )
-				) : _x( 'Shipping', 'shipping packages', 'cocart-core' );
-
-				$packages[ $package_key ] = array(
-					/**
-					 * Filters the package name for the shipping method.
-					 *
-					 * @since 3.0.0 Introduced.
-					 * @since 5.0.0 Added cart class instance as parameter.
-					 *
-					 * @param string  $shipping_name Package name.
-					 * @param int     $package_id    Package ID.
-					 * @param array   $package       Package contents.
-					 * @param WC_Cart $cart          Cart class instance.
-					 */
-					'package_name'          => apply_filters( 'cocart_shipping_package_name', $shipping_name, $package_id, $package, $cart ),
+				$packages[ $package_id ] = array(
+					'package_name'          => isset( $package['package_name'] ) ? $package['package_name'] : self::get_package_name( $package, $package_id, $cart ),
 					'rates'                 => array(),
 					'package_details'       => implode( ', ', $product_names ),
-					'index'                 => $package_id, // Shipping package ID.
+					'index'                 => isset( $package['package_id'] ) ? $package['package_id'] : $package_id, // Shipping package ID.
 					'chosen_method'         => $chosen_method,
 					'formatted_destination' => WC()->countries->get_formatted_address( $package['destination'], ', ' ),
 				);
-
-				$rates = array();
 
 				// Return each rate.
 				foreach ( $package['rates'] as $key => $method ) {
 					$meta_data = self::clean_meta_data( $method, 'shipping' );
 
-					$rates[ $key ] = array(
+					$packages[ $package_id ]['rates'][ $key ] = array(
 						'key'           => $key,
 						'method_id'     => $method->get_method_id(),
 						'instance_id'   => $method->instance_id,
@@ -270,14 +249,16 @@ class CoCart_Utilities_Cart_Helpers {
 					);
 
 					foreach ( $method->taxes as $shipping_cost => $tax_cost ) {
-						$rates[ $key ]['taxes'] = cocart_format_money( $tax_cost );
+						$packages[ $package_id ]['rates'][ $key ]['taxes'] = cocart_format_money( $tax_cost );
 					}
 				}
 
-				$packages[ $package_key ]['rates'] = $rates;
+				// Identify the first package as the default package. This helps identify from other packages like recurring packages.
+				if ( 0 === $package_id ) {
+					$packages['default'] = $packages[0];
+					unset( $packages[0] );
+				}
 			}
-
-			++$package_key; // Update package key for next inline if any.
 		}
 
 		/**
@@ -293,10 +274,52 @@ class CoCart_Utilities_Cart_Helpers {
 		 */
 		$packages = apply_filters( 'cocart_available_shipping_packages', $packages, $chosen_method, $cart, $recurring_cart );
 
-		$details['packages'] = $has_calculated_shipping ? $packages : array();
+		$details['packages'] = $packages;
 
 		return $details;
 	} // END get_shipping_details()
+
+	/**
+	 * Creates a name for a package.
+	 *
+	 * @access protected
+	 *
+	 * @static
+	 *
+	 * @param array   $package    Shipping package from WooCommerce.
+	 * @param int     $package_id Package number.
+	 * @param WC_Cart $cart       Cart class instance.
+	 *
+	 * @return string
+	 */
+	protected static function get_package_name( $package, $package_id, $cart ) {
+		/**
+		 * Filters the shipping package name.
+		 *
+		 * @since 3.0.0 Introduced.
+		 * @since 5.0.0 Added cart class instance as parameter.
+		 *
+		 * @param string  $shipping_package_name Shipping package name.
+		 * @param string  $package_id            Shipping package ID.
+		 * @param array   $package               Shipping package from WooCommerce.
+		 * @param WC_Cart $cart                  Cart class instance.
+		 *
+		 * @return string Shipping package name.
+		 */
+		return apply_filters(
+			'cocart_shipping_package_name',
+			$package_id > 1 ?
+				sprintf(
+					/* translators: %d: shipping package number */
+					_x( 'Shipment %d', 'shipping packages', 'woocommerce' ),
+					$package_id
+				) :
+				_x( 'Shipping', 'shipping packages', 'woocommerce' ),
+			$package_id,
+			$package,
+			$cart
+		);
+	} // END get_package_name()
 
 	/**
 	 * Cleans up the meta data for API.
