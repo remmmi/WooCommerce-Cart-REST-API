@@ -96,8 +96,8 @@ class CoCart_REST_Remove_Item_V2_Controller extends CoCart_REST_Cart_V2_Controll
 	 *
 	 * @access public
 	 *
-	 * @since   1.0.0 Introduced.
-	 * @version 5.0.0
+	 * @since 1.0.0 Introduced.
+	 * @since 5.0.0 Added option to not calculate totals after removing item.
 	 *
 	 * @param WP_REST_Request $request The request object.
 	 *
@@ -105,8 +105,9 @@ class CoCart_REST_Remove_Item_V2_Controller extends CoCart_REST_Cart_V2_Controll
 	 */
 	public function remove_item( $request ) {
 		try {
-			$item_key = ! isset( $request['item_key'] ) ? '0' : wc_clean( sanitize_text_field( wp_unslash( $request['item_key'] ) ) );
-			$item_key = CoCart_Utilities_Cart_Helpers::throw_missing_item_key( $item_key, 'remove' );
+			$item_key       = ! isset( $request['item_key'] ) ? '0' : wc_clean( sanitize_text_field( wp_unslash( $request['item_key'] ) ) );
+			$item_key       = CoCart_Utilities_Cart_Helpers::throw_missing_item_key( $item_key, 'remove' );
+			$dont_calculate = ! empty( $request['dont_calculate'] ) ? $request['dont_calculate'] : false; // Internal parameter request.
 
 			// Ensure we have calculated before we handle any data.
 			$this->get_cart_instance()->calculate_totals();
@@ -186,12 +187,14 @@ class CoCart_REST_Remove_Item_V2_Controller extends CoCart_REST_Cart_V2_Controll
 				 */
 				do_action( 'cocart_item_removed', $current_data );
 
-				/**
-				 * Calculates the cart totals now an item has been removed.
-				 *
-				 * @since 2.1.0 Introduced.
-				 */
-				$this->get_cart_instance()->calculate_totals();
+				if ( ! $dont_calculate ) {
+					/**
+					 * Calculates the cart totals now an item has been removed.
+					 *
+					 * @since 2.1.0 Introduced.
+					 */
+					$this->get_cart_instance()->calculate_totals();
+				}
 
 				$message = sprintf(
 					/* translators: %s: Item name. */
