@@ -294,40 +294,7 @@ abstract class CoCart_REST_Cart_Controller extends WP_REST_Controller {
 				 */
 				$message = apply_filters( 'cocart_product_is_out_of_stock_message', $message, $product );
 
-				throw new CoCart_Data_Exception( 'cocart_product_out_of_stock', $message, 404 );
-			}
-
-			if ( ! $product->has_enough_stock( $quantity ) ) {
-				$stock_quantity = $product->get_stock_quantity();
-
-				if ( $stock_quantity > 0 ) {
-					$message = sprintf(
-						/* translators: 1: Quantity Requested, 2: Product Name, 3: Quantity in Stock */
-						__( 'You cannot add that amount of (%1$s) for "%2$s" to the cart because there is not enough stock, only (%3$s remaining).', 'cocart-core' ),
-						$quantity,
-						$product->get_name(),
-						wc_format_stock_quantity_for_display( $stock_quantity, $product )
-					);
-				} else {
-					$message = sprintf(
-						/* translators: 1: Product Name */
-						__( 'You cannot add %1$s to the cart as it is no longer in stock.', 'cocart-core' ),
-						$product->get_name()
-					);
-				}
-
-				/**
-				 * Filters message about product not having enough stock.
-				 *
-				 * @since 3.1.0 Introduced.
-				 *
-				 * @param string     $message        Message.
-				 * @param WC_Product $product        The product object.
-				 * @param int        $stock_quantity Quantity remaining.
-				 */
-				$message = apply_filters( 'cocart_product_not_enough_stock_message', $message, $product, $stock_quantity );
-
-				throw new CoCart_Data_Exception( 'cocart_not_enough_in_stock', $message, 404 );
+				throw new CoCart_Data_Exception( 'cocart_product_out_of_stock', $message, 400 );
 			}
 
 			// Stock check - this time accounting for whats already in-cart and look up what's reserved.
