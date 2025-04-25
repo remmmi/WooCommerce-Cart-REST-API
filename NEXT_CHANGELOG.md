@@ -77,6 +77,7 @@ The following returned headers have also been renamed. Better for security reaso
 * REST API: Optimized shipping data, added validation and support for recurring carts for subscriptions.
 * REST API: Fallback to a wildcard if the origin has yet to be determined for CORS.
 * REST API: Override sale and regular price too so the set price is what is shown even if there prices are originally lower.
+* REST API: Improved updating customer details allowing the use of custom checkout fields and any that are required.
 * Feature: Load cart from session now supports registered customers.
 * Localization: Similar messages are now consistent with each other.
 * Plugin: We now manage cache related calls under our own cache helper utility to not conflict with any WooCommerce cache calls happening in the background.
