@@ -52,6 +52,7 @@ class CoCart_Utilities_Cart_Helpers {
 	 *
 	 * @since 3.0.0 Introduced.
 	 * @since 4.2.0 Customer object is now required.
+	 * @since 5.0.0 Meta data fetched for any additional fields if any.
 	 *
 	 * @param string           $fields   The customer fields to return.
 	 * @param WC_Customer|null $customer The customer object or nothing.
@@ -76,13 +77,19 @@ class CoCart_Utilities_Cart_Helpers {
 
 		/**
 		 * We go through each field and check that we can return it's data as set by default.
-		 * If we can't get the data we rely on getting customer data via a filter for that field.
-		 * Any fields that can not return information will be empty.
+		 * If we can't get the data, we rely on getting customer data via meta data which can be filterd.
+		 * Any fields that cannot return information will be empty.
 		 */
 		foreach ( $checkout_fields as $key => $value ) {
 			$field_name = 'get_' . $key; // Name of the default field function. e.g. "get_billing_first_name".
+			$meta_data  = wp_list_filter( $customer->get_meta_data(), array( 'key' => $key ) );
+			$meta_data  = array_values( wp_list_pluck( $meta_data, 'value' ) );
+			$meta_data  = ! empty( $meta_data[0] ) ? $meta_data[0] : array();
+			if ( empty( $meta_data ) ) {
+				$meta_data = '';
+			}
 
-			$results[ $key ] = method_exists( $customer, $field_name ) ? $customer->$field_name() : apply_filters( 'cocart_get_customer_' . $key, '', $customer );
+			$results[ $key ] = method_exists( $customer, $field_name ) ? $customer->$field_name() : apply_filters( 'cocart_get_customer_' . $key, $meta_data, $customer );
 		}
 
 		return $results;
