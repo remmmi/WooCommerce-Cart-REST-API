@@ -137,10 +137,10 @@ class CoCart_REST_Add_Item_V2_Controller extends CoCart_REST_Cart_V2_Controller 
 
 			$quantity_limits = new CoCart_Utilities_Quantity_Limits();
 
-			// Validate quantity before continuing if item is singular and return formatted.
-			$request['quantity'] = CoCart_Utilities_Cart_Helpers::validate_quantity( $request['quantity'], $product );
-
 			if ( ! $request['container_item'] ) {
+				// Validate quantity before continuing if item is singular and return formatted.
+				$request['quantity'] = CoCart_Utilities_Cart_Helpers::validate_quantity( $request['quantity'], $product );
+
 				// Update quantity for item already in cart.
 				if ( $existing_item_key ) {
 					echo 'Updating item in cart.';
@@ -202,7 +202,7 @@ class CoCart_REST_Add_Item_V2_Controller extends CoCart_REST_Cart_V2_Controller 
 
 			switch ( $handler ) {
 				case 'grouped':
-					$item_added_to_cart = $this->add_to_cart_handler_grouped( $product_id, $quantity, $request );
+					$item_added = $this->add_to_cart_handler_grouped( $request, $cart );
 					break;
 				default:
 					if ( has_filter( 'cocart_add_to_cart_handler_' . $handler ) ) {
@@ -334,22 +334,37 @@ class CoCart_REST_Add_Item_V2_Controller extends CoCart_REST_Cart_V2_Controller 
 	 * @since 3.0.0 Introduced.
 	 * @since 5.0.0 Moved to `add-item` endpoint instead.
 	 *
-	 * @param string          $product_id Contains the id of the container product to add to the cart.
-	 * @param array           $items      Contains the quantity of the items to add to the cart.
-	 * @param WP_REST_Request $request    The request object.
+	 * @param WP_REST_Request $request The request object.
+	 * @param WC_Cart         $cart    The current cart.
 	 *
 	 * @return bool|array success or not
 	 */
-	public function add_to_cart_handler_grouped( $product_id, $items, $request ) {
+	public function add_to_cart_handler_grouped( $request, $cart ) {
 		try {
 			$was_added_to_cart = false;
 			$added_to_cart     = array();
+
+			$items = is_array( $request['quantity'] ) ? wp_unslash( $request['quantity'] ) : false;
 
 			if ( ! empty( $items ) ) {
 				$quantity_set = false;
 
 				foreach ( $items as $item => $quantity ) {
-					$quantity = wc_stock_amount( $quantity );
+					$request['id'] = $item; // Override the request ID to the ID of the item in group.
+
+					// The product we are attempting to add to the cart.
+					$product = CoCart_Utilities_Cart_Helpers::validate_product_for_cart( $request );
+
+					// Return error response if product cannot be added to cart?
+					if ( is_wp_error( $product ) ) {
+						return $product;
+					}
+
+					$quantity            = wc_stock_amount( $quantity );
+					$request['quantity'] = $quantity; // Override the request quantity to the quantity of the item in group.
+
+					// Validate quantity before continuing if item is singular and return formatted.
+					$request['quantity'] = CoCart_Utilities_Cart_Helpers::validate_quantity( $request['quantity'], $product );
 
 					if ( $quantity <= 0 ) {
 						continue;
@@ -357,33 +372,25 @@ class CoCart_REST_Add_Item_V2_Controller extends CoCart_REST_Cart_V2_Controller 
 
 					$quantity_set = true;
 
-					// Product validation.
-					$product_to_add = $this->validate_product( $request, $item, $quantity, 0, array(), array(), 'grouped' );
-
-					// If validation failed then return error response.
-					if ( is_wp_error( $product_to_add ) ) {
-						return $product_to_add;
-					}
+					// Generate an ID based on product ID, variation ID, variation data, and other cart item data.
+					$item_key = $cart->generate_cart_id( $item, 0, array(), array() );
 
 					// Suppress total recalculation until finished.
-					remove_action( 'woocommerce_add_to_cart', array( WC()->cart, 'calculate_totals' ), 20, 0 );
+					remove_action( 'woocommerce_add_to_cart', array( $cart, 'calculate_totals' ), 20, 0 );
 
-					// Add item to cart once validation is passed.
-					$item_added = $this->add_item_to_cart( $product_to_add, $request );
+					$item_added = $this->add_cart_item( $request, $product, $cart );
 
 					if ( false !== $item_added ) {
 						$was_added_to_cart      = true;
 						$added_to_cart[ $item ] = $item_added;
 					}
 
-					add_action( 'woocommerce_add_to_cart', array( WC()->cart, 'calculate_totals' ), 20, 0 );
+					add_action( 'woocommerce_add_to_cart', array( $cart, 'calculate_totals' ), 20, 0 );
 				}
 
 				if ( ! $was_added_to_cart && ! $quantity_set ) {
 					throw new CoCart_Data_Exception( 'cocart_grouped_product_failed', __( 'Please choose the quantity of items you wish to add to your cart.', 'cocart-core' ), 404 );
 				} elseif ( $was_added_to_cart ) {
-					cocart_add_to_cart_message( $added_to_cart );
-
 					// Calculate totals now all items in the group has been added to cart.
 					$this->calculate_totals();
 

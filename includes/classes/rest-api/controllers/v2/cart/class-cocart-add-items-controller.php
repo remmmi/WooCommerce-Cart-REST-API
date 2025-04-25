@@ -96,6 +96,8 @@ class CoCart_REST_Add_Items_V2_Controller extends CoCart_REST_Add_Item_V2_Contro
 	 */
 	public function add_items_to_cart( $request ) {
 		try {
+			$cart = $this->get_cart_instance();
+
 			$product_id = ! isset( $request['id'] ) ? 0 : wc_clean( wp_unslash( $request['id'] ) );
 			$items      = isset( $request['quantity'] ) && is_array( $request['quantity'] ) ? wp_unslash( $request['quantity'] ) : array();
 
@@ -145,7 +147,7 @@ class CoCart_REST_Add_Items_V2_Controller extends CoCart_REST_Add_Item_V2_Contro
 				 */
 				$items_added_to_cart = apply_filters( 'cocart_add_items_to_cart_handler_' . $add_items_to_cart_handler, $adding_to_cart, $request ); // Custom handler.
 			} else {
-				$items_added_to_cart = $this->add_to_cart_handler_grouped( $product_id, $items, $request );
+				$items_added_to_cart = $this->add_to_cart_handler_grouped( $request, $cart );
 			}
 
 			if ( is_wp_error( $items_added_to_cart ) ) {
