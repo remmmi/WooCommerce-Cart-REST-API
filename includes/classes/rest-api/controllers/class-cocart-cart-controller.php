@@ -14,17 +14,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Abstract Rest Cart Controller Class.
  *
- * This class extends `CoCart_REST_Controller`. It's required to follow "Controller Classes" guide
- * before extending this class: <https://developer.wordpress.org/rest-api/extending-the-rest-api/controller-classes/>
- *
  * NOTE THAT ONLY CODE RELEVANT FOR THE CART ENDPOINTS SHOULD BE INCLUDED INTO THIS CLASS.
  *
- * @since   5.0.0 Introduced.
- * @extends CoCart_REST_Controller
- * @see     https://developer.wordpress.org/rest-api/extending-the-rest-api/controller-classes/
+ * @since 5.0.0 Introduced.
  */
-abstract class CoCart_REST_Cart_Controller extends WP_REST_Controller {
-	// @todo Change to extend `CoCart_REST_Controller` once abstract branch is merged.
+abstract class CoCart_REST_Cart_Controller {
 
 	/**
 	 * Get the path of this REST route.
@@ -99,20 +93,16 @@ abstract class CoCart_REST_Cart_Controller extends WP_REST_Controller {
 	 *
 	 * @since 2.0.0 Introduced.
 	 *
-	 * @deprecated 5.0.0 No longer use `$cart_item_key` parameter. Left for declaration compatibility.
+	 * @deprecated 5.0.0 No longer use `$request` and `$cart_item_key` parameters.
 	 *
-	 * @see CoCart_REST_Cart_V2_Controller::is_completely_empty()
-	 * @see CoCart_REST_Cart_V2_Controller::calculate_totals()
-	 *
-	 * @param WP_REST_Request $request       The request object.
-	 * @param string          $cart_item_key Cart item key.
+	 * @see CoCart_REST_Cart_Controller::is_completely_empty()
 	 *
 	 * @return array $cart_contents The cart contents.
 	 */
-	public function get_cart_contents( $request, $cart_item_key = '' ) {
+	public function get_cart_contents() {
 		$cart = $this->get_cart_instance();
 
-		$cart_contents  = ! $this->is_completely_empty() ? $cart->cart_contents : array();
+		$cart_contents = ! $this->is_completely_empty() ? $cart->cart_contents : array();
 
 		return $cart_contents;
 	} // END get_cart_contents()
@@ -131,8 +121,8 @@ abstract class CoCart_REST_Cart_Controller extends WP_REST_Controller {
 	 * @return array $item Returns details of the item in the cart if it exists.
 	 */
 	public function get_cart_item( $item_id, $condition = 'add' ) {
-		$cart = $this->get_cart_instance();
-		$item = isset( $cart->cart_contents[ $item_id ] ) ? $cart->cart_contents[ $item_id ] : array();
+		$cart_contents = $this->get_cart_contents();
+		$item          = isset( $cart_contents[ $item_id ] ) ? $cart_contents[ $item_id ] : array();
 
 		/**
 		 * Filters the cart item before it is returned.
@@ -166,7 +156,7 @@ abstract class CoCart_REST_Cart_Controller extends WP_REST_Controller {
 	 *
 	 * @since 3.1.0 Introduced.
 	 *
-	 * @see CoCart_REST_Cart_V2_Controller::get_removed_cart_contents_count()
+	 * @see CoCart_REST_Cart_Controller::get_removed_cart_contents_count()
 	 *
 	 * @return bool True if the cart is completely empty.
 	 */
@@ -331,7 +321,7 @@ abstract class CoCart_REST_Cart_Controller extends WP_REST_Controller {
 	 *
 	 * @since 5.0.0 Introduced.
 	 *
-	 * @see CoCart_REST_Cart_V2_Controller::get_cart_contents()
+	 * @see CoCart_REST_Cart_Controller::get_cart_contents()
 	 *
 	 * @param WP_REST_Request $request The request object.
 	 * @param WC_Product      $product The product object.
@@ -340,7 +330,7 @@ abstract class CoCart_REST_Cart_Controller extends WP_REST_Controller {
 	 */
 	public function is_product_sold_individually( $request, $product ) {
 		try {
-			$cart_contents = $this->get_cart_contents( array( 'raw' => true ) );
+			$cart_contents = $this->get_cart_contents();
 
 			$found_in_cart = apply_filters( 'cocart_add_to_cart_sold_individually_found_in_cart', $item_key && $cart_contents[ $item_key ]['quantity'] > 0, $request['id'], $request['variation_id'], $request['item_data'], $item_key );
 
