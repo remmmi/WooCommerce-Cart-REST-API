@@ -150,6 +150,27 @@ abstract class CoCart_REST_Cart_Controller {
 	} // END get_cart_items()
 
 	/**
+	 * Get hashes for items in the current cart. Useful for tracking changes.
+	 *
+	 * @access public
+	 *
+	 * @since 5.0.0 Introduced.
+	 *
+	 * @return array
+	 */
+	public function get_cart_hashes() {
+		$cart = $this->get_cart_instance();
+
+		return array(
+			'line_items' => $cart->get_cart_hash(),
+			'shipping'   => md5( wp_json_encode( array( $cart->shipping_methods, WC()->session->get( 'chosen_shipping_methods' ) ) ) ),
+			'fees'       => md5( wp_json_encode( $cart->get_fees() ) ),
+			'coupons'    => md5( wp_json_encode( $cart->get_applied_coupons() ) ),
+			'taxes'      => md5( wp_json_encode( $cart->get_taxes() ) ),
+		);
+	} // END get_cart_hashes()
+
+	/**
 	 * Returns true if the cart is completely empty.
 	 *
 	 * @access public
