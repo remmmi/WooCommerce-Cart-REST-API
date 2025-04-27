@@ -1,5 +1,19 @@
 # Changelog for CoCart Core
 
+## v4.3.30 - 27th April, 2025
+
+### Bug Fix
+
+* WordPress Dashboard: Fix plugin update warning for core plugin. [Solves issue #506](https://github.com/co-cart/co-cart/issues/506)
+
+### Improvement
+
+* REST API: Variation attribute data is now sanitized. Labels are converted to names (e.g. Size to pa_size), and values are cleaned.
+
+### Compatibility
+
+* Tested with WordPress v6.8
+
 ## v4.3.29 - 10th April, 2025
 
 ### Bug Fix

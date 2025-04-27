@@ -3,8 +3,8 @@ Contributors: cocartforwc, sebd86
 Tags: woocommerce, rest-api, decoupled, headless, cart
 Requires at least: 6.3
 Requires PHP: 7.4
-Tested up to: 6.7
-Stable tag: 4.3.29
+Tested up to: 6.8
+Stable tag: 4.3.30
 WC requires at least: 7.0
 WC tested up to: 9.8
 License: GPLv3
@@ -307,6 +307,20 @@ We’d love to hear what you have to say. [Share your experience](https://testim
 == Changelog ==
 
 📢 Only bug and security updates will be provided here on WordPress dot ORG. Any new major updates starting with v5.0 will be provided [directly from us](https://cocartapi.com?utm_medium=website&utm_source=wpplugindirectory&utm_campaign=readme&utm_content=readmelink).
+
+= v4.3.30 - 27th April, 2025 =
+
+### Bug Fix
+
+* WordPress Dashboard: Fix plugin update warning for core plugin. [Solves issue #506](https://github.com/co-cart/co-cart/issues/506)
+
+### Improvement
+
+* REST API: Variation attribute data is now sanitized. Labels are converted to names (e.g. Size to pa_size), and values are cleaned.
+
+### Compatibility
+
+* Tested with WordPress v6.8
 
 = v4.3.29 - 10th April, 2025 =
 
@@ -867,6 +881,10 @@ Hope you enjoy this release.
 [View the full changelog here](https://github.com/co-cart/co-cart/blob/trunk/CHANGELOG.md).
 
 == Upgrade Notice ==
+
+= 4.3.30 =
+
+REST API: Variation attribute data is now sanitized.
 
 = 4.3.29 =
 
