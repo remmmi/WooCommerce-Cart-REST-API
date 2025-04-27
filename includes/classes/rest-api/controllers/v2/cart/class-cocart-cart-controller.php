@@ -476,14 +476,13 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 	 *
 	 * @access protected
 	 *
-	 * @since   2.1.0 Introduced.
-	 * @version 3.0.6
+	 * @since 2.1.0 Introduced.
 	 *
 	 * @param int        $variation_id The variation ID.
 	 * @param array      $variation    The variation attributes.
 	 * @param WC_Product $product      The product object.
 	 *
-	 * @return array $variation_id ID of the variation and attribute values.
+	 * @return array $variation Attribute values.
 	 */
 	protected function validate_variable_product( int $variation_id, array $variation, WC_Product $product ) {
 		try {
@@ -568,11 +567,91 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 				throw new CoCart_Data_Exception( 'cocart_missing_variation_data', $message, 400 );
 			}
 
+			ksort( $variation );
+
 			return $variation;
 		} catch ( CoCart_Data_Exception $e ) {
 			return CoCart_Response::get_error_response( $e->getErrorCode(), $e->getMessage(), $e->getCode(), $e->getAdditionalData() );
 		}
 	} // END validate_variable_product()
+
+	/**
+	 * Format and sanitize variation data.
+	 *
+	 * Labels are converted to names (e.g. Size to pa_size), and values are cleaned.
+	 *
+	 * @access protected
+	 *
+	 * @since 4.3.30 Introduced.
+	 *
+	 * @todo Delete function if merging into v5. Already moved to abstract cart controller.
+	 *
+	 * @param array $variation_data              Key value pairs of attributes and values.
+	 * @param array $variable_product_attributes Product attributes we're expecting.
+	 *
+	 * @return array Sanitized variation attribute data.
+	 */
+	protected function sanitize_variation_data( $variation_data, $variable_product_attributes ) {
+		$return = array();
+
+		foreach ( $variable_product_attributes as $attribute ) {
+			if ( ! $attribute['is_variation'] ) {
+				continue;
+			}
+
+			// Sanitized attribute (same as the product page) e.g. attribute_size.
+			$variation_attribute_name = wc_variation_attribute_name( $attribute['name'] );
+			if ( isset( $variation_data[ $variation_attribute_name ] ) ) {
+				$return[ $variation_attribute_name ] =
+					$attribute['is_taxonomy']
+						?
+						sanitize_title( $variation_data[ $variation_attribute_name ] )
+						:
+						html_entity_decode(
+							wc_clean( $variation_data[ $variation_attribute_name ] ),
+							ENT_QUOTES,
+							get_bloginfo( 'charset' )
+						);
+				continue;
+			}
+
+			// Attribute labels e.g. Size.
+			$attribute_label           = wc_attribute_label( $attribute['name'] );
+			$lowercase_attribute_label = strtolower( $attribute_label );
+			if ( isset( $variation_data[ $attribute_label ] ) || isset( $variation_data[ $lowercase_attribute_label ] ) ) {
+				// Check both the original and lowercase attribute label.
+				$attribute_label = isset( $variation_data[ $attribute_label ] ) ? $attribute_label : $lowercase_attribute_label;
+
+				$return[ $variation_attribute_name ] =
+					$attribute['is_taxonomy']
+						?
+						sanitize_title( $variation_data[ $attribute_label ] )
+						:
+						html_entity_decode(
+							wc_clean( $variation_data[ $attribute_label ] ),
+							ENT_QUOTES,
+							get_bloginfo( 'charset' )
+						);
+				continue;
+			}
+
+			// Attribute slugs e.g. pa_size.
+			if ( isset( $variation_data[ $attribute['name'] ] ) ) {
+				$return[ $variation_attribute_name ] =
+					$attribute['is_taxonomy']
+						?
+						sanitize_title( $variation_data[ $attribute['name'] ] )
+						:
+						html_entity_decode(
+							wc_clean( $variation_data[ $attribute['name'] ] ),
+							ENT_QUOTES,
+							get_bloginfo( 'charset' )
+						);
+			}
+		}
+
+		return $return;
+	} // END sanitize_variation_data()
 
 	/**
 	 * Tries to match variation attributes passed to a variation ID and return the ID.
@@ -645,8 +724,8 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 	 *
 	 * @access protected
 	 *
-	 * @since   1.0.0 Introduced.
-	 * @version 3.1.0
+	 * @since 1.0.0 Introduced.
+	 * @since 4.3.30 Sanitize variation attribute data.
 	 *
 	 * @deprecated 3.0.0 `$variation_id` parameter is no longer used.
 	 *
@@ -678,6 +757,9 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 				$product_id   = $product->get_parent_id();
 				$variation_id = $product->get_id();
 			}
+
+			$variable_product_attributes = $this->get_variable_product_attributes( $product );
+			$variation                   = $this->sanitize_variation_data( $variation, $variable_product_attributes );
 
 			// If we have a parent product and no variation ID, find the variation ID.
 			if ( $product->is_type( 'variable' ) && 0 === $variation_id ) {
