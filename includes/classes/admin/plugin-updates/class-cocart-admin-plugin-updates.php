@@ -232,7 +232,14 @@ class CoCart_Admin_Plugin_Updates {
 		$matches = array();
 
 		foreach ( $plugins as $file => $plugin ) {
-			if ( 'CoCart' !== $plugin['Name'] && ( stristr( $plugin['Name'], 'cocart' ) || stristr( $plugin['Description'], 'cocart' ) ) ) {
+			// Skip if plugin file is specific to CoCart core
+			if ( COCART_SLUG . '/' . COCART_SLUG . '.php' === $file ) {
+				continue;
+			}
+
+			// Include if plugin name or description contains "cocart"
+			if ( stristr( $plugin['Name'], 'cocart' ) || 
+				stristr( $plugin['Description'], 'cocart' ) ) {
 				$matches[ $file ] = $plugin;
 			}
 		}
