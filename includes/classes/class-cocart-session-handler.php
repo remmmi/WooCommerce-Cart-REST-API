@@ -5,7 +5,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\Classes
  * @since   2.1.0 Introduced.
- * @version 4.2.0
+ * @version 4.4.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -234,29 +234,58 @@ class CoCart_Session_Handler extends WC_Session_Handler {
 	} // END has_session()
 
 	/**
+	 * Checks if the session is expiring.
+	 *
+	 * @access private
+	 *
+	 * @since 4.4.0 Introduced.
+	 *
+	 * @return bool Whether session is expiring.
+	 */
+	private function is_session_expiring() {
+		return time() > $this->cart_expiration;
+	} // END is_session_expiring()
+
+	/**
 	 * Set cart expiration.
 	 *
-	 * This session expiration is used for the REST API and is set for 7 days by default.
+	 * This session expiration is used for the REST API.
+	 *
+	 * For logged in users sessions renew daily and expire in a week. This is to keep carts persistent for logged in users.
+	 * For guests, sessions expire in 48 hours.
 	 *
 	 * @access public
 	 */
 	public function set_cart_expiration() {
+		$expiring_seconds   = DAY_IN_SECONDS;
+		$expiration_seconds = 2 * DAY_IN_SECONDS;
+
+		// Set expiration time for logged in users.
+		if ( is_user_logged_in() ) {
+			$expiration_seconds = WEEK_IN_SECONDS;
+		}
+
 		/**
 		 * Filter allows you to change the amount of time before the cart starts to expire.
 		 *
-		 * Default is (DAY_IN_SECONDS * 6) = 6 Days
-		 *
 		 * @since 2.1.0 Introduced.
+		 * @since 4.4.0 Added the parameter if user is logged in.
+		 *
+		 * @param int  $expiring_seconds  The expiration time in seconds.
+		 * @param bool $is_user_logged_in Whether the user is logged in or not.
 		 */
-		$this->cart_expiring = time() + intval( apply_filters( 'cocart_cart_expiring', DAY_IN_SECONDS * 6 ) );
+		$this->cart_expiring = time() + intval( apply_filters( 'cocart_cart_expiring', $expiring_seconds, is_user_logged_in() ) );
+
 		/**
-		 * Filter allows you to change the amount of time before the cart has expired.
-		 *
-		 * Default is (DAY_IN_SECONDS * 7) = 7 Days
+		 * Filter allows you to change the amount of time before the cart does expire.
 		 *
 		 * @since 2.1.0 Introduced.
+		 * @since 4.4.0 Added the parameter if user is logged in.
+		 *
+		 * @param int  $expiration_seconds The expiration time in seconds.
+		 * @param bool $is_user_logged_in  Whether the user is logged in or not.
 		 */
-		$this->cart_expiration = time() + intval( apply_filters( 'cocart_cart_expiration', DAY_IN_SECONDS * 7 ) );
+		$this->cart_expiration = time() + intval( apply_filters( 'cocart_cart_expiration', $expiration_seconds, is_user_logged_in() ) );
 	} // END set_cart_expiration()
 
 	/**
