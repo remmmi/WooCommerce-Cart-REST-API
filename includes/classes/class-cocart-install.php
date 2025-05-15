@@ -183,6 +183,7 @@ class CoCart_Install {
 	public static function install_actions() {
 		if ( ! empty( $_GET['do_update_cocart'] ) ) {
 			check_admin_referer( 'cocart_db_update', 'cocart_db_update_nonce' );
+			CoCart_Logger::log( esc_html__( 'Manual database update triggered.', 'cart-rest-api-for-woocommerce' ), 'info' );
 			self::update();
 			CoCart_Admin_Notices::add_notice( 'update_db', true );
 		}
@@ -405,6 +406,7 @@ class CoCart_Install {
 			 * @param bool $update Whether to update the database or not.
 			 */
 			if ( apply_filters( 'cocart_enable_auto_update_db', true ) ) {
+				CoCart_Logger::log( esc_html__( 'Automatic database update triggered.', 'cart-rest-api-for-woocommerce' ), 'info' );
 				self::update();
 			} else {
 				CoCart_Admin_Notices::add_notice( 'update_db', true );
@@ -453,8 +455,19 @@ class CoCart_Install {
 	 * @since 3.0.0 Introduced.
 	 */
 	private static function update() {
-		$current_db_version = get_option( 'cocart_db_version' );
-		$loop               = 0;
+		$current_db_version     = get_option( 'cocart_db_version' );
+		$current_cocart_version = COCART_DB_VERSION;
+		$loop                   = 0;
+
+		CoCart_Logger::log(
+			sprintf(
+				/* translators: %1$s = Current DB version, %2$s = Installed CoCart Version */
+				esc_html__( 'Scheduling database update (from %1$s to %2$s)...', 'cart-rest-api-for-woocommerce' ),
+				$current_db_version,
+				$current_cocart_version
+			),
+			'info'
+		);
 
 		foreach ( self::get_db_update_callbacks() as $version => $update_callbacks ) {
 			if ( version_compare( $current_db_version, $version, '<' ) ) {
@@ -469,11 +482,19 @@ class CoCart_Install {
 					);
 					++$loop;
 				}
+
+				CoCart_Logger::log(
+					sprint_f(
+						/* translators: %s = Version of Database */
+						esc_html__( 'Updates from version %s scheduled.', 'cart-rest-api-for-woocommerce' ),
+						$version
+					),
+					'info'
+				);
 			}
 		}
 
 		// After the callbacks finish, update the db version to the current CoCart version.
-		$current_cocart_version = COCART_DB_VERSION;
 		if ( version_compare( $current_db_version, $current_cocart_version, '<' ) &&
 			! WC()->queue()->get_next( 'cocart_update_db_to_current_version' ) ) {
 			WC()->queue()->schedule_single(
@@ -485,6 +506,8 @@ class CoCart_Install {
 				'cocart-db-updates'
 			);
 		}
+
+		CoCart_Logger::log( esc_html__( 'Database update scheduled.', 'cart-rest-api-for-woocommerce' ), 'info' );
 	} // END update()
 
 	/**
