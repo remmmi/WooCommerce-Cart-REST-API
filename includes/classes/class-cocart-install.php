@@ -373,6 +373,13 @@ class CoCart_Install {
 	 * @since 3.1.0 Introduced.
 	 */
 	private static function maybe_enable_setup_wizard() {
+		/**
+		 * Hook: Runs when CoCart needs to enable the setup wizard.
+		 *
+		 * @since 3.1.0 Introduced.
+		 *
+		 * @param bool $enable Whether to enable the setup wizard or not.
+		 */
 		if ( apply_filters( 'cocart_enable_setup_wizard', true ) && self::is_new_install() ) {
 			CoCart_Admin_Notices::add_notice( 'setup_wizard', true );
 			set_transient( '_cocart_activation_redirect', 1, 30 );
@@ -390,7 +397,14 @@ class CoCart_Install {
 	 */
 	private static function maybe_update_db_version() {
 		if ( self::needs_db_update() ) {
-			if ( apply_filters( 'cocart_enable_auto_update_db', false ) ) {
+			/**
+			 * Hook: Runs when CoCart needs to update the database.
+			 *
+			 * @since 3.0.0 Introduced.
+			 *
+			 * @param bool $update Whether to update the database or not.
+			 */
+			if ( apply_filters( 'cocart_enable_auto_update_db', true ) ) {
 				self::update();
 			} else {
 				CoCart_Admin_Notices::add_notice( 'update_db', true );
