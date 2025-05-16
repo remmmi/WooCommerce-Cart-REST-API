@@ -23,14 +23,6 @@ body.cocart-pagestyles .wp-header-end {
   text-align: right;
 }
 
-.cocart-pagestyles {
-  /* #wpcontent,
-  #wpbody-content {
-  	padding: 0;
-  	overflow-x: hidden !important;
-  	min-height: calc(100vh - 32px);
-  } */
-}
 .cocart-pagestyles #wpfooter {
   display: initial;
 }
