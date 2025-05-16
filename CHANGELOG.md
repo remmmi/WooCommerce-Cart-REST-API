@@ -1,5 +1,39 @@
 # Changelog for CoCart Core
 
+## v4.4.0 - ?? ??, 2025
+
+In this release, we focused on supporting such tools like ManageWP, MainWP, Blogvault etc.
+
+### Changes
+
+* WordPress Dashboard: Database updates now run automatically if needed. [Resolves issue #511](https://github.com/co-cart/co-cart/issues/511)
+* WordPress Dashboard: Sessions now transfer automatically for new installs.
+* Session: Cart session expiration's are now matching the default expiration WooCommerce set for better compatibility and abandoned cart support.
+* Session: Cart session expiration for logged in users renew daily and expire in a week. This is to keep carts persistent for logged in users.
+
+> Note: The session expiration's can still be filtered back to the previous values but that would mean it would match the expiration for logged in users.
+
+### Third Party Support
+
+* Plugin: LiteSpeed Cache will now exclude CoCart from being cached. [Commit](https://github.com/co-cart/co-cart/commit/683b4d31b940862b463e2e1a45c8c3c9908a5f47)
+
+### Developers
+
+* Filter `cocart_cart_expiring` added parameter `is_user_logged_in()` to allow the expiration for logged in users to be filtered.
+* Filter `cocart_cart_expiration` added parameter `is_user_logged_in()` to allow the expiration for logged in users to be filtered.
+
+### Internal
+
+* Improved the logger. [Commit](https://github.com/co-cart/co-cart/commit/32ee652ababfe94a501ff6fd84bff1829c140bf8)
+* Added logs for database update procedure. [Commit](https://github.com/co-cart/co-cart/commit/4bb641005ad01fab405e5ba0200407631e06115c)
+
+### Deprecations
+
+* Filter `cocart_log_entry_name` no longer used.
+* Filter `cocart_log_entry_version` no longer used.
+* Filter `cocart_log_entry_source` no longer used.
+* Filter `cocart_setup_wizard_store_save_next_step_override` no longer used.
+
 ## v4.3.30 - 27th April, 2025
 
 ### Bug Fix
