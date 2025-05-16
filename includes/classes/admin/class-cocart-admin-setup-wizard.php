@@ -7,7 +7,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\Admin
  * @since   3.1.0 Introduced.
- * @version 4.0.0
+ * @version 4.4.0
  * @license GPL-2.0+
  */
 
@@ -355,7 +355,7 @@ class CoCart_Admin_Setup_Wizard extends CoCart_Submenu_Page {
 
 		if ( $store_new ) {
 			set_transient( 'cocart_setup_wizard_store_new', 'yes', MINUTE_IN_SECONDS * 10 );
-			$next_step = apply_filters( 'cocart_setup_wizard_store_save_next_step_override', 'ready' );
+			$next_step = 'ready';
 		}
 
 		// If true and CoCart Cors is not already installed then it will be installed in the background.
