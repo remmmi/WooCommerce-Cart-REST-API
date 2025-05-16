@@ -214,7 +214,7 @@ class CoCart_Logger {
 			'4.4.0',
 			null,
 			'Plugin information is now automatically detected using get_plugin_data()',
-			array( $version, $plugin )
+			array( 'cocart' )
 		);
 
 		cocart_do_deprecated_filter(
@@ -222,15 +222,14 @@ class CoCart_Logger {
 			'4.4.0',
 			null,
 			'Plugin information is now automatically detected using get_plugin_data()',
-			array( $version, $plugin )
+			array( 'cocart' )
 		);
 
 		cocart_do_deprecated_filter(
 			'cocart_log_entry_source',
 			'4.4.0',
 			null,
-			'Plugin source is now automatically determined',
-			array( $source )
+			'Plugin source is now automatically determined'
 		);
 	} // END deprecated_hooks()
 
