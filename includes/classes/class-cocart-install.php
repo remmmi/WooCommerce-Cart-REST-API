@@ -245,6 +245,9 @@ class CoCart_Install {
 		// Set activation date.
 		self::set_install_date();
 
+		// Transfer sessions.
+		self::transfer_sessions();
+
 		// Maybe see if we need to enable the setup wizard or not.
 		self::maybe_enable_setup_wizard();
 
@@ -253,9 +256,6 @@ class CoCart_Install {
 
 		// Maybe update database version.
 		self::maybe_update_db_version();
-
-		// Transfer sessions.
-		self::transfer_sessions();
 
 		delete_transient( 'cocart_installing' );
 
