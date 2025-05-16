@@ -53,6 +53,9 @@ class CoCart_Install {
 		add_action( 'cocart_update_db_to_current_version', array( __CLASS__, 'update_db_version' ) );
 		add_action( 'admin_init', array( __CLASS__, 'install_actions' ) );
 
+		// Run transfer sessions in the background when called.
+		add_action( 'cocart_run_transfer_sessions', 'cocart_transfer_sessions' );
+
 		// Drop tables when MU blog is deleted.
 		add_filter( 'wpmu_drop_tables', array( __CLASS__, 'wpmu_drop_tables' ) );
 	} // END init()
@@ -250,6 +253,9 @@ class CoCart_Install {
 
 		// Maybe update database version.
 		self::maybe_update_db_version();
+
+		// Transfer sessions.
+		self::transfer_sessions();
 
 		delete_transient( 'cocart_installing' );
 
@@ -783,6 +789,25 @@ UNIQUE KEY cart_key (cart_key)
 			}
 		}
 	} // END create_files()
+
+	/**
+	 * Transfers sessions in the background.
+	 *
+	 * @access private
+	 *
+	 * @static
+	 *
+	 * @since 4.4.0 Introduced.
+	 *
+	 * @return void
+	 */
+	private static function transfer_sessions() {
+		if ( self::is_new_install() ) {
+			WC()->queue()->schedule_single( time(), 'cocart_run_transfer_sessions', array(), 'cocart-transfer-sessions' );
+
+			CoCart_Logger::log( esc_html__( 'Sessions scheduled for transfer.', 'cart-rest-api-for-woocommerce' ), 'info' );
+		}
+	} // END transfer_sessions()
 } // END class.
 
 CoCart_Install::init();
