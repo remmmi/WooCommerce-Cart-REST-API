@@ -1,8 +1,8 @@
 # Changelog for CoCart Core
 
-## v4.4.0 - ?? ??, 2025
+## v4.4.0 - 16th May, 2025
 
-In this release, we focused on supporting such tools like ManageWP, MainWP, Blogvault etc.
+This release focuses on supporting such tools like ManageWP, MainWP, Blogvault etc.
 
 ### Changes
 
