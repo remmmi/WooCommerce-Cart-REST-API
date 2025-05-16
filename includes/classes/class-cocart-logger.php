@@ -52,15 +52,15 @@ class CoCart_Logger {
 	private const SOURCES = array(
 		'cart-rest-api-for-woocommerce' => array(
 			'name'    => 'CoCart Core',
-			'version' => COCART_VERSION,
+			'version' => 'COCART_VERSION',
 		),
 		'cocart-plus'                   => array(
 			'name'    => 'CoCart Plus',
-			'version' => COCART_PLUS_VERSION,
+			'version' => 'COCART_PLUS_VERSION',
 		),
 		'cocart-pro'                    => array(
 			'name'    => 'CoCart Pro',
-			'version' => COCART_PRO_VERSION,
+			'version' => 'COCART_PRO_VERSION',
 		),
 	);
 
