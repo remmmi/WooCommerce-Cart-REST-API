@@ -284,11 +284,6 @@ class CoCart_Admin_Setup_Wizard extends CoCart_Submenu_Page {
 
 		$new_store = ( 0 === $product_count ) ? 'yes' : 'no';
 
-		// If setup wizard has nothing left to setup, redirect to ready step.
-		if ( $sessions_transferred && class_exists( 'CoCart_CORS' ) ) {
-			wp_safe_redirect( esc_url_raw( $this->get_next_step_link( 'ready' ) ) );
-			exit;
-		}
 		?>
 		<form method="post" class="store-step">
 			<input type="hidden" name="save_step" value="store_setup" />
