@@ -160,7 +160,7 @@ class CoCart_Install {
 	 * @since 3.0.0 Introduced.
 	 *
 	 * @param string $callback Callback name.
-	 * @param bool   $result Return value from callback. Non-false need to run again.
+	 * @param bool   $result   Return value from callback. Non-false need to run again.
 	 */
 	protected static function run_update_callback_end( $callback, $result ) {
 		if ( $result ) {
@@ -175,7 +175,7 @@ class CoCart_Install {
 	} // END run_update_callback_end()
 
 	/**
-	 * Install actions when a update button is clicked within the admin area.
+	 * Install actions when an update button is clicked within the admin area.
 	 *
 	 * @access public
 	 *
@@ -757,7 +757,13 @@ UNIQUE KEY cart_key (cart_key)
 	 * @since 3.0.0 Introduced.
 	 */
 	private static function create_files() {
-		// Bypass if filesystem is read-only and/or non-standard upload system is used.
+		/**
+		 * Bypass if filesystem is read-only and/or non-standard upload system is used.
+		 *
+		 * @since 3.0.0 Introduced.
+		 *
+		 * @param bool $skip Whether to skip creating files or not.
+		 */
 		if ( apply_filters( 'cocart_install_skip_create_files', false ) ) {
 			return;
 		}

@@ -191,7 +191,7 @@ class CoCart_REST_API {
 			add_action( 'woocommerce_cart_loaded_from_session', array( $session, 'set_session' ) );
 			add_action( 'woocommerce_removed_coupon', array( $session, 'set_session' ) );
 
-			// Persistent cart stored to usermeta.
+			// Persistent cart stored to usermeta. @todo Remove hooks below in future when deprecated.
 			add_action( 'woocommerce_add_to_cart', array( $session, 'persistent_cart_update' ) );
 			add_action( 'woocommerce_cart_item_removed', array( $session, 'persistent_cart_update' ) );
 			add_action( 'woocommerce_cart_item_restored', array( $session, 'persistent_cart_update' ) );

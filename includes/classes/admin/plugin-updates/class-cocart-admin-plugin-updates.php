@@ -237,8 +237,8 @@ class CoCart_Admin_Plugin_Updates {
 				continue;
 			}
 
-			// Include if plugin name or description contains "cocart"
-			if ( stristr( $plugin['Name'], 'cocart' ) || 
+			// Include if plugin name or description contains "cocart".
+			if ( stristr( $plugin['Name'], 'cocart' ) ||
 				stristr( $plugin['Description'], 'cocart' ) ) {
 				$matches[ $file ] = $plugin;
 			}
