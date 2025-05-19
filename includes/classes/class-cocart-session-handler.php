@@ -652,24 +652,7 @@ class CoCart_Session_Handler extends WC_Session_Handler {
 		return $this->cart_expiration;
 	} // END get_carts_expiration()
 
-	/* Functions below this line are deprecated! */
-
-	/**
-	 * Get customer ID.
-	 *
-	 * @access public
-	 *
-	 * @since 3.0.0 Introduced.
-	 *
-	 * @deprecated 4.4.0 No replacement.
-	 *
-	 * @return string
-	 */
-	public function get_customer_id() {
-		cocart_deprecated_function( 'CoCart_Session_Handler::get_customer_id', '4.4.0', 'CoCart_Session_Handler::get_cart_key' );
-
-		return $this->_customer_id;
-	} // END get_customer_id()
+	// * Functions below this line are deprecated! * //
 
 	/**
 	 * Set customer ID.
@@ -678,14 +661,14 @@ class CoCart_Session_Handler extends WC_Session_Handler {
 	 *
 	 * @since 3.0.0 Introduced.
 	 *
-	 * @deprecated 4.4.0 No replacement.
+	 * @deprecated 5.0.0 Replaced with `CoCart_Session_Handler::set_cart_key()`.
 	 *
 	 * @param string $customer_id Customer ID.
 	 */
 	public function set_customer_id( $customer_id ) {
-		cocart_deprecated_function( 'CoCart_Session_Handler::set_customer_id', '4.4.0', 'CoCart_Session_Handler::set_cart_key' );
+		cocart_deprecated_function( 'CoCart_Session_Handler::set_customer_id', '5.0.0', 'CoCart_Session_Handler::set_cart_key' );
 
-		$this->_customer_id = $customer_id;
+		$this->set_cart_key();
 	} // END set_customer_id()
 
 	/**
