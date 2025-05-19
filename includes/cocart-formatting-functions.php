@@ -146,7 +146,7 @@ function cocart_format_variation_data( $attributes, $product ) {
 	$return = array();
 
 	foreach ( $attributes as $key => $value ) {
-		$taxonomy = wc_attribute_taxonomy_name( str_replace( 'attribute_pa_', '', urldecode( $key ) ) );
+		$taxonomy = wc_attribute_taxonomy_name( str_replace( 'attribute_pa_', '', html_entity_decode( $key ) ) );
 
 		if ( taxonomy_exists( $taxonomy ) ) {
 			// If this is a term slug, get the term's nice name.
@@ -160,6 +160,12 @@ function cocart_format_variation_data( $attributes, $product ) {
 			$value = apply_filters( 'cocart_variation_option_name', $value, $product );
 			$label = wc_attribute_label( str_replace( 'attribute_', '', $key ), $product );
 		}
+
+		$label = html_entity_decode(
+			wc_clean( $label ),
+			ENT_QUOTES,
+			get_bloginfo( 'charset' )
+		);
 
 		$return[ $label ] = $value;
 	}
