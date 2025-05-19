@@ -1224,7 +1224,7 @@ class CoCart_Utilities_Cart_Helpers {
 
 			return wc_stock_amount( $quantity );
 		} catch ( CoCart_Data_Exception $e ) {
-			return new \WP_Error( $e->getErrorCode(), $e->getMessage(), $e->getCode(), $e->getAdditionalData() );
+			return new \WP_Error( $e->getErrorCode(), $e->getMessage(), array( 'status' => $e->getCode() ), $e->getAdditionalData() );
 		}
 	} // END validate_quantity()
 

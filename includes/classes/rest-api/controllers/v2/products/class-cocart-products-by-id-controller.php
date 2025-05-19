@@ -131,7 +131,7 @@ class CoCart_REST_Products_by_ID_V2_Controller extends CoCart_REST_Products_V2_C
 
 			return $response;
 		} catch ( CoCart_Data_Exception $e ) {
-			return new \WP_Error( $e->getErrorCode(), $e->getMessage(), $e->getCode(), $e->getAdditionalData() );
+			return new \WP_Error( $e->getErrorCode(), $e->getMessage(), array( 'status' => $e->getCode() ), $e->getAdditionalData() );
 		}
 	} // END get_item()
 } // END class
