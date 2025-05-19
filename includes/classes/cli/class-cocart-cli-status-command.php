@@ -26,8 +26,15 @@ class CoCart_CLI_Status_Command {
 	 *
 	 * ## OPTIONS
 	 *
-	 * [--format]
-	 * : If set, the command will use the specified format. Possible values are table, json, csv and yaml. By default the table format will be used.
+	 * [--format=<format>]
+	 * : Render output in a particular format.
+	 * ---
+	 * default: table
+	 * options:
+	 *   - table
+	 *   - json
+	 *   - csv
+	 *   - yaml
 	 *
 	 * ## EXAMPLES
 	 *
@@ -52,6 +59,14 @@ class CoCart_CLI_Status_Command {
 		global $wpdb;
 
 		$wpdb->hide_errors();
+
+		$format        = isset( $assoc_args['format'] ) ? $assoc_args['format'] : 'table';
+		$valid_formats = array( 'table', 'json', 'csv', 'yaml' );
+
+		if ( ! in_array( $format, $valid_formats, true ) ) {
+			WP_CLI::error( 'Invalid format. Valid formats are: table, json, csv, yaml.' );
+			return;
+		}
 
 		$items = array(
 			array(
@@ -93,6 +108,6 @@ class CoCart_CLI_Status_Command {
 			),
 		);
 
-		WP_CLI\Utils\format_items( $assoc_args['format'], $items, array( 'status', 'results' ) );
+		WP_CLI\Utils\format_items( $format, $items, array( 'status', 'results' ) );
 	} // END status()
 } // END class
