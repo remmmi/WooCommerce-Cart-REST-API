@@ -68,6 +68,8 @@ class CoCart_REST_Add_Item_V2_Controller extends CoCart_REST_Cart_V2_Controller 
 	 *
 	 * @since 4.0.0 Allowed route to be requested in a batch request.
 	 *
+	 * @deprecated 5.0.0 No longer use.
+	 *
 	 * @ignore Function ignored when parsed into Code Reference.
 	 */
 	public function register_routes() {
@@ -120,20 +122,21 @@ class CoCart_REST_Add_Item_V2_Controller extends CoCart_REST_Cart_V2_Controller 
 			// The product we are attempting to add to the cart.
 			$product = CoCart_Utilities_Cart_Helpers::validate_product_for_cart( $request );
 
-			// Return error response if product cannot be added to cart?
-			if ( is_wp_error( $product ) ) {
-				return $product;
-			}
-
 			// Product type.
 			$request['product_type'] = $product->get_type();
 
 			// Filter requested data and variation data if any.
 			$request = $this->filter_request_data( $this->parse_variation_data( $request, $product ) );
 
+			if ( is_wp_error( $request ) ) {
+				return $request;
+			}
+
 			// Generate an ID based on product ID, variation ID, variation data, and other cart item data.
 			$item_key = $cart->generate_cart_id( $request['id'], $request['variation_id'], $request['variation'], $request['item_data'] );
 
+			// Find the cart item key in the existing cart.
+			$existing_item_key = $this->find_product_in_cart( $item_key );
 
 			$quantity_limits = new CoCart_Utilities_Quantity_Limits();
 
@@ -143,7 +146,6 @@ class CoCart_REST_Add_Item_V2_Controller extends CoCart_REST_Cart_V2_Controller 
 
 				// Update quantity for item already in cart.
 				if ( $existing_item_key ) {
-					echo 'Updating item in cart.';
 					$cart_item = $cart->cart_contents[ $existing_item_key ];
 
 					$new_quantity = $request['quantity'] + $cart_item['quantity'];
@@ -156,7 +158,7 @@ class CoCart_REST_Add_Item_V2_Controller extends CoCart_REST_Cart_V2_Controller 
 					}
 
 					// Set new quantity for item.
-					$cart->set_quantity( $existing_item_key, $new_quantity, false );
+					$cart->set_quantity( $existing_item_key, $new_quantity, true );
 
 					/**
 					 * Fires after item is added again to the cart with the quantity increased.
@@ -170,6 +172,8 @@ class CoCart_REST_Add_Item_V2_Controller extends CoCart_REST_Cart_V2_Controller 
 					 * @param WP_REST_Request $request       The request object.
 					 */
 					do_action( 'cocart_item_added_updated_in_cart', $item_key, $cart_item, $new_quantity, $request );
+
+					cocart_add_to_cart_message( array( $request['id'] => $request['quantity'] ) );
 
 					$response = $this->get_cart( $request );
 
@@ -354,11 +358,6 @@ class CoCart_REST_Add_Item_V2_Controller extends CoCart_REST_Cart_V2_Controller 
 
 					// The product we are attempting to add to the cart.
 					$product = CoCart_Utilities_Cart_Helpers::validate_product_for_cart( $request );
-
-					// Return error response if product cannot be added to cart?
-					if ( is_wp_error( $product ) ) {
-						return $product;
-					}
 
 					$quantity            = wc_stock_amount( $quantity );
 					$request['quantity'] = $quantity; // Override the request quantity to the quantity of the item in group.
@@ -613,7 +612,7 @@ class CoCart_REST_Add_Item_V2_Controller extends CoCart_REST_Cart_V2_Controller 
 		try {
 			// If item_key is set, then the item is already in the cart so just update the quantity.
 			if ( ! empty( $item_key ) ) {
-				$cart_contents = $this->get_cart_contents( array( 'raw' => true ) );
+				$cart_contents = $this->get_cart_contents();
 
 				/**
 				 * If the item key was not found in cart then we need to reset it as the item may have been
