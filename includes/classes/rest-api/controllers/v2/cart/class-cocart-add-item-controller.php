@@ -165,13 +165,14 @@ class CoCart_REST_Add_Item_V2_Controller extends CoCart_REST_Cart_V2_Controller 
 					 *
 					 * @since 2.1.0 Introduced.
 					 * @since 3.0.0 Added the request object as parameter.
+					 * @since 5.0.0 Moved the request object parameter to be first.
 					 *
+					 * @param WP_REST_Request $request       The request object.
 					 * @param string          $item_key      Item key of the item.
 					 * @param array           $cart_item     Item in cart.
 					 * @param int             $new_quantity  New quantity of the item.
-					 * @param WP_REST_Request $request       The request object.
 					 */
-					do_action( 'cocart_item_added_updated_in_cart', $item_key, $cart_item, $new_quantity, $request );
+					do_action( 'cocart_item_added_updated_in_cart', $request, $item_key, $cart_item, $new_quantity );
 
 					cocart_add_to_cart_message( array( $request['id'] => $request['quantity'] ) );
 
@@ -219,11 +220,13 @@ class CoCart_REST_Add_Item_V2_Controller extends CoCart_REST_Cart_V2_Controller 
 						 * Example use for filter: 'cocart_add_to_cart_handler_subscription'.
 						 *
 						 * @since 2.1.0 Introduced.
+						 * @since 5.0.0 Added `$cart` instance as parameter.
 						 *
 						 * @param WC_Product      $product The product object.
 						 * @param WP_REST_Request $request The request object.
+						 * @param WC_Cart         $cart    Cart class instance.
 						 */
-						$item_added = apply_filters( 'cocart_add_to_cart_handler_' . $handler, $product, $request ); // Custom handler.
+						$item_added = apply_filters( 'cocart_add_to_cart_handler_' . $handler, $product, $request, $cart ); // Custom handler.
 					} else {
 						$item_added = $this->add_cart_item( $request, $product, $cart );
 					}
@@ -245,12 +248,13 @@ class CoCart_REST_Add_Item_V2_Controller extends CoCart_REST_Cart_V2_Controller 
 				 *
 				 * @since 2.1.0 Introduced.
 				 * @since 3.0.0 Added the request object as parameter.
+				 * @since 5.0.0 Moved the request object parameter to be first.
 				 *
+				 * @param WP_REST_Request $request    The request object.
 				 * @param string          $item_key   Item key of the item added.
 				 * @param array           $item_added Item added to cart.
-				 * @param WP_REST_Request $request    The request object.
 				 */
-				do_action( 'cocart_item_added_to_cart', $item_key, $item_added, $request );
+				do_action( 'cocart_item_added_to_cart', $request, $item_key, $item_added );
 
 				cocart_add_to_cart_message( array( $request['id'] => $request['quantity'] ) );
 			} else {
