@@ -307,6 +307,84 @@ abstract class CoCart_REST_Cart_Controller {
 	} // END parse_variation_data()
 
 	/**
+	 * Format and sanitize variation data.
+	 *
+	 * Labels are converted to names (e.g. Size to pa_size), and values are cleaned.
+	 *
+	 * @access protected
+	 *
+	 * @since 4.3.30 Introduced.
+	 * @since 5.0.0  Moved to cart abstract controller.
+	 *
+	 * @param array $variation_data              Key value pairs of attributes and values.
+	 * @param array $variable_product_attributes Product attributes we're expecting.
+	 *
+	 * @return array Sanitized variation attribute data.
+	 */
+	protected function sanitize_variation_data( $variation_data, $variable_product_attributes ) {
+		$return = array();
+
+		foreach ( $variable_product_attributes as $attribute ) {
+			if ( ! $attribute['is_variation'] ) {
+				continue;
+			}
+
+			// Sanitized attribute (same as the product page) e.g. attribute_size.
+			$variation_attribute_name = wc_variation_attribute_name( $attribute['name'] );
+			if ( isset( $variation_data[ $variation_attribute_name ] ) ) {
+				$return[ $variation_attribute_name ] =
+					$attribute['is_taxonomy']
+						?
+						sanitize_title( $variation_data[ $variation_attribute_name ] )
+						:
+						html_entity_decode(
+							wc_clean( $variation_data[ $variation_attribute_name ] ),
+							ENT_QUOTES,
+							get_bloginfo( 'charset' )
+						);
+				continue;
+			}
+
+			// Attribute labels e.g. Size.
+			$attribute_label           = wc_attribute_label( $attribute['name'] );
+			$lowercase_attribute_label = strtolower( $attribute_label );
+			if ( isset( $variation_data[ $attribute_label ] ) || isset( $variation_data[ $lowercase_attribute_label ] ) ) {
+
+				// Check both the original and lowercase attribute label.
+				$attribute_label = isset( $variation_data[ $attribute_label ] ) ? $attribute_label : $lowercase_attribute_label;
+
+				$return[ $variation_attribute_name ] =
+					$attribute['is_taxonomy']
+						?
+						sanitize_title( $variation_data[ $attribute_label ] )
+						:
+						html_entity_decode(
+							wc_clean( $variation_data[ $attribute_label ] ),
+							ENT_QUOTES,
+							get_bloginfo( 'charset' )
+						);
+				continue;
+			}
+
+			// Attribute slugs e.g. pa_size.
+			if ( isset( $variation_data[ $attribute['name'] ] ) ) {
+				$return[ $variation_attribute_name ] =
+					$attribute['is_taxonomy']
+						?
+						sanitize_title( $variation_data[ $attribute['name'] ] )
+						:
+						html_entity_decode(
+							wc_clean( $variation_data[ $attribute['name'] ] ),
+							ENT_QUOTES,
+							get_bloginfo( 'charset' )
+						);
+			}
+		}
+
+		return $return;
+	} // END sanitize_variation_data()
+
+	/**
 	 * Check if product is in the cart and return cart item key if found.
 	 *
 	 * Cart item key will be unique based on the item and its properties, such as variations.
