@@ -237,10 +237,10 @@ class CoCart_Update_Customer_Callback extends CoCart_Cart_Extension_Callback {
 					// Use setters where available.
 					if ( is_callable( array( $customer, "set_{$field_key}" ) ) && ! empty( $details[ $field_key ] ) ) {
 						// Set customer information.
-						$customer->{"set_{$field_key}"}( $details[ $field_key ] );
+						$customer->{"set_{$field_key}"}( html_entity_decode( wc_clean( $details[ $field_key ] ), ENT_QUOTES, get_bloginfo( 'charset' ) ) );
 					} else {
 						// Store additional fields as meta data.
-						$customer->update_meta_data( $key, wc_clean( wp_unslash( $value ) ) );
+						$customer->update_meta_data( $key, html_entity_decode( wc_clean( wp_unslash( $value ) ), ENT_QUOTES, get_bloginfo( 'charset' ) ) );
 					}
 				}
 
