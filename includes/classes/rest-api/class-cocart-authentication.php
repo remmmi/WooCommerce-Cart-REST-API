@@ -943,15 +943,19 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 			$ip = '';
 
 			// Proxy force check.
-			if ( ! $proxy_support ) {
+			if ( $proxy_support ) {
+				CoCart_Logger::log( 'Proxy support forced', 'info' );
 				return self::validate_ip( sanitize_text_field( wp_unslash( $_SERVER['REMOTE_ADDR'] ) ) ); // phpcs:ignore PHPCompatibility.Operators.NewOperators.t_coalesceFound
 			}
 
 			// Check if we're behind a proxy.
 			if ( isset( $_SERVER['HTTP_X_FORWARDED_FOR'] ) ) {
-				// HTTP_X_FORWARDED_FOR can contain a chain of comma-separated addresses
-				$ip = trim( explode( ',', sanitize_text_field( wp_unslash( $_SERVER['HTTP_X_FORWARDED_FOR'] ) ) )[0] );
+				CoCart_Logger::log( 'Behind a proxy', 'info' );
+				// HTTP_X_FORWARDED_FOR can contain a chain of comma-separated addresses.
+				$forwarded_for = explode( ',', sanitize_text_field( wp_unslash( $_SERVER['HTTP_X_FORWARDED_FOR'] ) ) );
+				$ip            = trim( $forwarded_for[0] );
 			} elseif ( isset( $_SERVER['REMOTE_ADDR'] ) ) {
+				CoCart_Logger::log( 'Regular IP header', 'info' );
 				$ip = sanitize_text_field( wp_unslash( $_SERVER['REMOTE_ADDR'] ) );
 			}
 
@@ -960,41 +964,33 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 			 *
 			 * @since 5.0.0 Introduced.
 			 */
-			$additional_headers = apply_filters( 'cocart_ip_headers', array(
-				'HTTP_CF_CONNECTING_IP', // Cloudflare.
-				'HTTP_X_REAL_IP',        // Nginx proxy.
-				'HTTP_CLIENT_IP',        // Client IP.
-			) );
+			$additional_headers = apply_filters(
+				'cocart_ip_headers',
+				array(
+					'HTTP_CF_CONNECTING_IP', // Cloudflare.
+					'HTTP_X_REAL_IP',        // Nginx proxy.
+					'HTTP_CLIENT_IP',        // Client IP.
+				)
+			);
 
-			if ( array_key_exists( 'HTTP_FORWARDED', $_SERVER ) ) {
-				// Using regex instead of explode() for a smaller code footprint.
-				// Expected format: Forwarded: for=192.0.2.60;proto=http;by=203.0.113.43,for="[2001:db8:cafe::17]:4711"...
-				preg_match(
-					'/(?<=for\=)[^;,]*/i', // We catch everything on the first "for" entry, and validate later.
-					sanitize_text_field( wp_unslash( $_SERVER['HTTP_FORWARDED'] ) ),
-					$matches
-				);
+			foreach ( $additional_headers as $header ) {
+				if ( ! empty( $_SERVER[ $header ] ) ) {
+					CoCart_Logger::log( $header . ' is detected', 'info' );
 
-				if ( strpos( $matches[0] ?? '', '"[' ) !== false ) { // phpcs:ignore PHPCompatibility.Operators.NewOperators.t_coalesceFound, Detect for ipv6, eg "[ipv6]:port".
-					preg_match(
-						'/(?<=\[).*(?=\])/i', // We catch only the ipv6 and overwrite $matches.
-						$matches[0],
-						$matches
-					);
-				}
-
-				if ( ! empty( $matches ) ) {
-					$ip = trim( $matches[0] );
+					$ip = sanitize_text_field( wp_unslash( $_SERVER[ $header ] ) );
+					break;
 				}
 			}
 
-			// Only check additional headers if we haven't found an IP yet.
-			if ( empty( $ip ) ) {
-				foreach ( $additional_headers as $header ) {
-					if ( ! empty( $_SERVER[ $header ] ) ) {
-						$ip = sanitize_text_field( wp_unslash( $_SERVER[ $header ] ) );
-						break;
-					}
+			if ( ! empty( $_SERVER['HTTP_FORWARDED'] ) ) {
+				CoCart_Logger::log( 'HTTP_FORWARDED is detected', 'info' );
+
+				// Using regex instead of explode() for a smaller code footprint.
+				// Expected format: Forwarded: for=192.0.2.60;proto=http;by=203.0.113.43,for="[2001:db8:cafe::17]:4711"...
+				preg_match( '/for=([^;]+)/i', sanitize_text_field( wp_unslash( $_SERVER['HTTP_FORWARDED'] ) ), $matches );
+
+				if ( isset( $matches[1] ) && self::validate_ip( $matches[1] ) ) {
+					$ip = $matches[1];
 				}
 			}
 
@@ -1003,12 +999,14 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 				return self::validate_ip( $ip );
 			}
 
+			CoCart_Logger::log( 'Falling back to default IP address', 'info' );
+
 			/**
 			 * Default IP address if none found.
 			 *
 			 * @since 5.0.0 Introduced.
 			 */
-			return apply_filter( 'cocart_ip_default_address', '0.0.0.0' );
+			return apply_filters( 'cocart_ip_default_address', '0.0.0.0' );
 		} // END get_ip_address()
 
 		/**
