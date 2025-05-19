@@ -157,10 +157,12 @@ class CoCart_REST_Restore_Item_V2_Controller extends CoCart_REST_Cart_V2_Control
 				 * Hook: cocart_item_restored
 				 *
 				 * @since 2.0.0 Introduced.
+				 * @since 5.0.0 Added the request object as the first parameter.
 				 *
-				 * @param array $current_data The product object.
+				 * @param WP_REST_Request $request      The request object.
+				 * @param array           $current_data The product object.
 				 */
-				do_action( 'cocart_item_restored', $current_data );
+				do_action( 'cocart_item_restored', $request, $current_data );
 
 				/**
 				 * Re-calculate totals now an item has been restored.

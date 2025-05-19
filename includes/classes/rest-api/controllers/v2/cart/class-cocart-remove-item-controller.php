@@ -182,10 +182,12 @@ class CoCart_REST_Remove_Item_V2_Controller extends CoCart_REST_Cart_V2_Controll
 				 * Hook: cocart_item_removed
 				 *
 				 * @since 2.0.0 Introduced.
+				 * @since 5.0.0 Added the request object as the first parameter.
 				 *
-				 * @param array $current_data The product object.
+				 * @param WP_REST_Request $request      The request object.
+				 * @param array           $current_data The product object.
 				 */
-				do_action( 'cocart_item_removed', $current_data );
+				do_action( 'cocart_item_removed', $request, $current_data );
 
 				if ( ! $dont_calculate ) {
 					/**

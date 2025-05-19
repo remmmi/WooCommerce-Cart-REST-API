@@ -106,8 +106,11 @@ class CoCart_REST_Clear_Cart_V2_Controller extends CoCart_REST_Cart_V2_Controlle
 			 * Hook: Triggers before the cart emptied.
 			 *
 			 * @since 1.0.0 Introduced.
+			 * @since 5.0.0 Added the request object as parameter.
+			 *
+			 * @param WP_REST_Request $request The request object.
 			 */
-			do_action( 'cocart_before_cart_emptied' );
+			do_action( 'cocart_before_cart_emptied', $request );
 
 			// Clear all cart fees via session as we cant do it via the fee api.
 			WC()->session->set( 'cart_fees', array() );
@@ -129,8 +132,11 @@ class CoCart_REST_Clear_Cart_V2_Controller extends CoCart_REST_Cart_V2_Controlle
 			 * Hook: Triggers once the cart is emptied.
 			 *
 			 * @since 1.0.0 Introduced.
+			 * @since 5.0.0 Added the request object as parameter.
+			 *
+			 * @param WP_REST_Request $request The request object.
 			 */
-			do_action( 'cocart_cart_emptied' );
+			do_action( 'cocart_cart_emptied', $request );
 
 			// Ensure we have calculated to update the cart.
 			$this->get_cart_instance()->calculate_totals();
@@ -147,8 +153,11 @@ class CoCart_REST_Clear_Cart_V2_Controller extends CoCart_REST_Cart_V2_Controlle
 				 * Hook: Triggers once the cart is cleared.
 				 *
 				 * @since 1.0.0 Introduced.
+				 * @since 5.0.0 Added the request object as parameter.
+				 *
+				 * @param WP_REST_Request $request The request object.
 				 */
-				do_action( 'cocart_cart_cleared' );
+				do_action( 'cocart_cart_cleared', $request );
 
 				// Notice message.
 				$message = __( 'Cart is cleared.', 'cocart-core' );
