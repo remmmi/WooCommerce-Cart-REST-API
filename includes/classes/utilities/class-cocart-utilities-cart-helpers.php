@@ -328,10 +328,10 @@ class CoCart_Utilities_Cart_Helpers {
 			$package_id > 1 ?
 				sprintf(
 					/* translators: %d: shipping package number */
-					_x( 'Shipment %d', 'shipping packages', 'woocommerce' ),
+					_x( 'Shipment %d', 'shipping packages', 'cocart-core' ),
 					$package_id
 				) :
-				_x( 'Shipping', 'shipping packages', 'woocommerce' ),
+				_x( 'Shipping', 'shipping packages', 'cocart-core' ),
 			$package_id,
 			$package,
 			$cart
