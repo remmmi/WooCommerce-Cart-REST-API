@@ -6,6 +6,7 @@
 
 ## What's new?
 
+* REST API: All `GET` endpoints now support batching. Batching was only enabled to select `POST`, `PUT`, `PATCH`, `DELETE` cart endpoints. Now you can fetch any endpoint (except logout) in a batch request.
 * REST API: Products can now be filtered to include `include_types` or exclude `exclude_types` by multiple types simultaneously using the new parameters. Note: `include_types` takes precedence over `type` parameter should both be used.
 * REST API: Products can now be filtered to return virtual products by the boolean `virtual` parameter.
 * REST API: Products can now be filtered to return only products by brand names using the `brand` parameter.
@@ -53,9 +54,18 @@ The following returned headers have also been renamed. Better for security reaso
 | CoCart-API-Cart-Expiring   | Cart-Expiring        |
 | CoCart-API-Cart-Expiration | Cart-Expiration      |
 
+The following action hooks have changed.
+
+| Action Hook                         | Change                                           |
+| ----------------------------------- | ------------------------------------------------ |
+| `cocart_item_restored`              | Added the request object as the first parameter. |
+| `cocart_item_removed`               | Added the request object as the first parameter. |
+| `cocart_item_added_updated_in_cart` | Moved the request object parameter to be first.  |
+| `cocart_item_added_to_cart`         | Moved the request object parameter to be first.  |
+
 ## Changes
 
-* REST API: The main cart controller `CoCart_REST_Cart_V2_Controller` for API v2 now extends a new abstract controller `CoCart_REST_Cart_Controller` for the cart which also extends the core `WP_REST_Controller` of WordPress.
+* REST API: The main cart controller `CoCart_REST_Cart_V2_Controller` for API v2 now extends a new abstract controller `CoCart_REST_Cart_Controller` for the cart.
 
 > Developer note: This allows to better extend the cart API rather than the whole cart controller.
 
@@ -68,6 +78,7 @@ The following returned headers have also been renamed. Better for security reaso
 
 ## Improvements
 
+* REST API: Redone the process of adding items to the cart for a smoother flow, filtering, validation and compatibility with any WooCommerce extension.
 * REST API: Only registers CoCart endpoints if requesting it. Helps performance in backend such as when using Gutenberg/Block editor as it loads many API's in the background.
 * REST API: Now hides routes from the index of controllers and returns as an error for added security.
 * REST API: Registering the endpoints have been improved and also allows the namespace to register with your own brand (so long as you have the whitelabel add-on installed).
@@ -83,10 +94,6 @@ The following returned headers have also been renamed. Better for security reaso
 * Localization: Similar messages are now consistent with each other.
 * Plugin: We now manage cache related calls under our own cache helper utility to not conflict with any WooCommerce cache calls happening in the background.
 * WordPress Dashboard: CoCart is prevented from running in the backend should the REST API server be called by another plugin.
-
-## Third Party Support
-
-* Plugin: LiteSpeed Cache will now exclude CoCart from being cached.
 
 ### Load Cart from Session
 
@@ -108,7 +115,9 @@ Simply provide these two parameters with the data point values on any page and t
 
 ##### New Actions
 
+* Introduced new hook `cocart_cart_created` that fires once a cart is created.
 * Introduced new hook `cocart_set_requested_cart` that fires before the session is finally set.
+* Introduced new hook `cocart_item_updated` that fires once an item has updated in cart.
 
 ##### New Filters
 
@@ -117,7 +126,7 @@ Simply provide these two parameters with the data point values on any page and t
 * Introduced new filter `cocart_cross_sell_item_thumbnail_src` that allows you to change the thumbnail source for a cross sell item.
 * Introduced new filter `cocart_http_allowed_safe_ports` that allows you to control the list of ports considered safe for accessing the API.
 * Introduced new filter `cocart_allowed_http_origins` that allows you to change the origin types allowed for HTTP requests.
-* Introduced new filter `cocart_set_api_namespace` allows CoCart to be white labeled.
+* Introduced new filter `cocart_set_api_namespace` allows CoCart to be white labelled.
 * Introduced new filter `cocart_rest_response` to be used as a final straw for changing the response based on the request made.
 * Introduced new filter `cocart_wp_frontend_url` that allows you to control where to redirect users when visiting your WordPress site if you have disabled access to it.
 * Introduced new filter `cocart_wp_disable_access` to disable access to WordPress.
@@ -132,10 +141,9 @@ Simply provide these two parameters with the data point values on any page and t
 
 ##### New parameters
 
-* Added the request object as a parameter for filter `cocart_add_to_cart_quantity`.
+* Added the request object as a parameter for action hooks `cocart_before_cart_emptied`, `cocart_cart_emptied`, `cocart_cart_cleared`.
+* Added the request object as a parameter for filters `cocart_allow_origin`, `cocart_cart_item_quantity`, `cocart_add_to_cart_quantity` and `cocart_cart_item_data`.
 * Added parameters for filter `cocart_add_to_cart_sold_individually_quantity`.
-* Added the request object as a parameter for filter `cocart_allow_origin`.
-* Added the product object as a parameter for filters `cocart_cart_item_price`, `cocart_cart_item_quantity` and `cocart_cart_item_data`.
 * Added the cart class as a parameter for filter `cocart_shipping_package_name`.
 * Added new parameter `$recurring_cart` for filter `cocart_available_shipping_packages`.
 
