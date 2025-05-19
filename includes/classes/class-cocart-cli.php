@@ -48,6 +48,7 @@ if ( ! class_exists( 'CoCart_CLI' ) ) {
 			require_once __DIR__ . '/cli/class-cocart-cli-status-command.php';
 			require_once __DIR__ . '/cli/class-cocart-cli-update-command.php';
 			require_once __DIR__ . '/cli/class-cocart-cli-version-command.php';
+			require_once __DIR__ . '/cli/class-cocart-cli-sessions-command.php';
 		}
 
 		/**
@@ -58,6 +59,7 @@ if ( ! class_exists( 'CoCart_CLI' ) ) {
 		private function hooks() {
 			WP_CLI::add_hook( 'after_wp_load', 'CoCart_CLI_Version_Command::register_commands' );
 			WP_CLI::add_hook( 'after_wp_load', 'CoCart_CLI_Update_Command::register_commands' );
+			WP_CLI::add_hook( 'after_wp_load', 'CoCart_CLI_Sessions_Command::register_commands' );
 		}
 	} // END class
 
