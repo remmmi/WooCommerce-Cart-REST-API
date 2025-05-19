@@ -1237,22 +1237,24 @@ class CoCart_Utilities_Cart_Helpers {
 	 *
 	 * @static
 	 *
-	 * @since   2.1.0 Introduced.
-	 * @version 3.0.6
+	 * @since 2.1.0 Introduced.
+	 * @since 5.0.0 Replaced `$variation_id` and `$variation` params with `$request`.
 	 *
-	 * @param int        $variation_id The variation ID.
-	 * @param array      $variation    The variation attributes.
-	 * @param WC_Product $product      The product object.
+	 * @param array      $request                     Add to cart request params.
+	 * @param WC_Product $product                     The product object.
+	 * @param array      $variable_product_attributes Product attributes we're expecting. - optional
 	 *
-	 * @return array $variation_id ID of the variation and attribute values.
+	 * @return array Updated request array.
 	 */
-	public static function validate_variable_product( int $variation_id, array $variation, WC_Product $product ) {
+	public static function validate_variable_product( $request, $product, $variable_product_attributes = array() ) {
 		try {
 			// Flatten data and format posted values.
-			$variable_product_attributes = self::get_variable_product_attributes( $product );
+			if ( empty( $variable_product_attributes ) ) {
+				$variable_product_attributes = self::get_variable_product_attributes( $product );
+			}
 
 			// Now we have a variation ID, get the valid set of attributes for this variation. They will have an attribute_ prefix since they are from meta.
-			$expected_attributes = wc_get_product_variation_attributes( $variation_id );
+			$expected_attributes = wc_get_product_variation_attributes( $request['id'] );
 			$missing_attributes  = array();
 
 			foreach ( $variable_product_attributes as $attribute ) {
@@ -1264,8 +1266,8 @@ class CoCart_Utilities_Cart_Helpers {
 				$expected_value          = isset( $expected_attributes[ $prefixed_attribute_name ] ) ? $expected_attributes[ $prefixed_attribute_name ] : '';
 				$attribute_label         = wc_attribute_label( $attribute['name'] );
 
-				if ( isset( $variation[ wc_variation_attribute_name( $attribute['name'] ) ] ) ) {
-					$given_value = $variation[ wc_variation_attribute_name( $attribute['name'] ) ];
+				if ( isset( $request['variation'][ wc_variation_attribute_name( $attribute['name'] ) ] ) ) {
+					$given_value = $request['variation'][ wc_variation_attribute_name( $attribute['name'] ) ];
 
 					if ( $expected_value === $given_value ) {
 						continue;
@@ -1298,8 +1300,8 @@ class CoCart_Utilities_Cart_Helpers {
 				}
 
 				// Fills variation array with unspecified attributes that have default values. This ensures the variation always has full data.
-				if ( '' !== $expected_value && ! isset( $variation[ wc_variation_attribute_name( $attribute['name'] ) ] ) ) {
-					$variation[ wc_variation_attribute_name( $attribute['name'] ) ] = $expected_value;
+				if ( '' !== $expected_value && ! isset( $request['variation'][ wc_variation_attribute_name( $attribute['name'] ) ] ) ) {
+					$request['variation'][ wc_variation_attribute_name( $attribute['name'] ) ] = $expected_value;
 				}
 
 				// If no attribute was posted, only error if the variation has an 'any' attribute which requires a value.
@@ -1329,7 +1331,9 @@ class CoCart_Utilities_Cart_Helpers {
 				throw new CoCart_Data_Exception( 'cocart_missing_variation_data', $message, 400 );
 			}
 
-			return $variation;
+			ksort( $request['variation'] );
+
+			return $request;
 		} catch ( CoCart_Data_Exception $e ) {
 			return new \WP_Error( $e->getErrorCode(), $e->getMessage(), array( 'status' => $e->getCode() ), $e->getAdditionalData() );
 		}
