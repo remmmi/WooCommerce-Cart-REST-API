@@ -82,6 +82,15 @@ class CoCart_REST_Create_Cart_V2_Controller extends CoCart_REST_Cart_Controller 
 			 */
 			WC()->session->update_cart( $cart_key );
 
+			/**
+			 * Triggers when a cart is created.
+			 *
+			 * @since 5.0.0 Introduced.
+			 *
+			 * @param WP_REST_Request $request The request object.
+			 */
+			do_action( 'cocart_cart_created', $request );
+
 			$response = array(
 				'message'  => __( 'Here is your cart key. Either use it as a global parameter or set the cart key via the header for all future Cart API requests. See "Cart Key" section in the documentation to learn more.', 'cocart-core' ),
 				'cart_key' => $cart_key,
