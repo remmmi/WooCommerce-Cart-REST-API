@@ -132,21 +132,31 @@ class CoCart_Utilities_Cart_Helpers {
 	 * @return array $attributes Product attributes.
 	 */
 	public static function get_variable_product_attributes( $product ) {
-		try {
-			if ( $product->is_type( 'variation' ) ) {
-				$product = wc_get_product( $product->get_parent_id() );
-			}
-
-			if ( ! $product || ! $product->exists() || 'trash' === $product->get_status() ) {
-				$message = __( 'This product cannot be added to the cart.', 'cocart-core' );
-
-				throw new CoCart_Data_Exception( 'cocart_cart_invalid_parent_product', $message, 404 );
-			}
-
-			return $product->get_attributes();
-		} catch ( CoCart_Data_Exception $e ) {
-			return new \WP_Error( $e->getErrorCode(), $e->getMessage(), $e->getCode(), $e->getAdditionalData() );
+		if ( $product->is_type( 'variation' ) ) {
+			$product = wc_get_product( $product->get_parent_id() );
 		}
+
+		if ( ! $product || ! $product->exists() || 'trash' === $product->get_status() ) {
+			$message = __( 'This product cannot be added to the cart.', 'cocart-core' );
+
+			/**
+			 * Filters message about product that cannot be added to cart.
+			 *
+			 * @since 3.0.0 Introduced.
+			 *
+			 * @param string     $message Message.
+			 * @param WC_Product $product The product object.
+			 */
+			$message = apply_filters( 'cocart_product_cannot_be_added_message', $message, $product );
+
+			throw new CoCart_Data_Exception(
+				'cocart_cart_invalid_parent_product',
+				$message,
+				400
+			);
+		}
+
+		return $product->get_attributes();
 	} // END get_variable_product_attributes()
 
 	/**
@@ -1071,30 +1081,30 @@ class CoCart_Utilities_Cart_Helpers {
 	 * @return WC_Product $product Returns a product object if purchasable.
 	 */
 	public static function validate_product_for_cart( $request ) {
-		try {
-			$product = wc_get_product( $request['id'] );
+		$product = wc_get_product( $request['id'] );
 
-			// Check if the product exists before continuing.
-			if ( ! $product || ! $product->exists() || 'trash' === $product->get_status() ) {
-				$message = __( 'This product cannot be added to the cart.', 'cocart-core' );
+		// Check if the product exists before continuing.
+		if ( ! $product || ! $product->exists() || 'trash' === $product->get_status() ) {
+			$message = __( 'This product cannot be added to the cart.', 'cocart-core' );
 
-				/**
-				 * Filters message about product that cannot be added to cart.
-				 *
-				 * @since 3.0.0 Introduced.
-				 *
-				 * @param string     $message Message.
-				 * @param WC_Product $product The product object.
-				 */
-				$message = apply_filters( 'cocart_product_cannot_be_added_message', $message, $product );
+			/**
+			 * Filters message about product that cannot be added to cart.
+			 *
+			 * @since 3.0.0 Introduced.
+			 *
+			 * @param string     $message Message.
+			 * @param WC_Product $product The product object.
+			 */
+			$message = apply_filters( 'cocart_product_cannot_be_added_message', $message, $product );
 
-				throw new CoCart_Data_Exception( 'cocart_invalid_product', $message, 400 );
-			}
-
-			return $product;
-		} catch ( CoCart_Data_Exception $e ) {
-			return new \WP_Error( $e->getErrorCode(), $e->getMessage(), $e->getCode(), $e->getAdditionalData() );
+			throw new CoCart_Data_Exception(
+				'cocart_invalid_product',
+				$message,
+				400
+			);
 		}
+
+		return $product;
 	} // END validate_product_for_cart()
 
 	/**
