@@ -242,6 +242,15 @@ class CoCart_REST_Update_Item_V2_Controller extends CoCart_REST_Cart_V2_Controll
 					}
 				}
 
+				/**
+				 * Hook: cocart_item_updated
+				 *
+				 * @since 5.0.0 Introduced.
+				 *
+				 * @param WP_REST_Request $request The request object.
+				 */
+				do_action( 'cocart_item_updated', $request );
+
 				$request['dont_check'] = true;
 				$response              = $this->get_cart( $request );
 
