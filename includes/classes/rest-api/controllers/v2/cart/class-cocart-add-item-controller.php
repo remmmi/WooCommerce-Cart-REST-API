@@ -192,6 +192,8 @@ class CoCart_REST_Add_Item_V2_Controller extends CoCart_REST_Cart_V2_Controller 
 				}
 			}
 
+			// $requested_quantity = $request['quantity'];
+
 			/**
 			 * Filters the add to cart handler.
 			 *
@@ -328,7 +330,7 @@ class CoCart_REST_Add_Item_V2_Controller extends CoCart_REST_Cart_V2_Controller 
 
 			return $response;
 		} catch ( CoCart_Data_Exception $e ) {
-			return new \WP_Error( $e->getErrorCode(), $e->getMessage(), $e->getCode(), $e->getAdditionalData() );
+			return new \WP_Error( $e->getErrorCode(), $e->getMessage(), array( 'status' => $e->getCode() ), $e->getAdditionalData() );
 		}
 	} // END add_to_cart()
 
@@ -403,7 +405,7 @@ class CoCart_REST_Add_Item_V2_Controller extends CoCart_REST_Cart_V2_Controller 
 				throw new CoCart_Data_Exception( 'cocart_grouped_product_empty', __( 'Please choose a product to add to your cart.', 'cocart-core' ), 404 );
 			}
 		} catch ( CoCart_Data_Exception $e ) {
-			return new \WP_Error( $e->getErrorCode(), $e->getMessage(), $e->getCode(), $e->getAdditionalData() );
+			return new \WP_Error( $e->getErrorCode(), $e->getMessage(), array( 'status' => $e->getCode() ), $e->getAdditionalData() );
 		}
 
 		return $response;
@@ -705,8 +707,7 @@ class CoCart_REST_Add_Item_V2_Controller extends CoCart_REST_Cart_V2_Controller 
 
 			return $item_added;
 		} catch ( CoCart_Data_Exception $e ) {
-			return new \WP_Error( $e->getErrorCode(), $e->getMessage(), $e->getCode(), $e->getAdditionalData() );
+			return new \WP_Error( $e->getErrorCode(), $e->getMessage(), array( 'status' => $e->getCode() ), $e->getAdditionalData() );
 		}
 	} // END add_item_to_cart()
-
 } // END class

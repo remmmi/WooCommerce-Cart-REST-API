@@ -134,7 +134,7 @@ class CoCart_REST_Update_Cart_V2_Controller extends CoCart_REST_Cart_V2_Controll
 				);
 			}
 		} catch ( CoCart_Data_Exception $e ) {
-			return new \WP_Error( $e->getErrorCode(), $e->getMessage(), $e->getCode(), $e->getAdditionalData() );
+			return new \WP_Error( $e->getErrorCode(), $e->getMessage(), array( 'status' => $e->getCode() ), $e->getAdditionalData() );
 		}
 
 		return true;
@@ -179,7 +179,7 @@ class CoCart_REST_Update_Cart_V2_Controller extends CoCart_REST_Cart_V2_Controll
 
 			return $response;
 		} catch ( CoCart_Data_Exception $e ) {
-			return new \WP_Error( $e->getErrorCode(), $e->getMessage(), $e->getCode(), $e->getAdditionalData() );
+			return new \WP_Error( $e->getErrorCode(), $e->getMessage(), array( 'status' => $e->getCode() ), $e->getAdditionalData() );
 		}
 	} // END update_cart()
 

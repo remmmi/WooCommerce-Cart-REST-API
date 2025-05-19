@@ -850,7 +850,7 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 				// Return previous result if nothing has changed.
 				return $result;
 			} catch ( CoCart_Data_Exception $e ) {
-				return new \WP_Error( $e->getErrorCode(), $e->getMessage(), $e->getCode(), $e->getAdditionalData() );
+				return new \WP_Error( $e->getErrorCode(), $e->getMessage(), array( 'status' => $e->getCode() ), $e->getAdditionalData() );
 			}
 		} // END check_api_permissions()
 

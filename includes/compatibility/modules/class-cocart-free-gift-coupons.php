@@ -73,7 +73,7 @@ if ( ! class_exists( 'CoCart_FGC_Compatibility' ) ) {
 
 				return $passed_validation;
 			} catch ( CoCart_Data_Exception $e ) {
-				return new \WP_Error( $e->getErrorCode(), $e->getMessage(), $e->getCode(), $e->getAdditionalData() );
+				return new \WP_Error( $e->getErrorCode(), $e->getMessage(), array( 'status' => $e->getCode() ), $e->getAdditionalData() );
 			}
 		} // END update_cart_validation()
 	} // END class.

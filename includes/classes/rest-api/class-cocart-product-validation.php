@@ -87,7 +87,7 @@ class CoCart_Product_Validation {
 
 			throw new CoCart_Data_Exception( 'cocart_cannot_add_product_type_to_cart', $message, 403 );
 		} catch ( CoCart_Data_Exception $e ) {
-			return new \WP_Error( $e->getErrorCode(), $e->getMessage(), $e->getCode(), $e->getAdditionalData() );
+			return new \WP_Error( $e->getErrorCode(), $e->getMessage(), array( 'status' => $e->getCode() ), $e->getAdditionalData() );
 		}
 	} // END product_not_allowed_to_add()
 
