@@ -748,11 +748,20 @@ class CoCart_API_Controller {
 			return new \WP_Error( 'cocart_product_failed_validation', $message, array( 'status' => 404 ) );
 		}
 
+		$request = array(
+			'id'           => $product_id,
+			'variation_id' => $variation_id,
+			'quantity'     => $quantity,
+			'variation'    => $variation,
+			'item_data'    => $cart_item_data,
+			'product_type' => $product_type,
+		);
+
 		// The quantity of item added to the cart.
-		$quantity = CoCart_Utilities_Cart_Helpers::set_cart_item_quantity( $quantity, $product_id, $variation_id, $variation, $cart_item_data );
+		$quantity = CoCart_Utilities_Cart_Helpers::set_cart_item_quantity( $request );
 
 		// Set cart item data - maybe added by other plugins.
-		$cart_item_data = CoCart_Utilities_Cart_Helpers::set_cart_item_data( $cart_item_data, $product_id, $variation_id, $quantity, $product_type );
+		$cart_item_data = CoCart_Utilities_Cart_Helpers::set_cart_item_data( $request );
 
 		// Generate a ID based on product ID, variation ID, variation data, and other cart item data.
 		$cart_id = WC()->cart->generate_cart_id( $product_id, $variation_id, $variation, $cart_item_data );
