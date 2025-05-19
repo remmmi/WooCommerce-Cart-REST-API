@@ -465,26 +465,27 @@ class CoCart_Utilities_Product_Helpers {
 	 * @static
 	 *
 	 * @since 2.1.2 Introduced.
+	 * @since 5.0.0 Replaced `$variation` parameter with `$request`
 	 *
-	 * @param array      $variation Submitted attributes.
-	 * @param WC_Product $product   The product object.
+	 * @param array      $request Add to cart request params.
+	 * @param WC_Product $product The product object.
 	 *
 	 * @return int $variation_id Matching variation ID.
 	 */
-	public static function get_variation_id_from_variation_data( $variation, $product ) {
-		try {
-			$data_store   = \WC_Data_Store::load( 'product' );
-			$variation_id = $data_store->find_matching_product_variation( $product, $variation );
+	public static function get_variation_id_from_variation_data( $request, $product ) {
+		$data_store       = \WC_Data_Store::load( 'product' );
+		$match_attributes = $request['variation'];
 
-			if ( empty( $variation_id ) ) {
-				$message = __( 'No matching variation found.', 'cocart-core' );
+		$variation_id = $data_store->find_matching_product_variation( $product, $match_attributes );
 
-				throw new CoCart_Data_Exception( 'cocart_no_variation_found', $message, 404 );
-			}
-
-			return $variation_id;
-		} catch ( CoCart_Data_Exception $e ) {
-			return new \WP_Error( $e->getErrorCode(), $e->getMessage(), $e->getCode(), $e->getAdditionalData() );
+		if ( empty( $variation_id ) ) {
+			throw new CoCart_Data_Exception(
+				'cocart_no_variation_found',
+				__( 'No matching variation found.', 'cocart-core' ),
+				400
+			);
 		}
+
+		return $variation_id;
 	} // END get_variation_id_from_variation_data()
 } // END class
