@@ -34,7 +34,23 @@ if ( ! class_exists( 'CoCart_CLI' ) ) {
 		public function __construct() {
 			$this->includes();
 
-			WP_CLI::add_command( 'cocart', 'CoCart_CLI_Status_Command::status' );
+			WP_CLI::add_command(
+				'cocart',
+				'CoCart_CLI_Status_Command::status',
+				array( // Arguments.
+					'shortdesc' => __( 'Returns all statuses for CoCart.', 'cocart-core' ),
+					'synopsis'  => array(
+						array(
+							'type'        => 'assoc',
+							'name'        => 'format',
+							'description' => __( 'Render output in a particular format.', 'cocart-core' ),
+							'optional'    => true,
+							'default'     => 'table',
+							'options'     => array( 'table', 'json', 'csv', 'yaml' ),
+						),
+					),
+				)
+			);
 
 			$this->hooks();
 		}
