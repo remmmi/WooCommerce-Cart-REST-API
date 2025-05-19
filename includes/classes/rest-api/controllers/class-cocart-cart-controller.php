@@ -293,15 +293,16 @@ abstract class CoCart_REST_Cart_Controller {
 			return $request;
 		}
 
-		// If we have a parent product, find the variation ID.
-		if ( $product->is_type( 'variable' ) ) {
-			$request['variation_id'] = CoCart_Utilities_Product_Helpers::get_variation_id_from_variation_data( $request, $product );
-		}
-
 		// Flatten data and format posted values.
 		$variable_product_attributes = CoCart_Utilities_Cart_Helpers::get_variable_product_attributes( $product );
+		$request['variation']        = $this->sanitize_variation_data( $request['variation'], $variable_product_attributes );
 
-		$request['variation'] = CoCart_Utilities_Cart_Helpers::validate_variable_product( $request['id'], $request['variation'], $product );
+		// If we have a parent product, find the variation ID.
+		if ( $product->is_type( 'variable' ) ) {
+			$request['id'] = CoCart_Utilities_Product_Helpers::get_variation_id_from_variation_data( $request, $product );
+		}
+
+		$request = CoCart_Utilities_Cart_Helpers::validate_variable_product( $request, $product, $variable_product_attributes );
 
 		return $request;
 	} // END parse_variation_data()
