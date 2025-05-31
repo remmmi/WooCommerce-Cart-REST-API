@@ -4,7 +4,7 @@ Tags: woocommerce, rest-api, decoupled, headless, cart
 Requires at least: 6.3
 Requires PHP: 7.4
 Tested up to: 6.8
-Stable tag: 4.4.0
+Stable tag: 4.5.0
 WC requires at least: 7.0
 WC tested up to: 9.9
 License: GPLv3
@@ -938,126 +938,7 @@ Hope you enjoy this release.
 
 == Upgrade Notice ==
 
-= 4.4.0 =
+= 4.5.0 =
 
-This release focuses on supporting such tools like ManageWP, MainWP, Blogvault etc.
+This release will most likely be the last update released on the WordPress plugin directory with anything NEW added.
 
-= 4.3.30 =
-
-REST API: Variation attribute data is now sanitized.
-
-= 4.3.29 =
-
-REST API: Shipping now fully respects the shipping settings.
-
-= 4.3.28 =
-
-REST API: Fixed unidentified item key when adding grouped products.
-
-= 4.3.27 =
-
-Undone a change to fix any WooCommerce cookies from setting with the Cart API.
-
-= 4.3.26 =
-
-Fixed critical error when adding an item and asking to return the item details.
-
-= 4.3.23 =
-
-Session handler: Guest carts will now have a prefix `t_` before the cart key provided.
-
-= 4.3.22 =
-
-REST API: Schema corrections for both cart and items endpoint.
-
-= 4.3.21=
-
-REST API: Added `no-store` as part of the `Cache-Control` header for guest users.
-
-= 4.3.20 =
-
-REST API: Fixed product reviews not returning.
-
-= 4.3.19 =
-
-REST API: Fixed setting a customers shipping address line 1 and 2.
-
-= 4.3.18 =
-
-Tested with WooCommerce v9.6
-
-= 4.3.17 =
-
-Tested with WooCommerce v9.5
-
-= 4.3.16 =
-
-REST API: Authentication failed to validate incorrect login now fixed.
-
-= 4.3.15 =
-
-REST API: Fix persistent cart for registered users.
-
-= 4.3.14 =
-
-REST API: Deleting an item would not remove said item 100% due to a load conflict when authenticating.
-
-= 4.3.13 =
-
-SECURITY PATCH, PLEASE UPDATE TO STAY SAFE - THANK YOU!
-
-= 4.3.11 =
-
-REST API: Removed conflicting cache headers being sent.
-
-= 4.3.10 =
-
-REST API: Typo caused fatal for Products API (v2 ONLY).
-
-= 4.3.9 =
-
-SECURITY PATCH, PLEASE UPDATE TO STAY SAFE - THANK YOU!
-
-= 4.3.8 =
-
-REST API: Cart item prices correctly display based on tax options for the cart not the store.
-
-= 4.3.7 =
-
-REST API: Fixed rounding issue due to decimal separator being different with the cart total for some odd reason with WooCommerce.
-
-= 4.3.6 =
-
-Session Handler: Fixed merging of cart from guest.
-
-= 4.3.5 =
-
-REST API: Changed priority for sending headers from `0` to `1` to help with CORS.
-
-= 4.3.4 =
-
-Fixed an issue with CORS not returning header `access-control-allow-origin`.
-
-= 4.3.3 =
-
-Price of product is now consistent in the Cart API if store has no decimals.
-
-= 4.3.2 =
-
-Fixed 3 issues reported that affected CoCart since v4.2.
-
-= 4.3.0 =
-
-We have added a plugin update prevention system as a safety measure. See changelog for more.
-
-= 4.2.2 =
-
-We are reverting a change for destroying a session. See changelog for more.
-
-= v4.2.1 =
-
-Fix: When loading a cart from session a deprecated function was still triggered. It's now been removed to prevent failing.
-
-= v4.2.0 =
-
-Improvement: Optimized the session handler to be more compatibility with third party plugins. See changelog for more.
