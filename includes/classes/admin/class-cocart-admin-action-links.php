@@ -100,7 +100,7 @@ if ( ! class_exists( 'CoCart_Admin_Action_Links' ) ) {
 				);
 			}
 
-			$links = array_merge( $action_links, $links );
+			$links = array_merge( $links, $action_links );
 
 			return $links;
 		} // END plugin_action_links()
