@@ -83,7 +83,7 @@ if ( ! class_exists( 'CoCart_Admin_Action_Links' ) ) {
 
 			// Only show upgrade option if neither CoCart Plus, Pro or above is found.
 			if ( apply_filters( 'cocart_show_upgrade_action_link', true ) ) {
-				$store_url = CoCart_Helpers::build_shortlink( add_query_arg( $this->campaign_args, COCART_STORE_URL . 'pricing/' ) );
+				$store_url = CoCart_Helpers::build_shortlink( add_query_arg( $this->campaign_args, COCART_STORE_URL . 'why-upgrade/' ) );
 
 				$action_links['upgrade'] = sprintf(
 					'<a href="%1$s" aria-label="' . sprintf(
