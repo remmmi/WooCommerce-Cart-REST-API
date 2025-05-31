@@ -5,7 +5,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\Admin
  * @since   1.2.0
- * @version 3.10.0
+ * @version 4.5.0
  * @license GPL-2.0+
  */
 
@@ -46,7 +46,7 @@ if ( ! class_exists( 'CoCart_Admin_Action_Links' ) ) {
 		 *
 		 * @access  public
 		 * @since   2.0.0
-		 * @version 3.10.0
+		 * @version 4.5.0
 		 * @param   array $links An array of plugin links.
 		 * @return  array $links
 		 */
@@ -111,7 +111,7 @@ if ( ! class_exists( 'CoCart_Admin_Action_Links' ) ) {
 		 * @access public
 		 *
 		 * @since   2.0.0 Introduced.
-		 * @version 3.10.0
+		 * @version 4.5.0
 		 *
 		 * @param array  $metadata An array of the plugin's metadata.
 		 * @param string $file     Path to the plugin file.

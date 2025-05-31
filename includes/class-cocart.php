@@ -5,7 +5,7 @@
  * @author  Sébastien Dumont
  * @package CoCart
  * @since   2.6.0
- * @version 4.0.0
+ * @version 4.5.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -28,7 +28,7 @@ final class CoCart {
 	 *
 	 * @var string
 	 */
-	public static $version = '4.4.0';
+	public static $version = '4.5.0';
 
 	/**
 	 * CoCart Database Schema version.
@@ -150,7 +150,7 @@ final class CoCart {
 	 * @static
 	 *
 	 * @since   1.2.0 Introduced.
-	 * @version 3.0.0
+	 * @version 4.5.0
 	 */
 	public static function setup_constants() {
 		self::define( 'COCART_ABSPATH', dirname( COCART_FILE ) . '/' );

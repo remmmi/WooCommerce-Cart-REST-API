@@ -6,8 +6,9 @@
  *
  * @author  Sébastien Dumont
  * @package CoCart\RESTAPI\Products\v1
- * @since   3.1.0
- * @version 3.7.11
+ * @since   3.1.0 Introduced.
+ * @version 4.5.0
+ * @license GPL-3.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -17,7 +18,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * REST API Product controller class.
  *
- * @package CoCart Products/API
  * @extends WP_REST_Controller
  */
 class CoCart_Products_Controller extends WP_REST_Controller {
