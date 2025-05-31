@@ -136,7 +136,7 @@ if ( ! class_exists( 'CoCart_Admin_Action_Links' ) ) {
 						'CoCart',
 						'Discord'
 					) . '" target="_blank" rel="noopener noreferrer">' . esc_attr__( 'Join Community', 'cart-rest-api-for-woocommerce' ) . '</a>',
-					'docs'      => '<a href="' . CoCart_Helpers::build_shortlink( add_query_arg( $this->campaign_args, esc_url( COCART_DOCUMENTATION_URL ) ) ) . '" title="' . sprintf(
+					'docs'      => '<a href="' . esc_url( COCART_DOCUMENTATION_URL ) . '" title="' . sprintf(
 						/* translators: %s: CoCart */
 						esc_attr__( 'View %s Documentation', 'cart-rest-api-for-woocommerce' ),
 						'CoCart'
