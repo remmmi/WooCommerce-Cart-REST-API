@@ -2509,6 +2509,7 @@ class CoCart_Products_Controller extends WP_REST_Controller {
 				'price_desc',
 				'sales',
 				'rating',
+				'rand',
 			),
 			'sanitize_callback' => 'sanitize_text_field',
 			'validate_callback' => 'rest_validate_request_arg',
