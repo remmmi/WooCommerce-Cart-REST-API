@@ -308,6 +308,28 @@ We’d love to hear what you have to say. [Share your experience](https://testim
 
 📢 Only bug and security updates will be provided here on WordPress dot ORG. Any new major updates starting with v5.0 will be provided [directly from us](https://cocartapi.com?utm_medium=website&utm_source=wpplugindirectory&utm_campaign=readme&utm_content=readmelink).
 
+= v4.5.0 - 31st May, 2025 =
+
+This release will most likely be the last update released on the WordPress plugin directory with anything NEW added.
+
+### What's New?
+
+* REST API: Products can now be filtered to return only products by brand names.
+
+### Bug Fix
+
+* REST API: Added missing option for allowing to order products by random. [Solves issue #516](https://github.com/co-cart/co-cart/issues/516)
+
+### Plugin Details
+
+* Plugin: Updated links for documentation.
+* WordPress Dashboard: Updated link for upgrade page.
+* WordPress Dashboard: Plugin action links are added after now, not before.
+
+### Compatibility
+
+* Tested with WooCommerce v9.9
+
 = v4.4.0 - 16th May, 2025 =
 
 This release focuses on supporting such tools like ManageWP, MainWP, Blogvault etc.
