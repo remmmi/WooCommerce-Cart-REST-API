@@ -1,5 +1,57 @@
 # Changelog for CoCart Core
 
+## v4.3.22 - 23rd February, 2025
+
+* REST API: Schema corrections for cart endpoint.
+* REST API: Schema corrections for items endpoint to match cart schema.
+
+### For Developers
+
+* Moved filter `cocart_get_customer_{field}` after value instead of using it only when there is no value returned for a customers field. Replace `{field}` with the section prefix followed by the field name. e.g. `billing_country`
+
+> Developer note: This allows you to then alter values such as the billing country. See example.
+
+```php
+add_filter( 'cocart_get_customer_billing_country', function( $value ) {
+	if ( WC()->countries->country_exists( $value ) ) {
+		return WC()->countries->get_countries()[ $value ];
+	}
+
+	return $value;
+}, 10, 1);
+```
+
+* Introduced new filter `cocart_get_after_customer_{field-type}_fields` that allows you to change the customer fields after they returned. Replace `{field-type}` with either `billing` or `shipping` for the fields to alter.
+
+## v4.3.21 - 20th February, 2025
+
+### Improvement
+
+* REST API: Added `no-store` as part of the `Cache-Control` header for guest users.
+
+## v4.3.20 - 8th February, 2025
+
+### Bug Fix
+
+* REST API: Fixed product reviews not returning.
+
+## v4.3.19 - 6th February, 2025
+
+### Bug Fix
+
+* REST API: Fixed setting a customers shipping address line 1 and 2.
+
+## v4.3.18 - 22nd January, 2025
+
+### General
+
+* Updated link to Next Changelog for coming future major release. (v5.0)
+* Improved SASS to CSS conversion.
+
+### Compatibility
+
+* Tested with WooCommerce v9.6
+
 ## v4.3.17 - 14th January, 2025
 
 ### Bug Fix
@@ -10,6 +62,10 @@
 
 * REST API: Version of CoCart only returns in the returned headers when debug is enabled now.
 * REST API: `WP_DEBUG` is made sure it is defined before returning extras for developers in the store response.
+
+### Compatibility
+
+* Tested with WooCommerce v9.5
 
 ## v4.3.16 - 12th December, 2024
 

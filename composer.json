@@ -40,8 +40,8 @@
 	},
 	"funding": [
 		{
-			"type": "polar",
-			"url": "https://polar.sh/cocartheadless"
+			"type": "custom",
+			"url": "https://buy.polar.sh/polar_cl_IYhy2I5MvstK9VnlpuKShgw9bJY8jvM2GujAL2ZAzaJ"
 		}
 	],
 	"autoload": {
