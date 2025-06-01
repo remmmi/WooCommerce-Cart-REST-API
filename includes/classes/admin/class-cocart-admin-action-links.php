@@ -65,11 +65,11 @@ if ( ! class_exists( 'CoCart_Admin_Action_Links' ) ) {
 		 * @access public
 		 *
 		 * @since   2.0.0 Introduced.
-		 * @version 3.10.0
+		 * @version 4.5.0
 		 *
 		 * @param array $links An array of plugin links.
 		 *
-		 * @return array $links An array of plugin links.
+		 * @return array $links
 		 */
 		public function plugin_action_links( $links ) {
 			if ( version_compare( get_option( 'cocart_version' ), COCART_VERSION, '<' ) ) {
@@ -104,7 +104,7 @@ if ( ! class_exists( 'CoCart_Admin_Action_Links' ) ) {
 
 			// Only show upgrade option if neither CoCart Plus, Pro or above is found.
 			if ( apply_filters( 'cocart_show_upgrade_action_link', true ) ) {
-				$store_url = CoCart_Helpers::build_shortlink( add_query_arg( $this->campaign_args, COCART_STORE_URL . 'pricing/' ) );
+				$store_url = CoCart_Helpers::build_shortlink( add_query_arg( $this->campaign_args, COCART_STORE_URL . 'why-upgrade/' ) );
 
 				$action_links['upgrade'] = sprintf(
 					'<a href="%1$s" aria-label="' . sprintf(
@@ -121,7 +121,7 @@ if ( ! class_exists( 'CoCart_Admin_Action_Links' ) ) {
 				);
 			}
 
-			$links = array_merge( $action_links, $links );
+			$links = array_merge( $links, $action_links );
 
 			return $links;
 		} // END plugin_action_links()
@@ -132,7 +132,7 @@ if ( ! class_exists( 'CoCart_Admin_Action_Links' ) ) {
 		 * @access public
 		 *
 		 * @since   2.0.0 Introduced.
-		 * @version 3.10.0
+		 * @version 4.5.0
 		 *
 		 * @param array  $metadata An array of the plugin's metadata.
 		 * @param string $file     Path to the plugin file.
@@ -157,7 +157,7 @@ if ( ! class_exists( 'CoCart_Admin_Action_Links' ) ) {
 						'CoCart',
 						'Discord'
 					) . '" target="_blank" rel="noopener noreferrer">' . esc_attr__( 'Join Community', 'cocart-core' ) . '</a>',
-					'docs'      => '<a href="' . CoCart_Helpers::build_shortlink( add_query_arg( $this->campaign_args, esc_url( COCART_DOCUMENTATION_URL ) ) ) . '" title="' . sprintf(
+					'docs'      => '<a href="' . esc_url( COCART_DOCUMENTATION_URL ) . '" title="' . sprintf(
 						/* translators: %s: CoCart */
 						esc_attr__( 'View %s Documentation', 'cocart-core' ),
 						'CoCart'

@@ -8,8 +8,8 @@
  * Version:     5.0.0-beta.10
  * Text Domain: cocart-core
  * Domain Path: /languages/
- * Requires at least: 5.6
- * Tested up to: 6.7
+ * Requires at least: 6.3
+ * Tested up to: 6.8
  * Requires PHP: 7.4
  * Requires Plugins: woocommerce
  *

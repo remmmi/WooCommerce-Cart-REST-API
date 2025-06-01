@@ -1,6 +1,158 @@
 # Changelog for CoCart Core
 
-## v4.3.22 - 23rd February, 2025
+## v4.5.0 - 31st May, 2025
+
+This release will most likely be the last update released on the WordPress plugin directory with anything NEW added.
+
+### What's New?
+
+* REST API: Products can now be filtered to return only products by brand names.
+
+### Bug Fix
+
+* REST API: Added missing option for allowing to order products by random. [Solves issue #516](https://github.com/co-cart/co-cart/issues/516)
+
+### Plugin Details
+
+* Plugin: Updated links for documentation.
+* WordPress Dashboard: Updated link for upgrade page.
+* WordPress Dashboard: Plugin action links are added after now, not before.
+
+### Compatibility
+
+* Tested with WooCommerce v9.9
+
+## v4.4.0 - 16th May, 2025
+
+This release focuses on supporting such tools like ManageWP, MainWP, Blogvault etc.
+
+### Changes
+
+* WordPress Dashboard: Database updates now run automatically if needed. [Resolves issue #511](https://github.com/co-cart/co-cart/issues/511)
+* WordPress Dashboard: Sessions now transfer automatically for new installs.
+* Session: Cart session expiration's are now matching the default expiration WooCommerce set for better compatibility and abandoned cart support.
+* Session: Cart session expiration for logged in users renew daily and expire in a week. This is to keep carts persistent for logged in users.
+
+> Note: The session expiration's can still be filtered back to the previous values but that would mean it would match the expiration for logged in users.
+
+### Third Party Support
+
+* Plugin: LiteSpeed Cache will now exclude CoCart from being cached. [Commit](https://github.com/co-cart/co-cart/commit/683b4d31b940862b463e2e1a45c8c3c9908a5f47)
+
+### Developers
+
+* Filter `cocart_cart_expiring` added parameter `is_user_logged_in()` to allow the expiration for logged in users to be filtered.
+* Filter `cocart_cart_expiration` added parameter `is_user_logged_in()` to allow the expiration for logged in users to be filtered.
+
+### Internal
+
+* Improved the logger. [Commit](https://github.com/co-cart/co-cart/commit/32ee652ababfe94a501ff6fd84bff1829c140bf8)
+* Added logs for database update procedure. [Commit](https://github.com/co-cart/co-cart/commit/4bb641005ad01fab405e5ba0200407631e06115c)
+
+### Deprecations
+
+* Filter `cocart_log_entry_name` no longer used.
+* Filter `cocart_log_entry_version` no longer used.
+* Filter `cocart_log_entry_source` no longer used.
+* Filter `cocart_setup_wizard_store_save_next_step_override` no longer used.
+
+## v4.3.30 - 27th April, 2025
+
+### Bug Fix
+
+* WordPress Dashboard: Fix plugin update warning for core plugin. [Solves issue #506](https://github.com/co-cart/co-cart/issues/506)
+
+### Improvement
+
+* REST API: Variation attribute data is now sanitized. Labels are converted to names (e.g. Size to pa_size), and values are cleaned.
+
+### Compatibility
+
+* Tested with WordPress v6.8
+
+## v4.3.29 - 10th April, 2025
+
+### Bug Fix
+
+* REST API: Package details would not return but showed fine in shipping meta.
+
+### Improvements
+
+* REST API: Optimized fetching the cart in all Cart API endpoints.
+* REST API: Shipping now fully respects the shipping settings.
+
+> Dev note: Meaning if you have requested that the customer provides the shipping address first before shipping is calculated, then no shipping methods will return until it's provided.
+
+### Compatibility
+
+* Tested with WooCommerce v9.8
+
+## v4.3.28 - 6th April, 2025
+
+### Bug Fix
+
+* REST API: Fixed unidentified item key when adding grouped products.
+
+## v4.3.27 - 3rd April, 2025
+
+### Bug Fix
+
+* REST API: Undone a change to fix any WooCommerce cookies from setting with the Cart API. Related to fixing persistent cart back in November last year.
+
+## v4.3.26 - 1st April, 2025
+
+### Bug Fix
+
+* REST API: Fixed critical error when adding an item and asking to return the item details. [Solves issue #509](https://github.com/co-cart/co-cart/issues/509)
+
+### Improvements
+
+* REST API: Corrected and added missing schema information for Cart API v1.
+* WordPress Dashboard: Tweaked plugin screen modal for listing untested plugins.
+
+### Requirement change
+
+* WordPress 6.3 is the new minimum version required.
+
+## v4.3.25 - 17th March, 2025
+
+### Bug Fixes
+
+* Plugin: Failed to activate fully when network activated due to how admin notices where set. - [Bug Report](https://wordpress.org/support/topic/critical-error-upon-activate/)
+* WordPress Dashboard: Plugin suggestions was not letting you press the "Install Now" button.
+
+## v4.3.24 - 10th March, 2025
+
+### Bug Fix
+
+* Fixed a few typo's in the session handler.
+
+### Improvements
+
+* WordPress Dashboard: Improved detection of a suggested plugin hosted on WordPress dot ORG and from a third party.
+* WP-CLI: Update command now asks for confirmation before proceeding.
+
+## v4.3.23 - 3rd March, 2025
+
+### Bug Fixes
+
+* Authentication: Changed access for setting an authentication error from protected to public. Allowing other authenticators to not fail when an error does occur.
+* WP-CLI: When updating the plugin, we don't need to include the install class again.
+
+### Improvements
+
+* Database: Simply modified the structure for columns that were `BIGINT UNSIGNED` to `bigint(20) unsigned`.
+* Session handler: Guest carts will now have a prefix `t_` before the cart key provided. This matches with WooCommerce session handler where it maybe used by 3rd party plugins or web host configurations to identify if the session is for a guest user.
+
+> Dev note: This affects only new guest sessions.
+
+### Compatibility
+
+* Tested with WooCommerce v9.7
+
+## v4.3.22 - 26th February, 2025
+
+### Corrections
 
 * REST API: Schema corrections for cart endpoint.
 * REST API: Schema corrections for items endpoint to match cart schema.

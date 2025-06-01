@@ -5,7 +5,7 @@
  * @author  Sébastien Dumont
  * @package CoCart
  * @since   2.6.0
- * @version 4.0.0
+ * @version 4.5.0
  * @license GPL-3.0
  */
 
@@ -42,7 +42,7 @@ final class CoCart {
 	 *
 	 * @var string
 	 */
-	public static $db_version = '3.0.0';
+	public static $db_version = '4.3.23';
 
 	/**
 	 * Tested up to WordPress version.
@@ -68,7 +68,7 @@ final class CoCart {
 	 *
 	 * @var string
 	 */
-	public static $required_wp = '5.6';
+	public static $required_wp = '6.3';
 
 	/**
 	 * Required WooCommerce version.
@@ -197,7 +197,7 @@ final class CoCart {
 		self::define( 'COCART_REVIEW_URL', 'https://testimonial.to/cocart' );
 		self::define( 'COCART_SUGGEST_FEATURE', 'https://cocartapi.com/suggest-a-feature/' );
 		self::define( 'COCART_COMMUNITY_URL', 'https://cocartapi.com/community/' );
-		self::define( 'COCART_DOCUMENTATION_URL', 'https://docs.cocart.xyz' );
+		self::define( 'COCART_DOCUMENTATION_URL', 'https://cocartapi.com/docs/' );
 		self::define( 'COCART_TRANSLATION_URL', 'https://translate.cocartapi.com/projects/cocart-core/' );
 		self::define( 'COCART_REPO_URL', 'https://github.com/co-cart/co-cart' );
 		self::define( 'COCART_NEXT_VERSION', '5.0.0' );

@@ -35,11 +35,11 @@
 	"bugs": {
 		"url": "https://github.com/co-cart/co-cart/issues"
 	},
-	"requires": "5.6",
+	"requires": "6.3",
 	"requires_php": "7.4",
-	"tested_up_to": "6.7",
+	"tested_up_to": "6.8",
 	"wc_requires": "7.0",
-	"wc_tested_up_to": "9.8",
+	"wc_tested_up_to": "9.9",
 	"license": "GPL-3.0",
 	"copyright": "Copyright (c) 2025, CoCart Headless, LLC",
 	"description": "The core of CoCart helps you get started to decouple your WooCommerce store easy.",

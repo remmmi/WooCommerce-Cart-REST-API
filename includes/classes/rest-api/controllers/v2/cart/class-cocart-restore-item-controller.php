@@ -109,11 +109,13 @@ class CoCart_REST_Restore_Item_V2_Controller extends CoCart_REST_Cart_V2_Control
 
 			$item_key = CoCart_Utilities_Cart_Helpers::throw_missing_item_key( $item_key, 'restore' );
 
+			$cart = $this->get_cart_instance();
+
 			// Ensure we have calculated before we handle any data.
-			$this->get_cart_instance()->calculate_totals();
+			$cart->calculate_totals();
 
 			// Check item removed from cart before fetching the cart item data.
-			$current_data = $this->get_cart_instance()->get_removed_cart_contents();
+			$current_data = $cart->get_removed_cart_contents();
 
 			// If item does not exist as an item removed check if the item is in the cart.
 			if ( empty( $current_data ) ) {
@@ -150,7 +152,7 @@ class CoCart_REST_Restore_Item_V2_Controller extends CoCart_REST_Cart_V2_Control
 				throw new CoCart_Data_Exception( 'cocart_item_restored_to_cart', $message, $response_code );
 			}
 
-			if ( $this->get_cart_instance()->restore_cart_item( $item_key ) ) {
+			if ( $cart->restore_cart_item( $item_key ) ) {
 				$current_data = $this->get_cart_item( $item_key, 'restore' ); // Fetches the cart item data once it is restored.
 
 				/**
@@ -169,7 +171,7 @@ class CoCart_REST_Restore_Item_V2_Controller extends CoCart_REST_Cart_V2_Control
 				 *
 				 * @since 2.1.0 Introduced.
 				 */
-				$this->get_cart_instance()->calculate_totals();
+				$cart->calculate_totals();
 
 				$product = wc_get_product( $current_data['product_id'] );
 

@@ -5,8 +5,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\Classes
  * @since   1.2.0 Introduced.
- * @version 4.0.0
- * @license GPL-3.0
+ * @version 4.3.24
  */
 
 // Exit if accessed directly.
@@ -26,9 +25,13 @@ class CoCart_Install {
 	 * @var array
 	 */
 	private static $db_updates = array(
-		'3.0.0' => array(
+		'3.0.0'  => array(
 			'cocart_update_300_db_structure',
 			'cocart_update_300_db_version',
+		),
+		'4.3.23' => array(
+			'cocart_update_4323_db_structure',
+			'cocart_update_4323_db_version',
 		),
 	);
 
@@ -49,6 +52,9 @@ class CoCart_Install {
 		add_action( 'cocart_run_update_callback', array( __CLASS__, 'run_update_callback' ) );
 		add_action( 'cocart_update_db_to_current_version', array( __CLASS__, 'update_db_version' ) );
 		add_action( 'admin_init', array( __CLASS__, 'install_actions' ) );
+
+		// Run transfer sessions in the background when called.
+		add_action( 'cocart_run_transfer_sessions', 'cocart_transfer_sessions' );
 
 		// Drop tables when MU blog is deleted.
 		add_filter( 'wpmu_drop_tables', array( __CLASS__, 'wpmu_drop_tables' ) );
@@ -154,7 +160,7 @@ class CoCart_Install {
 	 * @since 3.0.0 Introduced.
 	 *
 	 * @param string $callback Callback name.
-	 * @param bool   $result Return value from callback. Non-false need to run again.
+	 * @param bool   $result   Return value from callback. Non-false need to run again.
 	 */
 	protected static function run_update_callback_end( $callback, $result ) {
 		if ( $result ) {
@@ -169,7 +175,7 @@ class CoCart_Install {
 	} // END run_update_callback_end()
 
 	/**
-	 * Install actions when a update button is clicked within the admin area.
+	 * Install actions when an update button is clicked within the admin area.
 	 *
 	 * @access public
 	 *
@@ -180,6 +186,7 @@ class CoCart_Install {
 	public static function install_actions() {
 		if ( ! empty( $_GET['do_update_cocart'] ) ) {
 			check_admin_referer( 'cocart_db_update', 'cocart_db_update_nonce' );
+			CoCart_Logger::log( esc_html__( 'Manual database update triggered.', 'cocart-core' ), 'info' );
 			self::update();
 			CoCart_Admin_Notices::add_notice( 'update_db', true );
 		}
@@ -237,6 +244,9 @@ class CoCart_Install {
 
 		// Set activation date.
 		self::set_install_date();
+
+		// Transfer sessions.
+		self::transfer_sessions();
 
 		// Maybe see if we need to enable the setup wizard or not.
 		self::maybe_enable_setup_wizard();
@@ -370,6 +380,13 @@ class CoCart_Install {
 	 * @since 3.1.0 Introduced.
 	 */
 	private static function maybe_enable_setup_wizard() {
+		/**
+		 * Hook: Runs when CoCart needs to enable the setup wizard.
+		 *
+		 * @since 3.1.0 Introduced.
+		 *
+		 * @param bool $enable Whether to enable the setup wizard or not.
+		 */
 		if ( apply_filters( 'cocart_enable_setup_wizard', true ) && self::is_new_install() ) {
 			CoCart_Admin_Notices::add_notice( 'setup_wizard', true );
 			set_transient( '_cocart_activation_redirect', 1, 30 );
@@ -387,7 +404,15 @@ class CoCart_Install {
 	 */
 	private static function maybe_update_db_version() {
 		if ( self::needs_db_update() ) {
-			if ( apply_filters( 'cocart_enable_auto_update_db', false ) ) {
+			/**
+			 * Hook: Runs when CoCart needs to update the database.
+			 *
+			 * @since 3.0.0 Introduced.
+			 *
+			 * @param bool $update Whether to update the database or not.
+			 */
+			if ( apply_filters( 'cocart_enable_auto_update_db', true ) ) {
+				CoCart_Logger::log( esc_html__( 'Automatic database update triggered.', 'cocart-core' ), 'info' );
 				self::update();
 			} else {
 				CoCart_Admin_Notices::add_notice( 'update_db', true );
@@ -436,8 +461,19 @@ class CoCart_Install {
 	 * @since 3.0.0 Introduced.
 	 */
 	private static function update() {
-		$current_db_version = get_option( 'cocart_db_version' );
-		$loop               = 0;
+		$current_db_version     = get_option( 'cocart_db_version' );
+		$current_cocart_version = COCART_DB_VERSION;
+		$loop                   = 0;
+
+		CoCart_Logger::log(
+			sprintf(
+				/* translators: %1$s = Current DB version, %2$s = Installed CoCart Version */
+				esc_html__( 'Scheduling database update (from %1$s to %2$s)...', 'cocart-core' ),
+				$current_db_version,
+				$current_cocart_version
+			),
+			'info'
+		);
 
 		foreach ( self::get_db_update_callbacks() as $version => $update_callbacks ) {
 			if ( version_compare( $current_db_version, $version, '<' ) ) {
@@ -452,11 +488,19 @@ class CoCart_Install {
 					);
 					++$loop;
 				}
+
+				CoCart_Logger::log(
+					sprint_f(
+						/* translators: %s = Version of Database */
+						esc_html__( 'Updates from version %s scheduled.', 'cocart-core' ),
+						$version
+					),
+					'info'
+				);
 			}
 		}
 
 		// After the callbacks finish, update the db version to the current CoCart version.
-		$current_cocart_version = COCART_DB_VERSION;
 		if ( version_compare( $current_db_version, $current_cocart_version, '<' ) &&
 			! WC()->queue()->get_next( 'cocart_update_db_to_current_version' ) ) {
 			WC()->queue()->schedule_single(
@@ -468,6 +512,8 @@ class CoCart_Install {
 				'cocart-db-updates'
 			);
 		}
+
+		CoCart_Logger::log( esc_html__( 'Database update scheduled.', 'cocart-core' ), 'info' );
 	} // END update()
 
 	/**
@@ -568,11 +614,11 @@ class CoCart_Install {
 		$collate = $wpdb->has_cap( 'collation' ) ? $wpdb->get_charset_collate() : '';
 
 		$table = "CREATE TABLE {$wpdb->prefix}cocart_carts (
-cart_id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+cart_id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
 cart_key char(42) NOT NULL,
 cart_value longtext NOT NULL,
-cart_created BIGINT UNSIGNED NOT NULL,
-cart_expiry BIGINT UNSIGNED NOT NULL,
+cart_created bigint(20) unsigned NOT NULL,
+cart_expiry bigint(20) unsigned NOT NULL,
 cart_source varchar(200) NOT NULL,
 cart_hash varchar(200) NOT NULL,
 PRIMARY KEY  (cart_id),
@@ -711,7 +757,13 @@ UNIQUE KEY cart_key (cart_key)
 	 * @since 3.0.0 Introduced.
 	 */
 	private static function create_files() {
-		// Bypass if filesystem is read-only and/or non-standard upload system is used.
+		/**
+		 * Bypass if filesystem is read-only and/or non-standard upload system is used.
+		 *
+		 * @since 3.0.0 Introduced.
+		 *
+		 * @param bool $skip Whether to skip creating files or not.
+		 */
 		if ( apply_filters( 'cocart_install_skip_create_files', false ) ) {
 			return;
 		}
@@ -743,6 +795,25 @@ UNIQUE KEY cart_key (cart_key)
 			}
 		}
 	} // END create_files()
+
+	/**
+	 * Transfers sessions in the background.
+	 *
+	 * @access private
+	 *
+	 * @static
+	 *
+	 * @since 4.4.0 Introduced.
+	 *
+	 * @return void
+	 */
+	private static function transfer_sessions() {
+		if ( self::is_new_install() ) {
+			WC()->queue()->schedule_single( time(), 'cocart_run_transfer_sessions', array(), 'cocart-transfer-sessions' );
+
+			CoCart_Logger::log( esc_html__( 'Sessions scheduled for transfer.', 'cocart-core' ), 'info' );
+		}
+	} // END transfer_sessions()
 } // END class.
 
 CoCart_Install::init();

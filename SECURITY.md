@@ -4,7 +4,15 @@ Full details of the CoCart Security Policy can be found on [cocartapi.com/securi
 
 ## Supported Versions
 
-Generally, only the latest version of CoCart has continued support. If a critical vulnerability is found in the current version of CoCart, we may opt to backport any patches to previous versions.
+The CoCart Headless Security Team believes in Responsible Disclosure by alerting the security team immediately and privately of any potential vulnerabilities. If a critical vulnerability is found in the current version of CoCart, we may opt to backport any patches to previous versions.
+
+| Version | Supported |
+|---------| --------- |
+| 4.3.x   | Yes       |
+| 4.2.x   | No        |
+| 4.1.x   | Yes       |
+| 4.0.x   | Yes       |
+| < 4.0.0 | No        |
 
 ## Reporting a Vulnerability
 

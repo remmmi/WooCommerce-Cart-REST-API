@@ -6,8 +6,8 @@
  * @author  Sébastien Dumont
  * @package CoCart\Admin
  * @since   3.0.0
- * @version 3.10.8
- * @license GPL-3.0
+ * @version 4.3.25
+ * @license GPL-2.0+
  */
 
 // Exit if accessed directly.
@@ -20,26 +20,19 @@ if ( ! class_exists( 'CoCart_Admin_Plugin_Search' ) ) {
 	class CoCart_Admin_Plugin_Search {
 
 		/**
-		 * Singleton constructor.
-		 *
-		 * @return CoCart_Admin_Plugin_Search
-		 */
-		public static function init() {
-			static $instance = null;
-
-			if ( ! $instance ) {
-				$instance = new CoCart_Admin_Plugin_Search();
-			}
-
-			return $instance;
-		}
-
-		/**
 		 * Constructor.
 		 *
 		 * @access public
 		 */
 		public function __construct() {
+			/**
+			 * If "cocart_show_plugin_search" filter is set to false,
+			 * the plugin search suggestions will not show on the plugin install page.
+			 */
+			if ( ! CoCart_Helpers::is_cocart_ps_active() ) {
+				return;
+			}
+
 			add_action( 'current_screen', array( $this, 'start' ) );
 			add_action( 'admin_init', array( $this, 'get_suggestions_api_data' ) );
 		} // END __construct()
@@ -87,68 +80,29 @@ if ( ! class_exists( 'CoCart_Admin_Plugin_Search' ) ) {
 		} // END plugins_tab()
 
 		/**
-		 * Set CoCart tab args.
+		 * Set the CoCart tab to force plugin results we author only.
 		 *
-		 * This is so we can trigger "plugins_api_result"
-		 * action hook to return our results.
+		 * This is triggered by "plugins_api_result" action hook.
 		 *
 		 * @access public
 		 *
 		 * @param object $args Default arguments.
 		 *
+		 * @hooked: install_plugins_table_api_args_{$tab}
+		 *
 		 * @return object $args
 		 */
 		public function plugin_list_args( $args ) {
-			$installed_plugins = self::get_installed_plugins();
-
-			$per_page = 30;
-
 			$cocart_args = array(
-				'page'              => isset( $_GET['paged'] ) ? max( 0, intval( $_GET['paged'] - 1 ) * $per_page ) : 0, // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-				'per_page'          => $per_page,
-				'author'            => 'cocartforwc',
-				//'installed_plugins' => array_keys( $installed_plugins ), // Disabled for now because WordPress dot ORG is having "414 Request-URI Too Large" error.
-				'installed_plugins' => array(),
-				// Send the locale to the API so it can provide context-sensitive results.
-				'locale'            => get_user_locale(),
+				'page'     => isset( $_GET['paged'] ) ? max( 0, intval( $_GET['paged'] - 1 ) * $per_page ) : 0, // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+				'per_page' => 36,
+				'author'   => 'cocartforwc',
 			);
 
 			$args = wp_parse_args( $cocart_args, $args );
 
 			return $args;
 		} // END plugin_list_args()
-
-		/**
-		 * Return the list of known plugins.
-		 *
-		 * Uses the transient data from the updates API to determine the known
-		 * installed plugins.
-		 *
-		 * @access protected
-		 *
-		 * @return array
-		 */
-		protected function get_installed_plugins() {
-			$plugins = array();
-
-			$plugin_info = get_site_transient( 'update_plugins' );
-
-			if ( isset( $plugin_info->no_update ) ) {
-				foreach ( $plugin_info->no_update as $plugin ) {
-					$plugin->upgrade          = false;
-					$plugins[ $plugin->slug ] = $plugin;
-				}
-			}
-
-			if ( isset( $plugin_info->response ) ) {
-				foreach ( $plugin_info->response as $plugin ) {
-					$plugin->upgrade          = true;
-					$plugins[ $plugin->slug ] = $plugin;
-				}
-			}
-
-			return $plugins;
-		} // END get_installed_plugins()
 
 		/**
 		 * Displays our own plugin dashboard on the plugin install page.
@@ -213,9 +167,9 @@ if ( ! class_exists( 'CoCart_Admin_Plugin_Search' ) ) {
 		public function load_plugins_search_script() {
 			$suffix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
 
-			wp_enqueue_script( COCART_SLUG . '-plugin-search', COCART_URL_PATH . '/assets/js/admin/plugin-search' . $suffix . '.js', array( 'jquery' ), COCART_VERSION, true );
+			wp_enqueue_script( COCART_SLUG . '-plugin-suggestions', COCART_URL_PATH . '/assets/js/admin/plugin-suggestions' . $suffix . '.js', array( 'jquery' ), COCART_VERSION, true );
 			wp_localize_script(
-				COCART_SLUG . '-plugin-search',
+				COCART_SLUG . '-plugin-suggestions',
 				'CoCartPluginSearch',
 				array(
 					'legend'      => sprintf(
@@ -231,29 +185,31 @@ if ( ! class_exists( 'CoCart_Admin_Plugin_Search' ) ) {
 				)
 			);
 
-			wp_register_style( COCART_SLUG . '-plugin-search', COCART_URL_PATH . '/assets/css/admin/plugin-search' . $suffix . '.css', array(), COCART_VERSION );
-			wp_enqueue_style( COCART_SLUG . '-plugin-search' );
-			wp_style_add_data( COCART_SLUG . '-plugin-search', 'rtl', 'replace' );
+			wp_register_style( COCART_SLUG . '-plugin-suggestions', COCART_URL_PATH . '/assets/css/admin/plugin-suggestions' . $suffix . '.css', array(), COCART_VERSION );
+			wp_enqueue_style( COCART_SLUG . '-plugin-suggestions' );
+			wp_style_add_data( COCART_SLUG . '-plugin-suggestions', 'rtl', 'replace' );
 			if ( $suffix ) {
-				wp_style_add_data( COCART_SLUG . '-plugin-search', 'suffix', '.min' );
+				wp_style_add_data( COCART_SLUG . '-plugin-suggestions', 'suffix', '.min' );
 			}
 		} // END load_plugins_search_script()
 
 		/**
-		 * Get the plugin repo's data for CoCart to populate the fields with.
+		 * Get the plugin data from WP.org to populate fields with.
 		 *
 		 * @access public
 		 *
 		 * @static
 		 *
+		 * @param string $slug Plugin slug.
+		 *
 		 * @return array|mixed|object|WP_Error
 		 */
-		public static function get_cocart_plugin_data() {
-			$data = get_transient( 'cocart_plugin_data' );
+		public static function get_wporg_plugin_data( $slug = '' ) {
+			$data = get_transient( 'cocart_plugin_data_' . $slug );
 
 			if ( false === $data || is_wp_error( $data ) ) {
 				$query_args = array(
-					'slug'   => 'cart-rest-api-for-woocommerce',
+					'slug'   => $slug,
 					'is_ssl' => is_ssl(),
 					'fields' => array(
 						'short_description' => false,
@@ -268,39 +224,8 @@ if ( ! class_exists( 'CoCart_Admin_Plugin_Search' ) ) {
 
 				$data = plugins_api( 'plugin_information', $query_args );
 
-				set_transient( 'cocart_plugin_data', $data, DAY_IN_SECONDS );
+				set_transient( 'cocart_plugin_data_' . $slug, $data, DAY_IN_SECONDS );
 			}
-
-			return $data;
-		} // END get_cocart_plugin_data()
-
-		/**
-		 * Get the plugin data from WP.org to populate fields with.
-		 *
-		 * @access public
-		 *
-		 * @static
-		 *
-		 * @param string $slug Plugin slug.
-		 *
-		 * @return array|mixed|object|WP_Error
-		 */
-		public static function get_wporg_plugin_data( $slug = '' ) {
-			$query_args = array(
-				'slug'   => $slug,
-				'is_ssl' => is_ssl(),
-				'fields' => array(
-					'short_description' => false,
-					'sections'          => false,
-					'versions'          => false,
-					'reviews'           => true,
-					'banners'           => false,
-					'icons'             => true,
-					'active_installs'   => true,
-				),
-			);
-
-			$data = plugins_api( 'plugin_information', $query_args );
 
 			return $data;
 		} // END get_wporg_plugin_data()
@@ -338,7 +263,7 @@ if ( ! class_exists( 'CoCart_Admin_Plugin_Search' ) ) {
 		 * @access public
 		 *
 		 * @since   3.0.0 Introduced.
-		 * @version 3.1.0
+		 * @version 4.3.25
 		 *
 		 * @param array $inject Plugin information from WordPress.org.
 		 * @param array $data   Plugin information from CoCart.
@@ -365,7 +290,7 @@ if ( ! class_exists( 'CoCart_Admin_Plugin_Search' ) ) {
 				'num_ratings'       => ! empty( $inject['num_ratings'] ) ? $inject['num_ratings'] : $data['num_ratings'],
 				'active_installs'   => ! empty( $inject['active_installs'] ) ? $inject['active_installs'] : $data['active_installs'],
 				'last_updated'      => ! empty( $inject['last_updated'] ) ? $inject['last_updated'] : $data['last_updated'],
-				'download_link'     => '',
+				'download_link'     => ! empty( $inject['download_link'] ) ? $inject['download_link'] : ( isset( $data['download_link'] ) ? $data['download_link'] : '' ),
 				'icons'             => isset( $inject['icons'] ) ? $inject['icons'] : $data['logo'],
 				'logo'              => array(
 					'1x'  => esc_url( $data['logo'] ),
@@ -441,7 +366,7 @@ if ( ! class_exists( 'CoCart_Admin_Plugin_Search' ) ) {
 						}
 
 						// Override plugin slug to identify suggestion.
-						$inject_data['slug'] = 'cocart-plugin-search';
+						$inject_data['slug'] = 'cocart-suggestion';
 
 						// Override card title and icon.
 						$inject_data['name'] = '<h3>' . $inject_data['name'] . '</h3><strong>' . sprintf(
@@ -487,6 +412,7 @@ if ( ! class_exists( 'CoCart_Admin_Plugin_Search' ) ) {
 				return $result;
 			}
 
+			// Should WordPress.ORG fail in returning results successfully.
 			if ( is_wp_error( $result ) ) {
 				return $result;
 			}
@@ -583,70 +509,45 @@ if ( ! class_exists( 'CoCart_Admin_Plugin_Search' ) ) {
 		} // END plugins_allowedtags()
 
 		/**
-		 * Put some more appropriate links on our custom result cards.
+		 * Appropriate action links for our custom result cards.
 		 *
 		 * @access public
 		 *
 		 * @since   3.0.0 Introduced.
 		 * @version 3.1.0
 		 *
-		 * @param array $links Related links.
-		 * @param array $plugin Plugin result information.
+		 * @param string[] $links  An array of plugin action links. Defaults are links to Details and Install Now.
+		 * @param array    $plugin An array of plugin data.
 		 *
 		 * @return array $links Returns our related links or falls back to default.
 		 */
 		public function insert_related_links( $links, $plugin ) {
-			if ( isset( $_GET['tab'] ) && 'cocart' === $_GET['tab'] ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-				$links = self::get_related_links( $plugin, $links );
-			} elseif ( 'cocart-plugin-search' === $plugin['slug'] ) {
-				$links = self::get_suggestion_links( $plugin );
-			} else {
-				return $links;
-			}
+			// Alter action links if not hosted on WordPress dot ORG.
+			if ( empty( $plugin['wporg'] ) ) {
+				if ( isset( $_GET['tab'] ) && 'cocart' === $_GET['tab'] ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+					$links = self::get_action_links( $plugin, $links );
+				} elseif ( 'cocart-suggestion' === $plugin['slug'] ) {
+					$links = self::get_suggestion_links( $plugin );
+				}
 
-			// Add link pointing to a relevant page.
-			if ( ! empty( $plugin['learn_more'] ) ) {
-				$links['cocart-learn-more'] = '<a
-					class="cocart-plugin-search__learn-more button"
-					href="' . esc_url( $plugin['learn_more'] ) . '"
-					target="_blank"
-					rel="noopener noreferrer"
-					data-addon="' . esc_attr( $plugin['slug'] ) . '"
-					data-track="learn_more"
-					>' . esc_html__( 'Learn more', 'cocart-core' ) . ' <span class="dashicons dashicons-external"></span></a>';
-			}
+				// Add link pointing to a relevant page.
+				if ( ! empty( $plugin['learn_more'] ) ) {
+					$links['1'] = '<a
+						class="cocart-suggestion__learn-more button"
+						href="' . esc_url( $plugin['learn_more'] ) . '"
+						target="_blank"
+						rel="noopener noreferrer"
+						data-addon="' . esc_attr( $plugin['slug'] ) . '"
+						data-track="learn_more"
+						>' . esc_html__( 'Learn more', 'cocart-core' ) . ' <span class="dashicons dashicons-external"></span></a>';
 
-			foreach ( self::get_suggestions() as $key => $cocart_plugin ) {
-				// Add plugin requirement.
-				if ( $key === $plugin['slug'] && ! empty( $plugin['requirement'] ) ) {
-					$links['cocart-requirement'] = '<div class="plugin-requirement">' . sprintf(
-						/* translators: %1$s: plugin does, %2$s: requirement */
-						esc_html__( 'Plugin %1$s %2$s', 'cocart-core' ),
-						$plugin['plugin_does'],
-						esc_html( $plugin['requirement'] )
-					) . '</div>';
+					// Remove main button as it will be disabled.
+					unset( $links['0'] );
 				}
 			}
 
 			return $links;
 		} // END insert_related_links()
-
-		/**
-		 * Returns related links for each CoCart plugin.
-		 *
-		 * @access public
-		 *
-		 * @since   3.0.0 Introduced.
-		 * @version 3.1.0
-		 *
-		 * @param array $plugin Plugin details.
-		 * @param array $links  Related links before change.
-		 *
-		 * @return array $links Related links after change.
-		 */
-		public function get_related_links( $plugin, $links ) {
-			return self::get_action_links( $plugin, $links );
-		} // END get_related_links()
 
 		/**
 		 * Returns related links for suggested plugin.
@@ -656,11 +557,12 @@ if ( ! class_exists( 'CoCart_Admin_Plugin_Search' ) ) {
 		 * @since   3.0.0 Introduced.
 		 * @version 3.1.0
 		 *
-		 * @param array $plugin Plugin details.
+		 * @param array $plugin An array of plugin data.
 		 *
 		 * @return array $links Related links after change.
 		 */
 		public function get_suggestion_links( $plugin ) {
+			// Resets the links.
 			$links = array();
 
 			return self::get_action_links( $plugin, $links );
@@ -674,7 +576,7 @@ if ( ! class_exists( 'CoCart_Admin_Plugin_Search' ) ) {
 		 * @since   3.0.0 Introduced.
 		 * @version 3.1.0
 		 *
-		 * @param array $plugin Plugin details.
+		 * @param array $plugin An array of plugin data.
 		 * @param array $links  Related links before change.
 		 *
 		 * @return array $links Related links after change.
@@ -682,149 +584,67 @@ if ( ! class_exists( 'CoCart_Admin_Plugin_Search' ) ) {
 		public function get_action_links( $plugin, $links = array() ) {
 			$plugins_allowed_tags = self::plugins_allowedtags();
 
-			foreach ( self::get_suggestions() as $key => $cocart_plugin ) {
-				if ( $key === $plugin['slug'] ) {
-					$links = array(); // Reset links if plugin is not from WP.org.
+			if ( in_array( $plugin['slug'], self::get_suggestions() ) ) {
+				$title          = wp_kses( $plugin['name'], $plugins_allowed_tags );
+				$version        = wp_kses( $plugin['version'], $plugins_allowed_tags );
+				$name           = wp_strip_all_tags( $title . ' ' . $version );
+				$requires_php   = isset( $plugin['requires_php'] ) ? $plugin['requires_php'] : null;
+				$requires_wp    = isset( $plugin['requires'] ) ? $plugin['requires'] : null;
+				$compatible_php = is_php_version_compatible( $requires_php );
+				$compatible_wp  = is_wp_version_compatible( $requires_wp );
+				$tested_wp      = ( empty( $plugin['tested'] ) || version_compare( get_bloginfo( 'version' ), $plugin['tested'], '<=' ) );
 
-					$title          = wp_kses( $plugin['name'], $plugins_allowed_tags );
-					$version        = wp_kses( $plugin['version'], $plugins_allowed_tags );
-					$name           = wp_strip_all_tags( $title . ' ' . $version );
-					$requires_php   = isset( $plugin['requires_php'] ) ? $plugin['requires_php'] : null;
-					$requires_wp    = isset( $plugin['requires'] ) ? $plugin['requires'] : null;
-					$compatible_php = is_php_version_compatible( $requires_php );
-					$compatible_wp  = is_wp_version_compatible( $requires_wp );
-					$tested_wp      = ( empty( $plugin['tested'] ) || version_compare( get_bloginfo( 'version' ), $plugin['tested'], '<=' ) );
+				if ( current_user_can( 'install_plugins' ) || current_user_can( 'update_plugins' ) ) {
+					$status = install_plugin_install_status( $plugin );
 
-					if ( current_user_can( 'install_plugins' ) || current_user_can( 'update_plugins' ) ) {
-						$status = install_plugin_install_status( $plugin );
-
-						switch ( $status['status'] ) {
-							case 'install':
-								if ( $status['url'] ) {
-									if ( $compatible_php && $compatible_wp ) {
-										$nonce = wp_create_nonce( 'install-cocart-plugin_' . $plugin['slug'] );
-										$url   = self_admin_url( 'update.php?action=install-cocart-plugin&plugin=' . $plugin['slug'] . '&_wpnonce=' . $nonce );
-
-										if ( ! empty( $plugin['purchase'] ) ) {
-											$links['cocart-purchase'] = sprintf(
-												'<a class="cocart-plugin-primary button" data-slug="%s" href="%s" target="_blank" rel="noopener noreferrer" aria-label="%s" data-name="%s">%s</a>',
-												esc_attr( $plugin['slug'] ),
-												esc_url( $plugin['purchase'] ),
-												esc_attr(
-													sprintf(
-														/* translators: %s: Plugin name */
-														__( 'Purchase %s now', 'cocart-core' ),
-														$name
-													)
-												),
-												esc_attr( $name ),
-												__( 'Purchase Now', 'cocart-core' )
-											);
-										}
-
-										if ( ! empty( $plugin['wporg'] ) ) {
-											$links['cocart-install'] = sprintf(
-												'<a class="install-now button" data-slug="%s" href="%s" aria-label="%s" data-name="%s">%s</a>',
-												esc_attr( $plugin['slug'] ),
-												esc_url( $url ),
-												esc_attr(
-													sprintf(
-														/* translators: %s: Plugin name and version. */
-														__( 'Install %s now', 'cocart-core' ),
-														$name
-													)
-												),
-												esc_attr( $name ),
-												__( 'Install Now', 'cocart-core' )
-											);
-										}
-									} else {
-										$links['cocart-not-compatible'] = sprintf(
-											'<button type="button" class="button button-disabled" disabled="disabled">%s</button>',
-											__( 'Not Compatible', 'cocart-core' )
-										);
-									}
-								}
-
-								break;
-
-							case 'update_available':
-								if ( $status['url'] ) {
-									if ( $compatible_php && $compatible_wp ) {
-										$links['cocart-update-now'] = sprintf(
-											'<a class="update-now button aria-button-if-js" data-plugin="%s" data-slug="%s" href="%s" aria-label="%s" data-name="%s">%s</a>',
-											esc_attr( $status['file'] ),
+					switch ( $status['status'] ) {
+						case 'install':
+							if ( $status['url'] ) {
+								if ( $compatible_php && $compatible_wp ) {
+									// $nonce = wp_create_nonce( 'install-cocart-plugin_' . $plugin['slug'] );
+									// $url   = self_admin_url( 'update.php?action=install-cocart-plugin&plugin=' . $plugin['slug'] . '&_wpnonce=' . $nonce );
+									if ( ! empty( $plugin['purchase'] ) ) { // @TODO: Add check if CoCart license is active to download and install if source available.
+										$links['cocart-purchase'] = sprintf(
+											'<a class="cocart-plugin-primary button" data-slug="%s" href="%s" target="_blank" rel="noopener noreferrer" aria-label="%s" data-name="%s">%s</a>',
 											esc_attr( $plugin['slug'] ),
-											esc_url( $status['url'] ),
-											/* translators: %s: Plugin name */
-											esc_attr( sprintf( __( 'Update %s now', 'cocart-core' ), $name ) ),
-											esc_attr( $name ),
-											__( 'Update Now', 'cocart-core' )
-										);
-									} else {
-										$links['cocart-cannot-update'] = sprintf(
-											'<button type="button" class="button button-disabled" disabled="disabled">%s</button>',
-											__( 'Cannot Update', 'cocart-core' )
-										);
-									}
-								}
-
-								break;
-
-							case 'latest_installed':
-							case 'newer_installed':
-								if ( is_plugin_active( $status['file'] ) ) {
-									$links['cocart-active'] = sprintf(
-										'<button type="button" class="button button-disabled" disabled="disabled">%s</button>',
-										__( 'Installed & Active', 'cocart-core' )
-									);
-								} elseif ( current_user_can( 'activate_plugin', $status['file'] ) ) {
-									if ( $compatible_php && $compatible_wp ) {
-										$button_text = __( 'Activate', 'cocart-core' );
-										/* translators: %s: Plugin name. */
-										$button_label = __( 'Activate %s', 'cocart-core' );
-										$activate_url = add_query_arg(
-											array(
-												'_wpnonce' => wp_create_nonce( 'activate-plugin_' . $status['file'] ),
-												'action'   => 'activate',
-												'plugin'   => $status['file'],
+											esc_url( $plugin['purchase'] ),
+											esc_attr(
+												sprintf(
+													/* translators: %s: Plugin name */
+													__( 'Purchase %s now', 'cocart-core' ),
+													$name
+												)
 											),
-											network_admin_url( 'plugins.php' )
-										);
-
-										if ( is_network_admin() ) {
-											$button_text = __( 'Network Activate', 'cocart-core' );
-											/* translators: %s: Plugin name. */
-											$button_label = __( 'Network Activate %s', 'cocart-core' );
-											$activate_url = add_query_arg( array( 'networkwide' => 1 ), $activate_url );
-										}
-
-										$links['cocart-activate'] = sprintf(
-											'<a href="%1$s" class="button activate-now button-primary" aria-label="%2$s">%3$s</a>',
-											esc_url( $activate_url ),
-											esc_attr( sprintf( $button_label, $plugin['name'] ) ),
-											$button_text
-										);
-									} else {
-										$links['cocart-not-compatible'] = sprintf(
-											'<button type="button" class="button button-disabled" disabled="disabled">%s</button>',
-											__( 'Not Compatible', 'cocart-core' )
+											esc_attr( $name ),
+											__( 'Purchase Now', 'cocart-core' )
 										);
 									}
 								} else {
-									$links['cocart-installed'] = sprintf(
+									$links['cocart-not-compatible'] = sprintf(
 										'<button type="button" class="button button-disabled" disabled="disabled">%s</button>',
-										__( 'Installed', 'cocart-core' )
+										__( 'Not Compatible', 'cocart-core' )
 									);
 								}
+							}
 
-								break;
-						} // END switch
+							break;
 
-						$links = apply_filters( 'cocart_plugin_search_action_links', $links, $status, $plugin, $name );
-					} // END if user can install or update plugins.
-				} // END if plugin matches.
-			} // END foreach cocart plugin.
+							break;
+					} // END switch
+
+					/**
+					 * Filters the action links for plugin suggestions.
+					 *
+					 * @since 3.1.0 Introduced.
+					 *
+					 * @param string[] $links  An array of plugin action links.
+					 * @param array    $status Data about the plugin retrieved from the API.
+					 * @param array    $plugin An array of plugin data.
+					 * @param string   $name   Plugin title and version
+					 */
+					$links = apply_filters( 'cocart_plugin_search_action_links', $links, $status, $plugin, $name );
+				} // END if user can install or update plugins.
+			} // END if plugin matches.
 
 			return $links;
 		} // END get_action_links()
@@ -917,12 +737,6 @@ if ( ! class_exists( 'CoCart_Admin_Plugin_Search' ) ) {
 		} // END get_suggestions_api_data()
 	} // END class
 
-} // END if class exists
+	return new CoCart_Admin_Plugin_Search();
 
-/**
- * If "cocart_show_plugin_search" filter is set to false,
- * the plugin search suggestions will not show on the plugin install page.
- */
-if ( is_admin() && CoCart_Helpers::is_cocart_ps_active() ) {
-	CoCart_Admin_Plugin_Search::init();
-}
+} // END if class exists

@@ -88,7 +88,7 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 		public function __construct() {
 			self::$is_multisite = is_multisite();
 			self::$install_date = get_option( 'cocart_install_date', time() );
-			self::$notices      = get_option( 'cocart_admin_notices', array() );
+			self::set_notices( get_option( 'cocart_admin_notices', array() ) );
 
 			add_action( 'switch_theme', array( $this, 'reset_admin_notices' ) );
 			add_action( 'cocart_installed', array( $this, 'reset_admin_notices' ) );

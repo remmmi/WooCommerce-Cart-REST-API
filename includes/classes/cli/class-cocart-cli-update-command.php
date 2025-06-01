@@ -91,6 +91,9 @@ class CoCart_CLI_Update_Command {
 			)
 		);
 
+		// Ask for confirmation before proceeding.
+		WP_CLI::confirm( __( 'Do you want to proceed with the database updates?', 'cocart-core' ) );
+
 		$progress = \WP_CLI\Utils\make_progress_bar(
 			__( 'Updating database', 'cocart-core' ),
 			count( $callbacks_to_run )

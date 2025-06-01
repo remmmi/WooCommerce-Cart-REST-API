@@ -4,8 +4,8 @@
  *
  * @author  Sébastien Dumont
  * @package CoCart\Third Party\Plugin
- * @since   5.0.0
- * @license GPL-3.0
+ * @since   4.4.0 Introduced.
+ * @license GPL-2.0+
  */
 
 // Exit if accessed directly.
@@ -13,14 +13,16 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+use LiteSpeed\Core;
+use LiteSpeed\Control;
+use LiteSpeed\Debug2;
+
 // Don't do anything if LiteSpeed Cache is not detected.
-if ( ! class_exists( 'LiteSpeed_Cache_API' ) ) {
+if ( ! class_exists( '\LiteSpeed\Core' ) ) {
 	return;
 }
 
 if ( ! class_exists( 'CoCart_Plugin_LiteSpeed_Cache' ) ) {
-
-	LiteSpeed_Cache_API::register( 'CoCart_Plugin_LiteSpeed_Cache' );
 
 	/**
 	 * LiteSpeed Cache.
@@ -33,23 +35,24 @@ if ( ! class_exists( 'CoCart_Plugin_LiteSpeed_Cache' ) ) {
 		 * @access public
 		 */
 		public function __construct() {
-			add_action( 'rest_api_init', array( $this, 'disable_vary_change' ) );
+			add_action( 'rest_api_init', array( $this, 'prevent_caching' ) );
 		}
 
 		/**
-		 * Disable vary change for CoCart.
+		 * Prevent caching for CoCart API requests.
 		 *
 		 * @access public
 		 *
-		 * @since 5.0.0 Introduced.
+		 * @since 4.4.0 Introduced.
 		 */
-		public function disable_vary_change() {
+		public function prevent_caching() {
 			$rest_prefix = trailingslashit( rest_get_url_prefix() );
 			$request_uri = esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ) );
 
 			if ( false !== strpos( $request_uri, '/' . $rest_prefix . 'cocart' ) ) {
-				LiteSpeed_Cache_API::debug( '3rd CoCart API set no change vary' );
-				add_filter( 'litespeed_can_change_vary', '__return_false' );
+				Debug2::debug( '3rd CoCart API - No Cache' );
+
+				Control::set_nocache( 'CoCart API request' );
 			}
 		}
 	} // END class.
