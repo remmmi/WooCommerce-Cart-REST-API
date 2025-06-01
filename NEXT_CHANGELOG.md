@@ -9,7 +9,6 @@
 * REST API: All `GET` endpoints now support batching. Batching was only enabled to select `POST`, `PUT`, `PATCH`, `DELETE` cart endpoints. Now you can fetch any endpoint (except logout) in a batch request.
 * REST API: Products can now be filtered to include `include_types` or exclude `exclude_types` by multiple types simultaneously using the new parameters. Note: `include_types` takes precedence over `type` parameter should both be used.
 * REST API: Products can now be filtered to return virtual products by the boolean `virtual` parameter.
-* REST API: Products can now be filtered to return only products by brand names using the `brand` parameter.
 * REST API: Products now returns any applicable brands. (API v2 Only)
 * REST API: Products now returns the global unique id. (API v2 Only)
 * REST API: New endpoint `cocart/v2/products/brands` to get product brands like categories.
