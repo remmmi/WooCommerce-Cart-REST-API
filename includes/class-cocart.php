@@ -321,7 +321,7 @@ final class CoCart {
 			 *
 			 * @since 5.0.0 Introduced.
 			 */
-			self::$api_namespace = defined( 'COCART_API_NAMESPACE' ) ? COCART_API_NAMESPACE : 'cocart';
+			self::$api_namespace = defined( 'COCART_API_NAMESPACE' ) ? constant( 'COCART_API_NAMESPACE' ) : 'cocart';
 
 			wp_cache_add( 'cocart_api_namespace', self::$api_namespace, CoCart_Utilities_Cache_Helpers::get_cache_prefix( 'api_namespace' ), time() + DAY_IN_SECONDS );
 		}
